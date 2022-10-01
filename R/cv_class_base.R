@@ -18,7 +18,7 @@ CrossValidation <- R6::R6Class( # nolint
       self$fold_list <- fold_list
 
       # initialize learner
-      private$init_learner <- self$learner$new(seed = seed, ncores = ncores)
+      private$init_learner <- self$learner$new()
     },
     execute = function() {
       stopifnot(

@@ -1,9 +1,9 @@
 #' @export
 MLSurvGlmnetCox <- R6::R6Class( # nolint
   classname = "MLSurvGlmnetCox",
-  inherit = MLBase,
+  inherit = LearnerBase,
   public = list(
-    initialize = function(seed, ncores) {
+    initialize = function() {
       if (!requireNamespace("glmnet", quietly = TRUE)) {
         stop(
           paste0(
@@ -13,7 +13,7 @@ MLSurvGlmnetCox <- R6::R6Class( # nolint
           call. = FALSE
         )
       }
-      super$initialize(seed = seed, ncores = ncores)
+      super$initialize()
       self$metric_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_glmnet_cox_ce()

@@ -1,6 +1,6 @@
 #' @export
-MLBase <- R6::R6Class( # nolint
-  classname = "MLBase",
+LearnerBase <- R6::R6Class( # nolint
+  classname = "LearnerBase",
   public = list(
     cluster_export = NULL,
     metric_higher_better = NULL,

@@ -7,7 +7,7 @@ BaseOptimizer <- R6::R6Class( # nolint
     initialize = function(learner, seed, ncores) {
       stopifnot(R6::is.R6Class(learner))
       super$initialize(seed = seed, ncores = ncores)
-      private$learner <- learner$new(seed = seed, ncores = ncores)
+      private$learner <- learner$new()
       self$metric_higher_better <- private$learner$metric_higher_better
       private$method <- learner$classname
     },
