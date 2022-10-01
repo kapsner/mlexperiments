@@ -1,0 +1,104 @@
+.run_cv <- function(self, private) {
+  cv_results <- .fold_looper(self, private)
+  outlist <- .cv_postprocessing(
+    self = self,
+    private = private,
+    results_object = cv_results,
+    metric_higher_better = private$init_learner$metric_higher_better
+  )
+  class(outlist) <- c("list", "mlexCV")
+  self$results <- outlist
+  return(self$results$summary)
+}
+
+.fold_looper <- function(self, private) {
+  # init a progress bar
+  pb <- progress::progress_bar$new(
+    format = "CV progress [:bar] :current/:total (:percent)",
+    total = length(self$fold_list)
+  )
+
+  outlist <- list()
+
+  for (fold in names(self$fold_list)) {
+    message(paste0("CV fold: ", fold))
+    # increment progress bar
+    pb$tick()
+
+    # get fold ids
+    train_index <- self$fold_list[[fold]]
+
+    fold_train <- list(x = private$x[train_index, ],
+                       y = private$y[train_index, ])
+    fold_test <- list(x = private$x[-train_index, ],
+                      y = private$y[-train_index, ])
+
+    run_args <- list(
+      train_index = train_index,
+      fold_train = fold_train,
+      fold_test = fold_test
+    )
+
+    # for nested cv, just overwrite private$cv_run_model in inherited
+    # class and add hyperparameter search before calling .cv_run_model
+
+    outlist[[fold]] <- do.call(private$cv_run_model, run_args)
+  }
+  return(outlist)
+}
+
+
+.cv_postprocessing <- function(
+    self,
+    private,
+    results_object,
+    metric_higher_better
+) {
+
+  # calculate error metric for each fold
+  for (fold in names(results_object)) {
+    results_object[[fold]][["performance"]] <-
+      private$init_learner$performance_metric(
+        ground_truth = results_object[[fold]][["ground_truth"]],
+        predictions = results_object[[fold]][["predictions"]]
+      )
+  }
+
+  # TODO calculate performance metrics here
+  # add them to a nice results table
+  results_object[["summary"]] <- data.table::data.table()
+  # return
+  return(results_object)
+}
+
+.cv_run_model <- function(self, private, train_index, fold_train, fold_test) {
+  stopifnot(
+    is.list(self$learner_args)
+  )
+  fit_args <- c(
+    list(
+      x = fold_train$x,
+      y = fold_train$y,
+      seed = private$seed
+    ),
+    self$learner_args
+  )
+  set.seed(private$seed)
+  fitted <- do.call(private$init_learner$fit, fit_args)
+
+  # make predictions
+  pred_args <- list(model = fitted, newdata = fold_test$x)
+  preds <- do.call(private$init_learner$predict, pred_args)
+
+  res <- list(
+    fold_ids = train_index,
+    ground_truth = fold_test$y,
+    predictions = preds,
+    learner_args = self$learner_args
+  )
+
+  if (self$return_models) {
+    res <- c(res, list(model = fitted))
+  }
+  return(res)
+}

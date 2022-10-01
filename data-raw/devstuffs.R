@@ -1,5 +1,5 @@
 # nolint start
-packagename <- "rpkgTemplate"
+packagename <- "mlexperiments"
 
 # remove existing description object
 unlink("DESCRIPTION")
@@ -19,19 +19,20 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.0.9003")
+my_desc$set_version("0.0.0.9001")
 # The title of your package
-my_desc$set(Title = "Template for Creating R Packages")
+my_desc$set(Title = "Toolkit for Machine Learning Experiments")
 # The description of your package
 my_desc$set(Description = paste0(
-  "A template repository for creating R packages."
+  "A set of functions to perform machine learning experiments, ",
+  "such as (nested) cross-validation and hyperparameter optimization."
 ))
 # The description of your package
 my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
 # The urls
-my_desc$set("URL", "https://github.com/kapsner/rpkgTemplate")
+my_desc$set("URL", "https://github.com/kapsner/mlexperiments")
 my_desc$set("BugReports",
-            "https://github.com/kapsner/rpkgTemplate/issues")
+            "https://github.com/kapsner/mlexperiments/issues")
 
 # Vignette Builder
 my_desc$set("VignetteBuilder" = "knitr")
@@ -51,18 +52,54 @@ usethis::use_package("R", min_version = "2.10", type = "Depends")
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("magrittr", type = "Imports")
+usethis::use_package("survival", type = "Imports")
+usethis::use_package("splitTools", type = "Imports")
+usethis::use_package("utils", type = "Imports")
+usethis::use_package("parallel", type = "Imports")
+usethis::use_package("doParallel", type = "Imports")
+usethis::use_package("progress", type = "Imports")
+usethis::use_package("R6", type = "Imports")
+usethis::use_package("foreach", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests", min_version = "3.0.1")
 usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("knitr", type = "Suggests")
+usethis::use_package("ParBayesianOptimization", type = "Suggests")
+usethis::use_package("glmnet", type = "Suggests")
 
 
-# dev packages
-# tag <- "master"
-# devtools::install_github(repo = "r-lib/testthat", ref = tag, upgrade = "always")
-# # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-# desc::desc_set_remotes(paste0("github::r-lib/testthat@", tag), file = usethis::proj_get())
+# define remotes
+remotes_append_vector <- NULL
+
+# Development package 1
+tag1 <- "master" # e.g. "v0.1.7", "development" or "cran"
+if (tag1 == "cran") {
+  install.packages("splitTools")
+} else{
+  remotes::install_github(
+    repo = "mayer79/splitTools",
+    ref = tag1
+  )
+  add_remotes <- paste0(
+    "github::mayer79/splitTools@", tag1
+  )
+
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+# finally, add remotes (if required)
+if (!is.null(remotes_append_vector)) {
+  desc::desc_set_remotes(
+    remotes_append_vector,
+    file = usethis::proj_get()
+  )
+}
+
 
 usethis::use_build_ignore("cran-comments.md")
 usethis::use_build_ignore(".lintr")
@@ -86,7 +123,7 @@ usethis::use_tidy_description()
 #badger::badge_cran_download("sjtable2df", "grand-total", "blue")
 #badger::badge_cran_download("sjtable2df", "last-month", "blue")
 #badger::badge_dependencies("sjtable2df")
-badger::badge_github_actions(action = "R CMD Check via {tic}")
+badger::badge_github_actions(action = "R CMD Check via {tic}") |> URLencode()
 badger::badge_github_actions(action = "lint")
 badger::badge_github_actions(action = "test-coverage")
 

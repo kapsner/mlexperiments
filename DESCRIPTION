@@ -1,24 +1,36 @@
-Package: rpkgTemplate
-Title: Template for creating R packages
-Version: 0.0.0.9003
+Package: mlexperiments
+Title: Toolkit for Machine Learning Experiments
+Version: 0.0.0.9001
 Authors@R: 
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
-Description: A template repository for creating R packages.
+Description: A set of functions to perform machine learning experiments,
+    such as (nested) cross-validation and hyperparameter optimization.
 License: GPL (>= 3)
-URL: https://github.com/kapsner/rpkgTemplate
-BugReports: https://github.com/kapsner/rpkgTemplate/issues
+URL: https://github.com/kapsner/mlexperiments
+BugReports: https://github.com/kapsner/mlexperiments/issues
 Depends: 
     R (>= 2.10)
 Imports: 
     data.table,
-    magrittr
+    doParallel,
+    foreach,
+    magrittr,
+    parallel,
+    progress,
+    R6,
+    splitTools,
+    survival,
+    utils
 Suggests: 
     knitr,
     lintr,
+    ParBayesianOptimization,
     testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
-Date/Publication: 2022-09-14 12:32:28 UTC
+Remotes: 
+    github::mayer79/splitTools@master
+Date/Publication: 2022-09-29 08:00:22 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1
