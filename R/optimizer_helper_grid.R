@@ -2,9 +2,7 @@
     self, private,
     x,
     y,
-    seed,
-    method_helper,
-    ncores
+    method_helper
 ) {
   stopifnot(
     (ngrid <- nrow(self$parameter_grid)) > 1L
@@ -37,8 +35,8 @@
         "y" = y,
         "params" = grid_search_params,
         "fold_list" = method_helper$fold_list,
-        "ncores" = ncores,
-        "seed" = seed
+        "ncores" = private$ncores,
+        "seed" = private$seed
       )
 
       set.seed(seed)

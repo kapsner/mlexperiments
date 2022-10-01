@@ -1,12 +1,13 @@
 BaseOptimizer <- R6::R6Class( # nolint
+  inherit = MLBase,
   classname = "BaseOptimizer",
   public = list(
     parameter_grid = NULL,
-    results = NULL,
     metric_higher_better = NULL,
-    initialize = function(learner) {
+    initialize = function(learner, seed, ncores) {
       stopifnot(R6::is.R6Class(learner))
-      private$learner <- learner$new()
+      super$initialize(seed = seed, ncores = ncores)
+      private$learner <- learner$new(seed = seed, ncores = ncores)
       self$metric_higher_better <- private$learner$metric_higher_better
       private$method <- learner$classname
     },
@@ -23,9 +24,7 @@ BaseOptimizer <- R6::R6Class( # nolint
           private = private,
           x = x,
           y = y,
-          seed = seed,
-          method_helper = method_helper,
-          ncores = ncores
+          method_helper = method_helper
         )
       )
       self$results <- optim_results

@@ -24,7 +24,7 @@ TuneParameters <- R6::R6Class( # nolint
       private$method_helper <- list()
       self$split_type <- "stratified"
 
-      private$FUN <- switch(
+      private$select_optimizer <- switch(
         EXPR = strategy,
         "grid" = .config_grid_optimizer,
         "bayesian" = .config_bayesian_optimizer
@@ -35,12 +35,12 @@ TuneParameters <- R6::R6Class( # nolint
     #'   to tune the hyperparameters.
     execute = function(k) {
       .tune_init(self, private, k)
-      optimizer <- private$FUN(self, private)
+      optimizer <- private$select_optimizer(self, private)
       return(.run_tuning(self = self, private = private, optimizer = optimizer))
     }
   ),
   private = list(
-    FUN = NULL,
+    select_optimizer = NULL,
     strategy = NULL,
     tune_params = NULL,
     method_helper = NULL,

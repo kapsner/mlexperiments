@@ -1,15 +1,9 @@
-#' @export
-MLExperimentsBase <- R6::R6Class( # nolint
-  classname = "MLExperimentsBase",
+MLBase <- R6::R6Class( # nolint
+  classname = "MLBase",
   public = list(
-    learner = NULL,
-    #' @field learner_args A list containing the parameter settings of the
-    #'   learner algorithm.
-    learner_args = NULL,
     results = NULL,
-    initialize = function(learner, seed, ncores = -1L) {
+    initialize = function(seed, ncores = -1L) {
       stopifnot(
-        R6::is.R6Class(self$learner <- learner),
         is.integer(ncores <- as.integer(ncores)),
         is.integer(private$seed <- as.integer(seed)),
         ncores != 0L
@@ -17,6 +11,27 @@ MLExperimentsBase <- R6::R6Class( # nolint
 
       # check available cores
       .check_available_cores(self, private, ncores)
+    }
+  ),
+  private = list(
+    ncores = NULL,
+    seed = NULL
+  )
+)
+
+MLExperimentsBase <- R6::R6Class( # nolint
+  classname = "MLExperimentsBase",
+  inherit = MLBase,
+  public = list(
+    learner = NULL,
+    #' @field learner_args A list containing the parameter settings of the
+    #'   learner algorithm.
+    learner_args = NULL,
+    initialize = function(learner, seed, ncores = -1L) {
+      stopifnot(
+        R6::is.R6Class(self$learner <- learner)
+      )
+      super$initialize(seed = seed, ncores = ncores)
     },
     set_data = function(x, y) {
       stopifnot(
@@ -29,9 +44,7 @@ MLExperimentsBase <- R6::R6Class( # nolint
   ),
   private = list(
     x = NULL,
-    y = NULL,
-    ncores = NULL,
-    seed = NULL
+    y = NULL
   )
 )
 

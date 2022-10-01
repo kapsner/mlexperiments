@@ -2,7 +2,6 @@
 
 export(CrossValidation)
 export(MLBase)
-export(MLExperimentsBase)
 export(MLSurvGlmnetCox)
 export(TuneParameters)
 import(data.table)

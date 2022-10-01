@@ -6,7 +6,7 @@ BayesianOptimizer <- R6::R6Class( # nolint
     #'   \code{ParBayesianOptimization::bayesOpt}
     optim_args = NULL,
     parameter_bounds = NULL,
-    initialize = function(learner, ...) {
+    initialize = function(learner, seed, ncores, ...) {
       if (!requireNamespace("ParBayesianOptimization", quietly = TRUE)) {
         stop(
           paste0(
@@ -16,7 +16,7 @@ BayesianOptimizer <- R6::R6Class( # nolint
           call. = FALSE
         )
       }
-      super$initialize(learner)
+      super$initialize(learner = learner, seed = seed, ncores = ncores)
       private$strategy <- "bayesian"
       kwargs <- .argument_catcher(...)
 

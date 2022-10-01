@@ -2,18 +2,16 @@
     self, private,
     x,
     y,
-    seed,
-    method_helper,
-    ncores
+    method_helper
 ) {
   stopifnot(!is.null(self$parameter_bounds))
   if (self$optim_args$parallel) {
     stopifnot(!is.null(private$learner$cluster_export))
-    message(sprintf("Registering parallel backend using %s cores.", ncores))
+    message(sprintf("Registering parallel backend using %s cores.", private$ncores))
 
-    cl <- register_parallel(ncores)
+    cl <- register_parallel(private$ncores)
 
-    self$optim_args$iters.k <- ncores
+    self$optim_args$iters.k <- private$ncores
 
     on.exit(
       expr = {
@@ -25,6 +23,8 @@
       }
     )
     # export from current env
+    ncores <- private$ncores # required for cluster export
+    seed <- private$seed
     parallel::clusterExport(
       cl = cl,
       varlist = c(
@@ -60,7 +60,7 @@
     }
     parallel::clusterSetRNGStream(
       cl = cl,
-      iseed = seed
+      iseed = private$seed
     )
     parallel::clusterEvalQ(
       cl = cl,
@@ -69,7 +69,7 @@
         ## not necessary since using ::-notation everywhere
         RNGkind("L'Ecuyer-CMRG")
         # set seed in each job for reproducibility
-        set.seed(seed) #, kind = "L'Ecuyer-CMRG")
+        set.seed(private$seed) #, kind = "L'Ecuyer-CMRG")
       }
     )
   }
@@ -101,7 +101,7 @@
     args <- args[names(args) != "initGrid"]
   }
 
-  set.seed(seed)
+  set.seed(private$seed)
   opt_obj <- do.call(ParBayesianOptimization::bayesOpt, args)
   return(opt_obj)
 }
