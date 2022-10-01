@@ -39,7 +39,7 @@
         "seed" = private$seed
       )
 
-      set.seed(seed)
+      set.seed(private$seed)
       fit_grid <- do.call(FUN, fun_parameters)
 
       ret <- data.table::as.data.table(
