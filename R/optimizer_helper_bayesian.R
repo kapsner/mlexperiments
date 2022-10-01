@@ -22,9 +22,16 @@
         invisible(gc())
       }
     )
+    # required for cluster export
+    assign(
+      x = "ncores",
+      value = private$ncores
+    )
+    assign(
+      x = "seed",
+      value = private$seed
+    )
     # export from current env
-    ncores <- private$ncores # required for cluster export
-    seed <- private$seed
     parallel::clusterExport(
       cl = cl,
       varlist = c(
@@ -69,7 +76,7 @@
         ## not necessary since using ::-notation everywhere
         RNGkind("L'Ecuyer-CMRG")
         # set seed in each job for reproducibility
-        set.seed(private$seed) #, kind = "L'Ecuyer-CMRG")
+        set.seed(seed) #, kind = "L'Ecuyer-CMRG")
       }
     )
   }
