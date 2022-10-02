@@ -5,7 +5,10 @@ NULL
 mlexperiments_default_options <- list(
   mlexperiments.learner = c(
     MLSurvGlmnetCox$classname # = "MLSurvGlmnetCox"
-  )
+  ),
+  mlexperiments.xgb.nrounds = 5000L,
+  mlexperiments.xgb.early_stopping_rounds = 500L,
+  mlexperiments.bayesian.max_init = 50L
 )
 
 

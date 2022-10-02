@@ -47,6 +47,22 @@
 
     # check if there are additional parameters that are not tuned
     if (private$strategy == "bayesian") {
+      if (nrow(self$parameter_grid) >
+          as.integer(options("mlexperiments.bayesian.max_init"))) {
+        message(sprintf(paste0(
+          "Rows of initialization grid > than ",
+          "'options(\"mlexperiments.bayesian.max_init\")'...\n",
+          "... reducing initialization grid to %s rows."
+        ), options("mlexperiments.bayesian.max_init")
+        ))
+        set.seed(private$seed)
+        select_rows <- sample(
+          x = 1:nrow(self$parameter_grid),
+          size = as.integer(options("mlexperiments.bayesian.max_init")),
+          replace = FALSE
+        )
+        self$parameter_grid <- self$parameter_grid[select_rows, ]
+      }
       if (length(colnames(self$parameter_grid)) !=
           length(names(self$parameter_bounds))) {
         vec <- which(
