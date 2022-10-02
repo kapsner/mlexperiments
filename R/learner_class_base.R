@@ -3,8 +3,9 @@ MLLearnerBase <- R6::R6Class( # nolint
   classname = "MLLearnerBase",
   public = list(
     cluster_export = NULL,
-    metric_higher_better = NULL,
-    performance_metric_name = NULL,
+    metric_cv_higher_better = NULL,
+    metric_performance_higher_better = NULL,
+    metric_performance_name = NULL,
     environment = -1L,
     initialize = function() {
     },

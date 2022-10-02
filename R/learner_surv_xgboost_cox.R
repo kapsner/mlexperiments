@@ -14,7 +14,8 @@ MLSurvXgboostCox <- R6::R6Class( # nolint
         )
       }
       super$initialize()
-      self$metric_higher_better <- TRUE
+      self$metric_cv_higher_better <- FALSE
+      self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_xgboost_cox_ce()
       private$fun_cross_validation <- surv_xgboost_cox_cv
@@ -22,7 +23,7 @@ MLSurvXgboostCox <- R6::R6Class( # nolint
       private$fun_predict <- surv_xgboost_cox_predict
       private$fun_bayesian_scoring_function <- surv_xgboost_cox_bsF
       private$fun_performance_metric <- surv_xgboost_c_index
-      self$performance_metric_name <- "C-index"
+      self$metric_performance_name <- "C-index"
     }
   )
 )
@@ -37,10 +38,10 @@ surv_xgboost_cox_bsF <- function(...) { # nolint
 
   params <- list(...)
 
-  if (!is.null(method_helper$additional_params)) {
+  if (!is.null(method_helper$params_not_optimized)) {
     params <- c(
       params,
-      method_helper$additional_params
+      method_helper$params_not_optimized
     )
   }
 
@@ -91,13 +92,12 @@ surv_xgboost_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
   cvfit <- xgboost::xgb.cv(
     params = params,
     data = dtrain,
-    nrounds = options("mlexperiments.xgb.nrounds"),
+    nrounds = as.integer(options("mlexperiments.xgb.nrounds")),
     prediction = FALSE,
     folds = xgb_fids,
     verbose = FALSE,
     print_every_n = 50,
-    early_stopping_rounds = options("mlexperiments.xgb.early_stopping_rounds"),
-    maximize = maximize,
+    early_stopping_rounds = as.integer(options("mlexperiments.xgb.early_stopping_rounds")),
     nthread = ncores
   )
 

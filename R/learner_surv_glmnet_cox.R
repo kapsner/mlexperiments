@@ -14,7 +14,8 @@ MLSurvGlmnetCox <- R6::R6Class( # nolint
         )
       }
       super$initialize()
-      self$metric_higher_better <- TRUE
+      self$metric_cv_higher_better <- TRUE
+      self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_glmnet_cox_ce()
       private$fun_cross_validation <- surv_glmnet_cox_cv
@@ -22,7 +23,7 @@ MLSurvGlmnetCox <- R6::R6Class( # nolint
       private$fun_predict <- surv_glmnet_cox_predict
       private$fun_bayesian_scoring_function <- surv_glmnet_cox_bsF
       private$fun_performance_metric <- surv_glmnet_c_index
-      self$performance_metric_name <- "C-index"
+      self$metric_performance_name <- "C-index"
     }
   )
 )

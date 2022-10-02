@@ -11,11 +11,11 @@ feature_cols <- colnames(dataset)[3:ncol(dataset)]
 param_list_xgboost <- expand.grid(
   objective = "survival:cox",
   eval_metric = "cox-nloglik",
-  subsample = seq(0.4, 1, .2),
-  colsample_bytree = seq(0.4, 1, .2),
-  min_child_weight = seq(1, 9, 4),
-  learning_rate = seq(0.1, 0.2, 0.05),
-  max_depth = seq(1, 9, 4)
+  subsample = seq(0.6, 1, .2),
+  colsample_bytree = seq(0.6, 1, .2),
+  min_child_weight = seq(1, 5, 4),
+  learning_rate = seq(0.1, 0.2, 0.1),
+  max_depth = seq(1, 5, 4)
 )
 xgboost_bounds <- list(
   subsample = c(0.2, 1),
@@ -49,6 +49,10 @@ train_y <- survival::Surv(
   type = "right"
 )
 
+options("mlexperiments.bayesian.max_init" = 6L)
+options("mlexperiments.xgb.nrounds" = 100L)
+options("mlexperiments.xgb.early_stopping_rounds" = 10L)
+
 test_that(
   desc = "test bayesian tuner, initGrid - surv_xgboost_cox",
   code = {
@@ -81,59 +85,29 @@ test_that(
 
 
 test_that(
-  desc = "test bayesian tuner, initPoints - surv_glmnet_cox",
-  code = {
-
-    surv_glmnet_cox_tuner <- MLTuneParameters$new(
-      learner = learner,
-      strategy = "bayesian",
-      ncores = 2L,
-      seed = seed
-    )
-    surv_glmnet_cox_tuner$parameter_bounds <- glmnet_bounds
-    surv_glmnet_cox_tuner$optim_args <- optim_args
-
-    # create split-strata from training dataset
-    surv_glmnet_cox_tuner$split_vector <- split_vector
-
-    # set data
-    surv_glmnet_cox_tuner$set_data(
-      x = train_x,
-      y = train_y
-    )
-
-    tune_results <- surv_glmnet_cox_tuner$execute(k = 5)
-    expect_type(tune_results, "list")
-    expect_equal(dim(tune_results), c(8, 11))
-    expect_true(inherits(x = surv_glmnet_cox_tuner$results, what = "mlexTune"))
-  }
-)
-
-
-test_that(
   desc = "test grid tuner - surv_glmnet_cox",
   code = {
 
-    surv_glmnet_cox_tuner <- MLTuneParameters$new(
+    surv_xgboost_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "grid",
       ncores = 2L,
       seed = seed
     )
-    surv_glmnet_cox_tuner$parameter_grid <- param_list_glmnet
+    surv_xgboost_cox_tuner$parameter_grid <- param_list_xgboost
 
     # create split-strata from training dataset
-    surv_glmnet_cox_tuner$split_vector <- split_vector
+    surv_xgboost_cox_tuner$split_vector <- split_vector
 
     # set data
-    surv_glmnet_cox_tuner$set_data(
+    surv_xgboost_cox_tuner$set_data(
       x = train_x,
       y = train_y
     )
 
-    tune_results <- surv_glmnet_cox_tuner$execute(k = 5)
+    tune_results <- surv_xgboost_cox_tuner$execute(k = 5)
     expect_type(tune_results, "list")
     expect_equal(dim(tune_results), c(6, 4))
-    expect_true(inherits(x = surv_glmnet_cox_tuner$results, what = "mlexTune"))
+    expect_true(inherits(x = surv_xgboost_cox_tuner$results, what = "mlexTune"))
   }
 )
