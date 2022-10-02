@@ -27,10 +27,6 @@
     )
     # required for cluster export
     assign(
-      x = "ncores",
-      value = private$ncores
-    )
-    assign(
       x = "seed",
       value = private$seed
     )
@@ -38,7 +34,7 @@
     parallel::clusterExport(
       cl = cl,
       varlist = c(
-        "x", "y", "seed", "method_helper", "ncores" #, "cluster_load"
+        "x", "y", "seed", "method_helper"# , "ncores" #, "cluster_load"
       ),
       envir = environment()
     )
