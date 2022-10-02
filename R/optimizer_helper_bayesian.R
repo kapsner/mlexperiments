@@ -7,7 +7,10 @@
   stopifnot(!is.null(self$parameter_bounds))
   if (self$optim_args$parallel) {
     stopifnot(!is.null(private$learner$cluster_export))
-    message(sprintf("Registering parallel backend using %s cores.", private$ncores))
+    message(sprintf(
+      "\nRegistering parallel backend using %s cores.",
+      private$ncores
+    ))
 
     cl <- register_parallel(private$ncores)
 
@@ -115,9 +118,10 @@
 
 .bayesopt_postprocessing <- function(self, private, object) {
   stopifnot(inherits(x = object, what = "bayesOpt"))
-  optim_results <- object$scoreSummary %>%
-    data.table::as.data.table() %>%
-    cbind(private$params_not_optimized)
+  optim_results <- cbind(
+      data.table::as.data.table(object$scoreSummary),
+      private$params_not_optimized
+    )
 
   colnames(optim_results)[grepl(
     pattern = "Iteration", x = colnames(optim_results))

@@ -1,6 +1,6 @@
 #' @export
-TuneParameters <- R6::R6Class( # nolint
-  classname = "TuneParameters",
+MLTuneParameters <- R6::R6Class( # nolint
+  classname = "MLTuneParameters",
   inherit = MLExperimentsBase,
   public = list(
     parameter_bounds = NULL,

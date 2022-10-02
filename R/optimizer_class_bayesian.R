@@ -11,7 +11,7 @@ BayesianOptimizer <- R6::R6Class( # nolint
         stop(
           paste0(
             "Package \"ParBayesianOptimization\" must be installed to use ",
-            "'strategy = \"bayesian\"."
+            "'strategy = \"bayesian\"'."
           ),
           call. = FALSE
         )

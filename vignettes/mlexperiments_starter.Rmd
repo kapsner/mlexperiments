@@ -79,7 +79,7 @@ glmnet_bounds <- list(alpha = c(0., 1.))
 ```
 
 ```{r}
-surv_glmnet_cox_tuner <- TuneParameters$new(
+surv_glmnet_cox_tuner <- MLTuneParameters$new(
   learner = learner,
   strategy = "bayesian",
   seed = seed
@@ -128,7 +128,7 @@ best_bayesian <- surv_glmnet_cox_tuner$results$best_setting
 param_list_glmnet <- expand.grid(
   alpha = seq(0, 1, 0.1)
 )
-surv_glmnet_cox_tuner <- TuneParameters$new(
+surv_glmnet_cox_tuner <- MLTuneParameters$new(
   learner = learner,
   strategy = "grid",
   seed = seed
@@ -173,7 +173,7 @@ fold_list <- splitTools::create_folds(
   seed = seed
 )
 
-surv_glmnet_cox_cv <- CrossValidation$new(
+surv_glmnet_cox_cv <- MLCrossValidation$new(
   learner = learner,
   fold_list = fold_list,
   seed = seed

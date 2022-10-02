@@ -1,6 +1,6 @@
 #' @export
-CrossValidation <- R6::R6Class( # nolint
-  classname = "CrossValidation",
+MLCrossValidation <- R6::R6Class( # nolint
+  classname = "MLCrossValidation",
   inherit = MLExperimentsBase,
   public = list(
     fold_list = NULL,
@@ -39,7 +39,7 @@ CrossValidation <- R6::R6Class( # nolint
         ),
         kwargs
       )
-      do.call(.cv_run_model, args)
+      do.call(.cv_fit_model, args)
     }
   )
 )

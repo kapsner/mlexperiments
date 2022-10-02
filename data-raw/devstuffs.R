@@ -51,8 +51,6 @@ usethis::use_package("R", min_version = "2.10", type = "Depends")
 # Imports
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
 usethis::use_package("data.table", type = "Imports")
-usethis::use_package("magrittr", type = "Imports")
-usethis::use_package("survival", type = "Imports")
 usethis::use_package("splitTools", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("parallel", type = "Imports")
@@ -67,6 +65,7 @@ usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("knitr", type = "Suggests")
 usethis::use_package("ParBayesianOptimization", type = "Suggests")
 usethis::use_package("glmnet", type = "Suggests")
+usethis::use_package("survival", type = "Suggests")
 
 
 # define remotes

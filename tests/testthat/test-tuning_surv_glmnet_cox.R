@@ -41,7 +41,7 @@ test_that(
   desc = "test bayesian tuner, initGrid - surv_glmnet_cox",
   code = {
 
-    surv_glmnet_cox_tuner <- TuneParameters$new(
+    surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "bayesian",
       ncores = 2L,
@@ -72,7 +72,7 @@ test_that(
   desc = "test bayesian tuner, initPoints - surv_glmnet_cox",
   code = {
 
-    surv_glmnet_cox_tuner <- TuneParameters$new(
+    surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "bayesian",
       ncores = 2L,
@@ -102,7 +102,7 @@ test_that(
   desc = "test grid tuner - surv_glmnet_cox",
   code = {
 
-    surv_glmnet_cox_tuner <- TuneParameters$new(
+    surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "grid",
       ncores = 2L,

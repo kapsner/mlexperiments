@@ -14,7 +14,7 @@
 .fold_looper <- function(self, private) {
   # init a progress bar
   pb <- progress::progress_bar$new(
-    format = "CV progress [:bar] :current/:total (:percent)",
+    format = "CV progress [:bar] :current/:total (:percent)\n",
     total = length(self$fold_list)
   )
 
@@ -64,14 +64,26 @@
       )
   }
 
-  # TODO calculate performance metrics here
+  # calculate performance metrics here
   # add them to a nice results table
-  results_object[["summary"]] <- data.table::data.table()
+  results_object[["summary"]] <- data.table::rbindlist(
+    l = sapply(
+      X = names(results_object),
+      FUN = function(x) {
+        c(
+          list("performance" = results_object[[x]][["performance"]]),
+          results_object[[x]][["learner.args"]]
+        )
+      },
+      simplify = FALSE,
+      USE.NAMES = TRUE
+    )
+  )
   # return
   return(results_object)
 }
 
-.cv_run_model <- function(self, private, train_index, fold_train, fold_test) {
+.cv_fit_model <- function(self, private, train_index, fold_train, fold_test) {
   stopifnot(
     is.list(self$learner_args)
   )
@@ -94,7 +106,7 @@
     fold_ids = train_index,
     ground_truth = fold_test$y,
     predictions = preds,
-    learner_args = self$learner_args
+    "learner.args" = self$learner_args
   )
 
   if (self$return_models) {

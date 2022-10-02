@@ -1,14 +1,14 @@
 #' @export
 MLSurvGlmnetCox <- R6::R6Class( # nolint
   classname = "MLSurvGlmnetCox",
-  inherit = LearnerBase,
+  inherit = mlexperiments::MLLearnerBase,
   public = list(
     initialize = function() {
       if (!requireNamespace("glmnet", quietly = TRUE)) {
         stop(
           paste0(
             "Package \"glmnet\" must be installed to use ",
-            "'learner = \"MLSurvGlmnetCox\"."
+            "'learner = \"MLSurvGlmnetCox\"'."
           ),
           call. = FALSE
         )

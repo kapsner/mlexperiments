@@ -1,6 +1,5 @@
 #' @import data.table
 #' @importFrom data.table ".SD"
-#' @importFrom magrittr "%>%"
 NULL
 
 mlexperiments_default_options <- list(

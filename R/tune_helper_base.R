@@ -111,7 +111,7 @@
     opt_metric <- "mean_cv_metric"
   }
 
-  outlist$best_setting <- .get_best_setting(
+  outlist[["best.setting"]] <- .get_best_setting(
     results = outlist$summary,
     opt_metric = opt_metric,
     param_names = param_names,

@@ -15,22 +15,22 @@ Imports:
     data.table,
     doParallel,
     foreach,
-    magrittr,
     parallel,
     progress,
     R6,
     splitTools,
-    survival,
     utils
 Suggests: 
+    glmnet,
     knitr,
     lintr,
     ParBayesianOptimization,
+    survival,
     testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
 Remotes: 
     github::mayer79/splitTools@master
-Date/Publication: 2022-09-29 08:00:22 UTC
+Date/Publication: 2022-10-02 13:27:36 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1
