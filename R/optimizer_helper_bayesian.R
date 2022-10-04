@@ -12,21 +12,20 @@
       private$ncores
     ))
 
-    cl <- register_parallel(private$ncores)
+    cl <- kdry::pch_register_parallel(private$ncores)
 
     self$optim_args$iters.k <- private$ncores
 
     on.exit(
       expr = {
-        parallel::stopCluster(cl)
-        foreach::registerDoSEQ()
+        kdry::pch_clean_up(cl)
         # reset random number generator
         RNGkind(kind = "default")
         invisible(gc())
       }
     )
     # cluster options
-    cluster_options <- .options_to_cluster("mlexperiments")
+    cluster_options <- kdry::misc_subset_option("mlexperiments")
     # required for cluster export
     assign(
       x = "seed",

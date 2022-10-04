@@ -53,20 +53,15 @@ usethis::use_package("R", min_version = "2.10", type = "Depends")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("splitTools", type = "Imports")
 usethis::use_package("parallel", type = "Imports")
-usethis::use_package("doParallel", type = "Imports")
 usethis::use_package("progress", type = "Imports")
 usethis::use_package("R6", type = "Imports")
-usethis::use_package("foreach", type = "Imports")
+usethis::use_package("kdry", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests", min_version = "3.0.1")
 usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("knitr", type = "Suggests")
 usethis::use_package("ParBayesianOptimization", type = "Suggests")
-usethis::use_package("glmnet", type = "Suggests")
-usethis::use_package("survival", type = "Suggests")
-usethis::use_package("xgboost", type = "Suggests")
-usethis::use_package("ranger", type = "Suggests")
 
 
 # define remotes
@@ -83,6 +78,25 @@ if (tag1 == "cran") {
   )
   add_remotes <- paste0(
     "github::mayer79/splitTools@", tag1
+  )
+
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+tag2 <- "main" # e.g. "v0.1.7", "development" or "cran"
+if (tag2 == "cran") {
+  install.packages("kdry")
+} else{
+  remotes::install_github(
+    repo = "kapsner/kdry",
+    ref = tag2
+  )
+  add_remotes <- paste0(
+    "github::kapsner/kdry@", tag2
   )
 
   if (is.null(remotes_append_vector)) {

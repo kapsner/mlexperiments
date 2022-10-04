@@ -15,6 +15,6 @@
 - xgboost and ranger as surv_cox learner (done)
 - lm / glm as base learner
 - xgboost / lightgbm as new feature
-- all pre-implemented learner (but lm / glm) to new package
+- all pre-implemented learner (but lm / glm) to new package (done)
 - some base packages: knn, rpart
 

@@ -13,26 +13,21 @@ Depends:
     R (>= 2.10)
 Imports: 
     data.table,
-    doParallel,
-    foreach,
+    kdry,
     parallel,
     progress,
     R6,
-    splitTools,
-    utils
+    splitTools
 Suggests: 
-    glmnet,
     knitr,
     lintr,
     ParBayesianOptimization,
-    ranger,
-    survival,
-    testthat (>= 3.0.1),
-    xgboost
+    testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
 Remotes: 
+    github::kapsner/kdry@main,
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-04 15:23:09 UTC
+Date/Publication: 2022-10-04 20:14:16 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1

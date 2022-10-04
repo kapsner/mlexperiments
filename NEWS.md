@@ -4,6 +4,8 @@
 
 #### New features
 
+-   added coxph; working on unit tests
+    ([03daecd](https://github.com/kapsner/mlexperiments/tree/03daecdc3d1e15ae64a25fad984b2be6c5d11149))
 -   working on xgboost implementation (wip)
     ([c8db3b7](https://github.com/kapsner/mlexperiments/tree/c8db3b75e0a903cc2f9420de87349f654511172c))
 -   add xgboost surv
@@ -15,6 +17,8 @@
 
 #### Bug fixes
 
+-   fixed issue with prediction in ranger
+    ([b71f4f8](https://github.com/kapsner/mlexperiments/tree/b71f4f809d75c32b2b740839ae9ff180fc27013c))
 -   fixed some issues; finished xgboost surv implementation
     ([576066e](https://github.com/kapsner/mlexperiments/tree/576066e47895dbf9fd9f3c37378c300f3eff77e9))
 -   fixed last issue with seed in grid-search
@@ -30,4 +34,4 @@
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
 Full set of changes:
-[`edb76c3...576066e`](https://github.com/kapsner/mlexperiments/compare/edb76c3...576066e)
+[`edb76c3...b71f4f8`](https://github.com/kapsner/mlexperiments/compare/edb76c3...b71f4f8)
