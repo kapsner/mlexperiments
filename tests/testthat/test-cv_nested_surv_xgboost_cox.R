@@ -98,7 +98,10 @@ test_that(
     cv_results <- surv_xgboost_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(5, 9))
-    expect_true(inherits(x = surv_xgboost_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_xgboost_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )
 
@@ -116,8 +119,9 @@ test_that(
       seed = seed
     )
     set.seed(seed)
-    random_grid <- sample(1:nrow(param_list_xgboost), 10)
-    surv_xgboost_cox_optimization$parameter_grid <- param_list_xgboost[random_grid, ]
+    random_grid <- sample(seq_len(nrow(param_list_xgboost)), 10)
+    surv_xgboost_cox_optimization$parameter_grid <-
+      param_list_xgboost[random_grid, ]
     surv_xgboost_cox_optimization$split_type <- "stratified"
     surv_xgboost_cox_optimization$split_vector <- split_vector
     surv_xgboost_cox_optimization$optim_args <- optim_args
@@ -131,7 +135,9 @@ test_that(
     cv_results <- surv_xgboost_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(5, 9))
-    expect_true(inherits(x = surv_xgboost_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_xgboost_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )
-

@@ -30,8 +30,8 @@ LearnerSurvXgboostCox <- R6::R6Class( # nolint
 
 
 surv_xgboost_cox_ce <- function() {
-  c("surv_xgboost_cox_optimization", "surv_xgboost_cox_fit", "setup_surv_xgb_dataset",
-    ".outsample_row_indices")
+  c("surv_xgboost_cox_optimization", "surv_xgboost_cox_fit",
+    "setup_surv_xgb_dataset", ".outsample_row_indices")
 }
 
 surv_xgboost_cox_bsF <- function(...) { # nolint
@@ -58,7 +58,14 @@ surv_xgboost_cox_bsF <- function(...) { # nolint
 }
 
 # tune lambda
-surv_xgboost_cox_optimization <- function(x, y, params, fold_list, ncores, seed) {
+surv_xgboost_cox_optimization <- function(
+    x,
+    y,
+    params,
+    fold_list,
+    ncores,
+    seed
+  ) {
   stopifnot(
     inherits(x = y, what = "Surv"),
     is.list(params),
@@ -91,7 +98,9 @@ surv_xgboost_cox_optimization <- function(x, y, params, fold_list, ncores, seed)
     folds = xgb_fids,
     verbose = FALSE,
     print_every_n = as.integer(options("mlexperiments.xgb.print_every_n")),
-    early_stopping_rounds = as.integer(options("mlexperiments.optim.xgb.early_stopping_rounds")),
+    early_stopping_rounds = as.integer(
+      options("mlexperiments.optim.xgb.early_stopping_rounds")
+    ),
     nthread = ncores
   )
 
@@ -157,15 +166,15 @@ setup_surv_xgb_dataset <- function(x, y, objective) {
       y[, 1],
       Inf
     )
-    xgboost::setinfo(dtrain, 'label_lower_bound', y_lower_bound)
-    xgboost::setinfo(dtrain, 'label_upper_bound', y_upper_bound)
+    xgboost::setinfo(dtrain, "label_lower_bound", y_lower_bound)
+    xgboost::setinfo(dtrain, "label_upper_bound", y_upper_bound)
   } else if (objective == "survival:cox") {
     # Cox regression for right censored survival time data (negative values
     # are considered right censored). Note that predictions are returned on
     # the hazard ratio scale (i.e., as HR = exp(marginal_prediction) in
     # the proportional hazard function h(t) = h0(t) * HR).
     label <- ifelse(y[, 2] == 1, y[, 1], -y[, 1])
-    xgboost::setinfo(dtrain, 'label', label)
+    xgboost::setinfo(dtrain, "label", label)
   } else {
     stop(paste0("xgboost objective '", objective, " 'not implemented."))
   }
@@ -173,7 +182,7 @@ setup_surv_xgb_dataset <- function(x, y, objective) {
   return(dtrain)
 }
 
-surv_xgboost_cox_predict <- function(model, newdata, ...) {
+surv_xgboost_cox_predict <- function(model, newdata, ncores, ...) {
   # From the docs:
   # Note that predictions are returned on the hazard ratio scale
   # (i.e., as HR = exp(marginal_prediction) in the proportional

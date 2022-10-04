@@ -128,7 +128,7 @@ surv_glmnet_cox_fit <- function(x, y, ncores, seed, ...) {
   return(fit)
 }
 
-surv_glmnet_cox_predict <- function(model, newdata) {
+surv_glmnet_cox_predict <- function(model, newdata, ncores) {
   # From the docs:
   # Type "response" gives [...] the fitted relative-risk for "cox".
   return(predict(model, newx = newdata, type = "response")[, 1])

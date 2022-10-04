@@ -100,7 +100,7 @@ test_that(
       seed = seed
     )
     set.seed(seed)
-    random_grid <- sample(1:nrow(param_list_ranger), 10)
+    random_grid <- sample(seq_len(nrow(param_list_ranger)), 10)
     surv_ranger_cox_tuner$parameter_grid <- param_list_ranger[random_grid, ]
 
     # create split-strata from training dataset

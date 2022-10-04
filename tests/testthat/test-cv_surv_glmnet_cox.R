@@ -58,7 +58,10 @@ test_that(
       ncores = ncores,
       seed = seed
     )
-    surv_glmnet_cox_optimization$learner_args = list(alpha = 0.8, lambda = 0.002)
+    surv_glmnet_cox_optimization$learner_args <- list(
+      alpha = 0.8,
+      lambda = 0.002
+    )
 
     # set data
     surv_glmnet_cox_optimization$set_data(
@@ -69,6 +72,9 @@ test_that(
     cv_results <- surv_glmnet_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(10, 3))
-    expect_true(inherits(x = surv_glmnet_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_glmnet_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )

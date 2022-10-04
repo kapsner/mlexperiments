@@ -84,7 +84,10 @@ test_that(
     cv_results <- surv_glmnet_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(5, 3))
-    expect_true(inherits(x = surv_glmnet_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_glmnet_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )
 
@@ -116,7 +119,9 @@ test_that(
     cv_results <- surv_glmnet_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(5, 3))
-    expect_true(inherits(x = surv_glmnet_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_glmnet_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )
-

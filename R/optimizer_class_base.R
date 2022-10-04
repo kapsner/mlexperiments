@@ -8,7 +8,8 @@ BaseOptimizer <- R6::R6Class( # nolint
       stopifnot(R6::is.R6Class(learner))
       super$initialize(seed = seed, ncores = ncores)
       private$learner <- learner$new()
-      self$metric_optimization_higher_better <- private$learner$metric_optimization_higher_better
+      self$metric_optimization_higher_better <-
+        private$learner$metric_optimization_higher_better
       private$method <- learner$classname
     },
     execute = function(x, y, method_helper, ncores, seed) {

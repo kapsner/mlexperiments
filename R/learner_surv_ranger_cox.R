@@ -99,7 +99,7 @@ surv_ranger_cox_optimization <- function(x, y, params, fold_list, ncores, seed) 
       model = cvfit,
       newdata = x[-ranger_train_idx, ],
       cat_vars = params[["cat_vars"]],
-      num.threads = ncores
+      ncores = ncores
     )
 
     # calculate Harrell's c-index using the `glmnet::Cindex`-implementation
@@ -162,7 +162,7 @@ surv_ranger_cox_fit <- function(x, y, ncores, seed, ...) {
   return(bst)
 }
 
-surv_ranger_cox_predict <- function(model, newdata, ...) {
+surv_ranger_cox_predict <- function(model, newdata, ncores, ...) {
 
   params <- list(...)
 
@@ -176,19 +176,24 @@ surv_ranger_cox_predict <- function(model, newdata, ...) {
 
   newdata <- .matrix_to_df(matrix = newdata, cat_vars = cat_vars)
 
+  predict_args <- list(
+    object = model,
+    data = newdata,
+    num.threads = ncores,
+    type = "response"
+  )
+  if (length(ranger_params) > 0) {
+    predict_args <- c(predict_args, ranger_params)
+  }
+
   # From the docs:
   # For type = 'response' (the default), the [...] survival probabilities
   # (survival) are returned.
 
   # ranger returns the survival probability S(t), which is the conditional
   # probability that a subject survives >= t, given that is has survived until t
-  #
-  preds <- predict(
-    object = model,
-    data = newdata,
-    type = "response",
-    ranger_params
-  )
+  preds <- do.call(predict, predict_args)
+
   # https://github.com/imbs-hl/ranger/issues/617#issuecomment-1144443486
   # Internally, ranger uses the sum of chf over time to calculate the c-index,
   # i.e. rowSums(preds_ranger_prep$chf)

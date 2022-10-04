@@ -38,10 +38,8 @@ surv_coxph_cox_fit <- function(x, y, ncores, seed, ...) {
 
   if ("cat_vars" %in% names(params)) {
     cat_vars <- params[["cat_vars"]]
-    coxph_params <- params[names(params) != "cat_vars"]
   } else {
     cat_vars <- NULL
-    coxph_params <- params
   }
 
   x <- .matrix_to_df(matrix = x, cat_vars = cat_vars)
@@ -59,7 +57,7 @@ surv_coxph_cox_fit <- function(x, y, ncores, seed, ...) {
   return(bst)
 }
 
-surv_coxph_cox_predict <- function(model, newdata, ...) {
+surv_coxph_cox_predict <- function(model, newdata, ncores, ...) {
   params <- list(...)
 
   if ("cat_vars" %in% names(params)) {

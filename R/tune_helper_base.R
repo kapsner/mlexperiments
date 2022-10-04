@@ -62,7 +62,7 @@
         ))
         set.seed(private$seed)
         select_rows <- sample(
-          x = 1:nrow(self$parameter_grid),
+          x = seq_len(nrow(self$parameter_grid)),
           size = as.integer(options("mlexperiments.bayesian.max_init")),
           replace = FALSE
         )

@@ -36,7 +36,7 @@
     parallel::clusterExport(
       cl = cl,
       varlist = c(
-        "x", "y", "seed", "method_helper",# , "ncores" #, "cluster_load"
+        "x", "y", "seed", "method_helper", # , "ncores" #, "cluster_load"
         "cluster_options"
       ),
       envir = environment()

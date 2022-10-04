@@ -17,10 +17,11 @@ MLLearnerBase <- R6::R6Class( # nolint
       kwargs <- list(...)
       do.call(private$fun_fit, kwargs)
     },
-    predict = function(model, newdata, ...) {
+    predict = function(model, newdata, ncores, ...) {
       kwargs <- list(
         model = model,
-        newdata = newdata
+        newdata = newdata,
+        ncores = ncores
       )
       catch_kwargs <- list(...)
       if (length(catch_kwargs) > 0) {

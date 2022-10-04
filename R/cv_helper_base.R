@@ -118,7 +118,11 @@
   fitted <- do.call(learner$fit, fit_args)
 
   # make predictions
-  pred_args <- list(model = fitted, newdata = fold_test$x)
+  pred_args <- list(
+    model = fitted,
+    newdata = fold_test$x,
+    ncores = private$ncores
+  )
   if (!is.null(private$cat_vars)) {
     pred_args <- c(pred_args, list(cat_vars = private$cat_vars))
   }

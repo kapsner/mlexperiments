@@ -83,6 +83,9 @@ test_that(
     cv_results <- surv_xgboost_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(10, 9))
-    expect_true(inherits(x = surv_xgboost_cox_optimization$results, what = "mlexCV"))
+    expect_true(inherits(
+      x = surv_xgboost_cox_optimization$results,
+      what = "mlexCV"
+    ))
   }
 )
