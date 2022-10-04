@@ -18,7 +18,7 @@ LearnerSurvXgboostCox <- R6::R6Class( # nolint
       self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_xgboost_cox_ce()
-      private$fun_optim_cv <- surv_xgboost_cox_cv
+      private$fun_optim_cv <- surv_xgboost_cox_optimization
       private$fun_fit <- surv_xgboost_cox_fit
       private$fun_predict <- surv_xgboost_cox_predict
       private$fun_bayesian_scoring_function <- surv_xgboost_cox_bsF
@@ -30,23 +30,17 @@ LearnerSurvXgboostCox <- R6::R6Class( # nolint
 
 
 surv_xgboost_cox_ce <- function() {
-  c("surv_xgboost_cox_cv", "surv_xgboost_cox_fit", "setup_surv_xgb_dataset",
+  c("surv_xgboost_cox_optimization", "surv_xgboost_cox_fit", "setup_surv_xgb_dataset",
     ".outsample_row_indices")
 }
 
 surv_xgboost_cox_bsF <- function(...) { # nolint
 
   params <- list(...)
-
-  if (!is.null(method_helper$params_not_optimized)) {
-    params <- c(
-      params,
-      method_helper$params_not_optimized
-    )
-  }
+  params <- .method_params_refactor(params, method_helper)
 
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
-  bayes_opt_xgboost <- surv_xgboost_cox_cv(
+  bayes_opt_xgboost <- surv_xgboost_cox_optimization(
     x = x,
     y = y,
     params = params,
@@ -64,7 +58,7 @@ surv_xgboost_cox_bsF <- function(...) { # nolint
 }
 
 # tune lambda
-surv_xgboost_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
+surv_xgboost_cox_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
     inherits(x = y, what = "Surv"),
     is.list(params),

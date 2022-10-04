@@ -15,8 +15,18 @@ param_list_xgboost <- expand.grid(
   subsample = seq(0.6, 1, .2),
   colsample_bytree = seq(0.6, 1, .2),
   min_child_weight = seq(1, 5, 4),
-  learning_rate = seq(0.04, 0.1, 0.02),
+  learning_rate = c(0.1, 0.2),
   max_depth = seq(1, 5, 4)
+)
+
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
 )
 
 split_vector <- splitTools::multi_strata(
@@ -52,27 +62,27 @@ test_that(
   desc = "test cv - surv_xgboost_cox",
   code = {
 
-    surv_xgboost_cox_cv <- MLCrossValidation$new(
+    surv_xgboost_cox_optimization <- MLCrossValidation$new(
       learner = learner,
       fold_list = fold_list,
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
-    surv_xgboost_cox_cv$learner_args <- c(as.list(
+    surv_xgboost_cox_optimization$learner_args <- c(as.list(
       data.table::data.table(param_list_xgboost[1, ], stringsAsFactors = FALSE)
     ),
     nrounds = 45L
     )
 
     # set data
-    surv_xgboost_cox_cv$set_data(
+    surv_xgboost_cox_optimization$set_data(
       x = train_x,
       y = train_y
     )
 
-    cv_results <- surv_xgboost_cox_cv$execute()
+    cv_results <- surv_xgboost_cox_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(10, 9))
-    expect_true(inherits(x = surv_xgboost_cox_cv$results, what = "mlexCV"))
+    expect_true(inherits(x = surv_xgboost_cox_optimization$results, what = "mlexCV"))
   }
 )

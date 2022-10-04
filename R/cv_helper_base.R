@@ -84,18 +84,24 @@
 }
 
 .cv_fit_model <- function(self, private, train_index, fold_train, fold_test) {
-  stopifnot(
-    is.list(self$learner_args)
-  )
-  fit_args <- c(
-    list(
+
+  fit_args <- list(
       x = fold_train$x,
       y = fold_train$y,
       seed = private$seed,
       ncores = private$ncores
-    ),
-    self$learner_args
-  )
+    )
+
+  if (is.list(self$learner_args)) {
+
+    learner_args <- self$learner_args
+    learner_args <- .method_params_refactor(learner_args, private$method_helper)
+
+    fit_args <- c(
+      fit_args,
+      learner_args
+    )
+  }
 
   # initialize learner here for every model fit
   learner <- self$learner$new()
@@ -113,6 +119,9 @@
 
   # make predictions
   pred_args <- list(model = fitted, newdata = fold_test$x)
+  if (!is.null(private$cat_vars)) {
+    pred_args <- c(pred_args, list(cat_vars = private$cat_vars))
+  }
   preds <- do.call(learner$predict, pred_args)
 
   res <- list(

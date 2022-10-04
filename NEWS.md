@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-02)
+## Unreleased (2022-10-04)
 
 #### New features
 
@@ -15,6 +15,8 @@
 
 #### Bug fixes
 
+-   fixed some issues; finished xgboost surv implementation
+    ([576066e](https://github.com/kapsner/mlexperiments/tree/576066e47895dbf9fd9f3c37378c300f3eff77e9))
 -   fixed last issue with seed in grid-search
     ([cc821d6](https://github.com/kapsner/mlexperiments/tree/cc821d6f1c2b4364e19a92d7277fcda5fbfc7c95))
 -   fixed issue related to parallel backend in bayesian tuning
@@ -28,4 +30,4 @@
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
 Full set of changes:
-[`edb76c3...c8db3b7`](https://github.com/kapsner/mlexperiments/compare/edb76c3...c8db3b7)
+[`edb76c3...576066e`](https://github.com/kapsner/mlexperiments/compare/edb76c3...576066e)

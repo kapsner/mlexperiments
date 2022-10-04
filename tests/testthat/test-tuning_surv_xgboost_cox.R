@@ -14,21 +14,30 @@ param_list_xgboost <- expand.grid(
   subsample = seq(0.6, 1, .2),
   colsample_bytree = seq(0.6, 1, .2),
   min_child_weight = seq(1, 5, 4),
-  learning_rate = seq(0.04, 0.1, 0.02),
+  learning_rate = seq(0.1, 0.2, 0.1),
   max_depth = seq(1, 5, 4)
 )
 xgboost_bounds <- list(
   subsample = c(0.2, 1),
   colsample_bytree = c(0.2, 1),
   min_child_weight = c(1L, 10L),
-  learning_rate = c(0.01, 0.3),
+  learning_rate = c(0.1, 0.2),
   max_depth =  c(1L, 10L)
 )
+
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
+)
 optim_args <- list(
-  iters.n = 4,
+  iters.n = ncores,
   kappa = 3.5,
-  acq = "ucb",
-  otherHalting = list(timeLimit = 30)
+  acq = "ucb"
 )
 
 split_vector <- splitTools::multi_strata(
@@ -60,7 +69,7 @@ test_that(
     surv_xgboost_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "bayesian",
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
     surv_xgboost_cox_tuner$parameter_bounds <- xgboost_bounds
@@ -78,6 +87,7 @@ test_that(
 
     tune_results <- surv_xgboost_cox_tuner$execute(k = 5)
     expect_type(tune_results, "list")
+    expect_equal(dim(tune_results), c(ncores + 10, 15))
     expect_true(inherits(x = surv_xgboost_cox_tuner$results, what = "mlexTune"))
   }
 )
@@ -90,7 +100,7 @@ test_that(
     surv_xgboost_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "grid",
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
     set.seed(seed)

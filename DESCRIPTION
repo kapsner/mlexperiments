@@ -25,6 +25,7 @@ Suggests:
     knitr,
     lintr,
     ParBayesianOptimization,
+    ranger,
     survival,
     testthat (>= 3.0.1),
     xgboost
@@ -32,6 +33,6 @@ VignetteBuilder:
     knitr
 Remotes: 
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-04 10:52:27 UTC
+Date/Publication: 2022-10-04 15:23:09 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1

@@ -52,7 +52,6 @@ usethis::use_package("R", min_version = "2.10", type = "Depends")
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("splitTools", type = "Imports")
-usethis::use_package("utils", type = "Imports")
 usethis::use_package("parallel", type = "Imports")
 usethis::use_package("doParallel", type = "Imports")
 usethis::use_package("progress", type = "Imports")
@@ -67,6 +66,7 @@ usethis::use_package("ParBayesianOptimization", type = "Suggests")
 usethis::use_package("glmnet", type = "Suggests")
 usethis::use_package("survival", type = "Suggests")
 usethis::use_package("xgboost", type = "Suggests")
+usethis::use_package("ranger", type = "Suggests")
 
 
 # define remotes

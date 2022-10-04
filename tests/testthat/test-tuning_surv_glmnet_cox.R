@@ -12,11 +12,20 @@ param_list_glmnet <- expand.grid(
   alpha = seq(0, 1, .2)
 )
 glmnet_bounds <- list(alpha = c(0., 1.))
+
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
+)
 optim_args <- list(
-  iters.n = 4L,
+  iters.n = ncores,
   kappa = 3.5,
-  acq = "ucb",
-  otherHalting = list(timeLimit = 30)
+  acq = "ucb"
 )
 
 split_vector <- splitTools::multi_strata(
@@ -44,7 +53,7 @@ test_that(
     surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "bayesian",
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
     surv_glmnet_cox_tuner$parameter_bounds <- glmnet_bounds
@@ -62,7 +71,7 @@ test_that(
 
     tune_results <- surv_glmnet_cox_tuner$execute(k = 5)
     expect_type(tune_results, "list")
-    expect_equal(dim(tune_results), c(10, 11))
+    expect_equal(dim(tune_results), c(ncores + nrow(param_list_glmnet), 11))
     expect_true(inherits(x = surv_glmnet_cox_tuner$results, what = "mlexTune"))
   }
 )
@@ -75,7 +84,7 @@ test_that(
     surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "bayesian",
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
     surv_glmnet_cox_tuner$parameter_bounds <- glmnet_bounds
@@ -92,7 +101,7 @@ test_that(
 
     tune_results <- surv_glmnet_cox_tuner$execute(k = 5)
     expect_type(tune_results, "list")
-    expect_equal(dim(tune_results), c(8, 11))
+    expect_equal(dim(tune_results), c(ncores + nrow(param_list_glmnet), 11))
     expect_true(inherits(x = surv_glmnet_cox_tuner$results, what = "mlexTune"))
   }
 )
@@ -105,7 +114,7 @@ test_that(
     surv_glmnet_cox_tuner <- MLTuneParameters$new(
       learner = learner,
       strategy = "grid",
-      ncores = 2L,
+      ncores = ncores,
       seed = seed
     )
     surv_glmnet_cox_tuner$parameter_grid <- param_list_glmnet
@@ -121,7 +130,7 @@ test_that(
 
     tune_results <- surv_glmnet_cox_tuner$execute(k = 5)
     expect_type(tune_results, "list")
-    expect_equal(dim(tune_results), c(6, 4))
+    expect_equal(dim(tune_results), c(nrow(param_list_glmnet), 4))
     expect_true(inherits(x = surv_glmnet_cox_tuner$results, what = "mlexTune"))
   }
 )

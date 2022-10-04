@@ -2,25 +2,11 @@ dataset <- survival::colon |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- mlexperiments::LearnerSurvGlmnetCox
+learner <- mlexperiments::LearnerSurvCoxPHCox
 seed <- 123
 surv_cols <- c("status", "time", "rx")
 
 feature_cols <- colnames(dataset)[3:ncol(dataset)]
-
-param_list_glmnet <- expand.grid(
-  alpha = seq(0, 1, .2)
-)
-
-ncores <- ifelse(
-  test = parallel::detectCores() > 4,
-  yes = 4L,
-  no = ifelse(
-    test = parallel::detectCores() < 2L,
-    yes = 1L,
-    no = parallel::detectCores()
-  )
-)
 
 split_vector <- splitTools::multi_strata(
   df = dataset[, .SD, .SDcols = surv_cols],
@@ -40,7 +26,6 @@ train_y <- survival::Surv(
   type = "right"
 )
 
-
 fold_list <- splitTools::create_folds(
   y = split_vector,
   k = 10,
@@ -49,26 +34,25 @@ fold_list <- splitTools::create_folds(
 )
 
 test_that(
-  desc = "test cv - surv_glmnet_cox",
+  desc = "test cv - surv_coxph_cox",
   code = {
 
-    surv_glmnet_cox_optimization <- MLCrossValidation$new(
+    surv_coxph_cox_optimization <- MLCrossValidation$new(
       learner = learner,
       fold_list = fold_list,
-      ncores = ncores,
+      ncores = -1L,
       seed = seed
     )
-    surv_glmnet_cox_optimization$learner_args = list(alpha = 0.8, lambda = 0.002)
 
     # set data
-    surv_glmnet_cox_optimization$set_data(
+    surv_coxph_cox_optimization$set_data(
       x = train_x,
       y = train_y
     )
 
-    cv_results <- surv_glmnet_cox_optimization$execute()
+    cv_results <- surv_coxph_cox_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(10, 3))
-    expect_true(inherits(x = surv_glmnet_cox_optimization$results, what = "mlexCV"))
+    expect_equal(dim(cv_results), c(10, 1))
+    expect_true(inherits(x = surv_coxph_cox_optimization$results, what = "mlexCV"))
   }
 )

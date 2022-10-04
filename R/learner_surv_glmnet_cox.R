@@ -18,7 +18,7 @@ LearnerSurvGlmnetCox <- R6::R6Class( # nolint
       self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_glmnet_cox_ce()
-      private$fun_optim_cv <- surv_glmnet_cox_cv
+      private$fun_optim_cv <- surv_glmnet_cox_optimization
       private$fun_fit <- surv_glmnet_cox_fit
       private$fun_predict <- surv_glmnet_cox_predict
       private$fun_bayesian_scoring_function <- surv_glmnet_cox_bsF
@@ -30,15 +30,15 @@ LearnerSurvGlmnetCox <- R6::R6Class( # nolint
 
 
 surv_glmnet_cox_ce <- function() {
-  c("surv_glmnet_cox_cv", "surv_glmnet_cox_fit",
+  c("surv_glmnet_cox_optimization", "surv_glmnet_cox_fit",
     ".outsample_row_indices")
 }
 
 surv_glmnet_cox_bsF <- function(alpha) { # nolint
-  # call to surv_glmnet_cox_cv here with ncores = 1, since the Bayesian search
+  # call to surv_glmnet_cox_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
-  bayes_opt_glmnet <- surv_glmnet_cox_cv(
+  bayes_opt_glmnet <- surv_glmnet_cox_optimization(
     x = x,
     y = y,
     params = list("alpha" = alpha),
@@ -56,7 +56,7 @@ surv_glmnet_cox_bsF <- function(alpha) { # nolint
 }
 
 # tune lambda
-surv_glmnet_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
+surv_glmnet_cox_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
     inherits(x = y, what = "Surv"),
     is.list(params),

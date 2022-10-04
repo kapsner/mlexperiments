@@ -9,8 +9,9 @@
     !is.null(private$strategy),
     !is.null(self$learner),
     !is.null(private$x), !is.null(private$y),
-    is.integer(k <- as.integer(k))
+    is.integer(as.integer(k))
   )
+  k <- as.integer(k)
 
   # add fold list, if it hasn't set manually
   if (is.null(private$method_helper$fold_list)) {
@@ -31,6 +32,10 @@
       invert = FALSE,
       seed = private$seed
     )
+  }
+
+  if (!is.null(private$cat_vars)) {
+    private$method_helper$cat_vars <- private$cat_vars
   }
 
   if (!is.null(self$parameter_grid)) {

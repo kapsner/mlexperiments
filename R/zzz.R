@@ -1,10 +1,13 @@
 #' @import data.table
 #' @importFrom data.table ".SD"
+#' @importFrom R6 R6Class
 NULL
 
 mlexperiments_default_options <- list(
   mlexperiments.learner = c(
-    LearnerSurvGlmnetCox$classname # = "LearnerSurvGlmnetCox"
+    LearnerSurvGlmnetCox$classname, # = "LearnerSurvGlmnetCox"
+    LearnerSurvXgboostCox$classname,
+    LearnerSurvRangerCox$classname
   ),
   mlexperiments.optim.xgb.nrounds = 5000L,
   mlexperiments.optim.xgb.early_stopping_rounds = 500L,

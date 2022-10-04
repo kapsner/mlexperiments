@@ -36,18 +36,26 @@ MLExperimentsBase <- R6::R6Class( # nolint
       self$learner <- learner
       super$initialize(seed = seed, ncores = ncores)
     },
-    set_data = function(x, y) {
+    set_data = function(x, y, cat_vars = NULL) {
       stopifnot(
         inherits(x = x, what = c("matrix", "array")),
-        nrow(x) > 1L, !is.vector(x)
+        nrow(x) > 1L, !is.vector(x),
+        ifelse(
+          test = is.null(cat_vars),
+          yes = TRUE,
+          no = is.character(cat_vars) && is.atomic(cat_vars) &&
+            intersect(cat_vars, colnames(x)) == cat_vars
+        )
       )
       private$x <- x
       private$y <- y
+      private$cat_vars <- cat_vars
     }
   ),
   private = list(
     x = NULL,
-    y = NULL
+    y = NULL,
+    cat_vars = NULL
   )
 )
 
