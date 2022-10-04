@@ -109,7 +109,7 @@
       colnames(outlist$summary),
       c("Epoch", "Iteration", "gpUtility",
         "acqOptimum", "inBounds", "Elapsed",
-        "Score", "mean_cv_metric", "errorMessage"
+        "Score", "metric_optim_mean", "errorMessage"
       )
     )
     opt_metric <- "Score"
@@ -122,9 +122,9 @@
 
     param_names <- setdiff(
       colnames(outlist$summary),
-      "mean_cv_metric"
+      "metric_optim_mean"
     )
-    opt_metric <- "mean_cv_metric"
+    opt_metric <- "metric_optim_mean"
   }
 
   outlist[["best.setting"]] <- .get_best_setting(
@@ -133,6 +133,13 @@
     param_names = param_names,
     higher_better = metric_higher_better
   )
+  # export also not optimized parameters (in case of bayesian) to best.setting
+  if (!is.null(private$method_helper$params_not_optimized)) {
+    outlist[["best.setting"]] <- c(
+      outlist[["best.setting"]],
+      private$method_helper$params_not_optimized
+    )
+  }
   return(outlist)
 }
 

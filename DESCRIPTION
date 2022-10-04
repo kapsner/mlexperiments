@@ -26,11 +26,12 @@ Suggests:
     lintr,
     ParBayesianOptimization,
     survival,
-    testthat (>= 3.0.1)
+    testthat (>= 3.0.1),
+    xgboost
 VignetteBuilder: 
     knitr
 Remotes: 
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-02 13:27:36 UTC
+Date/Publication: 2022-10-04 10:52:27 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1

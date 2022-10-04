@@ -1,9 +1,15 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-01)
+## Unreleased (2022-10-02)
 
 #### New features
 
+-   working on xgboost implementation (wip)
+    ([c8db3b7](https://github.com/kapsner/mlexperiments/tree/c8db3b75e0a903cc2f9420de87349f654511172c))
+-   add xgboost surv
+    ([415be47](https://github.com/kapsner/mlexperiments/tree/415be47895feb361504aac3042fa9f277d87cd5b))
+-   implemented nested cv
+    ([47e0669](https://github.com/kapsner/mlexperiments/tree/47e066915550e1b58ac5408fe841539245de92cf))
 -   initial commits
     ([07f39da](https://github.com/kapsner/mlexperiments/tree/07f39da254f6ae51248361e29b3c42888c1f2325))
 
@@ -22,4 +28,4 @@
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
 Full set of changes:
-[`edb76c3...cc821d6`](https://github.com/kapsner/mlexperiments/compare/edb76c3...cc821d6)
+[`edb76c3...c8db3b7`](https://github.com/kapsner/mlexperiments/compare/edb76c3...c8db3b7)

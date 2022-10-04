@@ -25,6 +25,8 @@
         invisible(gc())
       }
     )
+    # cluster options
+    cluster_options <- .options_to_cluster("mlexperiments")
     # required for cluster export
     assign(
       x = "seed",
@@ -34,7 +36,8 @@
     parallel::clusterExport(
       cl = cl,
       varlist = c(
-        "x", "y", "seed", "method_helper"# , "ncores" #, "cluster_load"
+        "x", "y", "seed", "method_helper",# , "ncores" #, "cluster_load"
+        "cluster_options"
       ),
       envir = environment()
     )
@@ -71,6 +74,8 @@
     parallel::clusterEvalQ(
       cl = cl,
       expr = {
+        # set cluster options
+        options(cluster_options)
         #lapply(cluster_load, library, character.only = TRUE)
         ## not necessary since using ::-notation everywhere
         RNGkind("L'Ecuyer-CMRG")

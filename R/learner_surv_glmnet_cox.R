@@ -1,6 +1,6 @@
 #' @export
-MLSurvGlmnetCox <- R6::R6Class( # nolint
-  classname = "MLSurvGlmnetCox",
+LearnerSurvGlmnetCox <- R6::R6Class( # nolint
+  classname = "LearnerSurvGlmnetCox",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
     initialize = function() {
@@ -8,17 +8,17 @@ MLSurvGlmnetCox <- R6::R6Class( # nolint
         stop(
           paste0(
             "Package \"glmnet\" must be installed to use ",
-            "'learner = \"MLSurvGlmnetCox\"'."
+            "'learner = \"LearnerSurvGlmnetCox\"'."
           ),
           call. = FALSE
         )
       }
       super$initialize()
-      self$metric_cv_higher_better <- TRUE
+      self$metric_optimization_higher_better <- TRUE
       self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_glmnet_cox_ce()
-      private$fun_cross_validation <- surv_glmnet_cox_cv
+      private$fun_optim_cv <- surv_glmnet_cox_cv
       private$fun_fit <- surv_glmnet_cox_fit
       private$fun_predict <- surv_glmnet_cox_predict
       private$fun_bayesian_scoring_function <- surv_glmnet_cox_bsF
@@ -48,7 +48,7 @@ surv_glmnet_cox_bsF <- function(alpha) { # nolint
   )
 
   ret <- c(
-    list("Score" = bayes_opt_glmnet$mean_cv_metric),
+    list("Score" = bayes_opt_glmnet$metric_optim_mean),
     bayes_opt_glmnet
   )
 
@@ -103,14 +103,17 @@ surv_glmnet_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
   )
 
   res <- list(
-    "mean_cv_metric" = max(cvfit$cvm),
+    "metric_optim_mean" = max(cvfit$cvm),
     "lambda" = cvfit$lambda.min
   )
 
   return(res)
 }
 
-surv_glmnet_cox_fit <- function(x, y, alpha, lambda, seed) {
+surv_glmnet_cox_fit <- function(x, y, ncores, seed, ...) {
+  kwargs <- list(...)
+  stopifnot("lambda" %in% names(kwargs),
+            "alpha" %in% names(kwargs))
 
   set.seed(seed)
   # train final model with a given lambda / alpha
@@ -119,8 +122,8 @@ surv_glmnet_cox_fit <- function(x, y, alpha, lambda, seed) {
     y = y,
     family = "cox",
     standardize = TRUE,
-    alpha = alpha,
-    lambda = lambda
+    alpha = kwargs$alpha,
+    lambda = kwargs$lambda
   )
   return(fit)
 }

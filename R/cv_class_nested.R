@@ -45,7 +45,6 @@ MLNestedCV <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    init_learner = NULL,
     cv_run_model = function(...) {
       kwargs <- list(...)
       args <- c(

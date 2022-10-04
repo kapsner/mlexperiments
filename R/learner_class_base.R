@@ -3,7 +3,7 @@ MLLearnerBase <- R6::R6Class( # nolint
   classname = "MLLearnerBase",
   public = list(
     cluster_export = NULL,
-    metric_cv_higher_better = NULL,
+    metric_optimization_higher_better = NULL,
     metric_performance_higher_better = NULL,
     metric_performance_name = NULL,
     environment = -1L,
@@ -11,7 +11,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     },
     cross_validation = function(...) {
       kwargs <- list(...)
-      do.call(private$fun_cross_validation, kwargs)
+      do.call(private$fun_optim_cv, kwargs)
     },
     fit = function(...) {
       kwargs <- list(...)
@@ -41,7 +41,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    fun_cross_validation = NULL,
+    fun_optim_cv = NULL,
     fun_bayesian_scoring_function = NULL,
     fun_fit = NULL,
     fun_predict = NULL,

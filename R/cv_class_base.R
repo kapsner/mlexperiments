@@ -16,9 +16,6 @@ MLCrossValidation <- R6::R6Class( # nolint
       stopifnot(is.logical(self$return_models <- return_models))
       stopifnot(is.list(fold_list) && length(fold_list) > 2L)
       self$fold_list <- fold_list
-
-      # initialize learner
-      private$init_learner <- self$learner$new()
     },
     execute = function() {
       stopifnot(
@@ -29,7 +26,8 @@ MLCrossValidation <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    init_learner = NULL,
+    metric_performance_higher_better = NULL,
+    fun_performance_metric = NULL,
     cv_run_model = function(...) {
       kwargs <- list(...)
       args <- c(

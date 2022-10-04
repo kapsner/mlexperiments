@@ -44,7 +44,7 @@
     self = self,
     private = private,
     results_object = optim_results,
-    metric_higher_better = optimizer$metric_cv_higher_better
+    metric_higher_better = optimizer$metric_optimization_higher_better
   )
 
   outlist <- c(outlist, private$method_helper)

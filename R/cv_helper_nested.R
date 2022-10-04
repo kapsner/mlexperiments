@@ -1,7 +1,7 @@
 .cv_run_nested_model <- function(self, private, train_index, fold_train, fold_test) {
 
   hparam_tuner <- MLTuneParameters$new(
-    learner = learner,
+    learner = self$learner,
     strategy = self$strategy,
     seed = private$seed,
     ncores = private$ncores

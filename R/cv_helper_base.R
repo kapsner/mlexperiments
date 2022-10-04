@@ -4,7 +4,7 @@
     self = self,
     private = private,
     results_object = cv_results,
-    metric_higher_better = private$init_learner$metric_higher_better
+    metric_higher_better = private$metric_performance_higher_better
   )
   class(outlist) <- c("list", "mlexCV")
   self$results <- outlist
@@ -58,7 +58,7 @@
   # calculate error metric for each fold
   for (fold in names(results_object)) {
     results_object[[fold]][["performance"]] <-
-      private$init_learner$performance_metric(
+      private$fun_performance_metric(
         ground_truth = results_object[[fold]][["ground_truth"]],
         predictions = results_object[[fold]][["predictions"]]
       )
@@ -91,16 +91,29 @@
     list(
       x = fold_train$x,
       y = fold_train$y,
-      seed = private$seed
+      seed = private$seed,
+      ncores = private$ncores
     ),
     self$learner_args
   )
+
+  # initialize learner here for every model fit
+  learner <- self$learner$new()
+  if (is.null(private$metric_performance_higher_better)) {
+    private$metric_performance_higher_better <-
+      learner$metric_performance_higher_better
+  }
+
+  if (is.null(private$fun_performance_metric)) {
+    private$fun_performance_metric <-
+      learner$performance_metric
+  }
   set.seed(private$seed)
-  fitted <- do.call(private$init_learner$fit, fit_args)
+  fitted <- do.call(learner$fit, fit_args)
 
   # make predictions
   pred_args <- list(model = fitted, newdata = fold_test$x)
-  preds <- do.call(private$init_learner$predict, pred_args)
+  preds <- do.call(learner$predict, pred_args)
 
   res <- list(
     fold_ids = train_index,

@@ -66,6 +66,7 @@ usethis::use_package("knitr", type = "Suggests")
 usethis::use_package("ParBayesianOptimization", type = "Suggests")
 usethis::use_package("glmnet", type = "Suggests")
 usethis::use_package("survival", type = "Suggests")
+usethis::use_package("xgboost", type = "Suggests")
 
 
 # define remotes

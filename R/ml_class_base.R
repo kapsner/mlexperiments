@@ -4,10 +4,12 @@ MLBase <- R6::R6Class( # nolint
     results = NULL,
     initialize = function(seed, ncores = -1L) {
       stopifnot(
-        is.integer(ncores <- as.integer(ncores)),
-        is.integer(private$seed <- as.integer(seed)),
+        is.integer(as.integer(ncores)),
+        is.integer(as.integer(seed)),
         ncores != 0L
       )
+      private$seed <- as.integer(seed)
+      ncores <- as.integer(ncores)
 
       # check available cores
       .check_available_cores(self, private, ncores)
@@ -29,8 +31,9 @@ MLExperimentsBase <- R6::R6Class( # nolint
     learner_args = NULL,
     initialize = function(learner, seed, ncores = -1L) {
       stopifnot(
-        R6::is.R6Class(self$learner <- learner)
+        R6::is.R6Class(learner)
       )
+      self$learner <- learner
       super$initialize(seed = seed, ncores = ncores)
     },
     set_data = function(x, y) {

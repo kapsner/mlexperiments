@@ -27,8 +27,7 @@ xgboost_bounds <- list(
 optim_args <- list(
   iters.n = 4,
   kappa = 3.5,
-  acq = "ucb",
-  otherHalting = list(timeLimit = 30)
+  acq = "ucb"
 )
 
 split_vector <- splitTools::multi_strata(
@@ -53,62 +52,76 @@ options("mlexperiments.bayesian.max_init" = 10L)
 options("mlexperiments.optim.xgb.nrounds" = 100L)
 options("mlexperiments.optim.xgb.early_stopping_rounds" = 10L)
 
+fold_list <- splitTools::create_folds(
+  y = split_vector,
+  k = 5,
+  type = "stratified",
+  seed = seed
+)
+
+
 test_that(
-  desc = "test bayesian tuner, initGrid - surv_xgboost_cox",
+  desc = "test nested cv, bayesian - surv_xgboost_cox",
   code = {
 
-    surv_xgboost_cox_tuner <- MLTuneParameters$new(
+    surv_xgboost_cox_cv <- MLNestedCV$new(
       learner = learner,
       strategy = "bayesian",
+      fold_list = fold_list,
+      k_tuning = 3L,
       ncores = 2L,
       seed = seed
     )
-    surv_xgboost_cox_tuner$parameter_bounds <- xgboost_bounds
-    surv_xgboost_cox_tuner$parameter_grid <- param_list_xgboost
-    surv_xgboost_cox_tuner$optim_args <- optim_args
 
-    # create split-strata from training dataset
-    surv_xgboost_cox_tuner$split_vector <- split_vector
+    surv_xgboost_cox_cv$parameter_bounds <- xgboost_bounds
+    surv_xgboost_cox_cv$parameter_grid <- param_list_xgboost
+    surv_xgboost_cox_cv$split_type <- "stratified"
+    surv_xgboost_cox_cv$split_vector <- split_vector
+    surv_xgboost_cox_cv$optim_args <- optim_args
 
     # set data
-    surv_xgboost_cox_tuner$set_data(
+    surv_xgboost_cox_cv$set_data(
       x = train_x,
       y = train_y
     )
 
-    tune_results <- surv_xgboost_cox_tuner$execute(k = 5)
-    expect_type(tune_results, "list")
-    expect_true(inherits(x = surv_xgboost_cox_tuner$results, what = "mlexTune"))
+    cv_results <- surv_xgboost_cox_cv$execute()
+    expect_type(cv_results, "list")
+    expect_equal(dim(cv_results), c(5, 9))
+    expect_true(inherits(x = surv_xgboost_cox_cv$results, what = "mlexCV"))
   }
 )
 
 
 test_that(
-  desc = "test grid tuner - surv_xgboost_cox",
+  desc = "test nested cv, grid - surv_xgboost_cox",
   code = {
 
-    surv_xgboost_cox_tuner <- MLTuneParameters$new(
+    surv_xgboost_cox_cv <- MLNestedCV$new(
       learner = learner,
       strategy = "grid",
+      fold_list = fold_list,
+      k_tuning = 3L,
       ncores = 2L,
       seed = seed
     )
     set.seed(seed)
     random_grid <- sample(1:nrow(param_list_xgboost), 10)
-    surv_xgboost_cox_tuner$parameter_grid <- param_list_xgboost[random_grid, ]
-
-    # create split-strata from training dataset
-    surv_xgboost_cox_tuner$split_vector <- split_vector
+    surv_xgboost_cox_cv$parameter_grid <- param_list_xgboost[random_grid, ]
+    surv_xgboost_cox_cv$split_type <- "stratified"
+    surv_xgboost_cox_cv$split_vector <- split_vector
+    surv_xgboost_cox_cv$optim_args <- optim_args
 
     # set data
-    surv_xgboost_cox_tuner$set_data(
+    surv_xgboost_cox_cv$set_data(
       x = train_x,
       y = train_y
     )
 
-    tune_results <- surv_xgboost_cox_tuner$execute(k = 5)
-    expect_type(tune_results, "list")
-    expect_equal(dim(tune_results), c(10, 10))
-    expect_true(inherits(x = surv_xgboost_cox_tuner$results, what = "mlexTune"))
+    cv_results <- surv_xgboost_cox_cv$execute()
+    expect_type(cv_results, "list")
+    expect_equal(dim(cv_results), c(5, 9))
+    expect_true(inherits(x = surv_xgboost_cox_cv$results, what = "mlexCV"))
   }
 )
+

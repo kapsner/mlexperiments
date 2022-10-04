@@ -1,6 +1,6 @@
 #' @export
-MLSurvXgboostCox <- R6::R6Class( # nolint
-  classname = "MLSurvXgboostCox",
+LearnerSurvXgboostCox <- R6::R6Class( # nolint
+  classname = "LearnerSurvXgboostCox",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
     initialize = function() {
@@ -8,17 +8,17 @@ MLSurvXgboostCox <- R6::R6Class( # nolint
         stop(
           paste0(
             "Package \"xgboost\" must be installed to use ",
-            "'learner = \"MLSurvXgboostCox\"'."
+            "'learner = \"LearnerSurvXgboostCox\"'."
           ),
           call. = FALSE
         )
       }
       super$initialize()
-      self$metric_cv_higher_better <- FALSE
+      self$metric_optimization_higher_better <- FALSE
       self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- surv_xgboost_cox_ce()
-      private$fun_cross_validation <- surv_xgboost_cox_cv
+      private$fun_optim_cv <- surv_xgboost_cox_cv
       private$fun_fit <- surv_xgboost_cox_fit
       private$fun_predict <- surv_xgboost_cox_predict
       private$fun_bayesian_scoring_function <- surv_xgboost_cox_bsF
@@ -56,7 +56,7 @@ surv_xgboost_cox_bsF <- function(...) { # nolint
   )
 
   ret <- c(
-    list("Score" = bayes_opt_xgboost$mean_cv_metric),
+    list("Score" = bayes_opt_xgboost$metric_optim_mean),
     bayes_opt_xgboost
   )
 
@@ -92,12 +92,12 @@ surv_xgboost_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
   cvfit <- xgboost::xgb.cv(
     params = params,
     data = dtrain,
-    nrounds = as.integer(options("mlexperiments.xgb.nrounds")),
+    nrounds = as.integer(options("mlexperiments.optim.xgb.nrounds")),
     prediction = FALSE,
     folds = xgb_fids,
     verbose = FALSE,
-    print_every_n = 50,
-    early_stopping_rounds = as.integer(options("mlexperiments.xgb.early_stopping_rounds")),
+    print_every_n = as.integer(options("mlexperiments.xgb.print_every_n")),
+    early_stopping_rounds = as.integer(options("mlexperiments.optim.xgb.early_stopping_rounds")),
     nthread = ncores
   )
 
@@ -111,17 +111,19 @@ surv_xgboost_cox_cv <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(length(metric_col) == 1)
 
   res <- list(
-    "mean_cv_metric" = cvfit$evaluation_log[
+    "metric_optim_mean" = cvfit$evaluation_log[
       get("iter") == cvfit$best_iteration,
       get(metric_col)
     ],
-    "best_iteration" = cvfit$best_iteration
+    "nrounds" = cvfit$best_iteration
   )
 
   return(res)
 }
 
-surv_xgboost_cox_fit <- function(x, y, params, nrounds, ncores, seed) {
+surv_xgboost_cox_fit <- function(x, y, nrounds, ncores, seed, ...) {
+  params <- list(...)
+  stopifnot("objective" %in% names(params))
   # train final model with best nrounds
   dtrain_full <- setup_surv_xgb_dataset(
     x = x,
@@ -137,7 +139,7 @@ surv_xgboost_cox_fit <- function(x, y, params, nrounds, ncores, seed) {
   bst <- xgboost::xgb.train(
     data = dtrain_full,
     params = params,
-    print_every_n = 50,
+    print_every_n = as.integer(options("mlexperiments.xgb.print_every_n")),
     nthread = ncores,
     nrounds = nrounds,
     watchlist = watchlist,
@@ -186,5 +188,5 @@ surv_xgboost_cox_predict <- function(model, newdata, ...) {
 }
 
 surv_xgboost_c_index <- function(ground_truth, predictions) {
-  return(xgboost::Cindex(pred = predictions, y = ground_truth))
+  return(glmnet::Cindex(pred = predictions, y = ground_truth))
 }
