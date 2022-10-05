@@ -28,10 +28,10 @@
     # get fold ids
     train_index <- self$fold_list[[fold]]
 
-    fold_train <- list(x = private$x[train_index, ],
-                       y = private$y[train_index])
-    fold_test <- list(x = private$x[-train_index, ],
-                      y = private$y[-train_index])
+    fold_train <- list(x = .format_xy(private$x, train_index),
+                       y = .format_xy(private$y, train_index))
+    fold_test <- list(x = .format_xy(private$x, -train_index),
+                      y = .format_xy(private$y, -train_index))
 
     run_args <- list(
       train_index = train_index,
@@ -86,7 +86,7 @@
         outlist <- list("performance" = results_object[[x]][["performance"]])
 
         if (sum(add_args) > 0) {
-          outlist <- c(outlist, add_args[add_args])
+          outlist <- c(outlist, results_object[[x]][["learner.args"]][add_args])
         }
         return(outlist)
       },
@@ -118,13 +118,7 @@
     )
   }
 
-  is_expression <- vapply(fit_args, is.expression, FUN.VALUE = logical(1L))
-  if (sum(is_expression) > 0L) {
-    expr_name <- names(fit_args[is_expression])
-    for (en in expr_name) {
-      fit_args[[en]] <- eval(fit_args[[en]])
-    }
-  }
+  fit_args <- .eval_params(fit_args)
 
   # initialize learner here for every model fit
   learner <- self$learner$new()

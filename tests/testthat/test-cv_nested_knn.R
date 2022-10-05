@@ -1,18 +1,18 @@
-dataset <- survival::colon |>
+dataset <- datasets::iris |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- LearnerSurvGlmnetCox
+learner <- LearnerKnn
 seed <- 123
-surv_cols <- c("status", "time", "rx")
+feature_cols <- colnames(dataset)[1:4]
 
-feature_cols <- colnames(dataset)[3:ncol(dataset)]
 
-param_list_glmnet <- expand.grid(
-  alpha = seq(0, 1, .2)
+param_list_knn <- expand.grid(
+  k = seq(1, 9, 2),
+  test = parse(text = "fold_test$x")
 )
-glmnet_bounds <- list(alpha = c(0., 1.))
 
+knn_bounds <- list(k = c(1L, 15L))
 
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
@@ -29,27 +29,14 @@ optim_args <- list(
   acq = "ucb"
 )
 
-split_vector <- splitTools::multi_strata(
-  df = dataset[, .SD, .SDcols = surv_cols],
-  strategy = "kmeans",
-  k = 4
-)
-
 train_x <- model.matrix(
   ~ -1 + .,
-  dataset[, .SD, .SDcols = setdiff(colnames(dataset), surv_cols[1:2])]
+  dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- survival::Surv(
-  event = (dataset[, get("status")] |>
-             as.character() |>
-             as.integer()),
-  time = dataset[, get("time")],
-  type = "right"
-)
-
+train_y <- dataset[, get("Species")]
 
 fold_list <- splitTools::create_folds(
-  y = split_vector,
+  y = train_y,
   k = 5,
   type = "stratified",
   seed = seed
@@ -57,10 +44,10 @@ fold_list <- splitTools::create_folds(
 
 
 test_that(
-  desc = "test nested cv, bayesian - surv_glmnet_cox",
+  desc = "test nested cv, bayesian - knn",
   code = {
 
-    surv_glmnet_cox_optimization <- mlexperiments::MLNestedCV$new(
+    knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = learner,
       strategy = "bayesian",
       fold_list = fold_list,
@@ -69,23 +56,22 @@ test_that(
       seed = seed
     )
 
-    surv_glmnet_cox_optimization$parameter_bounds <- glmnet_bounds
-    surv_glmnet_cox_optimization$parameter_grid <- param_list_glmnet
-    surv_glmnet_cox_optimization$split_type <- "stratified"
-    surv_glmnet_cox_optimization$split_vector <- split_vector
-    surv_glmnet_cox_optimization$optim_args <- optim_args
+    knn_optimization$parameter_bounds <- knn_bounds
+    knn_optimization$parameter_grid <- param_list_knn
+    knn_optimization$split_type <- "stratified"
+    knn_optimization$optim_args <- optim_args
 
     # set data
-    surv_glmnet_cox_optimization$set_data(
+    knn_optimization$set_data(
       x = train_x,
       y = train_y
     )
 
-    cv_results <- surv_glmnet_cox_optimization$execute()
+    cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
     expect_equal(dim(cv_results), c(5, 3))
     expect_true(inherits(
-      x = surv_glmnet_cox_optimization$results,
+      x = knn_optimization$results,
       what = "mlexCV"
     ))
   }
@@ -93,10 +79,10 @@ test_that(
 
 
 test_that(
-  desc = "test nested cv, grid - surv_glmnet_cox",
+  desc = "test nested cv, grid - knn",
   code = {
 
-    surv_glmnet_cox_optimization <- mlexperiments::MLNestedCV$new(
+    knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = learner,
       strategy = "grid",
       fold_list = fold_list,
@@ -105,22 +91,21 @@ test_that(
       seed = seed
     )
 
-    surv_glmnet_cox_optimization$parameter_grid <- param_list_glmnet
-    surv_glmnet_cox_optimization$split_type <- "stratified"
-    surv_glmnet_cox_optimization$split_vector <- split_vector
-    surv_glmnet_cox_optimization$optim_args <- optim_args
+    knn_optimization$parameter_grid <- param_list_knn
+    knn_optimization$split_type <- "stratified"
+    knn_optimization$optim_args <- optim_args
 
     # set data
-    surv_glmnet_cox_optimization$set_data(
+    knn_optimization$set_data(
       x = train_x,
       y = train_y
     )
 
-    cv_results <- surv_glmnet_cox_optimization$execute()
+    cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 3))
+    expect_equal(dim(cv_results), c(5, 2))
     expect_true(inherits(
-      x = surv_glmnet_cox_optimization$results,
+      x = knn_optimization$results,
       what = "mlexCV"
     ))
   }

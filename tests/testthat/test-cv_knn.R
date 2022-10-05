@@ -1,8 +1,6 @@
 dataset <- datasets::iris |>
   data.table::as.data.table() |>
   na.omit()
-# to have a binary classification
-dataset <- dataset[get("Species") != "virginica", ]
 
 learner <- LearnerKnn
 seed <- 123

@@ -27,7 +27,10 @@
 
   # adjust best settings to fit final modle with
   learner_args <- hparam_tuner$results[["best.setting"]]
-  self$learner_args <- learner_args[(names(learner_args) != "setting_id")]
+  learner_args <- learner_args[(names(learner_args) != "setting_id")]
+  learner_args <- .eval_params(learner_args)
+
+  self$learner_args <- learner_args
 
   # fit final model
   res <- .cv_fit_model(

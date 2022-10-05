@@ -45,7 +45,7 @@
       self$parameter_grid <- expand.grid(self$parameter_grid)
     }
     # to make use of the data.table-syntax, convert self$parameter_grid
-    self$parameter_grid <- data.table::data.table(
+    self$parameter_grid <- as.data.frame(
       self$parameter_grid,
       stringsAsFactors = FALSE
     )
@@ -73,10 +73,16 @@
         vec <- which(
           colnames(self$parameter_grid) %in% names(self$parameter_bounds)
         )
-        private$execute_params <- self$parameter_grid[, .SD, .SDcols = vec]
-        params_not_optimized <- unique(
-          self$parameter_grid[, .SD, .SDcols = !vec]
-        )
+
+        # if a column is an expression, data.table currently fails with an
+        # error; data.frame is working, however, to select the appropriate
+        # columns, we then convert them back to a data.table
+        private$execute_params <- data.table::as.data.table(
+          self$parameter_grid
+        )[, .SD, .SDcols = vec]
+        params_not_optimized <- data.table::as.data.table(
+          self$parameter_grid[1, ]
+        )[, .SD, .SDcols = !vec]
         stopifnot(nrow(params_not_optimized) == 1)
         private$method_helper$params_not_optimized <- params_not_optimized
       } else {
@@ -162,7 +168,11 @@
   )
 
   FUN <- ifelse(isTRUE(higher_better), which.max, which.min) # nolint
-  best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
+  # requires as data.table cannot handle expressions
+  res <- as.data.frame(results)
+  best_row_id <- FUN(res[, opt_metric])
+  #best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
+  best_row <- res[best_row_id, which(colnames(res) %in% param_names)]
   stopifnot(nrow(best_row) == 1)
   return(as.list(best_row))
 }

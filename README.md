@@ -18,3 +18,6 @@
 - all pre-implemented learner (but lm / glm) to new package (done)
 - some base packages: knn, rpart
 
+
+Document features: learner args as expression "parse(text = )"
+

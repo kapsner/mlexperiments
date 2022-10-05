@@ -30,7 +30,8 @@ LearnerKnn <- R6::R6Class( # nolint
 
 
 knn_ce <- function() {
-  c("knn_optimization", "knn_fit")
+  c("knn_optimization", "knn_fit", "knn_predict",
+    ".metric_class_error_rate")
 }
 
 knn_bsF <- function(alpha) { # nolint
@@ -67,6 +68,9 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     "metric" = numeric(0)
   )
 
+  # we do not need test here as it is defined explicitly below
+  params[["test"]] <- NULL
+
   # loop over the folds
   for (fold in names(fold_list)) {
 
@@ -75,21 +79,21 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
     # train the model for this cv-fold
     args <- c(list(
-      x = x[train_idx, ],
-      test = x[-train_idx, ],
-      y = y[train_idx, ],
+      x = .format_xy(x, train_idx),
+      test = .format_xy(x, -train_idx),
+      y = .format_xy(y, train_idx),
       ncores = ncores,
       seed = seed
     ),
     params
     )
     set.seed(seed)
-    cvfit <- do.call(surv_ranger_cox_fit, args)
+    cvfit <- do.call(knn_fit, args)
 
     # optimize error rate
     err <- .metric_class_error_rate(
-      predictions = cvfit$prob,
-      ground_truth = y[-ranger_train_idx, ]
+      predictions = knn_predict(cvfit),
+      ground_truth = .format_xy(y, -train_idx)
     )
 
 
