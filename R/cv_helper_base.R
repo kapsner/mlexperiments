@@ -29,9 +29,9 @@
     train_index <- self$fold_list[[fold]]
 
     fold_train <- list(x = private$x[train_index, ],
-                       y = private$y[train_index, ])
+                       y = private$y[train_index])
     fold_test <- list(x = private$x[-train_index, ],
-                      y = private$y[-train_index, ])
+                      y = private$y[-train_index])
 
     run_args <- list(
       train_index = train_index,
@@ -70,10 +70,25 @@
     l = sapply(
       X = names(results_object),
       FUN = function(x) {
-        c(
-          list("performance" = results_object[[x]][["performance"]]),
-          results_object[[x]][["learner.args"]]
+        # which learner args should be added in the final output?
+        add_args <- vapply(
+          X = results_object[[x]][["learner.args"]],
+          FUN = function(test_args) {
+            ifelse(
+              test = length(test_args) == 1L && is.atomic(test_args),
+              yes = TRUE,
+              no = FALSE
+            )
+          },
+          FUN.VALUE = logical(1L)
         )
+
+        outlist <- list("performance" = results_object[[x]][["performance"]])
+
+        if (sum(add_args) > 0) {
+          outlist <- c(outlist, add_args[add_args])
+        }
+        return(outlist)
       },
       simplify = FALSE,
       USE.NAMES = TRUE
@@ -101,6 +116,14 @@
       fit_args,
       learner_args
     )
+  }
+
+  is_expression <- vapply(fit_args, is.expression, FUN.VALUE = logical(1L))
+  if (sum(is_expression) > 0L) {
+    expr_name <- names(fit_args[is_expression])
+    for (en in expr_name) {
+      fit_args[[en]] <- eval(fit_args[[en]])
+    }
   }
 
   # initialize learner here for every model fit

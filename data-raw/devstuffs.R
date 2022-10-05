@@ -56,12 +56,16 @@ usethis::use_package("parallel", type = "Imports")
 usethis::use_package("progress", type = "Imports")
 usethis::use_package("R6", type = "Imports")
 usethis::use_package("kdry", type = "Imports")
+usethis::use_package("stats", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests", min_version = "3.0.1")
 usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("knitr", type = "Suggests")
 usethis::use_package("ParBayesianOptimization", type = "Suggests")
+usethis::use_package("datasets", type = "Suggests")
+usethis::use_package("class", type = "Suggests")
+usethis::use_package("rpart", type = "Suggests")
 
 
 # define remotes
