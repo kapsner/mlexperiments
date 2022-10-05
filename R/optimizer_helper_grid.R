@@ -23,7 +23,17 @@
 
       # get the relevant row from param_list with the hyperparameters to use in
       # this loop
-      grid_search_params <- as.list(self$parameter_grid[setting_id, ])
+      # this code is required to have names arguments and allow selection of
+      # expressions (which is not possible with data.table)
+      grid_search_params <- sapply(
+        X = colnames(self$parameter_grid),
+        FUN = function(x) {
+          xcol <- which(colnames(self$parameter_grid) == x)
+          self$parameter_grid[setting_id, xcol]
+        },
+        simplify = FALSE,
+        USE.NAMES = TRUE
+      )
 
       # FUN <- eval(parse(text = paste0(
       #   private$method, "_cv"
