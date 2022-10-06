@@ -13,12 +13,17 @@
     ncores = private$ncores
   )
   hparam_tuner$parameter_bounds <- self$parameter_bounds
-  hparam_tuner$parameter_grid <- self$parameter_grid
+  hparam_tuner$parameter_grid <- private$method_helper$execute_params$parameter_grid
+  hparam_tuner$learner_args <- private$method_helper$execute_params$params_not_optimized
   hparam_tuner$optim_args <- self$optim_args
   hparam_tuner$split_type <- self$split_type
   hparam_tuner$split_vector <- self$split_vector[train_index]
   # run hyper parameter optimization on training fold
-  hparam_tuner$set_data(x = fold_train$x, y = fold_train$y)
+  hparam_tuner$set_data(
+    x = fold_train$x,
+    y = fold_train$y,
+    cat_vars = private$method_helper$execute_params$cat_vars
+  )
 
   # execute optimization
   hparam_tuner$execute(k = self$k_tuning)
@@ -28,7 +33,7 @@
   # adjust best settings to fit final modle with
   learner_args <- hparam_tuner$results[["best.setting"]]
   learner_args <- learner_args[(names(learner_args) != "setting_id")]
-  learner_args <- .eval_params(learner_args)
+  learner_args <- learner_args[!duplicated(learner_args)]
 
   self$learner_args <- learner_args
 

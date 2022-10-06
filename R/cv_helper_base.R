@@ -111,11 +111,14 @@
 
     learner_args <- self$learner_args
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
+    learner_args <- learner_args[!duplicated(learner_args)]
 
     fit_args <- c(
       fit_args,
       learner_args
     )
+  } else {
+    learner_args <- NULL
   }
 
   fit_args <- .eval_params(fit_args)
@@ -149,7 +152,7 @@
     fold_ids = train_index,
     ground_truth = fold_test$y,
     predictions = preds,
-    "learner.args" = self$learner_args
+    "learner.args" = learner_args
   )
 
   if (self$return_models) {

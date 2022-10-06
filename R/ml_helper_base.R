@@ -1,6 +1,6 @@
 .organize_parameter_grid <- function(self, private) {
   if (!is.null(private$cat_vars)) {
-    private$method_helper$cat_vars <- private$cat_vars
+    private$method_helper$execute_params$cat_vars <- private$cat_vars
   }
 
   if (!is.null(self$parameter_grid)) {
@@ -38,14 +38,14 @@
       # if a column is an expression, data.table currently fails with an
       # error; data.frame is working, however, to select the appropriate
       # columns, we then convert them back to a data.table
-      private$execute_params <- data.table::as.data.table(
+      private$method_helper$execute_params$parameter_grid <- data.table::as.data.table(
         self$parameter_grid
       )[, .SD, .SDcols = !vec]
       params_not_optimized <- data.table::as.data.table(
         self$parameter_grid[1L, ]
       )[, .SD, .SDcols = vec]
       # sapply trick to remove attributes
-      private$method_helper$params_not_optimized <- sapply(
+      private$method_helper$execute_params$params_not_optimized <- sapply(
         X = names(params_not_optimized),
         FUN = function(x) {
           params_not_optimized[[x]]
@@ -54,7 +54,8 @@
         USE.NAMES = TRUE
       )
     } else {
-      private$execute_params <- self$parameter_grid
+      private$method_helper$execute_params$parameter_grid <-
+        data.table::as.data.table(self$parameter_grid)
     }
   }
 
@@ -62,22 +63,31 @@
   if (!is.null(self$learner_args)) {
     stopifnot(
       is.list(self$learner_args),
-      setdiff(names(self$learner_args),
-              names(private$method_helper$params_not_optimized)) ==
-        length(self$learner_args),
-      setdiff(names(self$learner_args),
-              names(private$execute_params)) ==
+      ifelse(
+        test = !is.null(
+          private$method_helper$execute_params$params_not_optimized
+        ),
+        yes = length(setdiff(#
+          names(self$learner_args),
+          names(
+            private$method_helper$execute_params$params_not_optimized
+          ))) == length(self$learner_args),
+        no = TRUE
+      ),
+      length(setdiff(names(self$learner_args),
+              names(private$method_helper$execute_params$parameter_grid))) ==
         length(self$learner_args)
     )
 
 
-    if (!is.null(private$method_helper$params_not_optimized)) {
-      private$method_helper$params_not_optimized <- c(
-        private$method_helper$params_not_optimized,
+    if (!is.null(private$method_helper$execute_params$params_not_optimized)) {
+      private$method_helper$execute_params$params_not_optimized <- c(
+        private$method_helper$execute_params$params_not_optimized,
         self$learner_args
       )
     } else {
-      private$method_helper$params_not_optimized <- self$learner_args
+      private$method_helper$execute_params$params_not_optimized <-
+        self$learner_args
     }
   }
 }

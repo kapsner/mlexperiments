@@ -49,14 +49,12 @@ MLExperimentsBase <- R6::R6Class( # nolint
       )
       private$x <- x
       private$y <- y
-      private$cat_vars <- cat_vars
+      private$method_helper$cat_vars <- cat_vars
     }
   ),
   private = list(
     x = NULL,
     y = NULL,
-    cat_vars = NULL,
-    execute_params = NULL,
     method_helper = NULL
   )
 )

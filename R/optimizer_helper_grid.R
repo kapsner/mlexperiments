@@ -5,7 +5,7 @@
     method_helper
 ) {
   stopifnot(
-    (ngrid <- nrow(private$execute_params)) > 1L
+    (ngrid <- nrow(method_helper$execute_params$parameter_grid)) > 1L
   )
 
   # init a progress bar
@@ -26,10 +26,11 @@
       # this code is required to have names arguments and allow selection of
       # expressions (which is not possible with data.table)
       grid_search_params <- sapply(
-        X = colnames(private$execute_params),
+        X = colnames(method_helper$execute_params$parameter_grid),
         FUN = function(x) {
-          xcol <- which(colnames(private$execute_params) == x)
-          private$execute_params[setting_id, xcol]
+          mhcn <- colnames(method_helper$execute_params$parameter_grid)
+          xcol <- which(mhcn == x)
+          method_helper$execute_params$parameter_grid[setting_id, get(mhcn[xcol])]
         },
         simplify = FALSE,
         USE.NAMES = TRUE
@@ -39,6 +40,7 @@
         grid_search_params,
         method_helper
       )
+      params <- params[!duplicated(params)]
 
       # FUN <- eval(parse(text = paste0(
       #   private$method, "_cv"

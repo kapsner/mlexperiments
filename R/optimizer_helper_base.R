@@ -8,7 +8,6 @@
     seed = private$seed,
     ncores = private$ncores
   )
-  optimizer$parameter_grid <- self$parameter_grid
   return(optimizer)
 }
 
@@ -28,7 +27,6 @@
     optimizer$optim_args$parallel <- TRUE
   }
   optimizer$parameter_bounds <- self$parameter_bounds
-  optimizer$parameter_grid <- private$execute_params
 
   return(optimizer)
 }

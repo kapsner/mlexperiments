@@ -38,7 +38,8 @@ MLNestedCV <- R6::R6Class( # nolint
           test = self$strategy == "bayesian",
           yes = !is.null(self$parameter_bounds),
           no = !is.null(self$parameter_grid)
-        )
+        ),
+        !is.null(private$method_helper$execute_params)
       )
       return(.run_cv(self = self, private = private))
     }

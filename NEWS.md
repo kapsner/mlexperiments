@@ -1,9 +1,11 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-05)
+## Unreleased (2022-10-06)
 
 #### New features
 
+-   finalized implementation of knn
+    ([70697fa](https://github.com/kapsner/mlexperiments/tree/70697fa0dd74d7043b0f8fe5dfe3c0f7be391be2))
 -   implemented knn grid / nested grid
     ([5e1d910](https://github.com/kapsner/mlexperiments/tree/5e1d910d1e1f008b1dda1382d08138ec787f6908))
 -   working on implementing knn
@@ -36,10 +38,17 @@
 
 #### Refactorings
 
+-   working on making code more straightforward
+    ([c697e5f](https://github.com/kapsner/mlexperiments/tree/c697e5f49e2641ecaad6cf5ea0498056b2a73d00))
 -   learners to mllrnrs package
     ([b1ee0da](https://github.com/kapsner/mlexperiments/tree/b1ee0da24fb221e3f73359912ed6da7366309401))
 -   reorgainzed code to make use of more inheritance
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
+#### Other changes
+
+-   updated readme
+    ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
+
 Full set of changes:
-[`edb76c3...4b6d974`](https://github.com/kapsner/mlexperiments/compare/edb76c3...4b6d974)
+[`edb76c3...c697e5f`](https://github.com/kapsner/mlexperiments/compare/edb76c3...c697e5f)

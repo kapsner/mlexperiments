@@ -58,13 +58,51 @@ test_that(
       y = train_y
     )
 
-    cv_results <- knn_optimization$execute(k = 3)
-    expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(8, 10))
+    cv_results1 <- knn_optimization$execute(k = 3)
+    expect_type(cv_results1, "list")
+    expect_equal(dim(cv_results1), c(8, 11))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
     ))
+
+    # check if learner_args yield same results
+    knn_optimization <- mlexperiments::MLTuneParameters$new(
+      learner = learner,
+      strategy = "bayesian",
+      ncores = ncores,
+      seed = seed
+    )
+
+    knn_optimization$parameter_bounds <- knn_bounds
+    knn_optimization$parameter_grid <- expand.grid(
+      list(k = param_list_knn[, 1])
+    )
+    knn_optimization$learner_args <- list(
+      l = 4,
+      test = parse(text = "fold_test$x")
+    )
+    knn_optimization$split_type <- "stratified"
+    knn_optimization$optim_args <- optim_args
+
+    # set data
+    knn_optimization$set_data(
+      x = train_x,
+      y = train_y
+    )
+
+    cv_results2 <- knn_optimization$execute(k = 3)
+    expect_type(cv_results2, "list")
+    expect_equal(dim(cv_results2), c(8, 11))
+    expect_true(inherits(
+      x = knn_optimization$results,
+      what = "mlexTune"
+    ))
+
+    expect_equal(
+      cv_results1[, .SD, .SDcols = !"Elapsed"],
+      cv_results2[, .SD, .SDcols = !"Elapsed"]
+    )
   }
 )
 
@@ -123,7 +161,7 @@ test_that(
 
     cv_results <- knn_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(8, 5))
+    expect_equal(dim(cv_results), c(8, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"

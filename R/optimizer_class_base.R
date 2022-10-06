@@ -10,9 +10,14 @@ BaseOptimizer <- R6::R6Class( # nolint
       private$learner <- learner$new()
       self$metric_optimization_higher_better <-
         private$learner$metric_optimization_higher_better
-      private$method <- learner$classname
     },
     execute = function(x, y, method_helper, ncores, seed) {
+      if (is.null(method_helper$execute_params$parameter_grid)) {
+        if (is.null(private$method_helper$execute_params$parameter_grid)) {
+          .organize_parameter_grid(self, private)
+        }
+        method_helper$execute_params <- private$method_helper$execute_params
+      }
       FUN <- switch( # nolint
         EXPR = private$strategy,
         "grid" = .grid_optimize,
@@ -34,7 +39,7 @@ BaseOptimizer <- R6::R6Class( # nolint
   ),
   private = list(
     learner = NULL,
-    method = NULL,
-    strategy = NULL
+    strategy = NULL,
+    method_helper = NULL
   )
 )

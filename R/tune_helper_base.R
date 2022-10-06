@@ -91,14 +91,14 @@
   if (private$strategy == "bayesian") {
     stopifnot(inherits(results_object, "bayesOpt"))
     outlist$bayesOpt <- results_object
-    outlist$summary <- .bayesopt_postprocessing(
+    summary_object <- .bayesopt_postprocessing(
       self = self,
       private = private,
       object = results_object
     )
 
     param_names <- setdiff(
-      colnames(outlist$summary),
+      colnames(summary_object),
       c("Epoch", "Iteration", "gpUtility",
         "acqOptimum", "inBounds", "Elapsed",
         "Score", "metric_optim_mean", "errorMessage"
@@ -107,17 +107,24 @@
     opt_metric <- "Score"
   } else if (private$strategy == "grid") {
     stopifnot(inherits(results_object, "list"))
-    outlist$summary <- data.table::rbindlist(
+    summary_object <- data.table::rbindlist(
       l = results_object,
       fill = TRUE
     )
 
     param_names <- setdiff(
-      colnames(outlist$summary),
+      colnames(summary_object),
       "metric_optim_mean"
     )
     opt_metric <- "metric_optim_mean"
   }
+
+  exl_cols <- vapply(
+    X = summary_object,
+    FUN = is.expression,
+    FUN.VALUE = logical(1L)
+  )
+  outlist[["summary"]] <- summary_object[, .SD, .SDcols = !exl_cols]
 
   outlist[["best.setting"]] <- .get_best_setting(
     results = outlist$summary,
@@ -126,10 +133,10 @@
     higher_better = metric_higher_better
   )
   # export also not optimized parameters (in case of bayesian) to best.setting
-  if (!is.null(private$method_helper$params_not_optimized)) {
+  if (!is.null(private$method_helper$execute_params$params_not_optimized)) {
     outlist[["best.setting"]] <- c(
       outlist[["best.setting"]],
-      private$method_helper$params_not_optimized
+      private$method_helper$execute_params$params_not_optimized
     )
   }
   return(outlist)
@@ -155,5 +162,6 @@
   #%best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
   best_row <- res[best_row_id, which(colnames(res) %in% param_names)]
   stopifnot(nrow(best_row) == 1)
-  return(as.list(best_row))
+  ret <- as.list(best_row)
+  return(ret[!duplicated(ret)])
 }

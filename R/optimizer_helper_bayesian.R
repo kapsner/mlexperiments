@@ -99,13 +99,13 @@
       # ))),
       FUN = private$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
-      initGrid = self$parameter_grid
+      initGrid = method_helper$execute_params$parameter_grid
     ),
     self$optim_args
   )
 
   # avoid error when setting initGrid / or initPoints
-  if (!is.null(self$parameter_grid)) {
+  if (!is.null(method_helper$execute_params$parameter_grid)) {
     args <- args[names(args) != "initPoints"]
   } else {
     args <- args[names(args) != "initGrid"]
@@ -118,9 +118,16 @@
 
 .bayesopt_postprocessing <- function(self, private, object) {
   stopifnot(inherits(x = object, what = "bayesOpt"))
+  exl_cols <- vapply(
+    X = private$method_helper$execute_params$params_not_optimized,
+    FUN = is.expression,
+    FUN.VALUE = logical(1L)
+  )
   optim_results <- cbind(
       data.table::as.data.table(object$scoreSummary),
-      private$params_not_optimized
+      data.table::as.data.table(
+        private$method_helper$execute_params$params_not_optimized[!exl_cols]
+      )
     )
 
   colnames(optim_results)[grepl(

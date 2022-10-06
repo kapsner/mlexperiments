@@ -37,8 +37,6 @@ knn_ce <- function() {
 knn_bsF <- function(...) { # nolint
   params <- list(...)
 
-  params <- mlexperiments:::.method_params_refactor(params, method_helper)
-
   # call to knn_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
