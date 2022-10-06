@@ -30,7 +30,9 @@
         FUN = function(x) {
           mhcn <- colnames(method_helper$execute_params$parameter_grid)
           xcol <- which(mhcn == x)
-          method_helper$execute_params$parameter_grid[setting_id, get(mhcn[xcol])]
+          method_helper$execute_params$parameter_grid[
+            setting_id, get(mhcn[xcol])
+          ]
         },
         simplify = FALSE,
         USE.NAMES = TRUE

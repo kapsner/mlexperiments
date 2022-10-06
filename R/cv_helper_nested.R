@@ -13,8 +13,10 @@
     ncores = private$ncores
   )
   hparam_tuner$parameter_bounds <- self$parameter_bounds
-  hparam_tuner$parameter_grid <- private$method_helper$execute_params$parameter_grid
-  hparam_tuner$learner_args <- private$method_helper$execute_params$params_not_optimized
+  hparam_tuner$parameter_grid <-
+    private$method_helper$execute_params$parameter_grid
+  hparam_tuner$learner_args <-
+    private$method_helper$execute_params$params_not_optimized
   hparam_tuner$optim_args <- self$optim_args
   hparam_tuner$split_type <- self$split_type
   hparam_tuner$split_vector <- self$split_vector[train_index]

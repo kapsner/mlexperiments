@@ -38,7 +38,8 @@
       # if a column is an expression, data.table currently fails with an
       # error; data.frame is working, however, to select the appropriate
       # columns, we then convert them back to a data.table
-      private$method_helper$execute_params$parameter_grid <- data.table::as.data.table(
+      private$method_helper$execute_params$parameter_grid <-
+        data.table::as.data.table(
         self$parameter_grid
       )[, .SD, .SDcols = !vec]
       params_not_optimized <- data.table::as.data.table(
