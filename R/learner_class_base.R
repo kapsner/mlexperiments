@@ -31,7 +31,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     },
     bayesian_scoring_function = function(...) {
       kwargs <- list(...)
-      do.call(private$fun_bayesian_scoring_function, kwargs)
+      args <- .method_params_refactor(
+        kwargs,
+        method_helper
+      )
+      do.call(private$fun_bayesian_scoring_function, args)
     },
     performance_metric = function(ground_truth, predictions) {
       kwargs <- list(
