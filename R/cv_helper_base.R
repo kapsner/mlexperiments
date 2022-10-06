@@ -111,7 +111,9 @@
 
     learner_args <- self$learner_args
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
-    learner_args <- learner_args[!duplicated(learner_args)]
+    learner_args <- learner_args[!duplicated_by_names(
+      learner_args, fromLast = TRUE
+    )]
 
     fit_args <- c(
       fit_args,
