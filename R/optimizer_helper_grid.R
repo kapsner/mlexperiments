@@ -5,7 +5,7 @@
     method_helper
 ) {
   stopifnot(
-    (ngrid <- nrow(self$parameter_grid)) > 1L
+    (ngrid <- nrow(private$execute_params)) > 1L
   )
 
   # init a progress bar
@@ -26,13 +26,18 @@
       # this code is required to have names arguments and allow selection of
       # expressions (which is not possible with data.table)
       grid_search_params <- sapply(
-        X = colnames(self$parameter_grid),
+        X = colnames(private$execute_params),
         FUN = function(x) {
-          xcol <- which(colnames(self$parameter_grid) == x)
-          self$parameter_grid[setting_id, xcol]
+          xcol <- which(colnames(private$execute_params) == x)
+          private$execute_params[setting_id, xcol]
         },
         simplify = FALSE,
         USE.NAMES = TRUE
+      )
+
+      params <- .method_params_refactor(
+        grid_search_params,
+        method_helper
       )
 
       # FUN <- eval(parse(text = paste0(
@@ -43,7 +48,7 @@
       fun_parameters <- list(
         "x" = x,
         "y" = y,
-        "params" = grid_search_params,
+        "params" = params,
         "fold_list" = method_helper$fold_list,
         "ncores" = private$ncores,
         "seed" = private$seed
@@ -56,8 +61,8 @@
         c(
           list("setting_id" = setting_id),
           fit_grid,
-          grid_search_params[
-            setdiff(names(grid_search_params), names(fit_grid))
+          params[
+            setdiff(names(params), names(fit_grid))
           ]
         )
       )

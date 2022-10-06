@@ -34,22 +34,7 @@
     )
   }
 
-  if (!is.null(private$cat_vars)) {
-    private$method_helper$cat_vars <- private$cat_vars
-  }
-
   if (!is.null(self$parameter_grid)) {
-    # even if there is only one param setting, expand to grid here to make
-    # this code working in any case
-    if (!is.data.frame(self$parameter_grid)) {
-      self$parameter_grid <- expand.grid(self$parameter_grid)
-    }
-    # to make use of the data.table-syntax, convert self$parameter_grid
-    self$parameter_grid <- as.data.frame(
-      self$parameter_grid,
-      stringsAsFactors = FALSE
-    )
-
     # check if there are additional parameters that are not tuned
     if (private$strategy == "bayesian") {
       if (nrow(self$parameter_grid) >
@@ -68,26 +53,6 @@
         )
         self$parameter_grid <- self$parameter_grid[select_rows, ]
       }
-      if (length(colnames(self$parameter_grid)) !=
-          length(names(self$parameter_bounds))) {
-        vec <- which(
-          colnames(self$parameter_grid) %in% names(self$parameter_bounds)
-        )
-
-        # if a column is an expression, data.table currently fails with an
-        # error; data.frame is working, however, to select the appropriate
-        # columns, we then convert them back to a data.table
-        private$execute_params <- data.table::as.data.table(
-          self$parameter_grid
-        )[, .SD, .SDcols = vec]
-        params_not_optimized <- data.table::as.data.table(
-          self$parameter_grid[1, ]
-        )[, .SD, .SDcols = !vec]
-        stopifnot(nrow(params_not_optimized) == 1)
-        private$method_helper$params_not_optimized <- params_not_optimized
-      } else {
-        private$execute_params <- self$parameter_grid
-      }
     }
   } else {
     if (private$strategy == "grid") {
@@ -97,6 +62,22 @@
       ))
     }
   }
+
+  # apply parameter_grid stuff
+  .organize_parameter_grid(self = self, private = private)
+
+  stopifnot(
+    ifelse(
+      test = private$strategy == "bayesian",
+      yes = length(intersect(
+        names(private$method_helper$params_not_optimized),
+        names(self$parameter_bounds))) == 0L,
+      no = TRUE
+    ),
+    length(intersect(
+      names(private$method_helper$params_not_optimized),
+      names(private$execute_params))) == 0L
+  )
 }
 
 .optimize_postprocessing <- function(

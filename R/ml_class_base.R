@@ -55,6 +55,8 @@ MLExperimentsBase <- R6::R6Class( # nolint
   private = list(
     x = NULL,
     y = NULL,
-    cat_vars = NULL
+    cat_vars = NULL,
+    execute_params = NULL,
+    method_helper = NULL
   )
 )

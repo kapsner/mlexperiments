@@ -18,10 +18,7 @@ MLCrossValidation <- R6::R6Class( # nolint
       self$fold_list <- fold_list
     },
     execute = function() {
-      stopifnot(
-        !is.null(private$x), !is.null(private$y),
-        !is.null(self$fold_list)
-      )
+      private$prepare()
       return(.run_cv(self = self, private = private))
     }
   ),
@@ -38,6 +35,20 @@ MLCrossValidation <- R6::R6Class( # nolint
         kwargs
       )
       do.call(.cv_fit_model, args)
+    },
+    prepare = function() {
+      stopifnot(
+        !is.null(private$x), !is.null(private$y),
+        !is.null(self$fold_list)
+      )
+      # apply parameter_grid stuff
+      .organize_parameter_grid(self = self, private = private)
+
+      stopifnot(
+        length(intersect(
+          names(private$method_helper$params_not_optimized),
+          names(private$execute_params))) == 0L
+      )
     }
   )
 )

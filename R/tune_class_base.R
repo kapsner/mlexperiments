@@ -42,8 +42,6 @@ MLTuneParameters <- R6::R6Class( # nolint
   private = list(
     select_optimizer = NULL,
     strategy = NULL,
-    tune_params = NULL,
-    method_helper = NULL,
-    execute_params = NULL
+    tune_params = NULL
   )
 )

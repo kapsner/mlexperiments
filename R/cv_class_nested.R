@@ -31,9 +31,8 @@ MLNestedCV <- R6::R6Class( # nolint
       self$strategy <- strategy
     },
     execute = function() {
+      private$prepare()
       stopifnot(
-        !is.null(private$x), !is.null(private$y),
-        !is.null(self$fold_list),
         !is.null(self$strategy),
         ifelse(
           test = self$strategy == "bayesian",
