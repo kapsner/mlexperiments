@@ -14,9 +14,8 @@
 - Prediction Ensemble from outer CV-models
 - xgboost and ranger as surv_cox learner (done)
 - lm / glm as base learner (done)
-- xgboost / lightgbm as new feature
 - all pre-implemented learner (but lm / glm) to new package (done)
-- some base packages: knn, rpart
+- some base packages: knn (done), rpart
 
 
 Document features: learner args as expression "parse(text = )"
