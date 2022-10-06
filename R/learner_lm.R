@@ -35,7 +35,7 @@ lm_fit <- function(x, y, ncores, seed, ...) {
 
   x <- kdry::dtr_matrix2df(matrix = x, cat_vars = cat_vars)
 
-  lm_formula <- as.formula(object = "y ~ .")
+  lm_formula <- stats::as.formula(object = "y ~ .")
 
   args <- list(
     formula = lm_formula,

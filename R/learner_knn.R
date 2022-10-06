@@ -34,22 +34,26 @@ knn_ce <- function() {
     ".metric_class_error_rate")
 }
 
-knn_bsF <- function(alpha) { # nolint
+knn_bsF <- function(...) { # nolint
+  params <- list(...)
+
+  params <- mlexperiments:::.method_params_refactor(params, method_helper)
+
   # call to knn_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
-  bayes_opt_glmnet <- knn_optimization(
+  bayes_opt_knn <- knn_optimization(
     x = x,
     y = y,
-    params = list("alpha" = alpha),
+    params = params,
     fold_list = method_helper$fold_list,
     ncores = 1L, # important, as bayesian search is already parallelized
     seed = seed
   )
 
   ret <- c(
-    list("Score" = bayes_opt_glmnet$metric_optim_mean),
-    bayes_opt_glmnet
+    list("Score" = bayes_opt_knn$metric_optim_mean),
+    bayes_opt_knn
   )
 
   return(ret)

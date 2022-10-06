@@ -1,19 +1,20 @@
-dataset <- datasets::iris |>
+library(mlbench)
+data("DNA")
+dataset <- DNA |>
   data.table::as.data.table() |>
   na.omit()
 
 learner <- LearnerKnn
 seed <- 123
-feature_cols <- colnames(dataset)[1:4]
-
+feature_cols <- colnames(dataset)[1:180]
 
 param_list_knn <- expand.grid(
-  k = seq(1, 9, 2),
+  k = seq(4, 74, 10),
+  l = 4,
   test = parse(text = "fold_test$x")
 )
 
-knn_bounds <- list(k = c(1L, 15L))
-
+knn_bounds <- list(k = c(1L, 100L))
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
   yes = 4L,
@@ -33,7 +34,7 @@ train_x <- model.matrix(
   ~ -1 + .,
   dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- dataset[, get("Species")]
+train_y <- dataset[, get("Class")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,
@@ -41,7 +42,6 @@ fold_list <- splitTools::create_folds(
   type = "stratified",
   seed = seed
 )
-
 
 test_that(
   desc = "test nested cv, bayesian - knn",
@@ -103,7 +103,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 2))
+    expect_equal(dim(cv_results), c(5, 3))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"

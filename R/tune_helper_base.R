@@ -171,7 +171,7 @@
   # requires as data.table cannot handle expressions
   res <- as.data.frame(results)
   best_row_id <- FUN(res[, opt_metric])
-  #best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
+  #%best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
   best_row <- res[best_row_id, which(colnames(res) %in% param_names)]
   stopifnot(nrow(best_row) == 1)
   return(as.list(best_row))

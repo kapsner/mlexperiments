@@ -5,19 +5,19 @@
 
 .metric_class_error_rate <- function(ground_truth, predictions) {
   conf_mat <- .metric_helper_conf_mat(ground_truth, predictions)
-  #%TP <- conf_mat[2, 2]
-  FP <- conf_mat[1, 2]
-  #%TN <- conf_mat[1, 1]
-  FN <- conf_mat[2, 1]
+  #%TP <- conf_mat[2, 2] # nolint
+  FP <- conf_mat[1, 2] # nolint
+  #%TN <- conf_mat[1, 1] # nolint
+  FN <- conf_mat[2, 1] # nolint
   return((FP + FN) / sum(conf_mat))
 }
 
 .metric_accuracy <- function(ground_truth, predictions) {
   conf_mat <- .metric_helper_conf_mat(ground_truth, predictions)
-  TP <- conf_mat[2, 2]
-  #%FP <- conf_mat[1, 2]
-  TN <- conf_mat[1, 1]
-  #%FN <- conf_mat[2, 1]
+  TP <- conf_mat[2, 2] # nolint
+  #%FP <- conf_mat[1, 2] # nolint
+  TN <- conf_mat[1, 1] # nolint
+  #%FN <- conf_mat[2, 1] # nolint
   return((TP + TN) / sum(conf_mat))
 }
 

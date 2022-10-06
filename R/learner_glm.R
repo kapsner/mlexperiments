@@ -37,7 +37,7 @@ glm_fit <- function(x, y, ncores, seed, ...) {
 
   x <- kdry::dtr_matrix2df(matrix = x, cat_vars = cat_vars)
 
-  glm_formula <- as.formula(object = "y ~ .")
+  glm_formula <- stats::as.formula(object = "y ~ .")
 
   args <- list(
     formula = glm_formula,

@@ -1,18 +1,18 @@
-dataset <- datasets::iris |>
+library(mlbench)
+data("PimaIndiansDiabetes2")
+dataset <- PimaIndiansDiabetes2 |>
   data.table::as.data.table() |>
   na.omit()
-# to have a binary classification
-dataset <- dataset[get("Species") != "virginica", ]
 
 learner <- LearnerGlm
 seed <- 123
-feature_cols <- colnames(dataset)[1:4]
+feature_cols <- colnames(dataset)[1:8]
 
 train_x <- model.matrix(
   ~ -1 + .,
   dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- dataset[, get("Species")]
+train_y <- dataset[, get("diabetes")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,

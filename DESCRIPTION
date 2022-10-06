@@ -17,17 +17,21 @@ Imports:
     parallel,
     progress,
     R6,
-    splitTools
+    splitTools,
+    stats
 Suggests: 
+    class,
+    datasets,
     knitr,
     lintr,
     ParBayesianOptimization,
+    rpart,
     testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
 Remotes: 
     github::kapsner/kdry@main,
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-04 20:14:16 UTC
+Date/Publication: 2022-10-06 07:09:27 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1

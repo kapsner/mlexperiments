@@ -1,9 +1,13 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-04)
+## Unreleased (2022-10-05)
 
 #### New features
 
+-   implemented knn grid / nested grid
+    ([5e1d910](https://github.com/kapsner/mlexperiments/tree/5e1d910d1e1f008b1dda1382d08138ec787f6908))
+-   working on implementing knn
+    ([5932e6c](https://github.com/kapsner/mlexperiments/tree/5932e6c18a3659dfb61e2c3c3dea9bb00ffd387a))
 -   added coxph; working on unit tests
     ([03daecd](https://github.com/kapsner/mlexperiments/tree/03daecdc3d1e15ae64a25fad984b2be6c5d11149))
 -   working on xgboost implementation (wip)
@@ -17,6 +21,8 @@
 
 #### Bug fixes
 
+-   fixed issue when selecting parameters
+    ([4b6d974](https://github.com/kapsner/mlexperiments/tree/4b6d9747f105fc509ce86348e1f5f4149f7b1e00))
 -   fixed issue with prediction in ranger
     ([b71f4f8](https://github.com/kapsner/mlexperiments/tree/b71f4f809d75c32b2b740839ae9ff180fc27013c))
 -   fixed some issues; finished xgboost surv implementation
@@ -30,8 +36,10 @@
 
 #### Refactorings
 
+-   learners to mllrnrs package
+    ([b1ee0da](https://github.com/kapsner/mlexperiments/tree/b1ee0da24fb221e3f73359912ed6da7366309401))
 -   reorgainzed code to make use of more inheritance
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
 Full set of changes:
-[`edb76c3...b71f4f8`](https://github.com/kapsner/mlexperiments/compare/edb76c3...b71f4f8)
+[`edb76c3...4b6d974`](https://github.com/kapsner/mlexperiments/compare/edb76c3...4b6d974)

@@ -1,16 +1,18 @@
-dataset <- datasets::iris |>
+library(mlbench)
+data("DNA")
+dataset <- DNA |>
   data.table::as.data.table() |>
   na.omit()
 
 learner <- LearnerKnn
 seed <- 123
-feature_cols <- colnames(dataset)[1:4]
+feature_cols <- colnames(dataset)[1:180]
 
 train_x <- model.matrix(
   ~ -1 + .,
   dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- dataset[, get("Species")]
+train_y <- dataset[, get("Class")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,
@@ -28,7 +30,11 @@ test_that(
       fold_list = fold_list,
       seed = seed
     )
-    knn_optimization$learner_args <- list(k = 3, test = parse(text = "fold_test$x"))
+    knn_optimization$learner_args <- list(
+      k = 20,
+      l = 0,
+      test = parse(text = "fold_test$x")
+    )
 
     # set data
     knn_optimization$set_data(
@@ -38,7 +44,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 2))
+    expect_equal(dim(cv_results), c(5, 3))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"

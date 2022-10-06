@@ -46,16 +46,16 @@
     if (private$learner$environment != -1L) {
       # https://stackoverflow.com/questions/67595111/r-package-design-how-to-
       # export-internal-functions-to-a-cluster
-      #ns <- asNamespace("mlexperiments")
+      #%ns <- asNamespace("mlexperiments")
       stopifnot(is.character(private$learner$environment))
       ns <- asNamespace(private$learner$environment)
       parallel::clusterExport(
         cl = cl,
-        # varlist = unclass(
-        #   utils::lsf.str(
-        #     envir = ns,
-        #     all = TRUE
-        # )),
+        #% varlist = unclass(
+        #%   utils::lsf.str(
+        #%     envir = ns,
+        #%     all = TRUE
+        #% )),
         varlist = private$learner$cluster_export,
         envir = as.environment(ns)
       )
