@@ -12,5 +12,11 @@
       list(cat_vars = method_helper$execute_params$cat_vars)
     )
   }
+
+  # remove duplicates
+  params <- params[!kdry::misc_duplicated_by_names(
+    params, fromLast = TRUE
+  )]
+
   return(params)
 }

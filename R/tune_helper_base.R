@@ -163,5 +163,5 @@
   best_row <- res[best_row_id, which(colnames(res) %in% param_names)]
   stopifnot(nrow(best_row) == 1)
   ret <- as.list(best_row)
-  return(ret[!duplicated_by_names(ret, fromLast = TRUE)])
+  return(ret[!kdry::misc_duplicated_by_names(ret, fromLast = TRUE)])
 }

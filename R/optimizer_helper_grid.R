@@ -42,7 +42,6 @@
         grid_search_params,
         method_helper
       )
-      params <- params[!duplicated_by_names(params, fromLast = TRUE)]
 
       # FUN <- eval(parse(text = paste0(
       #   private$method, "_cv"

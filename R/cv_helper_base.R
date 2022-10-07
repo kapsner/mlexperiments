@@ -111,9 +111,7 @@
 
     learner_args <- self$learner_args
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
-    learner_args <- learner_args[!duplicated_by_names(
-      learner_args, fromLast = TRUE
-    )]
+    learner_args <- .eval_params(learner_args)
 
     fit_args <- c(
       fit_args,
@@ -122,8 +120,6 @@
   } else {
     learner_args <- NULL
   }
-
-  fit_args <- .eval_params(fit_args)
 
   # initialize learner here for every model fit
   learner <- self$learner$new()

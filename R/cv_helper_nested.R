@@ -35,7 +35,7 @@
   # adjust best settings to fit final modle with
   learner_args <- hparam_tuner$results[["best.setting"]]
   learner_args <- learner_args[(names(learner_args) != "setting_id")]
-  learner_args <- learner_args[!duplicated_by_names(
+  learner_args <- learner_args[!kdry::misc_duplicated_by_names(
     learner_args, fromLast = TRUE
   )]
 

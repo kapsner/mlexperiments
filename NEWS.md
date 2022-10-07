@@ -23,6 +23,10 @@
 
 #### Bug fixes
 
+-   fixed general parsing of parameters
+    ([015d5f6](https://github.com/kapsner/mlexperiments/tree/015d5f6bc26272b3bbd22430db4599781cc1dcc5))
+-   removing duplicates by name
+    ([01be901](https://github.com/kapsner/mlexperiments/tree/01be9011fb9e8437737f16d7f9e842fff892e120))
 -   fixed issue when selecting parameters
     ([4b6d974](https://github.com/kapsner/mlexperiments/tree/4b6d9747f105fc509ce86348e1f5f4149f7b1e00))
 -   fixed issue with prediction in ranger
@@ -38,6 +42,8 @@
 
 #### Refactorings
 
+-   now using of learner\_args is also possible
+    ([0ce1f6c](https://github.com/kapsner/mlexperiments/tree/0ce1f6c92f503779bf232bfd3cac5a38bee63e60))
 -   working on making code more straightforward
     ([c697e5f](https://github.com/kapsner/mlexperiments/tree/c697e5f49e2641ecaad6cf5ea0498056b2a73d00))
 -   learners to mllrnrs package
@@ -45,10 +51,15 @@
 -   reorgainzed code to make use of more inheritance
     ([772bba0](https://github.com/kapsner/mlexperiments/tree/772bba0cadd439f65fbf04ede5899948acc5b53c))
 
+#### CI
+
+-   fixed linting errors
+    ([a3d3eb0](https://github.com/kapsner/mlexperiments/tree/a3d3eb0887db86a97b17a3d0b07b90c587477a5a))
+
 #### Other changes
 
 -   updated readme
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...c697e5f`](https://github.com/kapsner/mlexperiments/compare/edb76c3...c697e5f)
+[`edb76c3...015d5f6`](https://github.com/kapsner/mlexperiments/compare/edb76c3...015d5f6)
