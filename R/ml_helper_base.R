@@ -81,14 +81,9 @@
     )
 
 
-    if (!is.null(private$method_helper$execute_params$params_not_optimized)) {
-      private$method_helper$execute_params$params_not_optimized <- c(
-        private$method_helper$execute_params$params_not_optimized,
-        self$learner_args
-      )
-    } else {
-      private$method_helper$execute_params$params_not_optimized <-
-        self$learner_args
-    }
+    private$method_helper$execute_params$params_not_optimized <- kdry::list.append(
+      self$learner_args,
+      private$method_helper$execute_params$params_not_optimized
+    )
   }
 }

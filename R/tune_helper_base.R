@@ -133,12 +133,10 @@
     higher_better = metric_higher_better
   )
   # export also not optimized parameters (in case of bayesian) to best.setting
-  if (!is.null(private$method_helper$execute_params$params_not_optimized)) {
-    outlist[["best.setting"]] <- c(
-      outlist[["best.setting"]],
-      private$method_helper$execute_params$params_not_optimized
-    )
-  }
+  outlist[["best.setting"]] <- kdry::list.append(
+    outlist[["best.setting"]],
+    private$method_helper$execute_params$params_not_optimized
+  )
   return(outlist)
 }
 

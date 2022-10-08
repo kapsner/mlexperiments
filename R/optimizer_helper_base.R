@@ -45,7 +45,7 @@
     metric_higher_better = optimizer$metric_optimization_higher_better
   )
 
-  outlist <- c(outlist, private$method_helper)
+  outlist <- kdry::list.append(outlist, private$method_helper)
   class(outlist) <- c("list", "mlexTune")
   self$results <- outlist
 }

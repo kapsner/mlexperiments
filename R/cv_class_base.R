@@ -30,7 +30,7 @@ MLCrossValidation <- R6::R6Class( # nolint
     fun_performance_metric = NULL,
     cv_run_model = function(...) {
       kwargs <- list(...)
-      args <- c(
+      args <- kdry::list.append(
         list(
           self = self,
           private = private

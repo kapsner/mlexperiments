@@ -37,17 +37,13 @@ glm_fit <- function(x, y, ncores, seed, ...) {
 
   glm_formula <- stats::as.formula(object = "y ~ .")
 
-  args <- list(
-    formula = glm_formula,
-    data = x
+  args <- kdry::list.append(
+    list(
+      formula = glm_formula,
+      data = x
+    ),
+    glm_params
   )
-
-  if (length(glm_params) > 0) {
-    args <- c(
-      args,
-      glm_params
-    )
-  }
 
   set.seed(seed)
   # fit the model
@@ -64,15 +60,13 @@ glm_predict <- function(model, newdata, ncores, ...) {
     cat_vars <- NULL
   }
 
-  newdata <- kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
-
-  pred_args <- list(
-    object = model,
-    newdata = newdata
+  pred_args <- kdry::list.append(
+    list(
+      object = model,
+      newdata = kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
+    ),
+    kwargs
   )
-  if (length(kwargs) > 0L) {
-    pred_args <- c(pred_args, kwargs)
-  }
 
   return(do.call(stats::predict.glm, pred_args))
 }

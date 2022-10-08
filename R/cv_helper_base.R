@@ -55,14 +55,13 @@
 
   # calculate error metric for each fold
   for (fold in names(results_object)) {
-    perf_args <- list(
-      ground_truth = results_object[[fold]][["ground_truth"]],
-      predictions = results_object[[fold]][["predictions"]]
+    perf_args <- kdry::list.append(
+      list(
+        ground_truth = results_object[[fold]][["ground_truth"]],
+        predictions = results_object[[fold]][["predictions"]]
+      ),
+      self$performance_metric_args
     )
-    if (!is.null(self$performance_metric_args)) {
-      stopifnot(is.list(self$performance_metric_args))
-      perf_args <- c(perf_args, self$performance_metric_args)
-    }
     results_object[[fold]][["performance"]] <-
       do.call(self$performance_metric, perf_args)
   }
@@ -89,7 +88,10 @@
         outlist <- list("performance" = results_object[[x]][["performance"]])
 
         if (sum(add_args) > 0) {
-          outlist <- c(outlist, results_object[[x]][["learner.args"]][add_args])
+          outlist <- kdry::list.append(
+            outlist,
+            results_object[[x]][["learner.args"]][add_args]
+          )
         }
         return(outlist)
       },
@@ -116,7 +118,7 @@
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
     learner_args <- .eval_params(learner_args)
 
-    fit_args <- c(
+    fit_args <- kdry::list.append(
       fit_args,
       learner_args
     )
@@ -134,12 +136,9 @@
     ncores = private$ncores
   )
   if (!is.null(private$cat_vars)) {
-    pred_args <- c(pred_args, list(cat_vars = private$cat_vars))
+    pred_args <- kdry::list.append(pred_args, list(cat_vars = private$cat_vars))
   }
-  if (!is.null(self$predict_args)) {
-    stopifnot(is.list(self$predict_args))
-    pred_args <- c(pred_args, self$predict_args)
-  }
+  pred_args <- kdry::list.append(pred_args, self$predict_args)
   preds <- do.call(private$learner$predict, pred_args)
 
   res <- list(
@@ -150,7 +149,7 @@
   )
 
   if (self$return_models) {
-    res <- c(res, list(model = fitted))
+    res <- kdry::list.append(res, list(model = fitted))
   }
   return(res)
 }

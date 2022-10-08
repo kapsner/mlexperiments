@@ -55,15 +55,13 @@ lm_predict <- function(model, newdata, ncores, ...) {
     cat_vars <- NULL
   }
 
-  newdata <- kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
-
-  pred_args <- list(
-    object = model,
-    newdata = newdata
+  pred_args <- kdry::list.append(
+    list(
+      object = model,
+      newdata = kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
+    ),
+    kwargs
   )
-  if (length(kwargs) > 0L) {
-    pred_args <- c(pred_args, kwargs)
-  }
 
   return(do.call(stats::predict.lm, pred_args))
 }

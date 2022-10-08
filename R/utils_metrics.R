@@ -11,7 +11,9 @@ metric <- function(name) {
     )
   }
   stopifnot(
-    is.function(FUN <- utils::getFromNamespace(x = name, ns = "mlr3measures"))
+    is.function(
+      FUN <- utils::getFromNamespace(x = name, ns = "mlr3measures") # nolint
+    )
   )
 
   fun_name <- paste0("mlr3measures::", name)

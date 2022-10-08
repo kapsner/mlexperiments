@@ -47,7 +47,7 @@ MLNestedCV <- R6::R6Class( # nolint
   private = list(
     cv_run_model = function(...) {
       kwargs <- list(...)
-      args <- c(
+      args <- kdry::list.append(
         list(
           self = self,
           private = private

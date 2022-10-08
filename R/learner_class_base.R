@@ -7,7 +7,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     performance_metric_name = NULL,
     environment = -1L,
     initialize = function(
-      metric_optimization_higher_better = NULL
+      metric_optimization_higher_better = NULL # nolint
       ) {
       stopifnot(
         ifelse(
@@ -34,9 +34,7 @@ MLLearnerBase <- R6::R6Class( # nolint
         ncores = ncores
       )
       catch_kwargs <- list(...)
-      if (length(catch_kwargs) > 0) {
-        kwargs <- c(kwargs, catch_kwargs)
-      }
+      kwargs <- kdry::list.append(kwargs, catch_kwargs)
       do.call(private$fun_predict, kwargs)
     },
     bayesian_scoring_function = function(...) {

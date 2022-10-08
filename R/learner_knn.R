@@ -46,7 +46,7 @@ knn_bsF <- function(...) { # nolint
     seed = seed
   )
 
-  ret <- c(
+  ret <- kdry::list.append(
     list("Score" = bayes_opt_knn$metric_optim_mean),
     bayes_opt_knn
   )
@@ -77,21 +77,22 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     train_idx <- fold_list[[fold]]
 
     # train the model for this cv-fold
-    args <- c(list(
-      x = .format_xy(x, train_idx),
-      test = .format_xy(x, -train_idx),
-      y = .format_xy(y, train_idx),
-      use.all = FALSE,
-      ncores = ncores,
-      seed = seed
-    ),
-    params
+    args <- kdry::list.append(
+      list(
+        x = .format_xy(x, train_idx),
+        test = .format_xy(x, -train_idx),
+        y = .format_xy(y, train_idx),
+        use.all = FALSE,
+        ncores = ncores,
+        seed = seed
+      ),
+      params
     )
     set.seed(seed)
     cvfit <- do.call(knn_fit, args)
 
     # optimize error rate
-    FUN <- metric("ce")
+    FUN <- metric("ce") # nolint
     err <- FUN(
       predictions = knn_predict(
         model = cvfit,
@@ -130,11 +131,12 @@ knn_fit <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
   stopifnot("k" %in% names(kwargs))
 
-  args <- c(list(
-    train = x,
-    cl = y
-  ),
-  kwargs
+  args <- kdry::list.append(
+    list(
+      train = x,
+      cl = y
+    ),
+    kwargs
   )
   args$prob <- TRUE
   set.seed(seed)

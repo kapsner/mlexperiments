@@ -49,6 +49,6 @@
     fold_train = fold_train,
     fold_test = fold_test
   )
-  outlist <- c(outlist, res)
+  outlist <- kdry::list.append(outlist, res)
   return(outlist)
 }

@@ -91,7 +91,7 @@
     self$optim_args[["gsPoints"]] <- pmax(100, length(self$parameter_bounds)^3)
   }
 
-  args <- c(
+  args <- kdry::list.append(
     list(
       # for each method, a bayesian scoring function is required
       # FUN = eval(parse(text = paste0(
