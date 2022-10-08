@@ -34,6 +34,10 @@ test_that(
       l = 0,
       test = parse(text = "fold_test$x")
     )
+    knn_optimization$predict_args <- list(type = "response")
+    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$performance_metric_name <- "Balanced accuracy"
+    knn_optimization$return_models <- TRUE
 
     # set data
     knn_optimization$set_data(

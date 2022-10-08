@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-06)
+## Unreleased (2022-10-08)
 
 #### New features
 
@@ -42,6 +42,10 @@
 
 #### Refactorings
 
+-   removed metric\_perf\_h\_b
+    ([e63b3da](https://github.com/kapsner/mlexperiments/tree/e63b3da8e465ff73f1a136c5a6a869789e9ff679))
+-   optmizing code quality
+    ([401bdf1](https://github.com/kapsner/mlexperiments/tree/401bdf14328bb4825b5030a7420559f1cb7e4e1a))
 -   now using of learner\_args is also possible
     ([0ce1f6c](https://github.com/kapsner/mlexperiments/tree/0ce1f6c92f503779bf232bfd3cac5a38bee63e60))
 -   working on making code more straightforward
@@ -62,4 +66,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...015d5f6`](https://github.com/kapsner/mlexperiments/compare/edb76c3...015d5f6)
+[`edb76c3...e63b3da`](https://github.com/kapsner/mlexperiments/compare/edb76c3...e63b3da)

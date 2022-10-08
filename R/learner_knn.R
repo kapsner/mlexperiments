@@ -13,24 +13,22 @@ LearnerKnn <- R6::R6Class( # nolint
           call. = FALSE
         )
       }
-      super$initialize()
-      self$metric_optimization_higher_better <- FALSE
+      super$initialize(
+        metric_optimization_higher_better = FALSE # classification error
+      )
       self$environment <- "mlexperiments"
       self$cluster_export <- knn_ce()
       private$fun_optim_cv <- knn_optimization
       private$fun_fit <- knn_fit
       private$fun_predict <- knn_predict
       private$fun_bayesian_scoring_function <- knn_bsF
-      private$fun_performance_metric <- .metric_accuracy
-      self$metric_performance_name <- "Accuracy"
     }
   )
 )
 
 
 knn_ce <- function() {
-  c("knn_optimization", "knn_fit", "knn_predict",
-    ".metric_class_error_rate")
+  c("knn_optimization", "knn_fit", "knn_predict", "metric", ".format_xy")
 }
 
 knn_bsF <- function(...) { # nolint
@@ -83,6 +81,7 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
       x = .format_xy(x, train_idx),
       test = .format_xy(x, -train_idx),
       y = .format_xy(y, train_idx),
+      use.all = FALSE,
       ncores = ncores,
       seed = seed
     ),
@@ -92,8 +91,14 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     cvfit <- do.call(knn_fit, args)
 
     # optimize error rate
-    err <- .metric_class_error_rate(
-      predictions = knn_predict(cvfit),
+    FUN <- metric("ce")
+    err <- FUN(
+      predictions = knn_predict(
+        model = cvfit,
+        newdata = .format_xy(x, -train_idx),
+        ncores = ncores,
+        type = "response"
+      ),
       ground_truth = .format_xy(y, -train_idx)
     )
 
@@ -137,7 +142,14 @@ knn_fit <- function(x, y, ncores, seed, ...) {
   return(fit)
 }
 
-knn_predict <- function(model, newdata, ncores) {
-  # there is no knn-model but the probabilities predicted for the test data
-  return(attributes(model)$prob)
+knn_predict <- function(model, newdata, ncores, ...) {
+  kwargs <- list(...)
+  stopifnot("type" %in% names(kwargs))
+
+  if (kwargs$type == "response") {
+    return(model)
+  } else if (kwargs$type == "prob") {
+    # there is no knn-model but the probabilities predicted for the test data
+    return(attributes(model)$prob)
+  }
 }

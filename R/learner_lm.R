@@ -4,17 +4,16 @@ LearnerLm <- R6::R6Class( # nolint
   inherit = mlexperiments::MLLearnerBase,
   public = list(
     initialize = function() {
-      super$initialize()
+      super$initialize(
+        metric_optimization_higher_better = NULL # unnecessary here
+      )
       self$environment <- "mlexperiments"
       private$fun_fit <- lm_fit
       private$fun_predict <- lm_predict
-      private$fun_performance_metric <- .metric_mae
-      self$metric_performance_name <- "Mean absolute error"
 
       # there is no optimization step here, so all related functions / fields
       # are set to NULL
       self$cluster_export <- NULL
-      self$metric_optimization_higher_better <- NULL
       private$fun_optim_cv <- NULL
       private$fun_bayesian_scoring_function <- NULL
     }
@@ -48,15 +47,23 @@ lm_fit <- function(x, y, ncores, seed, ...) {
 }
 
 lm_predict <- function(model, newdata, ncores, ...) {
-  params <- list(...)
+  kwargs <- list(...)
 
-  if ("cat_vars" %in% names(params)) {
-    cat_vars <- params[["cat_vars"]]
+  if ("cat_vars" %in% names(kwargs)) {
+    cat_vars <- kwargs[["cat_vars"]]
   } else {
     cat_vars <- NULL
   }
 
   newdata <- kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
 
-  return(stats::predict.lm(model, newdata = newdata, type = "response"))
+  pred_args <- list(
+    object = model,
+    newdata = newdata
+  )
+  if (length(kwargs) > 0L) {
+    pred_args <- c(pred_args, kwargs)
+  }
+
+  return(do.call(stats::predict.lm, pred_args))
 }

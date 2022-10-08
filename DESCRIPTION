@@ -24,6 +24,8 @@ Suggests:
     datasets,
     knitr,
     lintr,
+    mlbench,
+    mlr3measures,
     ParBayesianOptimization,
     rpart,
     testthat (>= 3.0.1)
@@ -32,6 +34,6 @@ VignetteBuilder:
 Remotes: 
     github::kapsner/kdry@main,
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-07 07:28:19 UTC
+Date/Publication: 2022-10-08 21:03:14 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1

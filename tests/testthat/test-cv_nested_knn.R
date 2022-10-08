@@ -8,12 +8,12 @@ seed <- 123
 feature_cols <- colnames(dataset)[1:180]
 
 param_list_knn <- expand.grid(
-  k = seq(4, 74, 10),
-  l = 4,
+  k = seq(4, 68, 8),
+  l = c(0, 1),
   test = parse(text = "fold_test$x")
 )
 
-knn_bounds <- list(k = c(1L, 100L))
+knn_bounds <- list(k = c(2L, 80L))
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
   yes = 4L,
@@ -55,10 +55,16 @@ test_that(
       seed = seed
     )
 
+    set.seed(seed)
+    random_grid <- sample(seq_len(nrow(param_list_knn)), 10)
+    knn_optimization$parameter_grid <- param_list_knn[random_grid, ]
     knn_optimization$parameter_bounds <- knn_bounds
-    knn_optimization$parameter_grid <- param_list_knn
     knn_optimization$split_type <- "stratified"
     knn_optimization$optim_args <- optim_args
+
+    knn_optimization$predict_args <- list(type = "response")
+    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$performance_metric_name <- "Balanced accuracy"
 
     # set data
     knn_optimization$set_data(
@@ -90,9 +96,14 @@ test_that(
       seed = seed
     )
 
-    knn_optimization$parameter_grid <- param_list_knn
+    set.seed(seed)
+    random_grid <- sample(seq_len(nrow(param_list_knn)), 10)
+    knn_optimization$parameter_grid <- param_list_knn[random_grid, ]
     knn_optimization$split_type <- "stratified"
-    knn_optimization$optim_args <- optim_args
+
+    knn_optimization$predict_args <- list(type = "response")
+    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$performance_metric_name <- "Balanced accuracy"
 
     # set data
     knn_optimization$set_data(

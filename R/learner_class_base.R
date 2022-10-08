@@ -4,9 +4,20 @@ MLLearnerBase <- R6::R6Class( # nolint
   public = list(
     cluster_export = NULL,
     metric_optimization_higher_better = NULL,
-    metric_performance_name = NULL,
+    performance_metric_name = NULL,
     environment = -1L,
-    initialize = function() {
+    initialize = function(
+      metric_optimization_higher_better = NULL
+      ) {
+      stopifnot(
+        ifelse(
+          test = is.null(metric_optimization_higher_better),
+          yes = TRUE,
+          no = is.logical(metric_optimization_higher_better)
+        )
+      )
+      self$metric_optimization_higher_better <-
+        metric_optimization_higher_better
     },
     cross_validation = function(...) {
       kwargs <- list(...)
@@ -35,20 +46,12 @@ MLLearnerBase <- R6::R6Class( # nolint
         method_helper
       )
       do.call(private$fun_bayesian_scoring_function, args)
-    },
-    performance_metric = function(ground_truth, predictions) {
-      kwargs <- list(
-        ground_truth = ground_truth,
-        predictions = predictions
-      )
-      do.call(private$fun_performance_metric, kwargs)
     }
   ),
   private = list(
     fun_optim_cv = NULL,
     fun_bayesian_scoring_function = NULL,
     fun_fit = NULL,
-    fun_predict = NULL,
-    fun_performance_metric = NULL
+    fun_predict = NULL
   )
 )

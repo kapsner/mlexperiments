@@ -1,30 +1,65 @@
-.metric_mae <- function(ground_truth, predictions) {
-  stopifnot(length(ground_truth) == length(predictions))
-  return((1 / length(ground_truth)) * sum(abs(predictions - ground_truth)))
-}
+#' @export
+metric <- function(name) {
+  stopifnot(is.character(name) && length(name) == 1L)
+  if (!requireNamespace("mlr3measures", quietly = TRUE)) {
+    stop(
+      paste0(
+        "Package \"mlr3measures\" must be installed to use ",
+        "function 'metric()'."
+      ),
+      call. = FALSE
+    )
+  }
+  stopifnot(
+    is.function(FUN <- utils::getFromNamespace(x = name, ns = "mlr3measures"))
+  )
 
-.metric_class_error_rate <- function(ground_truth, predictions) {
-  conf_mat <- .metric_helper_conf_mat(ground_truth, predictions)
-  #%TP <- conf_mat[2, 2] # nolint
-  FP <- conf_mat[1, 2] # nolint
-  #%TN <- conf_mat[1, 1] # nolint
-  FN <- conf_mat[2, 1] # nolint
-  return((FP + FN) / sum(conf_mat))
-}
+  fun_name <- paste0("mlr3measures::", name)
 
-.metric_accuracy <- function(ground_truth, predictions) {
-  conf_mat <- .metric_helper_conf_mat(ground_truth, predictions)
-  TP <- conf_mat[2, 2] # nolint
-  #%FP <- conf_mat[1, 2] # nolint
-  TN <- conf_mat[1, 1] # nolint
-  #%FN <- conf_mat[2, 1] # nolint
-  return((TP + TN) / sum(conf_mat))
-}
+  default_args <- formals(FUN)
+  response_name <- names(default_args)[2]
+  stopifnot(response_name %in% c("response", "prob"))
 
-.metric_helper_conf_mat <- function(ground_truth, predictions) {
-  preds <- ifelse(test = predictions < 0.5, 0L, 1L)
-  preds <- factor(preds, levels = c("0", "1"))
-  trues <- as.integer(ground_truth) - 1L
-  trues <- factor(trues, levels = c("0", "1"))
-  return(table(trues, preds, exclude = FALSE))
+  measure_metadata <- mlr3measures::measures[[name]]
+
+  if (measure_metadata$type %in% c("classif", "binary")) {
+    truth_factor <- TRUE
+    if (measure_metadata$predict_type == "response") {
+      predict_factor <- TRUE
+    } else if (measure_metadata$predict_type == "prob") {
+      predict_factor <- FALSE
+    }
+  } else {
+    truth_factor <- FALSE
+    predict_factor <- FALSE
+  }
+
+  fun_body_pre <- paste0(
+    ifelse(
+      test = isTRUE(truth_factor),
+      yes = "\nground_truth <- factor(ground_truth)\n",
+      no = "\nground_truth <- as.numeric(as.character(ground_truth))\n"
+    ),
+    ifelse(
+      test = isTRUE(predict_factor),
+      yes = "predictions <- factor(predictions)\n",
+      no = "predictions <- as.numeric(as.character(predictions))\n"
+    )
+  )
+
+  # compose function body
+  fun_body <- paste0(
+    "args <- list(truth = ground_truth, ", response_name, " = predictions) \n",
+    "if (length(kwargs) > 0L) {\nargs <- c(args, kwargs)\n}\n",
+    "return(do.call(", fun_name, ", args))"
+  )
+
+  fun <- paste0(
+    "function(ground_truth, predictions, ...) {\n",
+    "kwargs <- list(...)",
+    fun_body_pre,
+    fun_body,
+    "\n}"
+  )
+  return(eval(parse(text = fun)))
 }

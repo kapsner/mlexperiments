@@ -66,6 +66,8 @@ usethis::use_package("ParBayesianOptimization", type = "Suggests")
 usethis::use_package("datasets", type = "Suggests")
 usethis::use_package("class", type = "Suggests")
 usethis::use_package("rpart", type = "Suggests")
+usethis::use_package("mlbench", type = "Suggests")
+usethis::use_package("mlr3measures", type = "Suggests")
 
 
 # define remotes

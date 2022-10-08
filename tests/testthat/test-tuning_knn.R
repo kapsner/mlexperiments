@@ -8,12 +8,12 @@ seed <- 123
 feature_cols <- colnames(dataset)[1:180]
 
 param_list_knn <- expand.grid(
-  k = seq(4, 74, 10),
-  l = 4,
+  k = seq(4, 68, 8),
+  l = 0,
   test = parse(text = "fold_test$x")
 )
 
-knn_bounds <- list(k = c(1L, 100L))
+knn_bounds <- list(k = c(2L, 80L))
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
   yes = 4L,
@@ -59,7 +59,7 @@ test_that(
 
     cv_results1 <- knn_optimization$execute(k = 3)
     expect_type(cv_results1, "list")
-    expect_equal(dim(cv_results1), c(8, 11))
+    expect_equal(dim(cv_results1), c(9, 11))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
@@ -78,7 +78,7 @@ test_that(
       list(k = param_list_knn[, 1])
     )
     knn_optimization$learner_args <- list(
-      l = 4,
+      l = 0,
       test = parse(text = "fold_test$x")
     )
     knn_optimization$split_type <- "stratified"
@@ -92,7 +92,7 @@ test_that(
 
     cv_results2 <- knn_optimization$execute(k = 3)
     expect_type(cv_results2, "list")
-    expect_equal(dim(cv_results2), c(8, 11))
+    expect_equal(dim(cv_results2), c(9, 11))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
@@ -160,7 +160,7 @@ test_that(
 
     cv_results <- knn_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(8, 4))
+    expect_equal(dim(cv_results), c(9, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"

@@ -55,11 +55,16 @@
 
   # calculate error metric for each fold
   for (fold in names(results_object)) {
+    perf_args <- list(
+      ground_truth = results_object[[fold]][["ground_truth"]],
+      predictions = results_object[[fold]][["predictions"]]
+    )
+    if (!is.null(self$performance_metric_args)) {
+      stopifnot(is.list(self$performance_metric_args))
+      perf_args <- c(perf_args, self$performance_metric_args)
+    }
     results_object[[fold]][["performance"]] <-
-      private$learner$performance_metric(
-        ground_truth = results_object[[fold]][["ground_truth"]],
-        predictions = results_object[[fold]][["predictions"]]
-      )
+      do.call(self$performance_metric, perf_args)
   }
 
   # calculate performance metrics here
@@ -130,6 +135,10 @@
   )
   if (!is.null(private$cat_vars)) {
     pred_args <- c(pred_args, list(cat_vars = private$cat_vars))
+  }
+  if (!is.null(self$predict_args)) {
+    stopifnot(is.list(self$predict_args))
+    pred_args <- c(pred_args, self$predict_args)
   }
   preds <- do.call(private$learner$predict, pred_args)
 

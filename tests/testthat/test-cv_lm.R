@@ -27,6 +27,9 @@ test_that(
       fold_list = fold_list,
       seed = seed
     )
+    lm_optimization$predict_args <- list(type = "response")
+    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric_name <- "Mean squared error"
 
     # set data
     lm_optimization$set_data(
@@ -53,6 +56,9 @@ test_that(
       fold_list = fold_list,
       seed = seed
     )
+    lm_optimization$predict_args <- list(type = "response")
+    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric_name <- "Mean squared error"
 
     lm_optimization$return_models <- TRUE
 

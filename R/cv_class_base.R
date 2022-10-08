@@ -5,6 +5,10 @@ MLCrossValidation <- R6::R6Class( # nolint
   public = list(
     fold_list = NULL,
     return_models = NULL,
+    performance_metric = NULL,
+    performance_metric_name = NULL,
+    performance_metric_args = NULL,
+    predict_args = NULL,
     initialize = function(
       learner,
       fold_list,
@@ -38,7 +42,13 @@ MLCrossValidation <- R6::R6Class( # nolint
     prepare = function() {
       stopifnot(
         !is.null(private$x), !is.null(private$y),
-        !is.null(self$fold_list)
+        !is.null(self$fold_list),
+        ifelse(
+          test = is.null(self$performance_metric_args),
+          yes = TRUE,
+          no = is.list(self$performance_metric_args)
+        ),
+        is.function(self$performance_metric)
       )
       # apply parameter_grid stuff
       .organize_parameter_grid(self = self, private = private)
