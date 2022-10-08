@@ -7,7 +7,7 @@
 .tune_init <- function(self, private, k) {
   stopifnot(
     !is.null(private$strategy),
-    !is.null(self$learner),
+    !is.null(private$learner),
     !is.null(private$x), !is.null(private$y),
     is.integer(as.integer(k))
   )

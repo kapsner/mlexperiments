@@ -7,7 +7,7 @@
   ) {
 
   hparam_tuner <- MLTuneParameters$new(
-    learner = self$learner,
+    learner = private$learner,
     strategy = self$strategy,
     seed = private$seed,
     ncores = private$ncores

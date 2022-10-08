@@ -4,7 +4,6 @@ dataset <- DNA |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- LearnerKnn
 seed <- 123
 feature_cols <- colnames(dataset)[1:180]
 
@@ -48,7 +47,7 @@ test_that(
   code = {
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "bayesian",
       fold_list = fold_list,
       k_tuning = 3L,
@@ -83,7 +82,7 @@ test_that(
   code = {
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "grid",
       fold_list = fold_list,
       k_tuning = 3L,

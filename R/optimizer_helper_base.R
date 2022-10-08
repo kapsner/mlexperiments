@@ -4,7 +4,7 @@
   )
   # init and configure optimizer
   optimizer <- GridOptimizer$new(
-    learner = self$learner,
+    learner = private$learner,
     seed = private$seed,
     ncores = private$ncores
   )
@@ -18,7 +18,7 @@
   )
   # init and configure optimizer
   optimizer <- BayesianOptimizer$new(
-    learner = self$learner,
+    learner = private$learner,
     seed = private$seed,
     ncores = private$ncores,
     ... = self$optim_args

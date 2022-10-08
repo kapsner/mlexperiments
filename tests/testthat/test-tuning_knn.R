@@ -4,7 +4,6 @@ dataset <- DNA |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- LearnerKnn
 seed <- 123
 feature_cols <- colnames(dataset)[1:180]
 
@@ -41,7 +40,7 @@ test_that(
   code = {
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "bayesian",
       ncores = ncores,
       seed = seed
@@ -68,7 +67,7 @@ test_that(
 
     # check if learner_args yield same results
     knn_optimization <- mlexperiments::MLTuneParameters$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "bayesian",
       ncores = ncores,
       seed = seed
@@ -112,7 +111,7 @@ test_that(
   code = {
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "bayesian",
       ncores = ncores,
       seed = seed
@@ -144,7 +143,7 @@ test_that(
   code = {
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
-      learner = learner,
+      learner = LearnerKnn$new(),
       strategy = "grid",
       ncores = ncores,
       seed = seed

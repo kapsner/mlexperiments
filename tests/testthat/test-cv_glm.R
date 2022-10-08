@@ -4,7 +4,6 @@ dataset <- PimaIndiansDiabetes2 |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- LearnerGlm
 seed <- 123
 feature_cols <- colnames(dataset)[1:8]
 
@@ -26,7 +25,7 @@ test_that(
   code = {
 
     glm_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = learner,
+      learner = LearnerGlm$new(),
       fold_list = fold_list,
       seed = seed
     )
@@ -54,7 +53,7 @@ test_that(
   code = {
 
     glm_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = learner,
+      learner = LearnerGlm$new(),
       fold_list = fold_list,
       seed = seed
     )

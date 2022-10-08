@@ -5,9 +5,9 @@ BaseOptimizer <- R6::R6Class( # nolint
     parameter_grid = NULL,
     metric_optimization_higher_better = NULL,
     initialize = function(learner, seed, ncores) {
-      stopifnot(R6::is.R6Class(learner))
+      stopifnot(R6::is.R6(learner))
       super$initialize(seed = seed, ncores = ncores)
-      private$learner <- learner$new()
+      private$learner <- learner
       self$metric_optimization_higher_better <-
         private$learner$metric_optimization_higher_better
     },

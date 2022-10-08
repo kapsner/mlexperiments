@@ -23,7 +23,6 @@ MLCrossValidation <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    metric_performance_higher_better = NULL,
     fun_performance_metric = NULL,
     cv_run_model = function(...) {
       kwargs <- list(...)

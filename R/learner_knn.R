@@ -15,7 +15,6 @@ LearnerKnn <- R6::R6Class( # nolint
       }
       super$initialize()
       self$metric_optimization_higher_better <- FALSE
-      self$metric_performance_higher_better <- TRUE
       self$environment <- "mlexperiments"
       self$cluster_export <- knn_ce()
       private$fun_optim_cv <- knn_optimization

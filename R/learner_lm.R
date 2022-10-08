@@ -5,7 +5,6 @@ LearnerLm <- R6::R6Class( # nolint
   public = list(
     initialize = function() {
       super$initialize()
-      self$metric_performance_higher_better <- FALSE
       self$environment <- "mlexperiments"
       private$fun_fit <- lm_fit
       private$fun_predict <- lm_predict

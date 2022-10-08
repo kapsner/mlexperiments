@@ -2,7 +2,6 @@ dataset <- datasets::trees |>
   data.table::as.data.table() |>
   na.omit()
 
-learner <- LearnerLm
 seed <- 123
 feature_cols <- colnames(dataset)[1:2]
 
@@ -24,7 +23,7 @@ test_that(
   code = {
 
     lm_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = learner,
+      learner = LearnerLm$new(),
       fold_list = fold_list,
       seed = seed
     )
@@ -50,7 +49,7 @@ test_that(
   code = {
 
     lm_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = learner,
+      learner = LearnerLm$new(),
       fold_list = fold_list,
       seed = seed
     )
