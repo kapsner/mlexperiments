@@ -11,7 +11,7 @@
 
 - Outer Crossvalidation with pre-specified folds (done)
 - Nested Crossvalidation (using outer CV with pre-specified folds and inner hyperparameter tuning) (done)
-- Prediction Ensemble from outer CV-models
+- Prediction Ensemble from outer CV-models / check, if models have been returned
 - xgboost and ranger as surv_cox learner (done)
 - lm / glm as base learner (done)
 - all pre-implemented learner (but lm / glm) to new package (done)

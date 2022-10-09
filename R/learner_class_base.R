@@ -7,14 +7,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     performance_metric_name = NULL,
     environment = -1L,
     initialize = function(
-      metric_optimization_higher_better = NULL # nolint
+      metric_optimization_higher_better # nolint
       ) {
       stopifnot(
-        ifelse(
-          test = is.null(metric_optimization_higher_better),
-          yes = TRUE,
-          no = is.logical(metric_optimization_higher_better)
-        )
+        is.logical(metric_optimization_higher_better) ||
+          is.null(metric_optimization_higher_better)
       )
       self$metric_optimization_higher_better <-
         metric_optimization_higher_better

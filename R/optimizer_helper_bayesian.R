@@ -75,7 +75,7 @@
       expr = {
         # set cluster options
         options(cluster_options)
-        #lapply(cluster_load, library, character.only = TRUE)
+        #%lapply(cluster_load, library, character.only = TRUE)
         ## not necessary since using ::-notation everywhere
         RNGkind("L'Ecuyer-CMRG")
         # set seed in each job for reproducibility

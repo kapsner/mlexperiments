@@ -26,7 +26,11 @@ MLNestedCV <- R6::R6Class( # nolint
         ncores = ncores,
         return_models = return_models
       )
-      stopifnot(is.integer(self$k_tuning <- as.integer(k_tuning)))
+      stopifnot(
+        !is.null(private$learner$.__enclos_env__$private$fun_optim_cv),
+        as.integer(k_tuning) >= 3L,
+        is.integer(self$k_tuning <- as.integer(k_tuning))
+      )
       strategy <- match.arg(strategy)
       self$strategy <- strategy
     },

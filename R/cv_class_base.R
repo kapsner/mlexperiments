@@ -18,7 +18,7 @@ MLCrossValidation <- R6::R6Class( # nolint
     ) {
       super$initialize(learner = learner, seed = seed, ncores = ncores)
       stopifnot(is.logical(self$return_models <- return_models))
-      stopifnot(is.list(fold_list) && length(fold_list) > 2L)
+      stopifnot(is.list(fold_list) && length(fold_list) >= 3L)
       self$fold_list <- fold_list
     },
     execute = function() {

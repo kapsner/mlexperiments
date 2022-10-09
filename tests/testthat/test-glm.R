@@ -20,6 +20,11 @@ fold_list <- splitTools::create_folds(
   seed = seed
 )
 
+
+# ###########################################################################
+# %% CV
+# ###########################################################################
+
 test_that(
   desc = "test cv - glm",
   code = {
@@ -80,6 +85,71 @@ test_that(
     expect_true(inherits(
       x = glm_optimization$results[[1]]$model,
       what = "glm"
+    ))
+  }
+)
+
+# ###########################################################################
+# %% TUNING
+# ###########################################################################
+
+test_that(
+  desc = "test bayesian tuner, expect error - glm",
+  code = {
+
+    expect_error(mlexperiments::MLTuneParameters$new(
+      learner = LearnerGlm$new(),
+      strategy = "bayesian",
+      ncores = ncores,
+      seed = seed
+    ))
+  }
+)
+
+test_that(
+  desc = "test grid, expect error - glm",
+  code = {
+
+    expect_error(mlexperiments::MLTuneParameters$new(
+      learner = LearnerGlm$new(),
+      strategy = "grid",
+      ncores = ncores,
+      seed = seed
+    ))
+  }
+)
+
+# ###########################################################################
+# %% NESTED CV
+# ###########################################################################
+
+test_that(
+  desc = "test nested cv, grid - glm",
+  code = {
+
+    expect_error(mlexperiments::MLNestedCV$new(
+      learner = LearnerGlm$new(),
+      strategy = "bayesian",
+      fold_list = fold_list,
+      k_tuning = 3L,
+      ncores = ncores,
+      seed = seed
+    ))
+  }
+)
+
+
+test_that(
+  desc = "test nested cv, grid - glm",
+  code = {
+
+    expect_error(mlexperiments::MLNestedCV$new(
+      learner = LearnerGlm$new(),
+      strategy = "grid",
+      fold_list = fold_list,
+      k_tuning = 3L,
+      ncores = ncores,
+      seed = seed
     ))
   }
 )

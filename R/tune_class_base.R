@@ -17,7 +17,20 @@ MLTuneParameters <- R6::R6Class( # nolint
       ncores = -1L
     ) {
       super$initialize(learner = learner, seed = seed, ncores = ncores)
+      stopifnot(
+        !is.null(private$learner$.__enclos_env__$private$fun_optim_cv)
+      )
       strategy <- match.arg(strategy)
+      stopifnot(
+        ifelse(
+          test = strategy == "bayesian",
+          yes = !is.null(private$learner$cluster_export),
+          no = TRUE
+        ),
+        !is.null(
+          private$learner$.__enclos_env__$private$fun_bayesian_scoring_function
+        )
+      )
       private$strategy <- strategy
 
       # init some stuff

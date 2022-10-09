@@ -9,9 +9,9 @@
     !is.null(private$strategy),
     !is.null(private$learner),
     !is.null(private$x), !is.null(private$y),
-    is.integer(as.integer(k))
+    as.integer(k) >= 3L,
+    is.integer(k <- as.integer(k))
   )
-  k <- as.integer(k)
 
   # add fold list, if it hasn't set manually
   if (is.null(private$method_helper$fold_list)) {
@@ -86,6 +86,7 @@
     results_object,
     metric_higher_better
 ) {
+  stopifnot(is.logical(metric_higher_better))
   # define object to be returned
   outlist <- list()
   if (private$strategy == "bayesian") {
