@@ -40,7 +40,7 @@
       if (nrow(self$parameter_grid) >
           as.integer(options("mlexperiments.bayesian.max_init"))) {
         message(sprintf(paste0(
-          "Rows of initialization grid > than ",
+          "\nNumber of rows of initialization grid > than ",
           "'options(\"mlexperiments.bayesian.max_init\")'...\n",
           "... reducing initialization grid to %s rows."
         ), options("mlexperiments.bayesian.max_init")
