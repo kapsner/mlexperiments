@@ -74,6 +74,10 @@ ncores <- ifelse(
     no = parallel::detectCores()
   )
 )
+if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
+  # on cran
+  ncores <- 2L
+}
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,
@@ -109,7 +113,6 @@ test_that(
 
     cv_results1 <- knn_optimization$execute(k = 3)
     expect_type(cv_results1, "list")
-    expect_equal(dim(cv_results1), c(9, 11))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
@@ -142,7 +145,6 @@ test_that(
 
     cv_results2 <- knn_optimization$execute(k = 3)
     expect_type(cv_results2, "list")
-    expect_equal(dim(cv_results2), c(9, 11))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
@@ -179,7 +181,6 @@ test_that(
 
     cv_results <- knn_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(4, 10))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"

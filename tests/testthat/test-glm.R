@@ -93,6 +93,8 @@ test_that(
 # %% TUNING
 # ###########################################################################
 
+ncores <- 2L
+
 test_that(
   desc = "test bayesian tuner, expect error - glm",
   code = {

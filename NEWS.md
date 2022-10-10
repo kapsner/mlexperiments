@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-08)
+## Unreleased (2022-10-10)
 
 #### New features
 
@@ -23,6 +23,8 @@
 
 #### Bug fixes
 
+-   fixed buc in bayesian scoring function
+    ([a1214e1](https://github.com/kapsner/mlexperiments/tree/a1214e1dbd4af11b8954fa8ff0d86c44ba01de03))
 -   fixed general parsing of parameters
     ([015d5f6](https://github.com/kapsner/mlexperiments/tree/015d5f6bc26272b3bbd22430db4599781cc1dcc5))
 -   removing duplicates by name
@@ -42,6 +44,10 @@
 
 #### Refactorings
 
+-   now relying on list.append from kdry
+    ([d9f6f67](https://github.com/kapsner/mlexperiments/tree/d9f6f679139de06dce34d4d3d4f0d168030a1061))
+-   metric-performance to cv-class now
+    ([d4209e5](https://github.com/kapsner/mlexperiments/tree/d4209e5aad59ad46cc9297e29f9a1e5ca20be493))
 -   removed metric\_perf\_h\_b
     ([e63b3da](https://github.com/kapsner/mlexperiments/tree/e63b3da8e465ff73f1a136c5a6a869789e9ff679))
 -   optmizing code quality
@@ -57,6 +63,8 @@
 
 #### CI
 
+-   refactored unit tests
+    ([d003088](https://github.com/kapsner/mlexperiments/tree/d003088c9d19dda872f9e698d9cbcb9f89cb6e95))
 -   fixed linting errors
     ([a3d3eb0](https://github.com/kapsner/mlexperiments/tree/a3d3eb0887db86a97b17a3d0b07b90c587477a5a))
 
@@ -66,4 +74,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...e63b3da`](https://github.com/kapsner/mlexperiments/compare/edb76c3...e63b3da)
+[`edb76c3...a1214e1`](https://github.com/kapsner/mlexperiments/compare/edb76c3...a1214e1)

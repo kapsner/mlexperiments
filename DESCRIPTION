@@ -34,6 +34,8 @@ VignetteBuilder:
 Remotes: 
     github::kapsner/kdry@main,
     github::mayer79/splitTools@master
-Date/Publication: 2022-10-08 21:03:14 UTC
+Config/testthat/edition: 3
+Config/testthat/parallel: false
+Date/Publication: 2022-10-10 11:11:43 UTC
 Encoding: UTF-8
 RoxygenNote: 7.2.1
