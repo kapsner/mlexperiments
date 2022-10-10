@@ -18,5 +18,7 @@
 - some base packages: knn (done), rpart
 
 
-Document features: learner args as expression "parse(text = )"
+Document features:
+- learner args as expression "parse(text = )"
+- bayesian_scoring_function -> if metric_optimization_higher_better = FALSE --> inversion of Score is taken care of
 

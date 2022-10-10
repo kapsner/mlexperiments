@@ -40,7 +40,15 @@ MLLearnerBase <- R6::R6Class( # nolint
         kwargs,
         method_helper
       )
-      do.call(private$fun_bayesian_scoring_function, args)
+      res <- do.call(private$fun_bayesian_scoring_function, args)
+
+      # take care of transforming results in case higher-better = FALSE
+      # --> bayesOpt tries to maximize the metric, so it is required to
+      # reverse score
+      if (isFALSE(self$metric_optimization_higher_better)) {
+        res$Score <- as.numeric(I(res$Score * -1L))
+      }
+      return(res)
     }
   ),
   private = list(
