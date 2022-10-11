@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-10)
+## Unreleased (2022-10-11)
 
 #### New features
 
@@ -44,6 +44,8 @@
 
 #### Refactorings
 
+-   learner to self
+    ([263ae51](https://github.com/kapsner/mlexperiments/tree/263ae51b365f4db79f1b006052d2dfdf0f7d8570))
 -   now relying on list.append from kdry
     ([d9f6f67](https://github.com/kapsner/mlexperiments/tree/d9f6f679139de06dce34d4d3d4f0d168030a1061))
 -   metric-performance to cv-class now
@@ -63,6 +65,10 @@
 
 #### CI
 
+-   solve warning for missing global variables
+    ([771a3f1](https://github.com/kapsner/mlexperiments/tree/771a3f10dbf93037933c229948e7743fca52ae0b))
+-   fixed test to comply with cran checks
+    ([8026711](https://github.com/kapsner/mlexperiments/tree/8026711b9f6f59534cabd51fc60d8dae63c0f45e))
 -   refactored unit tests
     ([d003088](https://github.com/kapsner/mlexperiments/tree/d003088c9d19dda872f9e698d9cbcb9f89cb6e95))
 -   fixed linting errors
@@ -70,8 +76,10 @@
 
 #### Other changes
 
+-   reformating message
+    ([74fed90](https://github.com/kapsner/mlexperiments/tree/74fed90ab55e229cbd77a5941c1de512a5605e11))
 -   updated readme
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...a1214e1`](https://github.com/kapsner/mlexperiments/compare/edb76c3...a1214e1)
+[`edb76c3...263ae51`](https://github.com/kapsner/mlexperiments/compare/edb76c3...263ae51)
