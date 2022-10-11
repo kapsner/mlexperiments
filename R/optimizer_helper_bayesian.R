@@ -6,7 +6,7 @@
 ) {
   stopifnot(!is.null(self$parameter_bounds))
   if (self$optim_args$parallel) {
-    stopifnot(!is.null(private$learner$cluster_export))
+    stopifnot(!is.null(self$learner$cluster_export))
     message(sprintf(
       "\nRegistering parallel backend using %s cores.",
       private$ncores
@@ -43,12 +43,12 @@
 
     # export from global env
     # if (private$method %in% options("mlexperiments.learner")) {
-    if (private$learner$environment != -1L) {
+    if (self$learner$environment != -1L) {
       # https://stackoverflow.com/questions/67595111/r-package-design-how-to-
       # export-internal-functions-to-a-cluster
       #%ns <- asNamespace("mlexperiments")
-      stopifnot(is.character(private$learner$environment))
-      ns <- asNamespace(private$learner$environment)
+      stopifnot(is.character(self$learner$environment))
+      ns <- asNamespace(self$learner$environment)
       parallel::clusterExport(
         cl = cl,
         #% varlist = unclass(
@@ -56,13 +56,13 @@
         #%     envir = ns,
         #%     all = TRUE
         #% )),
-        varlist = private$learner$cluster_export,
+        varlist = self$learner$cluster_export,
         envir = as.environment(ns)
       )
     } else {
       parallel::clusterExport(
         cl = cl,
-        varlist = private$learner$cluster_export,
+        varlist = self$learner$cluster_export,
         envir = -1L
       )
     }
@@ -97,7 +97,7 @@
       # FUN = eval(parse(text = paste0(
       #   private$method, "_bsF"
       # ))),
-      FUN = private$learner$bayesian_scoring_function,
+      FUN = self$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
       initGrid = method_helper$execute_params$parameter_grid
     ),

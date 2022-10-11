@@ -85,7 +85,10 @@
           FUN.VALUE = logical(1L)
         )
 
-        outlist <- list("performance" = results_object[[x]][["performance"]])
+        outlist <- list(
+          "fold" = x,
+          "performance" = results_object[[x]][["performance"]]
+        )
 
         if (sum(add_args) > 0) {
           outlist <- kdry::list.append(
@@ -127,7 +130,7 @@
   }
 
   set.seed(private$seed)
-  fitted <- do.call(private$learner$fit, fit_args)
+  fitted <- do.call(self$learner$fit, fit_args)
 
   # make predictions
   pred_args <- list(
@@ -139,7 +142,7 @@
     pred_args <- kdry::list.append(pred_args, list(cat_vars = private$cat_vars))
   }
   pred_args <- kdry::list.append(pred_args, self$predict_args)
-  preds <- do.call(private$learner$predict, pred_args)
+  preds <- do.call(self$learner$predict, pred_args)
 
   res <- list(
     fold_ids = train_index,

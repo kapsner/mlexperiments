@@ -15,7 +15,7 @@ train_y <- dataset[, get("Class")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,
-  k = 5,
+  k = 3,
   type = "stratified",
   seed = seed
 )
@@ -51,7 +51,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 3))
+    expect_equal(dim(cv_results), c(3, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"
@@ -255,7 +255,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 3))
+    expect_equal(dim(cv_results), c(3, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"
@@ -292,7 +292,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 3))
+    expect_equal(dim(cv_results), c(3, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"

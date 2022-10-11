@@ -7,7 +7,7 @@
 .tune_init <- function(self, private, k) {
   stopifnot(
     !is.null(private$strategy),
-    !is.null(private$learner),
+    !is.null(self$learner),
     !is.null(private$x), !is.null(private$y),
     as.integer(k) >= 3L,
     is.integer(k <- as.integer(k))
@@ -105,7 +105,6 @@
         "Score", "metric_optim_mean", "errorMessage"
       )
     )
-    opt_metric <- "Score"
   } else if (private$strategy == "grid") {
     stopifnot(inherits(results_object, "list"))
     summary_object <- data.table::rbindlist(
@@ -117,7 +116,6 @@
       colnames(summary_object),
       "metric_optim_mean"
     )
-    opt_metric <- "metric_optim_mean"
   }
 
   exl_cols <- vapply(
@@ -129,7 +127,7 @@
 
   outlist[["best.setting"]] <- .get_best_setting(
     results = outlist$summary,
-    opt_metric = opt_metric,
+    opt_metric = "metric_optim_mean",
     param_names = param_names,
     higher_better = metric_higher_better
   )
@@ -138,6 +136,9 @@
     outlist[["best.setting"]],
     private$method_helper$execute_params$params_not_optimized
   )
+  outlist[["best.setting"]] <- outlist[["best.setting"]][
+      !kdry::misc_duplicated_by_names(outlist[["best.setting"]])
+    ]
   return(outlist)
 }
 
@@ -146,7 +147,7 @@
     results,
     opt_metric,
     param_names,
-    higher_better = TRUE
+    higher_better
 ) {
   stopifnot(
     data.table::is.data.table(results),

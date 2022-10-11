@@ -3,13 +3,11 @@ BaseOptimizer <- R6::R6Class( # nolint
   classname = "BaseOptimizer",
   public = list(
     parameter_grid = NULL,
-    metric_optimization_higher_better = NULL,
+    learner = NULL,
     initialize = function(learner, seed, ncores) {
       stopifnot(R6::is.R6(learner))
       super$initialize(seed = seed, ncores = ncores)
-      private$learner <- learner
-      self$metric_optimization_higher_better <-
-        private$learner$metric_optimization_higher_better
+      self$learner <- learner
     },
     execute = function(x, y, method_helper, ncores, seed) {
       if (is.null(method_helper$execute_params$parameter_grid)) {
@@ -38,7 +36,6 @@ BaseOptimizer <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    learner = NULL,
     strategy = NULL,
     method_helper = NULL
   )

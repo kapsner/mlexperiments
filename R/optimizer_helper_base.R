@@ -4,7 +4,7 @@
   )
   # init and configure optimizer
   optimizer <- GridOptimizer$new(
-    learner = private$learner,
+    learner = self$learner,
     seed = private$seed,
     ncores = private$ncores
   )
@@ -18,7 +18,7 @@
   )
   # init and configure optimizer
   optimizer <- BayesianOptimizer$new(
-    learner = private$learner,
+    learner = self$learner,
     seed = private$seed,
     ncores = private$ncores,
     ... = self$optim_args
@@ -42,7 +42,7 @@
     self = self,
     private = private,
     results_object = optim_results,
-    metric_higher_better = optimizer$metric_optimization_higher_better
+    metric_higher_better = optimizer$learner$metric_optimization_higher_better
   )
 
   outlist <- kdry::list.append(outlist, private$method_helper)

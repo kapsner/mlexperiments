@@ -27,7 +27,7 @@ MLNestedCV <- R6::R6Class( # nolint
         return_models = return_models
       )
       stopifnot(
-        !is.null(private$learner$.__enclos_env__$private$fun_optim_cv),
+        !is.null(self$learner$.__enclos_env__$private$fun_optim_cv),
         as.integer(k_tuning) >= 3L,
         is.integer(self$k_tuning <- as.integer(k_tuning))
       )

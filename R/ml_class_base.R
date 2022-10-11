@@ -28,13 +28,14 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #' @field learner_args A list containing the parameter settings of the
     #'   learner algorithm.
     learner_args = NULL,
+    learner = NULL,
     initialize = function(learner, seed, ncores = -1L) {
       super$initialize(seed = seed, ncores = ncores)
       stopifnot(
         # only accept instantiated learners
         R6::is.R6(learner)
       )
-      private$learner <- learner
+      self$learner <- learner
     },
     set_data = function(x, y, cat_vars = NULL) {
       stopifnot(
@@ -55,7 +56,6 @@ MLExperimentsBase <- R6::R6Class( # nolint
   private = list(
     x = NULL,
     y = NULL,
-    method_helper = NULL,
-    learner = NULL
+    method_helper = NULL
   )
 )

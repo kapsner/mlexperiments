@@ -46,7 +46,7 @@
       # FUN <- eval(parse(text = paste0(
       #   private$method, "_cv"
       # )))
-      FUN <- private$learner$cross_validation # nolint
+      FUN <- self$learner$cross_validation # nolint
 
       fun_parameters <- list(
         "x" = x,

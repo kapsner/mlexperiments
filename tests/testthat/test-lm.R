@@ -43,7 +43,7 @@ test_that(
 
     cv_results <- lm_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 1))
+    expect_equal(dim(cv_results), c(5, 2))
     expect_true(inherits(
       x = lm_optimization$results,
       what = "mlexCV"
