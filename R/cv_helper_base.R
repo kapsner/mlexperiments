@@ -53,6 +53,8 @@
     results_object
 ) {
 
+  outlist <- list(folds = results_object)
+
   # calculate error metric for each fold
   for (fold in names(results_object)) {
     perf_args <- kdry::list.append(
@@ -62,13 +64,13 @@
       ),
       self$performance_metric_args
     )
-    results_object[[fold]][["performance"]] <-
+    outlist[["performance"]][[fold]] <-
       do.call(self$performance_metric, perf_args)
   }
 
   # calculate performance metrics here
   # add them to a nice results table
-  results_object[["summary"]] <- data.table::rbindlist(
+  outlist[["summary"]] <- data.table::rbindlist(
     l = sapply(
       X = names(results_object),
       FUN = function(x) {
@@ -85,25 +87,25 @@
           FUN.VALUE = logical(1L)
         )
 
-        outlist <- list(
+        ret <- list(
           "fold" = x,
-          "performance" = results_object[[x]][["performance"]]
+          "performance" = outlist[["performance"]][[x]]
         )
 
         if (sum(add_args) > 0) {
-          outlist <- kdry::list.append(
-            outlist,
+          ret <- kdry::list.append(
+            ret,
             results_object[[x]][["learner.args"]][add_args]
           )
         }
-        return(outlist)
+        return(ret)
       },
       simplify = FALSE,
       USE.NAMES = TRUE
     )
   )
   # return
-  return(results_object)
+  return(outlist)
 }
 
 .cv_fit_model <- function(self, private, train_index, fold_train, fold_test) {

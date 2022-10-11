@@ -83,7 +83,7 @@ test_that(
     cv_results <- glm_optimization$execute()
     expect_type(cv_results, "list")
     expect_true(inherits(
-      x = glm_optimization$results[[1]]$model,
+      x = glm_optimization$results$folds[[1]]$model,
       what = "glm"
     ))
   }

@@ -75,7 +75,7 @@ test_that(
     cv_results <- lm_optimization$execute()
     expect_type(cv_results, "list")
     expect_true(inherits(
-      x = lm_optimization$results[[1]]$model,
+      x = lm_optimization$results$folds[[1]]$model,
       what = "lm"
     ))
   }

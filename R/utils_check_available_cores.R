@@ -1,8 +1,8 @@
-.check_available_cores <- function(self, private, ncores) {
+.check_available_cores <- function(ncores) {
   available_cores <- parallel::detectCores()
 
   if (ncores < 0L) {
-    private$ncores <- available_cores
+    ncores_out <- available_cores
   } else if (ncores > 1L) {
     if (ncores > available_cores) {
       message(sprintf(
@@ -11,11 +11,12 @@
           "Setting cores to available cores - 1, i.e. '%s'."),
         ncores, available_cores, I(available_cores - 1L)
       ))
-      private$ncores <- available_cores - 1L
+      ncores_out <- available_cores - 1L
     } else {
-      private$ncores <- ncores
+      ncores_out <- ncores
     }
   } else {
-    private$ncores <- 1L
+    ncores_out <- 1L
   }
+  return(ncores_out)
 }

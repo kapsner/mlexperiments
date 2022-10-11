@@ -9,10 +9,9 @@ MLBase <- R6::R6Class( # nolint
         ncores != 0L
       )
       private$seed <- as.integer(seed)
-      ncores <- as.integer(ncores)
 
       # check available cores
-      .check_available_cores(self, private, ncores)
+      private$ncores <- kdry::pch_check_available_cores(as.integer(ncores))
     }
   ),
   private = list(
