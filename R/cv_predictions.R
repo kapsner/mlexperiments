@@ -1,5 +1,11 @@
 #' @export
-predictions <- function(object, newdata, na.rm = FALSE, ncores = -1L, ...) {
+predictions <- function(
+    object,
+    newdata,
+    na.rm = FALSE, # nolint
+    ncores = -1L,
+    ...
+  ) {
   stopifnot(
     is.integer(as.integer(ncores)),
     ncores != 0L,
