@@ -25,7 +25,7 @@
       }
     )
     # cluster options
-    cluster_options <- kdry::misc_subset_option("mlexperiments")
+    cluster_options <- kdry::misc_subset_options("mlexperiments")
     # required for cluster export
     assign(
       x = "seed",
