@@ -20,7 +20,7 @@
   outlist <- list()
 
   for (fold in names(self$fold_list)) {
-    message(paste0("CV fold: ", fold))
+    message(paste0("\nCV fold: ", fold))
     # increment progress bar
     pb$tick()
 

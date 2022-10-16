@@ -25,9 +25,9 @@ BayesianOptimizer <- R6::R6Class( # nolint
 
       # update arguments
       if (length(kwargs) > 0) {
-        self$optim_args <- kdry::misc_update_default_arguments(
-          new = kwargs,
-          default = self$optim_args
+        self$optim_args <- kdry::list.update(
+          main_list = self$optim_args,
+          new_list = kwargs
         )
       }
     }
