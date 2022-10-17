@@ -32,7 +32,8 @@ MLExperimentsBase <- R6::R6Class( # nolint
       super$initialize(seed = seed, ncores = ncores)
       stopifnot(
         # only accept instantiated learners
-        R6::is.R6(learner)
+        R6::is.R6(learner),
+        inherits(learner, "MLLearnerBase")
       )
       self$learner <- learner
     },

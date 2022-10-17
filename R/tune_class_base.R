@@ -1,15 +1,87 @@
+#' R6 Class to construct the parameter tuner
+#'
+#' @description
+#' The `MLTuneParameters` class is used to construct a parameter tuner object
+#'   and to perform the tuning of a set of hyperparameters for a specified
+#'   machine learning algorithm using either a grid search or a Bayesian
+#'   optimization.
+#'
+#' @details
+#' The hyperparameter tuning can be performed with a grid search or a Bayesian
+#'   optimization. In both cases, each hyperparameter setting is evaluated in a
+#'   k-fold cross-validation on the dataset specified.
+#'
+#' @seealso [ParBayesianOptimization::bayesOpt()], [splitTools::create_folds()]
+#'
+#' @examples
+#' knn_tuner <- MLTuneParameters$new(
+#'   learner = LearnerKnn$new(),
+#'   seed = 123,
+#'   strategy = "grid",
+#'   ncores = 2
+#' )
+#'
 #' @export
+#'
 MLTuneParameters <- R6::R6Class( # nolint
   classname = "MLTuneParameters",
   inherit = MLExperimentsBase,
   public = list(
+    #' @field parameter_bounds A named list of tuples to define the parameter
+    #'   bounds of the Bayesian hyperparameter optimization. For further details
+    #'   please see the documentation of the `ParBayesianOptimization` package.
     parameter_bounds = NULL,
+
+    #' @field parameter_grid A matrix with named columns in which each column
+    #'   represents a parameter that should be optimized and each row represents
+    #'   a specific hyperparameter setting that should be tested throughout the
+    #'   procedure. For `strategy = "grid"`, each row of the `parameter_grid` is
+    #'   considered as a setting that is evaluated. For `strategy = "bayesian"`,
+    #'   the `parameter_grid` is passed further on to the `initGrid` argument of
+    #'   the function [ParBayesianOptimization::bayesOpt()] in order to
+    #'   initialize the Bayesian process. The maximum rows considered for
+    #'   initializing the Bayesian process can be specified with the R option
+    #'   `option("mlexperiments.bayesian.max_init")`, which is set to `50L` by
+    #'   default.
     parameter_grid = NULL,
+
+    #' @field optim_args A named list of tuples to define the parameter
+    #'   bounds of the Bayesian hyperparameter optimization. For further details
+    #'   please see the documentation of the `ParBayesianOptimization` package.
     optim_args = NULL,
-    #' @field split_type A character. The splitting strategy passed further on
-    #'   to `splitTools` (Default: `stratified`).
+
+    #' @field split_type A character. The splitting strategy to construct the
+    #'   k cross-validation folds. This parameter is passed further on to the
+    #'   function [splitTools::create_folds()] and defaults to `"stratified"`.
     split_type = NULL,
+
+    #' @field split_vector A vector If another criteria than the provided `y`
+    #'   should be considered for generating the cross-validation folds, it can
+    #'   be defined here. It is important, that a vector of the same length as
+    #'   `x` is provided here.
     split_vector = NULL,
+
+    #' @description
+    #' Create a new `MLTuneParameters` object.
+    #'
+    #' @param learner An initialized learner object that inherits from class
+    #'   `"MLLearnerBase"`.
+    #' @param seed An integer. Needs to be set for reproducibility purposes.
+    #' @param strategy A character. The strategy to optimize the hyperparameters
+    #'   (either `"grid"` or `"bayesian"`).
+    #' @param ncores An integer to specify the number of cores used for
+    #'   parallelization (default: `-1L`).
+    #'
+    #' @return A new `MLTuneParameters` R6 object.
+    #'
+    #' @examples
+    #' MLTuneParameters$new(
+    #'   learner = LearnerKnn$new(),
+    #'   seed = 123,
+    #'   strategy = "grid",
+    #'   ncores = 2
+    #' )
+    #'
     initialize = function(
       learner,
       seed,
