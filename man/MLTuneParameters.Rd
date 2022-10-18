@@ -2,7 +2,7 @@
 % Please edit documentation in R/tune_class_base.R
 \name{MLTuneParameters}
 \alias{MLTuneParameters}
-\title{R6 Class to construct the parameter tuner}
+\title{R6 Class to perform hyperparamter tuning experiments}
 \description{
 The `MLTuneParameters` class is used to construct a parameter tuner object
   and to perform the tuning of a set of hyperparameters for a specified
@@ -81,7 +81,7 @@ tuner$execute(k = 3)
 [ParBayesianOptimization::bayesOpt()], [splitTools::create_folds()]
 }
 \section{Super classes}{
-\code{mlexperiments::MLBase} -> \code{mlexperiments::MLExperimentsBase} -> \code{MLTuneParameters}
+\code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLTuneParameters}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -197,10 +197,27 @@ to tune the hyperparameters.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+All results of the hyperparameter tuning are saved in the field
+  `$results` of the `MLTuneParameters` class. After successful execution
+  of the parameter tuning, `$results` contains a list with the items
+  \describe{
+  \item{"summary"}{A data.table with the summarized results (same as
+    the returned value of the `execute` method).}
+  \item{"best.setting"}{The best setting (according to the learner's
+    parameter `metric_optimization_higher_better`) identified during the
+    hyperparameter tuning.}
+   \item{"bayesOpt"}{The returned value of
+     [ParBayesianOptimization::bayesOpt()] (only for `strategy =
+    "bayesian"`).}
+  }
+}
+
 \subsection{Returns}{
 A `data.table` with the results of the hyperparameter
   optimization. The optimized metric, i.e. the cross-validated evaluation
-  metric is given in the column `metric_optim_mean`.
+  metric is given in the column `metric_optim_mean`. More results are
+  accessible from the field `$results` of the `MLTuneParameters` class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

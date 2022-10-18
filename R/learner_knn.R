@@ -1,8 +1,68 @@
+#' LearnerKnn R6 class
+#'
+#' @description
+#' This learner is a wrapper around [class::knn()] in order to perform a
+#'   k-nearest neighbour classification. The following experiments are
+#'   implemented:
+#'   \enumerate{
+#'   \item `mlexperiments::MLTuneParameters`
+#'   \item `mlexperiments::MLCrossValidation`
+#'   \item `mlexperiments::MLNestedCV`
+#'   }
+#'
+#'
+#' @details
+#' Implemented methods:
+#' \describe{
+#' \item{`$fit`}{To fit the model.}
+#' \item{`$predict`}{To predict new data with the model.}
+#' \item{`$cross_validation`}{To perform a grid search (hyperparameter
+#'   optimization).}
+#' \item{`$bayesian_scoring_function`}{To perform a Bayesian hyperparameter
+#'   optimization.}
+#' }
+#'
+#' For the two hyperparamter optimization strategies ("grid" and "bayesian"),
+#'   the parameter `metric_optimization_higher_better` of the learner is
+#'   set to `FALSE` by default as the classification error rate
+#'   ([mlr3measures::ce()]) is used as the optimization metric.
+#'
+#' @seealso [class::knn()], [mlr3measures::ce()]
+#'
+#' @examples
+#' LearnerKnn$new()
+#'
 #' @export
+#'
 LearnerKnn <- R6::R6Class( # nolint
   classname = "LearnerKnn",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
+    #'
+    #' @description
+    #' Create a new `LearnerKnn` object.
+    #'
+    #' @details
+    #' This learner is a wrapper around [class::knn()] in order to perform a
+    #'   k-nearest neighbour classification. The following experiments are
+    #'   implemented:
+    #'   \enumerate{
+    #'   \item `mlexperiments::MLTuneParameters`
+    #'   \item `mlexperiments::MLCrossValidation`
+    #'   \item `mlexperiments::MLNestedCV`
+    #'   }
+    #' For the two hyperparamter optimization strategies ("grid" and
+    #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
+    #'   learner is set to `FALSE` by default as the classification error rate
+    #'   ([mlr3measures::ce()]) is used as the optimization metric.
+    #'
+    #' @seealso [class::knn()], [mlr3measures::ce()]
+    #'
+    #' @examples
+    #' LearnerKnn$new()
+    #'
+    #' @export
+    #'
     initialize = function() {
       if (!requireNamespace("class", quietly = TRUE)) {
         stop(

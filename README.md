@@ -8,6 +8,47 @@
 [![codecov](https://codecov.io/gh/kapsner/mlexperiments/branch/main/graph/badge.svg?branch=main)](https://app.codecov.io/gh/kapsner/mlexperiments)
 <!-- badges: end -->
 
+The goal of the package `mlexperiments` is to provide a re-useable framework for reproducible machine learning experiments, namely:
+
+* Hyperparameter tuning: R6 class `mlexperiments::MLTuneParameters`, to optimize hyperparameters using the two strategies
+  + Grid search
+  + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
+* K-fold Cross-validation (CV): R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
+* Nested k-fold cross validation: R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters, which are then validated in an outer CV
+
+## Installation
+
+To install the development version, run
+
+```r
+install.packages("remotes")
+remotes::install_github("kapsner/mlexperiments")
+```
+
+## Example
+
+
+## Background
+
+The idea for this package was born when working on the project work for my Medical Data Science Certificate study program. I wanted to apply different machine learning algorithms to survival data and couldn't find a framework for machine learning experiments to analyze survival data with the algorithms `xgboost`, `glmnet` and `ranger`. While all of the three big frameworks for machine learning in R, [`tidymodels`](https://www.tidymodels.org/), [`caret`](https://topepo.github.io/caret/), and [`mlr3`](https://mlr3.mlr-org.com/) allow to perform hyperparameter tuning and (nested) cross validation, none of those frameworks implemented interfaces for these three algorithms that could be executed on survival data at the time of starting with the project work (end of April 2022). For [`tidymodels`](https://www.tidymodels.org/), the add-on package [`cencored`](https://censored.tidymodels.org/) addresses survival analysis, but only supported the `glmnet` algorithm in April 2022. For [`mlr3`](https://mlr3.mlr-org.com/), the add-on package [`mlr3proba`](https://github.com/mlr-org/mlr3proba) addresses survival analysis, with lots of learners capable to conduct survival analysis available with the package [`mlr3learners`](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html) including all of the three algorithms I wanted to use. In contrast, the developer and maintainer stated in a [comment on GitHub](https://github.com/topepo/caret/issues/959) that all efforts in this regard will be made in its successor framework, [`tidymodels`](https://www.tidymodels.org/).
+
+So, I decided to implement my analysis with [`mlr3`](https://mlr3.mlr-org.com/) / [`mlr3proba`](https://github.com/mlr-org/mlr3proba). However, when actually starting to implement things, I realized that in the meantime [`mlr3proba`](https://github.com/mlr-org/mlr3proba) has unfortunately been [archived on CRAN on 2022-05-16](https://cran.r-project.org/web/packages/mlr3proba/index.html).
+
+This was when I decided to implement the whole logic myself as it "just includes some for loops and summarizing results" :joy: :joy:.
+In the end, it was a very time-consuming effort to make the code as generic and re-usable as possible to have it also available for tasks other than survival analysis.
+
+The result of these efforts are:
+
+* the [`mlexperiments`](https://github.com/kapsner/mlexperiments) R package, providing
+  + R6 classes to perform hyperparameter tuning, cross-validation and nested cross-validation
+  + some base learners (`LearnerLm`, `LearnerGlm`, and `LearnerKnn`)
+  + an R6 class to inherit new learners from (`MLLearnerBase`)
+  + as well as functions
+    - to validate the equality of folds used between different experiments (`mlexperiments::validate_fold_equality()`)
+    - to apply algorithms to new data and predict the outcome (`mlexperiments::predictions()`)
+    - to calculate performance measures with these predictions (`mlexperiments::performance()`)
+    - and a utility function to select performance metrics from the [`mlr3measures`](https://cran.r-project.org/web/packages/mlr3measures/index.html) R package.
+
 ## Backlog
 
 - some base packages: knn (done), rpart

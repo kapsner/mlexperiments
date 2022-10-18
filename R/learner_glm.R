@@ -1,8 +1,46 @@
+#' LearnerGlm R6 class
+#'
+#' @description
+#' This learner is a wrapper around [stats::glm()] in order to perform a
+#'   generalized linear regression. There is no implementation for tuning
+#'   parameters, thus the only experiment to use `LearnerGlm` for is
+#'   [mlexperiments::MLCrossValidation]
+#'
+#' @details
+#' Implemented methods:
+#' \describe{
+#' \item{`$fit`}{To fit the model.}
+#' \item{`$predict`}{To predict new data with the model.}
+#' }
+#'
+#' @seealso [stats::glm()]
+#'
+#' @examples
+#' LearnerGlm$new()
+#'
 #' @export
+#'
 LearnerGlm <- R6::R6Class( # nolint
   classname = "LearnerGlm",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
+
+    #' @description
+    #' Create a new `LearnerGlm` object.
+    #'
+    #' @details
+    #' This learner is a wrapper around [stats::glm()] in order to perform a
+    #'   generalized linear regression. There is no implementation for tuning
+    #'   parameters, thus the only experiment to use `LearnerGlm` for is
+    #'   [mlexperiments::MLCrossValidation].
+    #'
+    #' @return A new `LearnerGlm` R6 object.
+    #'
+    #' @seealso [stats::glm()]
+    #'
+    #' @examples
+    #' LearnerGlm$new()
+    #'
     initialize = function() {
       super$initialize(
         metric_optimization_higher_better = NULL # unnecessary here

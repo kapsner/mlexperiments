@@ -8,6 +8,20 @@ Basic R6 Class for the mlexperiments package
 
 Basic R6 Class for the mlexperiments package
 }
+\examples{
+
+## ------------------------------------------------
+## Method `MLBase$new`
+## ------------------------------------------------
+
+\dontrun{
+MLBase$new(
+  seed = 123,
+  ncores = 2
+)
+}
+
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -27,8 +41,36 @@ the respective methods.}
 \if{html}{\out{<a id="method-MLBase-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLBase-new}{}}}
 \subsection{Method \code{new()}}{
+Create a new `MLBase` object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLBase$new(seed, ncores = -1L)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
+
+\item{\code{ncores}}{An integer to specify the number of cores used for
+parallelization (default: `-1L`).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new `MLBase` R6 object.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+MLBase$new(
+  seed = 123,
+  ncores = 2
+)
+}
+
+}
+\if{html}{\out{</div>}}
+
 }
 
 }

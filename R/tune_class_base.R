@@ -1,4 +1,4 @@
-#' R6 Class to construct the parameter tuner
+#' R6 Class to perform hyperparamter tuning experiments
 #'
 #' @description
 #' The `MLTuneParameters` class is used to construct a parameter tuner object
@@ -123,9 +123,25 @@ MLTuneParameters <- R6::R6Class( # nolint
     #' @param k An integer to define the number of cross-validation folds used
     #'   to tune the hyperparameters.
     #'
+    #' @details
+    #' All results of the hyperparameter tuning are saved in the field
+    #'   `$results` of the `MLTuneParameters` class. After successful execution
+    #'   of the parameter tuning, `$results` contains a list with the items
+    #'   \describe{
+    #'   \item{"summary"}{A data.table with the summarized results (same as
+    #'     the returned value of the `execute` method).}
+    #'   \item{"best.setting"}{The best setting (according to the learner's
+    #'     parameter `metric_optimization_higher_better`) identified during the
+    #'     hyperparameter tuning.}
+    #'    \item{"bayesOpt"}{The returned value of
+    #'      [ParBayesianOptimization::bayesOpt()] (only for `strategy =
+    #'     "bayesian"`).}
+    #'   }
+    #'
     #' @return A `data.table` with the results of the hyperparameter
     #'   optimization. The optimized metric, i.e. the cross-validated evaluation
-    #'   metric is given in the column `metric_optim_mean`.
+    #'   metric is given in the column `metric_optim_mean`. More results are
+    #'   accessible from the field `$results` of the `MLTuneParameters` class.
     #'
     #' @examples
     #' dataset <- do.call(

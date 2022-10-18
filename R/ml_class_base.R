@@ -7,6 +7,23 @@ MLBase <- R6::R6Class( # nolint
     #'   the respective methods.
     results = NULL,
 
+    #' @description
+    #' Create a new `MLBase` object.
+    #'
+    #' @param seed An integer. Needs to be set for reproducibility purposes.
+    #' @param ncores An integer to specify the number of cores used for
+    #'   parallelization (default: `-1L`).
+    #'
+    #' @return A new `MLBase` R6 object.
+    #'
+    #' @examples
+    #' \dontrun{
+    #' MLBase$new(
+    #'   seed = 123,
+    #'   ncores = 2
+    #' )
+    #' }
+    #'
     initialize = function(seed, ncores = -1L) {
       stopifnot(
         is.integer(as.integer(ncores)),
@@ -25,7 +42,7 @@ MLBase <- R6::R6Class( # nolint
   )
 )
 
-#' R6 Class for the mlexperiments of the package
+#' R6 Class on which the experiment classes are built on
 #'
 MLExperimentsBase <- R6::R6Class( # nolint
   classname = "MLExperimentsBase",
@@ -93,23 +110,12 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'    ),
     #'    list(target = sample(0:1, 500, TRUE))
     #' ))
-    #' tuner <- MLTuneParameters$new(
+    #'
+    #' tuner <- MLLearnerBase$new(
     #'   learner = LearnerKnn$new(),
     #'   seed = 123,
     #'   strategy = "grid",
     #'   ncores = 2
-    #' )
-    #' tuner$parameter_bounds <- list(k = c(2L, 80L))
-    #' tuner$parameter_grid <- expand.grid(
-    #'   k = seq(4, 68, 8),
-    #'   l = 0,
-    #'   test = parse(text = "fold_test$x")
-    #' )
-    #' tuner$split_type <- "stratified"
-    #' tuner$optim_args <- list(
-    #'   iters.n = 4,
-    #'   kappa = 3.5,
-    #'   acq = "ucb"
     #' )
     #'
     #' # set data

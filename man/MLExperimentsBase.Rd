@@ -2,11 +2,11 @@
 % Please edit documentation in R/ml_class_base.R
 \name{MLExperimentsBase}
 \alias{MLExperimentsBase}
-\title{R6 Class for the mlexperiments of the package}
+\title{R6 Class on which the experiment classes are built on}
 \description{
-R6 Class for the mlexperiments of the package
+R6 Class on which the experiment classes are built on
 
-R6 Class for the mlexperiments of the package
+R6 Class on which the experiment classes are built on
 }
 \examples{
 
@@ -37,23 +37,12 @@ dataset <- do.call(
    ),
    list(target = sample(0:1, 500, TRUE))
 ))
-tuner <- MLTuneParameters$new(
+
+tuner <- MLLearnerBase$new(
   learner = LearnerKnn$new(),
   seed = 123,
   strategy = "grid",
   ncores = 2
-)
-tuner$parameter_bounds <- list(k = c(2L, 80L))
-tuner$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8),
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-tuner$split_type <- "stratified"
-tuner$optim_args <- list(
-  iters.n = 4,
-  kappa = 3.5,
-  acq = "ucb"
 )
 
 # set data
@@ -64,7 +53,7 @@ tuner$set_data(
 
 }
 \section{Super class}{
-\code{mlexperiments::MLBase} -> \code{MLExperimentsBase}
+\code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{MLExperimentsBase}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -165,23 +154,12 @@ The function has no return value. It internally performs quality
    ),
    list(target = sample(0:1, 500, TRUE))
 ))
-tuner <- MLTuneParameters$new(
+
+tuner <- MLLearnerBase$new(
   learner = LearnerKnn$new(),
   seed = 123,
   strategy = "grid",
   ncores = 2
-)
-tuner$parameter_bounds <- list(k = c(2L, 80L))
-tuner$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8),
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-tuner$split_type <- "stratified"
-tuner$optim_args <- list(
-  iters.n = 4,
-  kappa = 3.5,
-  acq = "ucb"
 )
 
 # set data
