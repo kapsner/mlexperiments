@@ -34,6 +34,48 @@ MLTuneParameters$new(
   ncores = 2
 )
 
+
+## ------------------------------------------------
+## Method `MLTuneParameters$execute`
+## ------------------------------------------------
+
+dataset <- do.call(
+  cbind,
+  c(sapply(paste0("col", 1:6), function(x) {
+    rnorm(n = 500)
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE
+   ),
+   list(target = sample(0:1, 500, TRUE))
+))
+tuner <- MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  seed = 123,
+  strategy = "grid",
+  ncores = 2
+)
+tuner$parameter_bounds <- list(k = c(2L, 80L))
+tuner$parameter_grid <- expand.grid(
+  k = seq(4, 68, 8),
+  l = 0,
+  test = parse(text = "fold_test$x")
+)
+tuner$split_type <- "stratified"
+tuner$optim_args <- list(
+  iters.n = 4,
+  kappa = 3.5,
+  acq = "ucb"
+)
+
+# set data
+tuner$set_data(
+  x = data.matrix(dataset[, -7]),
+  y = dataset[, 7]
+)
+
+tuner$execute(k = 3)
+
 }
 \seealso{
 [ParBayesianOptimization::bayesOpt()], [splitTools::create_folds()]
@@ -142,6 +184,7 @@ A new `MLTuneParameters` R6 object.
 \if{html}{\out{<a id="method-MLTuneParameters-execute"></a>}}
 \if{latex}{\out{\hypertarget{method-MLTuneParameters-execute}{}}}
 \subsection{Method \code{execute()}}{
+Execute the hyperparameter tuning.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLTuneParameters$execute(k)}\if{html}{\out{</div>}}
 }
@@ -154,6 +197,55 @@ to tune the hyperparameters.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A `data.table` with the results of the hyperparameter
+  optimization. The optimized metric, i.e. the cross-validated evaluation
+  metric is given in the column `metric_optim_mean`.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{dataset <- do.call(
+  cbind,
+  c(sapply(paste0("col", 1:6), function(x) {
+    rnorm(n = 500)
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE
+   ),
+   list(target = sample(0:1, 500, TRUE))
+))
+tuner <- MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  seed = 123,
+  strategy = "grid",
+  ncores = 2
+)
+tuner$parameter_bounds <- list(k = c(2L, 80L))
+tuner$parameter_grid <- expand.grid(
+  k = seq(4, 68, 8),
+  l = 0,
+  test = parse(text = "fold_test$x")
+)
+tuner$split_type <- "stratified"
+tuner$optim_args <- list(
+  iters.n = 4,
+  kappa = 3.5,
+  acq = "ucb"
+)
+
+# set data
+tuner$set_data(
+  x = data.matrix(dataset[, -7]),
+  y = dataset[, 7]
+)
+
+tuner$execute(k = 3)
+
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLTuneParameters-clone"></a>}}
