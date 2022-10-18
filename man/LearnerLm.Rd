@@ -4,16 +4,16 @@
 \alias{LearnerLm}
 \title{LearnerLm R6 class}
 \description{
-This learner is a wrapper around [stats::lm()] in order to perform a
-  linear regression. There is no implementation for tuning
-  parameters, thus the only experiment to use `LearnerLm` for is
-  [mlexperiments::MLCrossValidation]
+This learner is a wrapper around \code{\link[stats:lm]{stats::lm()}} in order to perform a
+linear regression. There is no implementation for tuning
+parameters, thus the only experiment to use \code{LearnerLm} for is
+\link{MLCrossValidation}
 }
 \details{
 Implemented methods:
 \describe{
-\item{`$fit`}{To fit the model.}
-\item{`$predict`}{To predict new data with the model.}
+\item{\verb{$fit}}{To fit the model.}
+\item{\verb{$predict}}{To predict new data with the model.}
 }
 }
 \examples{
@@ -28,9 +28,9 @@ LearnerLm$new()
 
 }
 \seealso{
-[stats::lm()]
+\code{\link[stats:lm]{stats::lm()}}
 
-[stats::lm()]
+\code{\link[stats:lm]{stats::lm()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerLm}
@@ -56,20 +56,20 @@ LearnerLm$new()
 \if{html}{\out{<a id="method-LearnerLm-new"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerLm-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `LearnerLm` object.
+Create a new \code{LearnerLm} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerLm$new()}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
-This learner is a wrapper around [stats::lm()] in order to perform a
-  linear regression. There is no implementation for tuning
-  parameters, thus the only experiment to use `LearnerLm` for is
-  [mlexperiments::MLCrossValidation]
+This learner is a wrapper around \code{\link[stats:lm]{stats::lm()}} in order to perform a
+linear regression. There is no implementation for tuning
+parameters, thus the only experiment to use \code{LearnerLm} for is
+\link{MLCrossValidation}
 }
 
 \subsection{Returns}{
-A new `LearnerLm` R6 object.
+A new \code{LearnerLm} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

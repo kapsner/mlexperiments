@@ -41,7 +41,7 @@ the respective methods.}
 \if{html}{\out{<a id="method-MLBase-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLBase-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `MLBase` object.
+Create a new \code{MLBase} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLBase$new(seed, ncores = -1L)}\if{html}{\out{</div>}}
 }
@@ -52,12 +52,12 @@ Create a new `MLBase` object.
 \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
 
 \item{\code{ncores}}{An integer to specify the number of cores used for
-parallelization (default: `-1L`).}
+parallelization (default: \code{-1L}).}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A new `MLBase` R6 object.
+A new \code{MLBase} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

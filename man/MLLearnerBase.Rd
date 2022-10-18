@@ -4,31 +4,31 @@
 \alias{MLLearnerBase}
 \title{R6 Class to construct learners}
 \description{
-The `MLLearnerBase` class is used to construct a learner object that can be
-  used with the experiment classes from the `mlexperiments` package. It is
-  thought to serve as a class to inherit from when creating new learners.
+The \code{MLLearnerBase} class is used to construct a learner object that can be
+used with the experiment classes from the \code{mlexperiments} package. It is
+thought to serve as a class to inherit from when creating new learners.
 }
 \details{
 The learner class exposes 4 methods that can be defined:
 \describe{
-\item{`$fit`}{A wrapper around the private function `fun_fit`, which needs to
-  be defined for every learner. The return value of this function is the
-  fitted model.}
-\item{`$predict`}{A wrapper around the private function `fun_predict`,
-  which needs to be defined for every learner. The function must accept the
-  three arguments `model`, `newdata`, and `ncores` and is a wrapper around
-  the respective learner's predict-function. In order to allow the passing of
-  further arguments, the ellipsis (`...`) can be used. The function should
-  return the prediction results.}
-\item{`$cross_validation`}{A wrapper around the private function
-  `fun_optim_cv`, which needs to be defined when hyperparameters should be
-  optimized with a grid search (required for use with
-  [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()].}
-\item{`$bayesian_scoring_function`}{A wrapper around the private function
-  `fun_bayesian_scoring_function`, which needs to be defined when
-  hyperparameters should be optimized with a Bayesian process (required for
-  use with [mlexperiments::MLTuneParameters()], and
-  [mlexperiments::MLNestedCV()].}
+\item{\verb{$fit}}{A wrapper around the private function \code{fun_fit}, which needs to
+be defined for every learner. The return value of this function is the
+fitted model.}
+\item{\verb{$predict}}{A wrapper around the private function \code{fun_predict},
+which needs to be defined for every learner. The function must accept the
+three arguments \code{model}, \code{newdata}, and \code{ncores} and is a wrapper around
+the respective learner's predict-function. In order to allow the passing of
+further arguments, the ellipsis (\code{...}) can be used. The function should
+return the prediction results.}
+\item{\verb{$cross_validation}}{A wrapper around the private function
+\code{fun_optim_cv}, which needs to be defined when hyperparameters should be
+optimized with a grid search (required for use with
+\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}.}
+\item{\verb{$bayesian_scoring_function}}{A wrapper around the private function
+\code{fun_bayesian_scoring_function}, which needs to be defined when
+hyperparameters should be optimized with a Bayesian process (required for
+use with \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.}
 }
 For further details please refer to the package's vignette.
 }
@@ -85,20 +85,20 @@ learner$bayesian_scoring_function()
 
 }
 \seealso{
-[mlexperiments::MLTuneParameters()],
-  [mlexperiments::MLCrossValidation()], and
-  [mlexperiments::MLNestedCV()]
+\code{\link[=MLTuneParameters]{MLTuneParameters()}},
+\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}
 
-[mlexperiments::MLTuneParameters()],
-  [mlexperiments::MLCrossValidation()], and
-  [mlexperiments::MLNestedCV()]
+\code{\link[=MLTuneParameters]{MLTuneParameters()}},
+\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}
 
-[mlexperiments::MLTuneParameters()],
-  [mlexperiments::MLCrossValidation()], and
-  [mlexperiments::MLNestedCV()]
+\code{\link[=MLTuneParameters]{MLTuneParameters()}},
+\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}
 
-[ParBayesianOptimization::bayesOpt()],
-  [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()]
+\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}},
+\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -106,16 +106,16 @@ learner$bayesian_scoring_function()
 \item{\code{cluster_export}}{A character vector defining the (internal)
 functions that need to be exported to the parallelization cluster.
 This is only required when performing a Bayesian hyperparameter
-optimization. See also [parallel::clusterExport()].}
+optimization. See also \code{\link[parallel:clusterApply]{parallel::clusterExport()}}.}
 
 \item{\code{metric_optimization_higher_better}}{A logical. Defines the direction
 of the optimization metric used throughout the hyperparameter
 optimization. This field is set automatically during the initialization
-of the `MLLearnerBase` object. Its purpose is to make it accessible by
-the evaluation functions from [mlexperiments::MLTuneParameters()].}
+of the \code{MLLearnerBase} object. Its purpose is to make it accessible by
+the evaluation functions from \code{\link[=MLTuneParameters]{MLTuneParameters()}}.}
 
 \item{\code{environment}}{The environment in which to search for the functions
-of the learner (default: `-1L`).}
+of the learner (default: \code{-1L}).}
 }
 \if{html}{\out{</div>}}
 }
@@ -134,7 +134,7 @@ of the learner (default: `-1L`).}
 \if{html}{\out{<a id="method-MLLearnerBase-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `MLLearnerBase` object.
+Create a new \code{MLLearnerBase} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$new(metric_optimization_higher_better)}\if{html}{\out{</div>}}
 }
@@ -149,7 +149,7 @@ optimization.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A new `MLLearnerBase` R6 object.
+A new \code{MLLearnerBase} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -165,7 +165,7 @@ A new `MLLearnerBase` R6 object.
 \if{html}{\out{<a id="method-MLLearnerBase-cross_validation"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-cross_validation}{}}}
 \subsection{Method \code{cross_validation()}}{
-Perform a cross-validation with an `MLLearnerBase`.
+Perform a cross-validation with an \code{MLLearnerBase}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$cross_validation(...)}\if{html}{\out{</div>}}
 }
@@ -179,14 +179,14 @@ function.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-A wrapper around the private function `fun_optim_cv`, which needs to be
-  defined when hyperparameters should be optimized with a grid search
-  (required for use with [mlexperiments::MLTuneParameters()], and
-  [mlexperiments::MLNestedCV()].
-  However, the function should be never executed directly but by the
-  respective experiment wrappers [mlexperiments::MLTuneParameters()], and
-  [mlexperiments::MLNestedCV()].
-  For further details please refer to the package's vignette.
+A wrapper around the private function \code{fun_optim_cv}, which needs to be
+defined when hyperparameters should be optimized with a grid search
+(required for use with \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.
+However, the function should be never executed directly but by the
+respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.
+For further details please refer to the package's vignette.
 }
 
 \subsection{Returns}{
@@ -209,7 +209,7 @@ learner$cross_validation()
 \if{html}{\out{<a id="method-MLLearnerBase-fit"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-fit}{}}}
 \subsection{Method \code{fit()}}{
-Fit a `MLLearnerBase` object.
+Fit a \code{MLLearnerBase} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$fit(...)}\if{html}{\out{</div>}}
 }
@@ -222,14 +222,14 @@ Fit a `MLLearnerBase` object.
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-A wrapper around the private function `fun_fit`, which needs to be
-  defined for every learner. The return value of this function is the
-  fitted model.
-  However, the function should be never executed directly but by the
-  respective experiment wrappers [mlexperiments::MLTuneParameters()],
-  [mlexperiments::MLCrossValidation()], and
-  [mlexperiments::MLNestedCV()].
-  For further details please refer to the package's vignette.
+A wrapper around the private function \code{fun_fit}, which needs to be
+defined for every learner. The return value of this function is the
+fitted model.
+However, the function should be never executed directly but by the
+respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}},
+\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.
+For further details please refer to the package's vignette.
 }
 
 \subsection{Returns}{
@@ -252,7 +252,7 @@ learner$fit()
 \if{html}{\out{<a id="method-MLLearnerBase-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-predict}{}}}
 \subsection{Method \code{predict()}}{
-Make predictions from a fitted `MLLearnerBase` object.
+Make predictions from a fitted \code{MLLearnerBase} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$predict(model, newdata, ncores, ...)}\if{html}{\out{</div>}}
 }
@@ -261,13 +261,13 @@ Make predictions from a fitted `MLLearnerBase` object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{model}}{A fitted model of the learner (as returned by
-`MLLearnerBase$fit()`).}
+\code{MLLearnerBase$fit()}).}
 
 \item{\code{newdata}}{The new data for which predictions should be made using
-the `model`.}
+the \code{model}.}
 
 \item{\code{ncores}}{An integer to specify the number of cores used for
-parallelization (default: `-1L`).}
+parallelization (default: \code{-1L}).}
 
 \item{\code{...}}{Further arguments to be passed to the learner's predict
 function.}
@@ -275,21 +275,21 @@ function.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-A wrapper around the private function `fun_predict`, which needs to be
-  defined for every learner. The function must accept the three arguments
-  `model`, `newdata`, and `ncores` and is a wrapper around the respective
-  learner's predict-function. In order to allow the passing of further
-  arguments, the ellipsis (`...`) can be used. The function should
-  return the prediction results.
-  However, the function should be never executed directly but by the
-  respective experiment wrappers [mlexperiments::MLTuneParameters()],
-  [mlexperiments::MLCrossValidation()], and
-  [mlexperiments::MLNestedCV()].
-  For further details please refer to the package's vignette.
+A wrapper around the private function \code{fun_predict}, which needs to be
+defined for every learner. The function must accept the three arguments
+\code{model}, \code{newdata}, and \code{ncores} and is a wrapper around the respective
+learner's predict-function. In order to allow the passing of further
+arguments, the ellipsis (\code{...}) can be used. The function should
+return the prediction results.
+However, the function should be never executed directly but by the
+respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}},
+\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.
+For further details please refer to the package's vignette.
 }
 
 \subsection{Returns}{
-The predictions for `newdata`.
+The predictions for \code{newdata}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -309,7 +309,7 @@ learner$predict()
 \if{html}{\out{<a id="method-MLLearnerBase-bayesian_scoring_function"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-bayesian_scoring_function}{}}}
 \subsection{Method \code{bayesian_scoring_function()}}{
-Perform a Bayesian hyperparameter optimization with an `MLLearnerBase`.
+Perform a Bayesian hyperparameter optimization with an \code{MLLearnerBase}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$bayesian_scoring_function(...)}\if{html}{\out{</div>}}
 }
@@ -323,14 +323,14 @@ function.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-A wrapper around the private function `fun_bayesian_scoring_function`,
-  which needs to be defined when hyperparameters should be optimized with
-  a Bayesian process (required for use with
-  [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()].
-  However, the function should be never executed directly but by the
-  respective experiment wrappers [mlexperiments::MLTuneParameters()], and
-  [mlexperiments::MLNestedCV()].
-  For further details please refer to the package's vignette.
+A wrapper around the private function \code{fun_bayesian_scoring_function},
+which needs to be defined when hyperparameters should be optimized with
+a Bayesian process (required for use with
+\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}.
+However, the function should be never executed directly but by the
+respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
+\code{\link[=MLNestedCV]{MLNestedCV()}}.
+For further details please refer to the package's vignette.
 }
 
 \subsection{Returns}{

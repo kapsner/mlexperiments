@@ -4,30 +4,30 @@
 \alias{LearnerKnn}
 \title{LearnerKnn R6 class}
 \description{
-This learner is a wrapper around [class::knn()] in order to perform a
-  k-nearest neighbour classification. The following experiments are
-  implemented:
-  \enumerate{
-  \item `mlexperiments::MLTuneParameters`
-  \item `mlexperiments::MLCrossValidation`
-  \item `mlexperiments::MLNestedCV`
-  }
+This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
+k-nearest neighbour classification. The following experiments are
+implemented:
+\enumerate{
+\item \code{mlexperiments::MLTuneParameters}
+\item \code{mlexperiments::MLCrossValidation}
+\item \code{mlexperiments::MLNestedCV}
+}
 }
 \details{
 Implemented methods:
 \describe{
-\item{`$fit`}{To fit the model.}
-\item{`$predict`}{To predict new data with the model.}
-\item{`$cross_validation`}{To perform a grid search (hyperparameter
-  optimization).}
-\item{`$bayesian_scoring_function`}{To perform a Bayesian hyperparameter
-  optimization.}
+\item{\verb{$fit}}{To fit the model.}
+\item{\verb{$predict}}{To predict new data with the model.}
+\item{\verb{$cross_validation}}{To perform a grid search (hyperparameter
+optimization).}
+\item{\verb{$bayesian_scoring_function}}{To perform a Bayesian hyperparameter
+optimization.}
 }
 
 For the two hyperparamter optimization strategies ("grid" and "bayesian"),
-  the parameter `metric_optimization_higher_better` of the learner is
-  set to `FALSE` by default as the classification error rate
-  ([mlr3measures::ce()]) is used as the optimization metric.
+the parameter \code{metric_optimization_higher_better} of the learner is
+set to \code{FALSE} by default as the classification error rate
+(\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric.
 }
 \examples{
 LearnerKnn$new()
@@ -41,9 +41,9 @@ LearnerKnn$new()
 
 }
 \seealso{
-[class::knn()], [mlr3measures::ce()]
+\code{\link[class:knn]{class::knn()}}, \code{\link[mlr3measures:ce]{mlr3measures::ce()}}
 
-[class::knn()], [mlr3measures::ce()]
+\code{\link[class:knn]{class::knn()}}, \code{\link[mlr3measures:ce]{mlr3measures::ce()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerKnn}
@@ -69,24 +69,24 @@ LearnerKnn$new()
 \if{html}{\out{<a id="method-LearnerKnn-new"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerKnn-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `LearnerKnn` object.
+Create a new \code{LearnerKnn} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerKnn$new()}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
-This learner is a wrapper around [class::knn()] in order to perform a
-  k-nearest neighbour classification. The following experiments are
-  implemented:
-  \enumerate{
-  \item `mlexperiments::MLTuneParameters`
-  \item `mlexperiments::MLCrossValidation`
-  \item `mlexperiments::MLNestedCV`
-  }
+This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
+k-nearest neighbour classification. The following experiments are
+implemented:
+\enumerate{
+\item \code{mlexperiments::MLTuneParameters}
+\item \code{mlexperiments::MLCrossValidation}
+\item \code{mlexperiments::MLNestedCV}
+}
 For the two hyperparamter optimization strategies ("grid" and
-  "bayesian"), the parameter `metric_optimization_higher_better` of the
-  learner is set to `FALSE` by default as the classification error rate
-  ([mlr3measures::ce()]) is used as the optimization metric.
+"bayesian"), the parameter \code{metric_optimization_higher_better} of the
+learner is set to \code{FALSE} by default as the classification error rate
+(\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric.
 }
 
 \subsection{Examples}{

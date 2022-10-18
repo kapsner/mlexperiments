@@ -4,17 +4,17 @@
 \alias{MLCrossValidation}
 \title{R6 Class to perform cross-validation experiments}
 \description{
-The `MLCrossValidation` class is used to construct a cross validation object
-  and to perform a k-fold cross validation for a specified machine learning
-  algorithm using one distinct hyperparameter setting.
+The \code{MLCrossValidation} class is used to construct a cross validation object
+and to perform a k-fold cross validation for a specified machine learning
+algorithm using one distinct hyperparameter setting.
 }
 \details{
-The `MLCrossValidation` class requires to provide a named list of predefined
-  row indices for the cross validation folds, e.g., created with the function
-  [splitTools::create_folds()]. This list also defines the `k` of the k-fold
-  cross-validation. When wanting to perform a repeated k-fold cross
-  validations, just provide a list with all repeated fold definitions, e.g.,
-  when specifing the argument `m_rep` of [splitTools::create_folds()].
+The \code{MLCrossValidation} class requires to provide a named list of predefined
+row indices for the cross validation folds, e.g., created with the function
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}. This list also defines the \code{k} of the k-fold
+cross-validation. When wanting to perform a repeated k-fold cross
+validations, just provide a list with all repeated fold definitions, e.g.,
+when specifing the argument \code{m_rep} of \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
 }
 \examples{
 dataset <- do.call(
@@ -27,23 +27,29 @@ dataset <- do.call(
    ),
    list(target = sample(0:1, 500, TRUE))
 ))
+
 fold_list <- splitTools::create_folds(
   y = dataset[, 7],
   k = 3,
   type = "stratified",
   seed = 123
 )
+
 cv <- MLCrossValidation$new(
   learner = LearnerKnn$new(),
   fold_list = fold_list,
   seed = 123,
   ncores = 2
 )
+
+# learner parameters
 cv$learner_args <- list(
   k = 20,
   l = 0,
   test = parse(text = "fold_test$x")
 )
+
+# performance parameters
 cv$predict_args <- list(type = "response")
 cv$performance_metric <- metric("bacc")
 cv$performance_metric_name <- "Balanced accuracy"
@@ -129,12 +135,37 @@ cv$set_data(
 cv$execute()
 }
 \seealso{
-[splitTools::create_folds()]
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 
-[splitTools::create_folds()]
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 }
 \section{Super classes}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLCrossValidation}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{fold_list}}{A named list of predefined row indices for the cross
+validation folds, e.g., created with the function
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}.}
+
+\item{\code{return_models}}{A logical. If the fitted models should be returned
+with the results (default: \code{FALSE}).}
+
+\item{\code{performance_metric}}{A function to compute the performance metric.
+This function must take two named arguments: \code{ground_truth} and
+\code{predictions}.}
+
+\item{\code{performance_metric_name}}{A character. The name of the performance
+metric.}
+
+\item{\code{performance_metric_args}}{A list. Further arguments required to
+compute the performance metric.}
+
+\item{\code{predict_args}}{A list. Further arguments required to compute the
+predictions.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -155,7 +186,7 @@ cv$execute()
 \if{html}{\out{<a id="method-MLCrossValidation-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLCrossValidation-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `MLCrossValidation` object.
+Create a new \code{MLCrossValidation} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLCrossValidation$new(
   learner,
@@ -170,25 +201,30 @@ Create a new `MLCrossValidation` object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{learner}}{An initialized learner object that inherits from class
-`"MLLearnerBase"`.}
+\code{"MLLearnerBase"}.}
+
+\item{\code{fold_list}}{A named list of predefined row indices for the cross
+validation folds, e.g., created with the function
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}.}
 
 \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
 
 \item{\code{ncores}}{An integer to specify the number of cores used for
-parallelization (default: `-1L`).}
+parallelization (default: \code{-1L}).}
 
-\item{\code{return_models}}{}
+\item{\code{return_models}}{A logical. If the fitted models should be returned
+with the results (default: \code{FALSE}).}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-The `MLCrossValidation` class requires to provide a named list of
-  predefined row indices for the cross validation folds, e.g., created
-  with the function [splitTools::create_folds()]. This list also defines
-  the `k` of the k-fold cross-validation. When wanting to perform a
-  repeated k-fold cross validations, just provide a list with all
-  repeated fold definitions, e.g., when specifing the argument `m_rep` of
-  [splitTools::create_folds()].
+The \code{MLCrossValidation} class requires to provide a named list of
+predefined row indices for the cross validation folds, e.g., created
+with the function \code{\link[splitTools:create_folds]{splitTools::create_folds()}}. This list also defines
+the \code{k} of the k-fold cross-validation. When wanting to perform a
+repeated k-fold cross validations, just provide a list with all
+repeated fold definitions, e.g., when specifing the argument \code{m_rep} of
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
 }
 
 \subsection{Examples}{
@@ -232,21 +268,30 @@ Execute the cross validation.
 }
 
 \subsection{Details}{
-All results of the hyperparameter tuning are saved in the field
-  `$results` of the `MLTuneParameters` class. After successful execution
-  of the parameter tuning, `$results` contains a list with the items
-  \describe{
-  \item{"fold"}{A list}
-  \item{"summary"}{A data.table with the summarized results (same as
-    the returned value of the `execute` method).}
-  \item{"performance"}{A list}
-  }
+All results of the cross validation are saved in the field
+\verb{$results} of the \code{MLCrossValidation} class. After successful execution
+of the cross validation, \verb{$results} contains a list with the items:
+\itemize{
+\item "fold" A list of folds containing the following items for each
+cross validation fold:
+\itemize{
+\item "fold_ids" A vector with the utilized in-sample row indices.
+\item "ground_truth" A vector with the ground truth.
+\item "predictions" A vector with the predictions.
+\item "learner.args" A list with the arguments provided to the learner.
+\item "model" If \code{return_models = TRUE}, the fitted model.
+}
+\item "summary" A data.table with the summarized results (same as
+the returned value of the \code{execute} method).
+\item "performance" A list with the value of the performance metric
+calculated for each of the cross validation folds.
+}
 }
 
 \subsection{Returns}{
 The function returns a data.table with the results of the cross
-  validation. More results are accessible from the field `$results` of
-  the `MLCrossValidation` class.
+validation. More results are accessible from the field \verb{$results} of
+the \code{MLCrossValidation} class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

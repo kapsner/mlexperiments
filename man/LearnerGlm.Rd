@@ -4,16 +4,16 @@
 \alias{LearnerGlm}
 \title{LearnerGlm R6 class}
 \description{
-This learner is a wrapper around [stats::glm()] in order to perform a
-  generalized linear regression. There is no implementation for tuning
-  parameters, thus the only experiment to use `LearnerGlm` for is
-  [mlexperiments::MLCrossValidation]
+This learner is a wrapper around \code{\link[stats:glm]{stats::glm()}} in order to perform a
+generalized linear regression. There is no implementation for tuning
+parameters, thus the only experiment to use \code{LearnerGlm} for is
+\link{MLCrossValidation}
 }
 \details{
 Implemented methods:
 \describe{
-\item{`$fit`}{To fit the model.}
-\item{`$predict`}{To predict new data with the model.}
+\item{\verb{$fit}}{To fit the model.}
+\item{\verb{$predict}}{To predict new data with the model.}
 }
 }
 \examples{
@@ -28,9 +28,9 @@ LearnerGlm$new()
 
 }
 \seealso{
-[stats::glm()]
+\code{\link[stats:glm]{stats::glm()}}
 
-[stats::glm()]
+\code{\link[stats:glm]{stats::glm()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerGlm}
@@ -56,20 +56,20 @@ LearnerGlm$new()
 \if{html}{\out{<a id="method-LearnerGlm-new"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerGlm-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `LearnerGlm` object.
+Create a new \code{LearnerGlm} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerGlm$new()}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
-This learner is a wrapper around [stats::glm()] in order to perform a
-  generalized linear regression. There is no implementation for tuning
-  parameters, thus the only experiment to use `LearnerGlm` for is
-  [mlexperiments::MLCrossValidation].
+This learner is a wrapper around \code{\link[stats:glm]{stats::glm()}} in order to perform a
+generalized linear regression. There is no implementation for tuning
+parameters, thus the only experiment to use \code{LearnerGlm} for is
+\link{MLCrossValidation}.
 }
 
 \subsection{Returns}{
-A new `LearnerGlm` R6 object.
+A new \code{LearnerGlm} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

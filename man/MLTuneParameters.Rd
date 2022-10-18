@@ -4,15 +4,15 @@
 \alias{MLTuneParameters}
 \title{R6 Class to perform hyperparamter tuning experiments}
 \description{
-The `MLTuneParameters` class is used to construct a parameter tuner object
-  and to perform the tuning of a set of hyperparameters for a specified
-  machine learning algorithm using either a grid search or a Bayesian
-  optimization.
+The \code{MLTuneParameters} class is used to construct a parameter tuner object
+and to perform the tuning of a set of hyperparameters for a specified
+machine learning algorithm using either a grid search or a Bayesian
+optimization.
 }
 \details{
 The hyperparameter tuning can be performed with a grid search or a Bayesian
-  optimization. In both cases, each hyperparameter setting is evaluated in a
-  k-fold cross-validation on the dataset specified.
+optimization. In both cases, each hyperparameter setting is evaluated in a
+k-fold cross-validation on the dataset specified.
 }
 \examples{
 knn_tuner <- MLTuneParameters$new(
@@ -78,7 +78,7 @@ tuner$execute(k = 3)
 
 }
 \seealso{
-[ParBayesianOptimization::bayesOpt()], [splitTools::create_folds()]
+\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}}, \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 }
 \section{Super classes}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLTuneParameters}
@@ -88,32 +88,32 @@ tuner$execute(k = 3)
 \describe{
 \item{\code{parameter_bounds}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
-please see the documentation of the `ParBayesianOptimization` package.}
+please see the documentation of the \code{ParBayesianOptimization} package.}
 
 \item{\code{parameter_grid}}{A matrix with named columns in which each column
 represents a parameter that should be optimized and each row represents
 a specific hyperparameter setting that should be tested throughout the
-procedure. For `strategy = "grid"`, each row of the `parameter_grid` is
-considered as a setting that is evaluated. For `strategy = "bayesian"`,
-the `parameter_grid` is passed further on to the `initGrid` argument of
-the function [ParBayesianOptimization::bayesOpt()] in order to
+procedure. For \code{strategy = "grid"}, each row of the \code{parameter_grid} is
+considered as a setting that is evaluated. For \code{strategy = "bayesian"},
+the \code{parameter_grid} is passed further on to the \code{initGrid} argument of
+the function \code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}} in order to
 initialize the Bayesian process. The maximum rows considered for
 initializing the Bayesian process can be specified with the R option
-`option("mlexperiments.bayesian.max_init")`, which is set to `50L` by
+\code{option("mlexperiments.bayesian.max_init")}, which is set to \code{50L} by
 default.}
 
 \item{\code{optim_args}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
-please see the documentation of the `ParBayesianOptimization` package.}
+please see the documentation of the \code{ParBayesianOptimization} package.}
 
 \item{\code{split_type}}{A character. The splitting strategy to construct the
 k cross-validation folds. This parameter is passed further on to the
-function [splitTools::create_folds()] and defaults to `"stratified"`.}
+function \code{\link[splitTools:create_folds]{splitTools::create_folds()}} and defaults to \code{"stratified"}.}
 
-\item{\code{split_vector}}{A vector If another criteria than the provided `y`
+\item{\code{split_vector}}{A vector If another criteria than the provided \code{y}
 should be considered for generating the cross-validation folds, it can
 be defined here. It is important, that a vector of the same length as
-`x` is provided here.}
+\code{x} is provided here.}
 }
 \if{html}{\out{</div>}}
 }
@@ -136,7 +136,7 @@ be defined here. It is important, that a vector of the same length as
 \if{html}{\out{<a id="method-MLTuneParameters-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLTuneParameters-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `MLTuneParameters` object.
+Create a new \code{MLTuneParameters} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLTuneParameters$new(
   learner,
@@ -150,20 +150,20 @@ Create a new `MLTuneParameters` object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{learner}}{An initialized learner object that inherits from class
-`"MLLearnerBase"`.}
+\code{"MLLearnerBase"}.}
 
 \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
 
 \item{\code{strategy}}{A character. The strategy to optimize the hyperparameters
-(either `"grid"` or `"bayesian"`).}
+(either \code{"grid"} or \code{"bayesian"}).}
 
 \item{\code{ncores}}{An integer to specify the number of cores used for
-parallelization (default: `-1L`).}
+parallelization (default: \code{-1L}).}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A new `MLTuneParameters` R6 object.
+A new \code{MLTuneParameters} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -199,25 +199,24 @@ to tune the hyperparameters.}
 }
 \subsection{Details}{
 All results of the hyperparameter tuning are saved in the field
-  `$results` of the `MLTuneParameters` class. After successful execution
-  of the parameter tuning, `$results` contains a list with the items
-  \describe{
-  \item{"summary"}{A data.table with the summarized results (same as
-    the returned value of the `execute` method).}
-  \item{"best.setting"}{The best setting (according to the learner's
-    parameter `metric_optimization_higher_better`) identified during the
-    hyperparameter tuning.}
-   \item{"bayesOpt"}{The returned value of
-     [ParBayesianOptimization::bayesOpt()] (only for `strategy =
-    "bayesian"`).}
-  }
+\verb{$results} of the \code{MLTuneParameters} class. After successful execution
+of the parameter tuning, \verb{$results} contains a list with the items
+\describe{
+\item{"summary"}{A data.table with the summarized results (same as
+the returned value of the \code{execute} method).}
+\item{"best.setting"}{The best setting (according to the learner's
+parameter \code{metric_optimization_higher_better}) identified during the
+hyperparameter tuning.}
+\item{"bayesOpt"}{The returned value of
+\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}} (only for \code{strategy = "bayesian"}).}
+}
 }
 
 \subsection{Returns}{
-A `data.table` with the results of the hyperparameter
-  optimization. The optimized metric, i.e. the cross-validated evaluation
-  metric is given in the column `metric_optim_mean`. More results are
-  accessible from the field `$results` of the `MLTuneParameters` class.
+A \code{data.table} with the results of the hyperparameter
+optimization. The optimized metric, i.e. the cross-validated evaluation
+metric is given in the column \code{metric_optim_mean}. More results are
+accessible from the field \verb{$results} of the \code{MLTuneParameters} class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

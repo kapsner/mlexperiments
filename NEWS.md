@@ -1,9 +1,14 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-11)
+## Unreleased (2022-10-18)
 
 #### New features
 
+-   added validation function for fold equality
+    ([54a1ec6](https://github.com/kapsner/mlexperiments/tree/54a1ec643052ce650efad85ad303c8a97708371e))
+-   added functions for predictions and preformance calculations on
+    cv-models
+    ([c4f5287](https://github.com/kapsner/mlexperiments/tree/c4f5287512e3b6136c66145adb2682f9e975320c))
 -   finalized implementation of knn
     ([70697fa](https://github.com/kapsner/mlexperiments/tree/70697fa0dd74d7043b0f8fe5dfe3c0f7be391be2))
 -   implemented knn grid / nested grid
@@ -44,6 +49,8 @@
 
 #### Refactorings
 
+-   updated code to upstream changes
+    ([54766cc](https://github.com/kapsner/mlexperiments/tree/54766cc8b63c84b74170ac3a629ddf0f82cd7da2))
 -   learner to self
     ([263ae51](https://github.com/kapsner/mlexperiments/tree/263ae51b365f4db79f1b006052d2dfdf0f7d8570))
 -   now relying on list.append from kdry
@@ -65,6 +72,8 @@
 
 #### CI
 
+-   fixed linting error
+    ([35190b6](https://github.com/kapsner/mlexperiments/tree/35190b62b45ec9773efd922dd9e30485cc5dbff9))
 -   solve warning for missing global variables
     ([771a3f1](https://github.com/kapsner/mlexperiments/tree/771a3f10dbf93037933c229948e7743fca52ae0b))
 -   fixed test to comply with cran checks
@@ -74,12 +83,27 @@
 -   fixed linting errors
     ([a3d3eb0](https://github.com/kapsner/mlexperiments/tree/a3d3eb0887db86a97b17a3d0b07b90c587477a5a))
 
+#### Docs
+
+-   working on documenting r6 classes
+    ([eba4a91](https://github.com/kapsner/mlexperiments/tree/eba4a91d193190450049b2e18e59a90839846dbd))
+-   working on class documentation
+    ([77e06c8](https://github.com/kapsner/mlexperiments/tree/77e06c89bb0f63202231bd0111de13e53ec8bbb1))
+-   started working on documentation
+    ([081ac26](https://github.com/kapsner/mlexperiments/tree/081ac26d999b3e809984bf0fd3d4064a4a0dc398))
+
 #### Other changes
 
+-   adaptions to upstream changes
+    ([294e9f3](https://github.com/kapsner/mlexperiments/tree/294e9f3cd19fdfdd7e9febdd87f1421cb8d7af39))
+-   updated readme, added lifecycle badge
+    ([94705eb](https://github.com/kapsner/mlexperiments/tree/94705eb1dbcaf7ae32424b6fc1ad961f6c8d78d5))
+-   updated news.md
+    ([575266e](https://github.com/kapsner/mlexperiments/tree/575266e62417fe6f457fe05980c95f9ecf9e7f31))
 -   reformating message
     ([74fed90](https://github.com/kapsner/mlexperiments/tree/74fed90ab55e229cbd77a5941c1de512a5605e11))
 -   updated readme
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...263ae51`](https://github.com/kapsner/mlexperiments/compare/edb76c3...263ae51)
+[`edb76c3...eba4a91`](https://github.com/kapsner/mlexperiments/compare/edb76c3...eba4a91)

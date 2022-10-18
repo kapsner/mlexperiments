@@ -62,7 +62,7 @@ tuner$set_data(
 learner algorithm.}
 
 \item{\code{learner}}{An initialized learner object that inherits from class
-`"MLLearnerBase"`.}
+\code{"MLLearnerBase"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -78,7 +78,7 @@ learner algorithm.}
 \if{html}{\out{<a id="method-MLExperimentsBase-new"></a>}}
 \if{latex}{\out{\hypertarget{method-MLExperimentsBase-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new `MLExperimentsBase` object.
+Create a new \code{MLExperimentsBase} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MLExperimentsBase$new(learner, seed, ncores = -1L)}\if{html}{\out{</div>}}
 }
@@ -87,17 +87,17 @@ Create a new `MLExperimentsBase` object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{learner}}{An initialized learner object that inherits from class
-`"MLLearnerBase"`.}
+\code{"MLLearnerBase"}.}
 
 \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
 
 \item{\code{ncores}}{An integer to specify the number of cores used for
-parallelization (default: `-1L`).}
+parallelization (default: \code{-1L}).}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A new `MLExperimentsBase` R6 object.
+A new \code{MLExperimentsBase} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -139,8 +139,8 @@ supported by the respective alogrithm).}
 }
 \subsection{Returns}{
 The function has no return value. It internally performs quality
-  checks on the provided data and, if passed, defines private fields of
-  the R6 class.
+checks on the provided data and, if passed, defines private fields of
+the R6 class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

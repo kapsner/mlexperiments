@@ -26,23 +26,29 @@
 #'    ),
 #'    list(target = sample(0:1, 500, TRUE))
 #' ))
+#'
 #' fold_list <- splitTools::create_folds(
 #'   y = dataset[, 7],
 #'   k = 3,
 #'   type = "stratified",
 #'   seed = 123
 #' )
+#'
 #' cv <- MLCrossValidation$new(
 #'   learner = LearnerKnn$new(),
 #'   fold_list = fold_list,
 #'   seed = 123,
 #'   ncores = 2
 #' )
+#'
+#' # learner parameters
 #' cv$learner_args <- list(
 #'   k = 20,
 #'   l = 0,
 #'   test = parse(text = "fold_test$x")
 #' )
+#'
+#' # performance parameters
 #' cv$predict_args <- list(type = "response")
 #' cv$performance_metric <- metric("bacc")
 #' cv$performance_metric_name <- "Balanced accuracy"
@@ -61,23 +67,45 @@ MLCrossValidation <- R6::R6Class( # nolint
   classname = "MLCrossValidation",
   inherit = MLExperimentsBase,
   public = list(
+    #' @field fold_list A named list of predefined row indices for the cross
+    #'   validation folds, e.g., created with the function
+    #'   [splitTools::create_folds()].
     fold_list = NULL,
+
+    #' @field return_models A logical. If the fitted models should be returned
+    #'   with the results (default: `FALSE`).
     return_models = NULL,
+
+    #' @field performance_metric A function to compute the performance metric.
+    #'   This function must take two named arguments: `ground_truth` and
+    #'   `predictions`.
     performance_metric = NULL,
+
+    #' @field performance_metric_name A character. The name of the performance
+    #'   metric.
     performance_metric_name = NULL,
+
+    #' @field performance_metric_args A list. Further arguments required to
+    #'   compute the performance metric.
     performance_metric_args = NULL,
+
+    #' @field predict_args A list. Further arguments required to compute the
+    #'   predictions.
     predict_args = NULL,
 
     #' @description
     #' Create a new `MLCrossValidation` object.
     #'
-    #' @param fold_list
+    #' @param fold_list A named list of predefined row indices for the cross
+    #'   validation folds, e.g., created with the function
+    #'   [splitTools::create_folds()].
     #' @param learner An initialized learner object that inherits from class
     #'   `"MLLearnerBase"`.
     #' @param seed An integer. Needs to be set for reproducibility purposes.
     #' @param ncores An integer to specify the number of cores used for
     #'   parallelization (default: `-1L`).
-    #' @param return_models
+    #' @param return_models A logical. If the fitted models should be returned
+    #'   with the results (default: `FALSE`).
     #'
     #' @details
     #' The `MLCrossValidation` class requires to provide a named list of
@@ -135,15 +163,21 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   the `MLCrossValidation` class.
     #'
     #' @details
-    #' All results of the hyperparameter tuning are saved in the field
-    #'   `$results` of the `MLTuneParameters` class. After successful execution
-    #'   of the parameter tuning, `$results` contains a list with the items
-    #'   \describe{
-    #'   \item{"fold"}{A list}
-    #'   \item{"summary"}{A data.table with the summarized results (same as
-    #'     the returned value of the `execute` method).}
-    #'   \item{"performance"}{A list}
-    #'   }
+    #' All results of the cross validation are saved in the field
+    #'   `$results` of the `MLCrossValidation` class. After successful execution
+    #'   of the cross validation, `$results` contains a list with the items:
+    #'
+    #'   * "fold" A list of folds containing the following items for each
+    #'   cross validation fold:
+    #'     + "fold_ids" A vector with the utilized in-sample row indices.
+    #'     + "ground_truth" A vector with the ground truth.
+    #'     + "predictions" A vector with the predictions.
+    #'     + "learner.args" A list with the arguments provided to the learner.
+    #'     + "model" If `return_models = TRUE`, the fitted model.
+    #'   * "summary" A data.table with the summarized results (same as
+    #'     the returned value of the `execute` method).
+    #'   * "performance" A list with the value of the performance metric
+    #'     calculated for each of the cross validation folds.
     #'
     #' @examples
     #' dataset <- do.call(
