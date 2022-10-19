@@ -1,4 +1,4 @@
-#' LearnerKnn R6 class
+#' @title LearnerKnn R6 class
 #'
 #' @description
 #' This learner is a wrapper around [class::knn()] in order to perform a

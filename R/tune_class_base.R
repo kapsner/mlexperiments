@@ -1,4 +1,4 @@
-#' R6 Class to perform hyperparamter tuning experiments
+#' @title R6 Class to perform hyperparamter tuning experiments
 #'
 #' @description
 #' The `MLTuneParameters` class is used to construct a parameter tuner object

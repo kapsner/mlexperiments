@@ -1,4 +1,4 @@
-#' LearnerGlm R6 class
+#' @title LearnerGlm R6 class
 #'
 #' @description
 #' This learner is a wrapper around [stats::glm()] in order to perform a

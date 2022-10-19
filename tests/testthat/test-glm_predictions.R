@@ -88,7 +88,7 @@ test_that(
     perf <- mlexperiments::performance(
       object = glm_optimization,
       prediction_results = preds,
-      y_test = test_y,
+      y_ground_truth = test_y,
       positive = "1"
     )
 

@@ -1,4 +1,4 @@
-#' R6 Class to construct learners
+#' @title R6 Class to construct learners
 #'
 #' @description
 #' The `MLLearnerBase` class is used to construct a learner object that can be

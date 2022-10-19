@@ -1,4 +1,4 @@
-#' R6 Class to perform cross-validation experiments
+#' @title R6 Class to perform cross-validation experiments
 #'
 #' @description
 #' The `MLCrossValidation` class is used to construct a cross validation object

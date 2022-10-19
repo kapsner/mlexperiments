@@ -27,6 +27,7 @@ MLExperimentsBase$new(
 ## Method `MLExperimentsBase$set_data`
 ## ------------------------------------------------
 
+\dontrun{
 dataset <- do.call(
   cbind,
   c(sapply(paste0("col", 1:6), function(x) {
@@ -38,10 +39,9 @@ dataset <- do.call(
    list(target = sample(0:1, 500, TRUE))
 ))
 
-tuner <- MLLearnerBase$new(
+tuner <- MLExperimentsBase$new(
   learner = LearnerKnn$new(),
   seed = 123,
-  strategy = "grid",
   ncores = 2
 )
 
@@ -50,6 +50,7 @@ tuner$set_data(
   x = data.matrix(dataset[, -7]),
   y = dataset[, 7]
 )
+}
 
 }
 \section{Super class}{
@@ -144,7 +145,8 @@ the R6 class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
+\preformatted{\dontrun{
+dataset <- do.call(
   cbind,
   c(sapply(paste0("col", 1:6), function(x) {
     rnorm(n = 500)
@@ -155,10 +157,9 @@ the R6 class.
    list(target = sample(0:1, 500, TRUE))
 ))
 
-tuner <- MLLearnerBase$new(
+tuner <- MLExperimentsBase$new(
   learner = LearnerKnn$new(),
   seed = 123,
-  strategy = "grid",
   ncores = 2
 )
 
@@ -167,6 +168,7 @@ tuner$set_data(
   x = data.matrix(dataset[, -7]),
   y = dataset[, 7]
 )
+}
 
 }
 \if{html}{\out{</div>}}

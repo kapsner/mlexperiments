@@ -1,4 +1,4 @@
-#' R6 Class to perform nested cross-validation experiments
+#' @title R6 Class to perform nested cross-validation experiments
 #'
 #' @description
 #' The `MLNestedCV` class is used to construct a nested cross validation object

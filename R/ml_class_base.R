@@ -1,4 +1,4 @@
-#' Basic R6 Class for the mlexperiments package
+#' @title Basic R6 Class for the mlexperiments package
 #'
 MLBase <- R6::R6Class( # nolint
   classname = "MLBase",
@@ -42,7 +42,7 @@ MLBase <- R6::R6Class( # nolint
   )
 )
 
-#' R6 Class on which the experiment classes are built on
+#' @title R6 Class on which the experiment classes are built on
 #'
 MLExperimentsBase <- R6::R6Class( # nolint
   classname = "MLExperimentsBase",
@@ -100,6 +100,7 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'   the R6 class.
     #'
     #' @examples
+    #' \dontrun{
     #' dataset <- do.call(
     #'   cbind,
     #'   c(sapply(paste0("col", 1:6), function(x) {
@@ -111,10 +112,9 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'    list(target = sample(0:1, 500, TRUE))
     #' ))
     #'
-    #' tuner <- MLLearnerBase$new(
+    #' tuner <- MLExperimentsBase$new(
     #'   learner = LearnerKnn$new(),
     #'   seed = 123,
-    #'   strategy = "grid",
     #'   ncores = 2
     #' )
     #'
@@ -123,6 +123,7 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'   x = data.matrix(dataset[, -7]),
     #'   y = dataset[, 7]
     #' )
+    #' }
     #'
     set_data = function(x, y, cat_vars = NULL) {
       stopifnot(

@@ -1,4 +1,4 @@
-#' LearnerLm R6 class
+#' @title LearnerLm R6 class
 #'
 #' @description
 #' This learner is a wrapper around [stats::lm()] in order to perform a
