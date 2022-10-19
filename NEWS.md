@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-18)
+## Unreleased (2022-10-19)
 
 #### New features
 
@@ -85,6 +85,10 @@
 
 #### Docs
 
+-   finished most of the package documentation
+    ([21102f0](https://github.com/kapsner/mlexperiments/tree/21102f08051ce4a80f4fa5ea8d2154247fc89d50))
+-   finished documenting all r6 classes
+    ([d06d056](https://github.com/kapsner/mlexperiments/tree/d06d05646f8eb6e92e32cbc4935e9da1e905e2aa))
 -   working on documenting r6 classes
     ([eba4a91](https://github.com/kapsner/mlexperiments/tree/eba4a91d193190450049b2e18e59a90839846dbd))
 -   working on class documentation
@@ -106,4 +110,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...eba4a91`](https://github.com/kapsner/mlexperiments/compare/edb76c3...eba4a91)
+[`edb76c3...21102f0`](https://github.com/kapsner/mlexperiments/compare/edb76c3...21102f0)

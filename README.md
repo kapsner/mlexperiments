@@ -47,11 +47,18 @@ The result of these efforts are:
     - to validate the equality of folds used between different experiments (`mlexperiments::validate_fold_equality()`)
     - to apply algorithms to new data and predict the outcome (`mlexperiments::predictions()`)
     - to calculate performance measures with these predictions (`mlexperiments::performance()`)
-    - and a utility function to select performance metrics from the [`mlr3measures`](https://cran.r-project.org/web/packages/mlr3measures/index.html) R package.
+    - and a utility function to select performance metrics from the [`mlr3measures`](https://cran.r-project.org/web/packages/mlr3measures/index.html) R package
+* the [`mllrnrs`](https://github.com/kapsner/mllrnrs) R package, to provide some wrappers for learners I commonly use. They were separated into their own package in order to reduce overall maintenance load and to avoid having lots of dependencies in the [`mlexperiments`](https://github.com/kapsner/mlexperiments) R package. Implemented learners are
+  + LearnerSurvCoxPHCox
+  + LearnerSurvGlmnetCox
+  + LearnerSurvRangerCox
+  + LearnerSurvXgboostCox
+  + LearnerXgboost
+  + LearnerLightgbm
 
 ## Backlog
 
-- some base packages: knn (done), rpart
+- rpart
 
 
 Document features:
