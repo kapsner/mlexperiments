@@ -2,16 +2,15 @@
 #'
 #' @description
 #' This learner is a wrapper around [class::knn()] in order to perform a
-#'   k-nearest neighbour classification. The following experiments are
-#'   implemented:
-#'   \enumerate{
-#'   \item `mlexperiments::MLTuneParameters`
-#'   \item `mlexperiments::MLCrossValidation`
-#'   \item `mlexperiments::MLNestedCV`
-#'   }
+#'   k-nearest neighbour classification.
 #'
 #'
 #' @details
+#' Can be used with
+#' * mlexperiments::MLTuneParameters
+#' * mlexperiments::MLCrossValidation
+#' * mlexperiments::MLNestedCVs
+#'
 #' Implemented methods:
 #' \describe{
 #' \item{`$fit`}{To fit the model.}

@@ -3,8 +3,11 @@
 #' @description
 #' This learner is a wrapper around [stats::lm()] in order to perform a
 #'   linear regression. There is no implementation for tuning
-#'   parameters, thus the only experiment to use `LearnerLm` for is
-#'   [mlexperiments::MLCrossValidation]
+#'   parameters.
+#'
+#' @details
+#' Can be used with
+#' * mlexperiments::MLCrossValidation
 #'
 #' @details
 #' Implemented methods:

@@ -3,10 +3,12 @@
 #' @description
 #' This learner is a wrapper around [stats::glm()] in order to perform a
 #'   generalized linear regression. There is no implementation for tuning
-#'   parameters, thus the only experiment to use `LearnerGlm` for is
-#'   [mlexperiments::MLCrossValidation]
+#'   parameters.
 #'
 #' @details
+#' Can be used with
+#' * mlexperiments::MLCrossValidation
+#'
 #' Implemented methods:
 #' \describe{
 #' \item{`$fit`}{To fit the model.}

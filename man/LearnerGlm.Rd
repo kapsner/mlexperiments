@@ -6,10 +6,14 @@
 \description{
 This learner is a wrapper around \code{\link[stats:glm]{stats::glm()}} in order to perform a
 generalized linear regression. There is no implementation for tuning
-parameters, thus the only experiment to use \code{LearnerGlm} for is
-\link{MLCrossValidation}
+parameters.
 }
 \details{
+Can be used with
+\itemize{
+\item mlexperiments::MLCrossValidation
+}
+
 Implemented methods:
 \describe{
 \item{\verb{$fit}}{To fit the model.}
