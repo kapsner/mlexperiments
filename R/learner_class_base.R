@@ -7,26 +7,25 @@
 #'
 #' @details
 #' The learner class exposes 4 methods that can be defined:
-#' \describe{
-#' \item{`$fit`}{A wrapper around the private function `fun_fit`, which needs to
+#' * `$fit` A wrapper around the private function `fun_fit`, which needs to
 #'   be defined for every learner. The return value of this function is the
-#'   fitted model.}
-#' \item{`$predict`}{A wrapper around the private function `fun_predict`,
+#'   fitted model.
+#' * `$predict` A wrapper around the private function `fun_predict`,
 #'   which needs to be defined for every learner. The function must accept the
 #'   three arguments `model`, `newdata`, and `ncores` and is a wrapper around
 #'   the respective learner's predict-function. In order to allow the passing of
 #'   further arguments, the ellipsis (`...`) can be used. The function should
-#'   return the prediction results.}
-#' \item{`$cross_validation`}{A wrapper around the private function
+#'   return the prediction results.
+#' * `$cross_validation` A wrapper around the private function
 #'   `fun_optim_cv`, which needs to be defined when hyperparameters should be
 #'   optimized with a grid search (required for use with
-#'   [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()].}
-#' \item{`$bayesian_scoring_function`}{A wrapper around the private function
+#'   [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()]).
+#' * `$bayesian_scoring_function` A wrapper around the private function
 #'   `fun_bayesian_scoring_function`, which needs to be defined when
 #'   hyperparameters should be optimized with a Bayesian process (required for
 #'   use with [mlexperiments::MLTuneParameters()], and
-#'   [mlexperiments::MLNestedCV()].}
-#' }
+#'   [mlexperiments::MLNestedCV()]).
+#'
 #' For further details please refer to the package's vignette.
 #'
 #' @examples

@@ -27,6 +27,7 @@ Suggests:
     mlbench,
     mlr3measures,
     ParBayesianOptimization,
+    rmarkdown,
     rpart,
     testthat (>= 3.0.1)
 VignetteBuilder: 

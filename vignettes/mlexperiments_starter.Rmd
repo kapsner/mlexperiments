@@ -1,0 +1,203 @@
+---
+title: "mlexperiments: Getting Stared"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mlexperiments: Getting Stared}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The goal of the package `mlexperiments` is to provide a re-useable framework for reproducible machine learning experiments, namely:
+
+* Hyperparameter tuning: R6 class `mlexperiments::MLTuneParameters`, to optimize hyperparameters using the two strategies
+  + Grid search
+  + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
+* K-fold Cross-validation (CV): R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
+* Nested k-fold cross validation: R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters, which are then validated on an outer CV fold
+
+The package follows the principle that it merely wants to provide the shell for these experiments, and with a few adjustments users can prepare different algorithms so that they can be used with `mlexperiments`.
+
+This vignette will go through the steps that are necessary to prepare a new learner.
+
+## General Overview
+
+In general, the learner class exposes 4 methods that can be defined:
+* `$fit` A wrapper around the private function `fun_fit`, which needs to be defined for every learner. The return value of this function is the fitted model.
+* `$predict` A wrapper around the private function `fun_predict`, which needs to be defined for every learner. The function must accept the three arguments `model`, `newdata`, and `ncores` and is a wrapper around the respective learner's predict-function. In order to allow the passing of further arguments, the ellipsis (`...`) can be used. The function should return the prediction results.
+* `$cross_validation` A wrapper around the private function `fun_optim_cv`, which needs to be defined when hyperparameters should be optimized with a grid search (required for use with `mlexperiments::MLTuneParameters()`, and `mlexperiments::MLNestedCV()`).
+* `$bayesian_scoring_function` A wrapper around the private function `fun_bayesian_scoring_function`, which needs to be defined when hyperparameters should be optimized with a Bayesian process (required for use with `mlexperiments::MLTuneParameters()`, and `mlexperiments::MLNestedCV()`).
+
+In the following, we will go through the steps to prepare the `class::knn()` learner for `mlexperiments` (the same code is also implemented in the package and ready to use as `mlexperiments::LearnerKnn`).
+
+## The `fit` Method
+
+The return value of the `fit` method should be the fitted model.
+
+```{r}
+knn_fit <- function(x, y, ncores, seed, ...) {
+  kwargs <- list(...)
+  stopifnot("k" %in% names(kwargs))
+  args <- kdry::list.append(list(train = x, cl = y), kwargs)
+  args$prob <- TRUE
+  set.seed(seed)
+  fit <- do.call(class::knn, args)
+  return(fit)
+}
+```
+
+## The `predict` Method
+
+The return value of the `predict` method should be a vector with the predictions.
+
+The implementation of `class::knn()` is in some ways special and different from the implementation of other algorithms. One of these pecularities is that `class::knn()` does not return a fitted model but instead returns the prediction results directly. Depending on the value of the argument `prob`, these results also include the probability values of the predicted classes.
+
+```{r}
+knn_predict <- function(model, newdata, ncores, ...) {
+  kwargs <- list(...)
+  stopifnot("type" %in% names(kwargs))
+  if (kwargs$type == "response") {
+    return(model)
+  } else if (kwargs$type == "prob") {
+    # there is no knn-model but the probabilities predicted for the test data
+    return(attributes(model)$prob)
+  }
+}
+```
+
+## The `cross_validation` Method
+
+This function should perform a k-fold cross validation for one specific hyperparameter setting and return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric.
+
+```{r}
+knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
+  stopifnot(is.list(params), "k" %in% names(params))
+  # initialize a dataframe to store the results
+  results_df <- data.table::data.table(
+    "fold" = character(0),
+    "metric" = numeric(0)
+  )
+  # we do not need test here as it is defined explicitly below
+  params[["test"]] <- NULL
+  # loop over the folds
+  for (fold in names(fold_list)) {
+    # get row-ids of the current fold
+    train_idx <- fold_list[[fold]]
+    # create learner-arguments
+    args <- kdry::list.append(
+      list(
+        x = .format_xy(x, train_idx),
+        test = .format_xy(x, -train_idx),
+        y = .format_xy(y, train_idx),
+        use.all = FALSE,
+        ncores = ncores,
+        seed = seed
+      ),
+      params
+    )
+    set.seed(seed)
+    cvfit <- do.call(knn_fit, args)
+    # optimize error rate
+    FUN <- metric("ce") # nolint
+    err <- FUN(predictions = knn_predict(
+      model = cvfit,
+      newdata = .format_xy(x, -train_idx),
+      ncores = ncores,
+      type = "response"
+      ),
+      ground_truth = .format_xy(y, -train_idx)
+    )
+    results_df <- data.table::rbindlist(
+      l = list(results_df, list("fold" = fold, "validation_metric" = err)),
+      fill = TRUE
+    )
+  }
+  res <- list("metric_optim_mean" = mean(results_df$validation_metric))
+  return(res)
+}
+```
+
+## The `bayesian_scoring_function` Method
+
+This function can be thought of as a "gatekeeper" that takes a new suggested hyperparameter configuration from the Bayesian process and forwards this configuration further on to a call of the `cross_validation` method in order to evaluate this specific setting. However, some pecularities must be considered in this regard:
+
+1. The functions needs to take the hyperparameters that should be optimized as function arguments.
+
+2. When using the `strategy = "bayesian"`, the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously. Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more ressources than available.
+
+3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item "Score". As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`.
+
+More details on the package [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/web/packages/ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+
+```{r}
+knn_bsF <- function(...) { # nolint
+  params <- list(...)
+  # call to knn_optimization here with ncores = 1, since the Bayesian search
+  # is parallelized already / "FUN is fitted n times in m threads"
+  set.seed(seed)#, kind = "L'Ecuyer-CMRG")
+  bayes_opt_knn <- knn_optimization(
+    x = x,
+    y = y,
+    params = params,
+    fold_list = method_helper$fold_list,
+    ncores = 1L, # important, as bayesian search is already parallelized
+    seed = seed
+  )
+  ret <- kdry::list.append(
+    list("Score" = bayes_opt_knn$metric_optim_mean),
+    bayes_opt_knn
+  )
+  return(ret)
+}
+```
+
+Cluster export:
+
+```{r}
+knn_ce <- function() {
+  c("knn_optimization", "knn_fit", "knn_predict", "metric", ".format_xy")
+}
+```
+
+
+
+## Finally, Create an R6 Class for the Learner
+
+Finally, these created functions just need to be added to an R6 learner.
+
+The R6 class for the learner must inherit from `mlexperiments::MLLearnerBase`. Then, in the function `initialize()`, one needs just to assign the prepared functions to the corresponding private functions and public fields of the R6 class.
+
+```{r}
+LearnerKnn <- R6::R6Class( # nolint
+  classname = "LearnerKnn",
+  inherit = mlexperiments::MLLearnerBase,
+  public = list(
+    initialize = function() {
+      if (!requireNamespace("class", quietly = TRUE)) {
+        stop(
+          paste0(
+            "Package \"class\" must be installed to use ",
+            "'learner = \"LearnerKnn\"'."
+          ),
+          call. = FALSE
+        )
+      }
+      super$initialize(
+        metric_optimization_higher_better = FALSE # classification error
+      )
+      self$environment <- "mlexperiments"
+      self$cluster_export <- knn_ce()
+      private$fun_optim_cv <- knn_optimization
+      private$fun_fit <- knn_fit
+      private$fun_predict <- knn_predict
+      private$fun_bayesian_scoring_function <- knn_bsF
+    }
+  )
+)
+```

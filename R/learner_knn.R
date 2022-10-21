@@ -113,7 +113,6 @@ knn_bsF <- function(...) { # nolint
   return(ret)
 }
 
-# tune lambda
 knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
     is.list(params),
@@ -161,12 +160,6 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
       ),
       ground_truth = .format_xy(y, -train_idx)
     )
-
-
-    # save the results of this fold into a dataframe
-    # from help("ranger::ranger"):
-    # prediction.error - Overall out of bag prediction error. [...] for
-    # survival one minus Harrell's C-index.
     results_df <- data.table::rbindlist(
       l = list(
         results_df,

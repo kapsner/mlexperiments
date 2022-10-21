@@ -14,7 +14,9 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
   + Grid search
   + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
 * K-fold Cross-validation (CV): R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
-* Nested k-fold cross validation: R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters, which are then validated in an outer CV
+* Nested k-fold cross validation: R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters, which are then validated on an outer CV fold
+
+The package follows the principle that it merely wants to provide the shell for these experiments, and with a few adjustments users can prepare different algorithms so that they can be used with `mlexperiments`. Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
 
 ## Installation
 
