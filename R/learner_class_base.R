@@ -19,12 +19,12 @@
 #' * `$cross_validation` A wrapper around the private function
 #'   `fun_optim_cv`, which needs to be defined when hyperparameters should be
 #'   optimized with a grid search (required for use with
-#'   [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()]).
+#'   [mlexperiments::MLTuneParameters], and [mlexperiments::MLNestedCV]).
 #' * `$bayesian_scoring_function` A wrapper around the private function
 #'   `fun_bayesian_scoring_function`, which needs to be defined when
 #'   hyperparameters should be optimized with a Bayesian process (required for
-#'   use with [mlexperiments::MLTuneParameters()], and
-#'   [mlexperiments::MLNestedCV()]).
+#'   use with [mlexperiments::MLTuneParameters], and
+#'   [mlexperiments::MLNestedCV]).
 #'
 #' For further details please refer to the package's vignette.
 #'
@@ -46,7 +46,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'  of the optimization metric used throughout the hyperparameter
     #'  optimization. This field is set automatically during the initialization
     #'  of the `MLLearnerBase` object. Its purpose is to make it accessible by
-    #'  the evaluation functions from [mlexperiments::MLTuneParameters()].
+    #'  the evaluation functions from [mlexperiments::MLTuneParameters].
     metric_optimization_higher_better = NULL,
 
     #' @field environment The environment in which to search for the functions
@@ -82,11 +82,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' @details
     #' A wrapper around the private function `fun_optim_cv`, which needs to be
     #'   defined when hyperparameters should be optimized with a grid search
-    #'   (required for use with [mlexperiments::MLTuneParameters()], and
-    #'   [mlexperiments::MLNestedCV()].
+    #'   (required for use with [mlexperiments::MLTuneParameters], and
+    #'   [mlexperiments::MLNestedCV].
     #'   However, the function should be never executed directly but by the
-    #'   respective experiment wrappers [mlexperiments::MLTuneParameters()], and
-    #'   [mlexperiments::MLNestedCV()].
+    #'   respective experiment wrappers [mlexperiments::MLTuneParameters], and
+    #'   [mlexperiments::MLNestedCV].
     #'   For further details please refer to the package's vignette.
     #'
     #' @param ... Arguments to be passed to the learner's cross-validation
@@ -94,9 +94,9 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @return The fitted model.
     #'
-    #' @seealso [mlexperiments::MLTuneParameters()],
-    #'   [mlexperiments::MLCrossValidation()], and
-    #'   [mlexperiments::MLNestedCV()]
+    #' @seealso [mlexperiments::MLTuneParameters],
+    #'   [mlexperiments::MLCrossValidation], and
+    #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
     #' \dontrun{
@@ -117,18 +117,18 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   defined for every learner. The return value of this function is the
     #'   fitted model.
     #'   However, the function should be never executed directly but by the
-    #'   respective experiment wrappers [mlexperiments::MLTuneParameters()],
-    #'   [mlexperiments::MLCrossValidation()], and
-    #'   [mlexperiments::MLNestedCV()].
+    #'   respective experiment wrappers [mlexperiments::MLTuneParameters],
+    #'   [mlexperiments::MLCrossValidation], and
+    #'   [mlexperiments::MLNestedCV].
     #'   For further details please refer to the package's vignette.
     #'
     #' @param ... Arguments to be passed to the learner's fitting function.
     #'
     #' @return The fitted model.
     #'
-    #' @seealso [mlexperiments::MLTuneParameters()],
-    #'   [mlexperiments::MLCrossValidation()], and
-    #'   [mlexperiments::MLNestedCV()]
+    #' @seealso [mlexperiments::MLTuneParameters],
+    #'   [mlexperiments::MLCrossValidation], and
+    #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
     #' \dontrun{
@@ -152,9 +152,9 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   arguments, the ellipsis (`...`) can be used. The function should
     #'   return the prediction results.
     #'   However, the function should be never executed directly but by the
-    #'   respective experiment wrappers [mlexperiments::MLTuneParameters()],
-    #'   [mlexperiments::MLCrossValidation()], and
-    #'   [mlexperiments::MLNestedCV()].
+    #'   respective experiment wrappers [mlexperiments::MLTuneParameters],
+    #'   [mlexperiments::MLCrossValidation], and
+    #'   [mlexperiments::MLNestedCV].
     #'   For further details please refer to the package's vignette.
     #'
     #' @param model A fitted model of the learner (as returned by
@@ -168,9 +168,9 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @return The predictions for `newdata`.
     #'
-    #' @seealso [mlexperiments::MLTuneParameters()],
-    #'   [mlexperiments::MLCrossValidation()], and
-    #'   [mlexperiments::MLNestedCV()]
+    #' @seealso [mlexperiments::MLTuneParameters],
+    #'   [mlexperiments::MLCrossValidation], and
+    #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
     #' \dontrun{
@@ -197,10 +197,10 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' A wrapper around the private function `fun_bayesian_scoring_function`,
     #'   which needs to be defined when hyperparameters should be optimized with
     #'   a Bayesian process (required for use with
-    #'   [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()].
+    #'   [mlexperiments::MLTuneParameters], and [mlexperiments::MLNestedCV].
     #'   However, the function should be never executed directly but by the
-    #'   respective experiment wrappers [mlexperiments::MLTuneParameters()], and
-    #'   [mlexperiments::MLNestedCV()].
+    #'   respective experiment wrappers [mlexperiments::MLTuneParameters], and
+    #'   [mlexperiments::MLNestedCV].
     #'   For further details please refer to the package's vignette.
     #'
     #' @param ... Arguments to be passed to the learner's Bayesian scoring
@@ -209,7 +209,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' @return The results of the Bayesian scoring.
     #'
     #' @seealso [ParBayesianOptimization::bayesOpt()],
-    #'   [mlexperiments::MLTuneParameters()], and [mlexperiments::MLNestedCV()]
+    #'   [mlexperiments::MLTuneParameters], and [mlexperiments::MLNestedCV]
     #'
     #' @examples
     #' \dontrun{

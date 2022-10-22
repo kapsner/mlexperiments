@@ -30,11 +30,12 @@ This vignette will go through the steps that are necessary to prepare a new lear
 
 ## General Overview
 
-In general, the learner class exposes 4 methods that can be defined:
+In general, the learner class exposes 4 methods that can be defined:  
+
 * `$fit` A wrapper around the private function `fun_fit`, which needs to be defined for every learner. The return value of this function is the fitted model.
 * `$predict` A wrapper around the private function `fun_predict`, which needs to be defined for every learner. The function must accept the three arguments `model`, `newdata`, and `ncores` and is a wrapper around the respective learner's predict-function. In order to allow the passing of further arguments, the ellipsis (`...`) can be used. The function should return the prediction results.
-* `$cross_validation` A wrapper around the private function `fun_optim_cv`, which needs to be defined when hyperparameters should be optimized with a grid search (required for use with `mlexperiments::MLTuneParameters()`, and `mlexperiments::MLNestedCV()`).
-* `$bayesian_scoring_function` A wrapper around the private function `fun_bayesian_scoring_function`, which needs to be defined when hyperparameters should be optimized with a Bayesian process (required for use with `mlexperiments::MLTuneParameters()`, and `mlexperiments::MLNestedCV()`).
+* `$cross_validation` A wrapper around the private function `fun_optim_cv`, which needs to be defined when hyperparameters should be optimized with a grid search (required for use with `mlexperiments::MLTuneParameters`, and `mlexperiments::MLNestedCV`).
+* `$bayesian_scoring_function` A wrapper around the private function `fun_bayesian_scoring_function`, which needs to be defined when hyperparameters should be optimized with a Bayesian process (required for use with `mlexperiments::MLTuneParameters`, and `mlexperiments::MLNestedCV`).
 
 In the following, we will go through the steps to prepare the `class::knn()` learner for `mlexperiments` (the same code is also implemented in the package and ready to use as `mlexperiments::LearnerKnn`).
 
@@ -42,7 +43,7 @@ In the following, we will go through the steps to prepare the `class::knn()` lea
 
 ### The `fit` Method
 
-The return value of the `fit` method should be the fitted model.
+This method must take the arguments `x`, `y`, `ncores`, `seed`, as well as the ellipsis (`...`), while arguments to parameterize the learner are to be passed to the function with the latter. The `fit` method should include one call to fit a model of the algorithm and it should finally return the fitted model.
 
 ```{r eval=FALSE}
 knn_fit <- function(x, y, ncores, seed, ...) {
@@ -58,9 +59,7 @@ knn_fit <- function(x, y, ncores, seed, ...) {
 
 ### The `predict` Method
 
-The return value of the `predict` method should be a vector with the predictions.
-
-The implementation of `class::knn()` is in some ways special and different from the implementation of other algorithms. One of these pecularities is that `class::knn()` does not return a fitted model but instead returns the prediction results directly. Depending on the value of the argument `prob`, these results also include the probability values of the predicted classes.
+This method must take the arguments `model`, `newdata`, `ncores`, and the ellipsis (`...`). It is a wrapper around the respective algorithm's `predict()` function, while specific arguments required to parameterize it can be passed with the ellipsis. The experiments `mlexperiments::MLCrossValidation` and `mlexperiments::MLNestedCV` do both have the field `$predict_args` to define a list that is further passed on to the `predcit` method's ellipsis. In contrast, when it is required to further parameterize this method during the hyperparameter tuning (`mlexperiments::MLTuneParameters`), it is required to define those parameters within the `cross_validation` method (see below). The returned value of the `predict` method should be a vector with the predictions.
 
 ```{r eval=FALSE}
 knn_predict <- function(model, newdata, ncores, ...) {
@@ -75,9 +74,12 @@ knn_predict <- function(model, newdata, ncores, ...) {
 }
 ```
 
+The implementation of `class::knn()` is in some ways special and different from the implementation of other algorithms. One of these pecularities is that `class::knn()` does not return a fitted model but instead returns the predicted values directly. Depending on the value of the argument `prob`, these results also include the probability values of the predicted classes.
+
 ### The `cross_validation` Method
 
-This function should perform a k-fold cross validation for one specific hyperparameter setting and return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric.
+Inside of this function, a k-fold cross validation should be performed for one specific hyperparameter setting. It must take the arguments `x`, `y`, `params` (a list of hyperparameters), `fold_list` (to define the cross-validation folds), `ncores`, and `seed`.
+Finally, the function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric.
 
 ```{r eval=FALSE}
 knn_optimization <- function(x, y, params, fold_list, ncores, seed) {

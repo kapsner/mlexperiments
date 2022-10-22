@@ -23,12 +23,12 @@ return the prediction results.
 \item \verb{$cross_validation} A wrapper around the private function
 \code{fun_optim_cv}, which needs to be defined when hyperparameters should be
 optimized with a grid search (required for use with
-\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}).
+\link{MLTuneParameters}, and \link{MLNestedCV}).
 \item \verb{$bayesian_scoring_function} A wrapper around the private function
 \code{fun_bayesian_scoring_function}, which needs to be defined when
 hyperparameters should be optimized with a Bayesian process (required for
-use with \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}).
+use with \link{MLTuneParameters}, and
+\link{MLNestedCV}).
 }
 
 For further details please refer to the package's vignette.
@@ -86,20 +86,20 @@ learner$bayesian_scoring_function()
 
 }
 \seealso{
-\code{\link[=MLTuneParameters]{MLTuneParameters()}},
-\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}
+\link{MLTuneParameters},
+\link{MLCrossValidation}, and
+\link{MLNestedCV}
 
-\code{\link[=MLTuneParameters]{MLTuneParameters()}},
-\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}
+\link{MLTuneParameters},
+\link{MLCrossValidation}, and
+\link{MLNestedCV}
 
-\code{\link[=MLTuneParameters]{MLTuneParameters()}},
-\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}
+\link{MLTuneParameters},
+\link{MLCrossValidation}, and
+\link{MLNestedCV}
 
 \code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}},
-\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}
+\link{MLTuneParameters}, and \link{MLNestedCV}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -113,7 +113,7 @@ optimization. See also \code{\link[parallel:clusterApply]{parallel::clusterExpor
 of the optimization metric used throughout the hyperparameter
 optimization. This field is set automatically during the initialization
 of the \code{MLLearnerBase} object. Its purpose is to make it accessible by
-the evaluation functions from \code{\link[=MLTuneParameters]{MLTuneParameters()}}.}
+the evaluation functions from \link{MLTuneParameters}.}
 
 \item{\code{environment}}{The environment in which to search for the functions
 of the learner (default: \code{-1L}).}
@@ -182,11 +182,11 @@ function.}
 \subsection{Details}{
 A wrapper around the private function \code{fun_optim_cv}, which needs to be
 defined when hyperparameters should be optimized with a grid search
-(required for use with \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.
+(required for use with \link{MLTuneParameters}, and
+\link{MLNestedCV}.
 However, the function should be never executed directly but by the
-respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.
+respective experiment wrappers \link{MLTuneParameters}, and
+\link{MLNestedCV}.
 For further details please refer to the package's vignette.
 }
 
@@ -227,9 +227,9 @@ A wrapper around the private function \code{fun_fit}, which needs to be
 defined for every learner. The return value of this function is the
 fitted model.
 However, the function should be never executed directly but by the
-respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}},
-\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.
+respective experiment wrappers \link{MLTuneParameters},
+\link{MLCrossValidation}, and
+\link{MLNestedCV}.
 For further details please refer to the package's vignette.
 }
 
@@ -283,9 +283,9 @@ learner's predict-function. In order to allow the passing of further
 arguments, the ellipsis (\code{...}) can be used. The function should
 return the prediction results.
 However, the function should be never executed directly but by the
-respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}},
-\code{\link[=MLCrossValidation]{MLCrossValidation()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.
+respective experiment wrappers \link{MLTuneParameters},
+\link{MLCrossValidation}, and
+\link{MLNestedCV}.
 For further details please refer to the package's vignette.
 }
 
@@ -327,10 +327,10 @@ function.}
 A wrapper around the private function \code{fun_bayesian_scoring_function},
 which needs to be defined when hyperparameters should be optimized with
 a Bayesian process (required for use with
-\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}.
+\link{MLTuneParameters}, and \link{MLNestedCV}.
 However, the function should be never executed directly but by the
-respective experiment wrappers \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.
+respective experiment wrappers \link{MLTuneParameters}, and
+\link{MLNestedCV}.
 For further details please refer to the package's vignette.
 }
 
