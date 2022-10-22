@@ -10,26 +10,27 @@ thought to serve as a class to inherit from when creating new learners.
 }
 \details{
 The learner class exposes 4 methods that can be defined:
-\describe{
-\item{\verb{$fit}}{A wrapper around the private function \code{fun_fit}, which needs to
+\itemize{
+\item \verb{$fit} A wrapper around the private function \code{fun_fit}, which needs to
 be defined for every learner. The return value of this function is the
-fitted model.}
-\item{\verb{$predict}}{A wrapper around the private function \code{fun_predict},
+fitted model.
+\item \verb{$predict} A wrapper around the private function \code{fun_predict},
 which needs to be defined for every learner. The function must accept the
 three arguments \code{model}, \code{newdata}, and \code{ncores} and is a wrapper around
 the respective learner's predict-function. In order to allow the passing of
 further arguments, the ellipsis (\code{...}) can be used. The function should
-return the prediction results.}
-\item{\verb{$cross_validation}}{A wrapper around the private function
+return the prediction results.
+\item \verb{$cross_validation} A wrapper around the private function
 \code{fun_optim_cv}, which needs to be defined when hyperparameters should be
 optimized with a grid search (required for use with
-\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}.}
-\item{\verb{$bayesian_scoring_function}}{A wrapper around the private function
+\code{\link[=MLTuneParameters]{MLTuneParameters()}}, and \code{\link[=MLNestedCV]{MLNestedCV()}}).
+\item \verb{$bayesian_scoring_function} A wrapper around the private function
 \code{fun_bayesian_scoring_function}, which needs to be defined when
 hyperparameters should be optimized with a Bayesian process (required for
 use with \code{\link[=MLTuneParameters]{MLTuneParameters()}}, and
-\code{\link[=MLNestedCV]{MLNestedCV()}}.}
+\code{\link[=MLNestedCV]{MLNestedCV()}}).
 }
+
 For further details please refer to the package's vignette.
 }
 \examples{
