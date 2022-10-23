@@ -40,7 +40,7 @@ Thus, I initially decided to implement my analysis with [`mlr3`](https://mlr3.ml
 However, when actually starting to implement things, I realized that in the meantime [`mlr3proba`](https://github.com/mlr-org/mlr3proba) has unfortunately been [archived on CRAN on 2022-05-16](https://cran.r-project.org/web/packages/mlr3proba/index.html).
 For the sake of stability throughout the project work, I finally decided to implement the whole logic myself as it "just includes some for loops and summarizing results" :joy: :joy:.
 In the end, implementing a common interface for the three algorithms to perform survival analysis was a very time-consuming effort.
-This was even more the case when trying to make the code as generic and re-usable as possible to have it also available for tasks other than survival analysis.
+This was even more the case when trying to make the code as generic and re-usable as possible, to generalize it to tasks other than survival analysis, as well as to allow for adding (potentially) any other learner.
 
 The result of these efforts are:
 
