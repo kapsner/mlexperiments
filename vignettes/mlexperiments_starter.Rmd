@@ -37,7 +37,7 @@ In general, the learner class exposes 4 methods that can be defined:
 * `$cross_validation` A wrapper around the private function `fun_optim_cv`, which needs to be defined when hyperparameters should be optimized with a grid search (required for use with `mlexperiments::MLTuneParameters`, and `mlexperiments::MLNestedCV`).
 * `$bayesian_scoring_function` A wrapper around the private function `fun_bayesian_scoring_function`, which needs to be defined when hyperparameters should be optimized with a Bayesian process (required for use with `mlexperiments::MLTuneParameters`, and `mlexperiments::MLNestedCV`).
 
-In the following, we will go through the steps to prepare the `class::knn()` learner for `mlexperiments` (the same code is also implemented in the package and ready to use as `mlexperiments::LearnerKnn`).
+In the following, we will go through the steps to prepare the algorithm '`class::knn()`' to be used with `mlexperiments` (the same code is also implemented in the package and ready to use as `mlexperiments::LearnerKnn`).
 
 ## Steps to Prepare an Algorithm for Use with `mlexperiments`
 
@@ -74,11 +74,11 @@ knn_predict <- function(model, newdata, ncores, ...) {
 }
 ```
 
-The implementation of `class::knn()` is in some ways special and different from the implementation of other algorithms. One of these pecularities is that `class::knn()` does not return a fitted model but instead returns the predicted values directly. Depending on the value of the argument `prob`, these results also include the probability values of the predicted classes.
+The implementation of `class::knn()` is in some ways special and different from the implementation of other algorithms. One of these peculiarities is that `class::knn()` does not return a fitted model but instead returns the predicted values directly. Depending on the value of the argument `prob`, these results also include the probability values of the predicted classes.
 
 ### The `cross_validation` Method
 
-Inside of this function, a k-fold cross validation should be performed for one specific hyperparameter setting. It must take the arguments `x`, `y`, `params` (a list of hyperparameters), `fold_list` (to define the cross-validation folds), `ncores`, and `seed`.
+The purpose of this function is to perform a k-fold cross validation for one specific hyperparameter setting. The function must take the arguments `x`, `y`, `params` (a list of hyperparameters), `fold_list` (to define the cross-validation folds), `ncores`, and `seed`.
 Finally, the function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric.
 
 ```{r eval=FALSE}
@@ -131,15 +131,13 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
 ### The `bayesian_scoring_function` Method
 
-This function can be thought of as a "gatekeeper" that takes a new suggested hyperparameter configuration from the Bayesian process and forwards this configuration further on to a call of the `cross_validation` method in order to evaluate this specific setting. However, some pecularities must be considered in this regard:
+This function can be thought of as a "gatekeeper" that takes a new suggested hyperparameter configuration from the Bayesian process and forwards this configuration further on to a call of the `cross_validation` method (see above) in order to evaluate this specific setting. However, some peculiarities must be considered in this regard:
 
-1. The functions needs to take the hyperparameters that should be optimized as function arguments.
+1. The functions needs to take the hyperparameters that should be optimized as function arguments (I generally use the ellipsis (`...`), however, the hyperparameters can also be defined as arguments explicitly).
 
-2. When using the `strategy = "bayesian"`, the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously. Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more ressources than available.
+2. When using the `strategy = "bayesian"`, the package is configured in a way that the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously (see [`ParBayesianOptimization's readme`](https://github.com/AnotherSamWilson/ParBayesianOptimization#running-in-parallel) for more details). Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more ressources than available, when using the `strategy = "bayesian"`.
 
-3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item "Score". As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`.
-
-More details on the package [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/web/packages/ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item "Score". As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
 
 ```{r eval=FALSE}
 knn_bsF <- function(...) { # nolint
@@ -163,14 +161,17 @@ knn_bsF <- function(...) { # nolint
 }
 ```
 
-Cluster export:
+More details on the package [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/web/packages/ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+
+For the parallelization of the Bayesian process, all required functions must be exported to the cluster. To facilitate this, a simple wrapper function can be created that returns a character vector of all custom functions that are called from within the Bayesian scoring function. The following function shows the objects that need to be exported for a correct functioning of the `LearnerKnn`:
 
 ```{r eval=FALSE}
+# define the objects / functions that need to be exported to each cluster
+# for parallelizing the Bayesian optimization.
 knn_ce <- function() {
   c("knn_optimization", "knn_fit", "knn_predict", "metric", ".format_xy")
 }
 ```
-
 
 
 ### Finally, Create an R6 Class for the Learner
