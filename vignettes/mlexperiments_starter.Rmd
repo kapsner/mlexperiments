@@ -18,13 +18,13 @@ knitr::opts_chunk$set(
 
 The goal of the package `mlexperiments` is to provide a re-useable framework for reproducible machine learning experiments, namely:
 
-* Hyperparameter tuning: R6 class `mlexperiments::MLTuneParameters`, to optimize hyperparameters using the two strategies
+* Hyperparameter tuning: with the R6 class `mlexperiments::MLTuneParameters`, to optimize the hyperparameters in a k-fold cross-validation with one of the two strategies
   + Grid search
   + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
-* K-fold Cross-validation (CV): R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
-* Nested k-fold cross validation: R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters, which are then validated on an outer CV fold
+* K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
+* Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
-The package follows the principle that it merely wants to provide the shell for these experiments, and with a few adjustments users can prepare different algorithms so that they can be used with `mlexperiments`.
+The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`.
 
 This vignette will go through the steps that are necessary to prepare a new learner.
 
