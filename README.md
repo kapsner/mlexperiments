@@ -10,11 +10,11 @@
 
 The goal of the package `mlexperiments` is to provide a re-useable framework for reproducible machine learning experiments, namely:
 
-* Hyperparameter tuning: with the R6 class `mlexperiments::MLTuneParameters`, to optimize hyperparameters with one of the two strategies
+* Hyperparameter tuning: with the R6 class `mlexperiments::MLTuneParameters`, to optimize the hyperparameters in a k-fold cross-validation with one of the two strategies
   + Grid search
   + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
-* K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
-* Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters and validate them in an outer CV loop
+* K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
+* Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
 The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
 
