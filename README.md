@@ -16,7 +16,7 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation` to validate a set of hyperparameters
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV` to perform an inner CV to optimize the hyperparameters and validate them in an outer CV loop
 
-The package follows the principle that it merely wants to provide the shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
+The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
 
 ## Installation
 
