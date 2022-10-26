@@ -16,7 +16,24 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
-The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
+The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. THe package aims at providing as much flexibility as possible while being able to perform the machine learning experiments with different learner algorithms using a common interface. The use of a common interface ensures, for example, the comparability of experiments that were performed with different learner algorithms, since they use the same underlying code for computing cross-validation folds, etc. Furthermore, the common interface also allows to quickly exchange the learner algorithms.
+
+When developing the package, a goal was always to leave as much flexibility as possible to the users when calling the different learner algorithms. This includes, for example, the necessity to provide certain learner-specific arguments to their fitting-functions or predict-functions (for example, some `xgboost`- or `lightgbm` users prefer to use `early_stopping` during the cross-validation while others like to optimize the number of boosting iterations in a grid search).
+Thus, it was decided wherever possible to not hard-code learner-specific arguments. Instead, some general fields were added to the R6 classes of the experiments to be able to pass such arguments, e.g., to the learners' fitting-functions and predict-functions, respectively.
+
+This flexibility might come at the expense of intuitive usability as users first need to define their `mlexperiments`-specific learner functions according to their needs. However, for users who did not use the R language's well established machine learning frameworks in their experiments (e.g. [`tidymodels`](https://www.tidymodels.org/), [`caret`](https://topepo.github.io/caret/), and [`mlr3`](https://mlr3.mlr-org.com/)), this might not be such a big change at all as they previously might have been already writing code
+
+* to perform a hyperparameter tuning (using a grid-search or even a Bayesian optimization)
+* to validate a set of hyperparameters using a resampling strategy (e.g., a k-fold cross-validation)
+* to fit a model with some training data
+* to apply a fitted model to predict the outcome in before unseen data
+
+The `mlexperiments` R package provides a standardized interface to define these steps inside of R functions by making some restrictions on the inputs and outputs of these functions.
+
+Some basic learners are included into the `mlexperiments` package, mainly to provide a set of baseline learners that can be used for comparison throughout experiments (wrappers around `stats::lm()` and `stats::glm()`). Some more learners are prepared for the use with `mlexperiments` in the R package [`mllrnrs`](https://github.com/kapsner/mllrnrs). Generally, the flexibility of the `mlexperiments` package implies that users have a deeper understanding of the algorithms they use, including the hyperparameters that can be optimized.
+
+However, `mlexperiments` aims not at providing a ready-to-use interface for many learner algorithms. Instead, users are encouraged to prepare the algorithms they want to use with `mlexperiments` according to their tasks, needs, experience, and personal preferences.
+Details on how to prepare an algorithm for use with `mlexperiments` can be found in the example below and in the [package vignette](vignettes/mlexperiments_starter.Rmd).
 
 ## Installation
 

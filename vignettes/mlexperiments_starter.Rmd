@@ -137,7 +137,7 @@ This function can be thought of as a "gatekeeper" that takes a new suggested hyp
 
 2. When using the `strategy = "bayesian"`, the package is configured in a way that the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously (see [`ParBayesianOptimization's readme`](https://github.com/AnotherSamWilson/ParBayesianOptimization#running-in-parallel) for more details). Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more ressources than available, when using the `strategy = "bayesian"`.
 
-3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item "Score". As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
+3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item `Score`. As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
 
 ```{r eval=FALSE}
 knn_bsF <- function(...) { # nolint
@@ -176,9 +176,20 @@ knn_ce <- function() {
 
 ### Finally, Create an R6 Class for the Learner
 
-Finally, these created functions just need to be added to an R6 learner.
+Finally, all of these created functions need to be integrated into a learner object. This is basically done by overwriting the placeholders in an R6 learner that inherits from `mlexperiments::MLLearnerBase`.
 
-The R6 class for the learner must inherit from `mlexperiments::MLLearnerBase`. Then, in the function `initialize()`, one needs just to assign the prepared functions to the corresponding private functions and public fields of the R6 class.
+The placeholders are:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| private$fun_fit | A function to fit a model of the respective algorithm. The function must return the fitted model. |
+| private$fun_predict | function | A function to predict the outcome in new data. The returned value of the `predict` method should be a vector with the predictions. |
+| private$fun_optim_cv | function | A function to perform a k-fold cross-validation for one hyperparameter setting. The function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric. |
+| private$fun_bayesian_scoring_function | function | A function that is defined according to the requirements of the [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) R package. It must return a named list that contains the optimization metric as the item `Score`. |
+| self$environment | field | The environment, where to search for the objects that need to be exported to a parallel cluster (required for Bayesian optimization). When the R6 learner is part of an R package, you can write the name of the R package here. Otherwise, `-1L` (the global environment) might be suitable as long as all objects that are defined in the field `cluster_export` are available from the global environment. |
+| self$cluster_export | field | A character vector with the names of objects that need to be exported to each node of a parallel cluster when performing a Bayesian optimization. |
+
+These assignments should be done in the `initialize()` function. The following code example shows the assignment of the previously created functions to the respective functions and fields of the newly created R6 class `LearnerKnn`:
 
 ```{r eval=FALSE}
 LearnerKnn <- R6::R6Class( # nolint
@@ -198,20 +209,28 @@ LearnerKnn <- R6::R6Class( # nolint
       super$initialize(
         metric_optimization_higher_better = FALSE # classification error
       )
-      self$environment <- "mlexperiments"
-      self$cluster_export <- knn_ce()
-      private$fun_optim_cv <- knn_optimization
+
       private$fun_fit <- knn_fit
       private$fun_predict <- knn_predict
+      private$fun_optim_cv <- knn_optimization
       private$fun_bayesian_scoring_function <- knn_bsF
+
+      self$environment <- "mlexperiments"
+      self$cluster_export <- knn_ce()
     }
   )
 )
 ```
 
+Please note that `metric_optimization_higher_better` is defaulted to `FALSE` here when initializing the super-class. This is because of choosing the error rate as the optimization metric (`FUN <- metric("ce")`) when defining the `cross_validation`-function above.
+
 ## Examples
 
+Now, the learner is put together and ready to be used with `mlexperiments`:
+
 ### Preparations
+
+First of all, load the data and transform it into a matrix, and define the training data and the target variable.
 
 ```{r}
 library(mlexperiments)
@@ -231,21 +250,6 @@ train_x <- model.matrix(
 )
 train_y <- dataset[, get("Class")]
 
-fold_list <- splitTools::create_folds(
-  y = train_y,
-  k = 3,
-  type = "stratified",
-  seed = seed
-)
-```
-
-### Hyperparameter Tuning
-
-#### Bayesian Tuning
-
-```{r}
-knn_bounds <- list(k = c(2L, 80L))
-
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
   yes = 4L,
@@ -259,100 +263,133 @@ if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
   # on cran
   ncores <- 2L
 }
+```
 
-optim_args <- list(
-  iters.n = ncores,
-  kappa = 3.5,
-  acq = "ucb"
-)
+### Hyperparameter Tuning
 
+#### Bayesian Tuning
+
+For the Bayesian hyperparameter optimization, it is required to define a grid with some hyperparameter combinations that is used for initializing the Bayesian process. Furthermore, the borders (allowed extreme values) of the hyperparameters that are actually optimized need to be defined in a list. Finally, further arguments that are passed to the function `ParBayesianOptimization::bayesOpt()` can be defined as well.
+
+```{r}
 param_list_knn <- expand.grid(
   k = seq(4, 68, 8),
   l = 0,
   test = parse(text = "fold_test$x")
 )
 
-knn_optimization <- mlexperiments::MLTuneParameters$new(
+knn_bounds <- list(k = c(2L, 80L))
+
+optim_args <- list(
+  iters.n = ncores,
+  kappa = 3.5,
+  acq = "ucb"
+)
+```
+
+Then, the created objects need to be assigned to the corresponding fields of the R6 class `mlexperiments::MLTuneParameters`:
+
+```{r}
+knn_tune_bayesian <- mlexperiments::MLTuneParameters$new(
   learner = LearnerKnn$new(),
   strategy = "bayesian",
   ncores = ncores,
   seed = seed
 )
 
-knn_optimization$parameter_bounds <- knn_bounds
-knn_optimization$parameter_grid <- param_list_knn
-knn_optimization$split_type <- "stratified"
-knn_optimization$optim_args <- optim_args
+knn_tune_bayesian$parameter_bounds <- knn_bounds
+knn_tune_bayesian$parameter_grid <- param_list_knn
+knn_tune_bayesian$split_type <- "stratified"
+knn_tune_bayesian$optim_args <- optim_args
 
 # set data
-knn_optimization$set_data(
+knn_tune_bayesian$set_data(
   x = train_x,
   y = train_y
 )
 
-results <- knn_optimization$execute(k = 3)
+results <- knn_tune_bayesian$execute(k = 3)
 head(results)
 ```
 
 #### Grid Search
 
+To carry out the hyperparameter optimization with a grid search, only the `parameter_grid` is required:
+
 ```{r}
-knn_optimization <- mlexperiments::MLTuneParameters$new(
+knn_tune_grid <- mlexperiments::MLTuneParameters$new(
   learner = LearnerKnn$new(),
   strategy = "grid",
   ncores = ncores,
   seed = seed
 )
 
-knn_optimization$parameter_grid <- param_list_knn
-knn_optimization$split_type <- "stratified"
+knn_tune_grid$parameter_grid <- param_list_knn
+knn_tune_grid$split_type <- "stratified"
 
 # set data
-knn_optimization$set_data(
+knn_tune_grid$set_data(
   x = train_x,
   y = train_y
 )
 
-results <- knn_optimization$execute(k = 3)
+results <- knn_tune_grid$execute(k = 3)
 head(results)
 ```
 
 ### Cross-Validation
 
+For the cross-validation experiments (`mlexperiments::MLCrossValidation`, and `mlexperiments::MLNestedCV`), a named list with the in-sample row indices of the folds is required.
+
 ```{r}
-knn_optimization <- mlexperiments::MLCrossValidation$new(
+fold_list <- splitTools::create_folds(
+  y = train_y,
+  k = 3,
+  type = "stratified",
+  seed = seed
+)
+str(fold_list)
+```
+
+Furthermore, a specific hyperparameter setting needs to be selected in order to validate it with the cross-validation:
+
+```{r}
+knn_cv <- mlexperiments::MLCrossValidation$new(
   learner = LearnerKnn$new(),
   fold_list = fold_list,
   seed = seed
 )
 
-knn_optimization$learner_args <- list(
-  k = 20,
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
+best_grid_result <- knn_tune_grid$results$best.setting
+best_grid_result
 
-knn_optimization$predict_args <- list(type = "response")
-knn_optimization$performance_metric <- metric("bacc")
-knn_optimization$performance_metric_name <- "Balanced accuracy"
-knn_optimization$return_models <- TRUE
+knn_cv$learner_args <- best_grid_result[-1]
+
+knn_cv$predict_args <- list(type = "response")
+knn_cv$performance_metric <- metric("bacc")
+knn_cv$performance_metric_name <- "Balanced accuracy"
+knn_cv$return_models <- TRUE
 
 # set data
-knn_optimization$set_data(
+knn_cv$set_data(
   x = train_x,
   y = train_y
 )
 
-results <- knn_optimization$execute()
+results <- knn_cv$execute()
 head(results)
 ```
 
 ### Nested Cross-Validation
 
+Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies (Bayesian optimization or grid search, both implemented with an "inner" cross-validation), and a model with the as such identified best hyperparameter setting is the fitted on all in-sample observations of the outer cross-validation loop and validated on the respective out-sample observations.
+
+The experiment classes must be parameterized as described above.
+
 #### Inner Bayesian Optimization
 
 ```{r}
-knn_optimization <- mlexperiments::MLNestedCV$new(
+knn_cv_nested_bayesian <- mlexperiments::MLNestedCV$new(
   learner = LearnerKnn$new(),
   strategy = "bayesian",
   fold_list = fold_list,
@@ -361,31 +398,29 @@ knn_optimization <- mlexperiments::MLNestedCV$new(
   seed = seed
 )
 
-knn_optimization$parameter_grid <- param_list_knn
-knn_optimization$parameter_bounds <- knn_bounds
-knn_optimization$split_type <- "stratified"
-knn_optimization$optim_args <- optim_args
+knn_cv_nested_bayesian$parameter_grid <- param_list_knn
+knn_cv_nested_bayesian$parameter_bounds <- knn_bounds
+knn_cv_nested_bayesian$split_type <- "stratified"
+knn_cv_nested_bayesian$optim_args <- optim_args
 
-knn_optimization$predict_args <- list(type = "response")
-knn_optimization$performance_metric <- metric("bacc")
-knn_optimization$performance_metric_name <- "Balanced accuracy"
+knn_cv_nested_bayesian$predict_args <- list(type = "response")
+knn_cv_nested_bayesian$performance_metric <- metric("bacc")
+knn_cv_nested_bayesian$performance_metric_name <- "Balanced accuracy"
 
 # set data
-knn_optimization$set_data(
+knn_cv_nested_bayesian$set_data(
   x = train_x,
   y = train_y
 )
 
-results <- knn_optimization$execute()
+results <- knn_cv_nested_bayesian$execute()
 head(results)
 ```
-
-
 
 #### Inner Grid Search
 
 ```{r}
-knn_optimization <- mlexperiments::MLNestedCV$new(
+knn_cv_nested_grid <- mlexperiments::MLNestedCV$new(
   learner = LearnerKnn$new(),
   strategy = "grid",
   fold_list = fold_list,
@@ -394,20 +429,19 @@ knn_optimization <- mlexperiments::MLNestedCV$new(
   seed = seed
 )
 
-knn_optimization$parameter_grid <- param_list_knn
-knn_optimization$split_type <- "stratified"
+knn_cv_nested_grid$parameter_grid <- param_list_knn
+knn_cv_nested_grid$split_type <- "stratified"
 
-knn_optimization$predict_args <- list(type = "response")
-knn_optimization$performance_metric <- metric("bacc")
-knn_optimization$performance_metric_name <- "Balanced accuracy"
+knn_cv_nested_grid$predict_args <- list(type = "response")
+knn_cv_nested_grid$performance_metric <- metric("bacc")
+knn_cv_nested_grid$performance_metric_name <- "Balanced accuracy"
 
 # set data
-knn_optimization$set_data(
+knn_cv_nested_grid$set_data(
   x = train_x,
   y = train_y
 )
 
-results <- knn_optimization$execute()
+results <- knn_cv_nested_grid$execute()
 head(results)
 ```
-
