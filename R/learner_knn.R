@@ -137,9 +137,9 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     # train the model for this cv-fold
     args <- kdry::list.append(
       list(
-        x = .format_xy(x, train_idx),
-        test = .format_xy(x, -train_idx),
-        y = .format_xy(y, train_idx),
+        x = kdry::mlh_format_xy(x, train_idx),
+        test = kdry::mlh_format_xy(x, -train_idx),
+        y = kdry::mlh_format_xy(y, train_idx),
         use.all = FALSE,
         ncores = ncores,
         seed = seed
@@ -154,11 +154,11 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     err <- FUN(
       predictions = knn_predict(
         model = cvfit,
-        newdata = .format_xy(x, -train_idx),
+        newdata = kdry::mlh_format_xy(x, -train_idx),
         ncores = ncores,
         type = "response"
       ),
-      ground_truth = .format_xy(y, -train_idx)
+      ground_truth = kdry::mlh_format_xy(y, -train_idx)
     )
     results_df <- data.table::rbindlist(
       l = list(

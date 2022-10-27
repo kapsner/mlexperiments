@@ -27,10 +27,10 @@
     # get fold ids
     train_index <- self$fold_list[[fold]]
 
-    fold_train <- list(x = .format_xy(private$x, train_index),
-                       y = .format_xy(private$y, train_index))
-    fold_test <- list(x = .format_xy(private$x, -train_index),
-                      y = .format_xy(private$y, -train_index))
+    fold_train <- list(x = kdry::mlh_format_xy(private$x, train_index),
+                       y = kdry::mlh_format_xy(private$y, train_index))
+    fold_test <- list(x = kdry::mlh_format_xy(private$x, -train_index),
+                      y = kdry::mlh_format_xy(private$y, -train_index))
 
     run_args <- list(
       train_index = train_index,
