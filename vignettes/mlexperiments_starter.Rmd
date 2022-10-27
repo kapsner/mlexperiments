@@ -24,7 +24,7 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
-The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`.
+The package provides a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`.
 
 This vignette will go through the steps that are necessary to prepare a new learner.
 
@@ -135,7 +135,7 @@ This function can be thought of as a "gatekeeper" that takes a new suggested hyp
 
 1. The functions needs to take the hyperparameters that should be optimized as function arguments (I generally use the ellipsis (`...`), however, the hyperparameters can also be defined as arguments explicitly).
 
-2. When using the `strategy = "bayesian"`, the package is configured in a way that the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously (see [`ParBayesianOptimization's readme`](https://github.com/AnotherSamWilson/ParBayesianOptimization#running-in-parallel) for more details). Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more ressources than available, when using the `strategy = "bayesian"`.
+2. When using the `strategy = "bayesian"`, the package is configured in a way that the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously (see [`ParBayesianOptimization's Readme`](https://github.com/AnotherSamWilson/ParBayesianOptimization#running-in-parallel) for more details). Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more resources than available, when using the `strategy = "bayesian"`.
 
 3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item `Score`. As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
 
@@ -287,7 +287,11 @@ optim_args <- list(
 )
 ```
 
-Then, the created objects need to be assigned to the corresponding fields of the R6 class `mlexperiments::MLTuneParameters`:
+Here, another peculiarity of `class::knn()` is visible: when fitting a model, one needs to specify the argument `test` in order to specify a matrix of test set cases. In order to have the correct test set cases selected throughout the cross-validation, one needs to specify argument as an expression, which is then evaluated before passing the arguments on to the `fit`-function.
+
+Generally speaking, this is a feature implemented in `mlexperiments`: when specifying an expression as a learner argument (either via the R6 classes' fields `learner_args` or `parameter_grid`), this expression is evaluated before passing the argument list on the fitting functions.
+
+In order to execute the parameter tuning, the created objects need to be assigned to the corresponding fields of the R6 class `mlexperiments::MLTuneParameters`:
 
 ```{r}
 knn_tune_bayesian <- mlexperiments::MLTuneParameters$new(

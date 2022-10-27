@@ -16,7 +16,270 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
-The package follows the principle that it merely wants to provide a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`. The package aims at providing as much flexibility as possible while being able to perform the machine learning experiments with different learner algorithms using a common interface. The use of a common interface ensures, for example, the comparability of experiments that were performed with different learner algorithms, since they use the same underlying code for computing cross-validation folds, etc. Furthermore, the common interface also allows to quickly exchange the learner algorithms.
+The package provides a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`.
+
+## Installation
+
+To install the development version, run
+
+```r
+install.packages("remotes")
+remotes::install_github("kapsner/mlexperiments")
+```
+
+## Examples
+
+### Preparations
+
+First of all, load the data and transform it into a matrix, and define the training data and the target variable.
+
+```{r}
+library(mlexperiments)
+library(mlbench)
+
+data("DNA")
+dataset <- DNA |>
+  data.table::as.data.table() |>
+  na.omit()
+
+seed <- 123
+feature_cols <- colnames(dataset)[1:180]
+
+train_x <- model.matrix(
+  ~ -1 + .,
+  dataset[, .SD, .SDcols = feature_cols]
+)
+train_y <- dataset[, get("Class")]
+
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
+)
+if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
+  # on cran
+  ncores <- 2L
+}
+```
+
+### Hyperparameter Tuning
+
+#### Bayesian Tuning
+
+For the Bayesian hyperparameter optimization, it is required to define a grid with some hyperparameter combinations that is used for initializing the Bayesian process. Furthermore, the borders (allowed extreme values) of the hyperparameters that are actually optimized need to be defined in a list. Finally, further arguments that are passed to the function `ParBayesianOptimization::bayesOpt()` can be defined as well.
+
+```{r}
+param_list_knn <- expand.grid(
+  k = seq(4, 68, 8),
+  l = 0,
+  test = parse(text = "fold_test$x")
+)
+
+knn_bounds <- list(k = c(2L, 80L))
+
+optim_args <- list(
+  iters.n = ncores,
+  kappa = 3.5,
+  acq = "ucb"
+)
+```
+
+Then, the created objects need to be assigned to the corresponding fields of the R6 class `mlexperiments::MLTuneParameters`:
+
+```{r}
+knn_tune_bayesian <- mlexperiments::MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  strategy = "bayesian",
+  ncores = ncores,
+  seed = seed
+)
+
+knn_tune_bayesian$parameter_bounds <- knn_bounds
+knn_tune_bayesian$parameter_grid <- param_list_knn
+knn_tune_bayesian$split_type <- "stratified"
+knn_tune_bayesian$optim_args <- optim_args
+
+# set data
+knn_tune_bayesian$set_data(
+  x = train_x,
+  y = train_y
+)
+
+results <- knn_tune_bayesian$execute(k = 3)
+head(results)
+#>    Epoch setting_id  k gpUtility acqOptimum inBounds Elapsed      Score metric_optim_mean errorMessage l
+#> 1:     0          1  4        NA      FALSE     TRUE   2.009 -0.2247332         0.2247332           NA 0
+#> 2:     0          2 12        NA      FALSE     TRUE   2.273 -0.1600753         0.1600753           NA 0
+#> 3:     0          3 20        NA      FALSE     TRUE   2.376 -0.1381042         0.1381042           NA 0
+#> 4:     0          4 28        NA      FALSE     TRUE   2.323 -0.1403013         0.1403013           NA 0
+#> 5:     0          5 36        NA      FALSE     TRUE   2.128 -0.1315129         0.1315129           NA 0
+#> 6:     0          6 44        NA      FALSE     TRUE   2.339 -0.1258632         0.1258632           NA 0
+```
+
+#### Grid Search
+
+To carry out the hyperparameter optimization with a grid search, only the `parameter_grid` is required:
+
+```{r}
+knn_tune_grid <- mlexperiments::MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  strategy = "grid",
+  ncores = ncores,
+  seed = seed
+)
+
+knn_tune_grid$parameter_grid <- param_list_knn
+knn_tune_grid$split_type <- "stratified"
+
+# set data
+knn_tune_grid$set_data(
+  x = train_x,
+  y = train_y
+)
+
+results <- knn_tune_grid$execute(k = 3)
+head(results)
+#>    setting_id metric_optim_mean  k l
+#> 1:          1         0.2187696  4 0
+#> 2:          2         0.1597615 12 0
+#> 3:          3         0.1349655 20 0
+#> 4:          4         0.1406152 28 0
+#> 5:          5         0.1318267 36 0
+#> 6:          6         0.1258632 44 0
+```
+
+### Cross-Validation
+
+For the cross-validation experiments (`mlexperiments::MLCrossValidation`, and `mlexperiments::MLNestedCV`), a named list with the in-sample row indices of the folds is required.
+
+```{r}
+fold_list <- splitTools::create_folds(
+  y = train_y,
+  k = 3,
+  type = "stratified",
+  seed = seed
+)
+str(fold_list)
+#> List of 3
+#>  $ Fold1: int [1:2124] 1 2 3 4 5 7 9 10 11 12 ...
+#>  $ Fold2: int [1:2124] 1 2 3 6 8 9 11 13 16 17 ...
+#>  $ Fold3: int [1:2124] 4 5 6 7 8 10 12 14 15 16 ...
+```
+
+Furthermore, a specific hyperparameter setting needs to be selected in order to validate it with the cross-validation:
+
+```{r}
+knn_cv <- mlexperiments::MLCrossValidation$new(
+  learner = LearnerKnn$new(),
+  fold_list = fold_list,
+  seed = seed
+)
+
+best_grid_result <- knn_tune_grid$results$best.setting
+best_grid_result
+
+knn_cv$learner_args <- best_grid_result[-1]
+
+knn_cv$predict_args <- list(type = "response")
+knn_cv$performance_metric <- metric("bacc")
+knn_cv$performance_metric_name <- "Balanced accuracy"
+knn_cv$return_models <- TRUE
+
+# set data
+knn_cv$set_data(
+  x = train_x,
+  y = train_y
+)
+
+results <- knn_cv$execute()
+head(results)
+#>     fold performance  k l
+#> 1: Fold1   0.8912781 68 0
+#> 2: Fold2   0.8832388 68 0
+#> 3: Fold3   0.8657147 68 0
+```
+
+### Nested Cross-Validation
+
+Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies (Bayesian optimization or grid search, both implemented with an "inner" cross-validation), and a model with the as such identified best hyperparameter setting is the fitted on all in-sample observations of the outer cross-validation loop and validated on the respective out-sample observations.
+
+The experiment classes must be parameterized as described above.
+
+#### Inner Bayesian Optimization
+
+```{r}
+knn_cv_nested_bayesian <- mlexperiments::MLNestedCV$new(
+  learner = LearnerKnn$new(),
+  strategy = "bayesian",
+  fold_list = fold_list,
+  k_tuning = 3L,
+  ncores = ncores,
+  seed = seed
+)
+
+knn_cv_nested_bayesian$parameter_grid <- param_list_knn
+knn_cv_nested_bayesian$parameter_bounds <- knn_bounds
+knn_cv_nested_bayesian$split_type <- "stratified"
+knn_cv_nested_bayesian$optim_args <- optim_args
+
+knn_cv_nested_bayesian$predict_args <- list(type = "response")
+knn_cv_nested_bayesian$performance_metric <- metric("bacc")
+knn_cv_nested_bayesian$performance_metric_name <- "Balanced accuracy"
+
+# set data
+knn_cv_nested_bayesian$set_data(
+  x = train_x,
+  y = train_y
+)
+
+results <- knn_cv_nested_bayesian$execute()
+head(results)
+#>     fold performance  k l
+#> 1: Fold1   0.8912781 68 0
+#> 2: Fold2   0.8832388 68 0
+#> 3: Fold3   0.8657147 68 0
+```
+
+#### Inner Grid Search
+
+```{r}
+knn_cv_nested_grid <- mlexperiments::MLNestedCV$new(
+  learner = LearnerKnn$new(),
+  strategy = "grid",
+  fold_list = fold_list,
+  k_tuning = 3L,
+  ncores = ncores,
+  seed = seed
+)
+
+knn_cv_nested_grid$parameter_grid <- param_list_knn
+knn_cv_nested_grid$split_type <- "stratified"
+
+knn_cv_nested_grid$predict_args <- list(type = "response")
+knn_cv_nested_grid$performance_metric <- metric("bacc")
+knn_cv_nested_grid$performance_metric_name <- "Balanced accuracy"
+
+# set data
+knn_cv_nested_grid$set_data(
+  x = train_x,
+  y = train_y
+)
+
+results <- knn_cv_nested_grid$execute()
+head(results)
+#>     fold performance  k l
+#> 1: Fold1   0.8959736 52 0
+#> 2: Fold2   0.8832388 68 0
+#> 3: Fold3   0.8657147 68 0
+```
+
+## Purpose
+
+The `mlexperiments` package aims at providing as much flexibility as possible while being able to perform the machine learning experiments with different learner algorithms using a common interface. The use of a common interface ensures, for example, the comparability of experiments that were performed with different learner algorithms, since they use the same underlying code for computing cross-validation folds, etc. Furthermore, the common interface also allows to quickly exchange the learner algorithms.
 
 When developing the package, a goal was always to leave as much flexibility as possible to the users when calling the different learner algorithms. This includes, for example, the necessity to provide certain learner-specific arguments to their fitting-functions or predict-functions (for example, some `xgboost`- or `lightgbm` users prefer to use `early_stopping` during the cross-validation while others like to optimize the number of boosting iterations in a grid search).
 Thus, it was decided wherever possible to not hard-code learner-specific arguments. Instead, some general fields were added to the R6 classes of the experiments to be able to pass such arguments, e.g., to the learners' fitting-functions and predict-functions, respectively.
@@ -33,19 +296,7 @@ The `mlexperiments` R package provides a standardized interface to define these 
 Some basic learners are included into the `mlexperiments` package, mainly to provide a set of baseline learners that can be used for comparison throughout experiments (e.g., wrappers for `stats::lm()` and `stats::glm()`). Some more learners are prepared for the use with `mlexperiments` in the R package [`mllrnrs`](https://github.com/kapsner/mllrnrs). Generally, the flexibility of the `mlexperiments` package implies that users have a deeper understanding of the algorithms they use, including the hyperparameters that can be optimized.
 
 However, `mlexperiments` aims not at providing a ready-to-use interface for many learner algorithms. Instead, users are encouraged to prepare the algorithms they want to use with `mlexperiments` according to their tasks, needs, experience, and personal preferences.
-Details on how to prepare an algorithm for use with `mlexperiments` can be found in the example below and in the [package vignette](vignettes/mlexperiments_starter.Rmd).
-
-## Installation
-
-To install the development version, run
-
-```r
-install.packages("remotes")
-remotes::install_github("kapsner/mlexperiments")
-```
-
-## Example
-
+Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
 
 ## Background
 
@@ -84,5 +335,4 @@ The result of these efforts are:
 
 Document features:
 - learner args as expression "parse(text = )"
-- bayesian_scoring_function -> if metric_optimization_higher_better = FALSE --> inversion of Score is taken care of
 
