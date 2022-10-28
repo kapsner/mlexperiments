@@ -152,7 +152,7 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
     # optimize error rate
     FUN <- metric("ce") # nolint
-    err <- FUN(
+    perf_args <- list(
       predictions = knn_predict(
         model = cvfit,
         newdata = kdry::mlh_subset(x, -train_idx),
@@ -161,12 +161,18 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
       ),
       ground_truth = kdry::mlh_subset(y, -train_idx)
     )
+    perf <- kdry::mlh_fix_performance_types(
+      FUN = FUN,
+      y = y,
+      perf_args = perf_args
+    )
+
     results_df <- data.table::rbindlist(
       l = list(
         results_df,
         list(
           "fold" = fold,
-          "validation_metric" = err
+          "validation_metric" = perf
         )
       ),
       fill = TRUE

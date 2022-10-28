@@ -105,8 +105,8 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
 
         data.table::data.table(
           "model" = mn,
-          "performance" = .calculate_performance(
-            performance_metric = perf_fun,
+          "performance" = kdry::mlh_fix_performance_types(
+            FUN = perf_fun,
             y = y_ground_truth,
             perf_args = perf_args
           )
@@ -115,48 +115,4 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
     )
   )
   return(res)
-}
-
-.calculate_performance <- function(performance_metric, y, perf_args) {
-  # note that this is very specific to the mlr3measures package
-  tryCatch(
-    expr = {
-      return(do.call(performance_metric, perf_args))
-    }, error = function(e) {
-      lvls <- levels(factor(y))
-      error <- TRUE
-      if (grepl(
-        pattern = "Assertion on 'truth' failed: Must be of type 'factor'",
-        x = e
-      )) {
-        # convert to factor
-        perf_args$ground_truth <- factor(
-          x = perf_args$ground_truth,
-          levels = lvls
-        )
-        error <- FALSE
-      } else if (grepl(
-        pattern = "Assertion on 'response' failed: Must be of type 'factor'",
-        x = e
-      )) {
-        perf_args$predictions <- factor(
-          x = perf_args$predictions,
-          levels = lvls
-        )
-        error <- FALSE
-      }
-
-      if (isFALSE(error)) {
-        # recursive execution
-        args <- list(
-          performance_metric = performance_metric,
-          y = y,
-          perf_args = perf_args
-        )
-        return(do.call(.calculate_performance, args))
-      } else {
-        stop(e)
-      }
-    }
-  )
 }
