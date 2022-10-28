@@ -112,7 +112,7 @@ metric_types_helper <- function(FUN, y, perf_args) {
           y = y,
           perf_args = perf_args
         )
-        return(do.call(mlh_fix_performance_types, args))
+        return(do.call(metric_types_helper, args))
       } else {
         stop(e)
       }
