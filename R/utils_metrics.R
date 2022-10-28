@@ -70,8 +70,45 @@ metric <- function(name) {
   return(eval(parse(text = fun)))
 }
 
+
+#' @title metric_types_helper
+#'
+#' @description Prepares the data to be conform with the requirements of
+#'   the metrics from `mlr3measures`.
+#'
+#' @param FUN A metric function, created with [mlexperiments::metric()].
+#' @param y The outcome vector.
+#' @param perf_args A list. The arguments to call the metric function with.
+#'
+#' @details
+#' The `mlr3measures` R package makes some restrictions on the data type of
+#'   the ground truth and the predictions, depending on the metric, i.e. the
+#'   type of the task (regression or classification).
+#'   Thus, it is necessary to convert the inputs to the metric function
+#'   accordingly, which is done with this helper function.
+#'
+#' @return Returns the calculated performance measure.
+#'
+#' @examples
+#' set.seed(123)
+#' ground_truth <- sample(0:1, 100, replace = TRUE)
+#' predictions <- sample(0:1, 100, replace = TRUE)
+#' FUN <- metric("acc")
+#'
+#' perf_args <- list(
+#'   ground_truth = ground_truth,
+#'   predictions = predictions
+#' )
+#'
+#' metric_types_helper(
+#'   FUN = FUN,
+#'   y = ground_truth,
+#'   perf_args = perf_args
+#' )
+#'
 #' @export
-metric_types_helper <- function(FUN, y, perf_args) {
+#'
+metric_types_helper <- function(FUN, y, perf_args) { # nolint
   stopifnot(is.function(FUN), is.list(perf_args),
             all(c("ground_truth", "predictions") %in% names(perf_args)))
   # note that this is very specific to the mlr3measures package

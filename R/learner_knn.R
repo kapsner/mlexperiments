@@ -13,14 +13,12 @@
 #' * [mlexperiments::MLNestedCVs]
 #'
 #' Implemented methods:
-#' \describe{
-#' \item{`$fit`}{To fit the model.}
-#' \item{`$predict`}{To predict new data with the model.}
-#' \item{`$cross_validation`}{To perform a grid search (hyperparameter
-#'   optimization).}
-#' \item{`$bayesian_scoring_function`}{To perform a Bayesian hyperparameter
-#'   optimization.}
-#' }
+#' * `$fit` To fit the model.
+#' * `$predict` To predict new data with the model.
+#' * `$cross_validation` To perform a grid search (hyperparameter
+#'   optimization).
+#' * `$bayesian_scoring_function` To perform a Bayesian hyperparameter
+#'   optimization.
 #'
 #' For the two hyperparamter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is

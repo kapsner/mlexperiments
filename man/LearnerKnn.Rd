@@ -17,13 +17,13 @@ Can be used with
 }
 
 Implemented methods:
-\describe{
-\item{\verb{$fit}}{To fit the model.}
-\item{\verb{$predict}}{To predict new data with the model.}
-\item{\verb{$cross_validation}}{To perform a grid search (hyperparameter
-optimization).}
-\item{\verb{$bayesian_scoring_function}}{To perform a Bayesian hyperparameter
-optimization.}
+\itemize{
+\item \verb{$fit} To fit the model.
+\item \verb{$predict} To predict new data with the model.
+\item \verb{$cross_validation} To perform a grid search (hyperparameter
+optimization).
+\item \verb{$bayesian_scoring_function} To perform a Bayesian hyperparameter
+optimization.
 }
 
 For the two hyperparamter optimization strategies ("grid" and "bayesian"),
