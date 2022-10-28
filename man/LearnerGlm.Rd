@@ -11,7 +11,7 @@ parameters.
 \details{
 Can be used with
 \itemize{
-\item mlexperiments::MLCrossValidation
+\item \link{MLCrossValidation}
 }
 
 Implemented methods:

@@ -5,14 +5,15 @@
 \title{LearnerKnn R6 class}
 \description{
 This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
-k-nearest neighbour classification.
+k-nearest neighbor classification.
 }
 \details{
+Optimization metric: classification error rate
 Can be used with
 \itemize{
-\item mlexperiments::MLTuneParameters
-\item mlexperiments::MLCrossValidation
-\item mlexperiments::MLNestedCVs
+\item \link{MLTuneParameters}
+\item \link{MLCrossValidation}
+\item \link{MLNestedCVs}
 }
 
 Implemented methods:

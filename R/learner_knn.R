@@ -2,14 +2,15 @@
 #'
 #' @description
 #' This learner is a wrapper around [class::knn()] in order to perform a
-#'   k-nearest neighbour classification.
+#'   k-nearest neighbor classification.
 #'
 #'
 #' @details
+#' Optimization metric: classification error rate
 #' Can be used with
-#' * mlexperiments::MLTuneParameters
-#' * mlexperiments::MLCrossValidation
-#' * mlexperiments::MLNestedCVs
+#' * [mlexperiments::MLTuneParameters]
+#' * [mlexperiments::MLCrossValidation]
+#' * [mlexperiments::MLNestedCVs]
 #'
 #' Implemented methods:
 #' \describe{
@@ -87,7 +88,7 @@ LearnerKnn <- R6::R6Class( # nolint
 
 
 knn_ce <- function() {
-  c("knn_optimization", "knn_fit", "knn_predict", "metric", ".format_xy")
+  c("knn_optimization", "knn_fit", "knn_predict", "metric")
 }
 
 knn_bsF <- function(...) { # nolint
@@ -137,9 +138,9 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     # train the model for this cv-fold
     args <- kdry::list.append(
       list(
-        x = kdry::mlh_format_xy(x, train_idx),
-        test = kdry::mlh_format_xy(x, -train_idx),
-        y = kdry::mlh_format_xy(y, train_idx),
+        x = kdry::mlh_subset(x, train_idx),
+        test = kdry::mlh_subset(x, -train_idx),
+        y = kdry::mlh_subset(y, train_idx),
         use.all = FALSE,
         ncores = ncores,
         seed = seed
@@ -154,11 +155,11 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     err <- FUN(
       predictions = knn_predict(
         model = cvfit,
-        newdata = kdry::mlh_format_xy(x, -train_idx),
+        newdata = kdry::mlh_subset(x, -train_idx),
         ncores = ncores,
         type = "response"
       ),
-      ground_truth = kdry::mlh_format_xy(y, -train_idx)
+      ground_truth = kdry::mlh_subset(y, -train_idx)
     )
     results_df <- data.table::rbindlist(
       l = list(

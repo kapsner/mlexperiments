@@ -27,10 +27,10 @@
     # get fold ids
     train_index <- self$fold_list[[fold]]
 
-    fold_train <- list(x = kdry::mlh_format_xy(private$x, train_index),
-                       y = kdry::mlh_format_xy(private$y, train_index))
-    fold_test <- list(x = kdry::mlh_format_xy(private$x, -train_index),
-                      y = kdry::mlh_format_xy(private$y, -train_index))
+    fold_train <- list(x = kdry::mlh_subset(private$x, train_index),
+                       y = kdry::mlh_subset(private$y, train_index))
+    fold_test <- list(x = kdry::mlh_subset(private$x, -train_index),
+                      y = kdry::mlh_subset(private$y, -train_index))
 
     run_args <- list(
       train_index = train_index,
@@ -45,7 +45,6 @@
   }
   return(outlist)
 }
-
 
 .cv_postprocessing <- function(
     self,
@@ -64,8 +63,11 @@
       ),
       self$performance_metric_args
     )
-    outlist[["performance"]][[fold]] <-
-      do.call(self$performance_metric, perf_args)
+    outlist[["performance"]][[fold]] <- .calculate_performance(
+      performance_metric = self$performance_metric,
+      y = private$y,
+      perf_args = perf_args
+    )
   }
 
   # calculate performance metrics here

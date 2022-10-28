@@ -98,9 +98,9 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     # create learner-arguments
     args <- kdry::list.append(
       list(
-        x = kdry::mlh_format_xy(x, train_idx),
-        test = kdry::mlh_format_xy(x, -train_idx),
-        y = kdry::mlh_format_xy(y, train_idx),
+        x = kdry::mlh_subset(x, train_idx),
+        test = kdry::mlh_subset(x, -train_idx),
+        y = kdry::mlh_subset(y, train_idx),
         use.all = FALSE,
         ncores = ncores,
         seed = seed
@@ -113,11 +113,11 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     FUN <- metric("ce") # nolint
     err <- FUN(predictions = knn_predict(
       model = cvfit,
-      newdata = kdry::mlh_format_xy(x, -train_idx),
+      newdata = kdry::mlh_subset(x, -train_idx),
       ncores = ncores,
       type = "response"
       ),
-      ground_truth = kdry::mlh_format_xy(y, -train_idx)
+      ground_truth = kdry::mlh_subset(y, -train_idx)
     )
     results_df <- data.table::rbindlist(
       l = list(results_df, list("fold" = fold, "validation_metric" = err)),

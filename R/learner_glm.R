@@ -7,7 +7,7 @@
 #'
 #' @details
 #' Can be used with
-#' * mlexperiments::MLCrossValidation
+#' * [mlexperiments::MLCrossValidation]
 #'
 #' Implemented methods:
 #' \describe{

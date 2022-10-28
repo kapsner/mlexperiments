@@ -76,7 +76,7 @@ test_that(
       l = 0,
       test = parse(text = "fold_test$x")
     )
-    knn_optimization$predict_args <- list(type = "response")
+    knn_optimization$predict_args <- list(type = "prob")
     knn_optimization$performance_metric_args <- list(positive = "1")
     knn_optimization$performance_metric <- metric("auc")
     knn_optimization$performance_metric_name <- "AUC"
