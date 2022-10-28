@@ -63,7 +63,7 @@
       ),
       self$performance_metric_args
     )
-    outlist[["performance"]][[fold]] <- kdry::mlh_fix_performance_types(
+    outlist[["performance"]][[fold]] <- metric_types_helper(
       FUN = self$performance_metric,
       y = private$y,
       perf_args = perf_args
