@@ -333,6 +333,7 @@ The result of these efforts are:
 
 - rpart
 
-Document features:
+Document:
 - learner args as expression "parse(text = )"
+- LearnerLm
 
