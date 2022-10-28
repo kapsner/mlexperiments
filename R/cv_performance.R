@@ -147,7 +147,13 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
       }
 
       if (isFALSE(error)) {
-        return(do.call(performance_metric, perf_args))
+        # recursive execution
+        args <- list(
+          performance_metric = performance_metric,
+          y = y,
+          perf_args = perf_args
+        )
+        return(do.call(.calculate_performance, args))
       } else {
         stop(e)
       }
