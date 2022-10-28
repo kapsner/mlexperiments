@@ -105,7 +105,7 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
 
         data.table::data.table(
           "model" = mn,
-          "performance" = kdry::mlh_fix_performance_types(
+          "performance" = metric_types_helper(
             FUN = perf_fun,
             y = y_ground_truth,
             perf_args = perf_args
