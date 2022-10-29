@@ -105,17 +105,10 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
 
         data.table::data.table(
           "model" = mn,
-          sapply(
-            X = names(perf_fun),
-            FUN = function(x) {
-              metric_types_helper(
-                FUN = perf_fun[[x]],
-                y = y_ground_truth,
-                perf_args = perf_args
-              )
-            },
-            USE.NAMES = TRUE,
-            simplify = FALSE 
+          .compute_performance(
+            function_list = perf_fun,
+            y = y_ground_truth,
+            perf_args = perf_args
           )
         )
       }
