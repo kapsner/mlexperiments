@@ -245,8 +245,21 @@ MLCrossValidation <- R6::R6Class( # nolint
           yes = TRUE,
           no = is.list(self$performance_metric_args)
         ),
-        is.function(self$performance_metric)
+        is.list(self$performance_metric) ||
+          is.character(self$performance_metric)
       )
+
+      if (is.character(self$performance_metric)) {
+        self$performance_metric <- sapply(
+          X = self$performance_metric,
+          FUN = function(x) {
+            metric(x)
+          },
+          USE.NAMES = TRUE,
+          simplify = FALSE
+        ) 
+      }
+      stopifnot(all(sapply(self$performance_metric, is.function)))
       # apply parameter_grid stuff
       .organize_parameter_grid(self = self, private = private)
 
