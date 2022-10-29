@@ -63,19 +63,11 @@
       ),
       self$performance_metric_args
     )
-    perf_metrics <- sapply(
-      X = names(self$performance_metric),
-      FUN = function(x) {
-        metric_types_helper(
-          FUN = self$performance_metric[[x]],
-          y = private$y,
-          perf_args = perf_args
-        )
-      },
-      USE.NAMES = TRUE,
-      simplify = FALSE 
+    outlist[["performance"]][[fold]] <- .compute_performance(
+      function_list = self$performance_metric,
+      y = private$y,
+      perf_args = perf_args
     )
-    outlist[["performance"]][[fold]] <- perf_metrics
   }
 
   # calculate performance metrics here
