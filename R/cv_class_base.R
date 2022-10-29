@@ -246,14 +246,7 @@ MLCrossValidation <- R6::R6Class( # nolint
       )
 
       if (is.character(self$performance_metric)) {
-        self$performance_metric <- sapply(
-          X = self$performance_metric,
-          FUN = function(x) {
-            metric(x)
-          },
-          USE.NAMES = TRUE,
-          simplify = FALSE
-        ) 
+        self$performance_metric <- .metric_from_char(self$performance_metric)
       }
       if (is.function(self$performance_metric)) {
         self$performance_metric <- list(
@@ -273,3 +266,14 @@ MLCrossValidation <- R6::R6Class( # nolint
     }
   )
 )
+
+.metric_from_char <- function(metric_vector) {
+  sapply(
+    X = metric_vector,
+    FUN = function(x) {
+      metric(x)
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE
+  ) 
+}
