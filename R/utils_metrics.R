@@ -156,3 +156,23 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     }
   )
 }
+
+.compute_performance <- function(
+  function_list,
+  y,
+  perf_args
+) {
+  res <- sapply(
+    X = names(function_list),
+    FUN = function(x) {
+      metric_types_helper(
+        FUN = function_list[[x]],
+        y = y,
+        perf_args = perf_args
+      )
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE 
+  )
+  return(res)
+}
