@@ -51,7 +51,6 @@
 #' # performance parameters
 #' cv$predict_args <- list(type = "response")
 #' cv$performance_metric <- metric("bacc")
-#' cv$performance_metric_name <- "Balanced accuracy"
 #'
 #' # set data
 #' cv$set_data(
@@ -80,10 +79,6 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   This function must take two named arguments: `ground_truth` and
     #'   `predictions`.
     performance_metric = NULL,
-
-    #' @field performance_metric_name A character. The name of the performance
-    #'   metric.
-    performance_metric_name = NULL,
 
     #' @field performance_metric_args A list. Further arguments required to
     #'   compute the performance metric.
