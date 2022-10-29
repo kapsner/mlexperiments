@@ -205,7 +205,7 @@ head(results)
 
 ### Nested Cross-Validation
 
-Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies (Bayesian optimization or grid search, both implemented with an "inner" cross-validation), and a model with the as such identified best hyperparameter setting is the fitted on all in-sample observations of the outer cross-validation loop and validated on the respective out-sample observations.
+Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies (Bayesian optimization or grid search, both implemented with an "inner" cross-validation), and a model with the as such identified best hyperparameter setting is then fitted on all in-sample observations of the outer cross-validation loop and validated on the respective out-sample observations.
 
 The experiment classes must be parameterized as described above.
 
