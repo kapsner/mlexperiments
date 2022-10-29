@@ -63,11 +63,19 @@
       ),
       self$performance_metric_args
     )
-    outlist[["performance"]][[fold]] <- metric_types_helper(
-      FUN = self$performance_metric,
-      y = private$y,
-      perf_args = perf_args
+    perf_metrics <- sapply(
+      X = names(self$performance_metric),
+      FUN = function(x) {
+        metric_types_helper(
+          FUN = self$performance_metric[[x]],
+          y = private$y,
+          perf_args = perf_args
+        )
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE 
     )
+    outlist[["performance"]][[fold]] <- perf_metrics
   }
 
   # calculate performance metrics here
@@ -91,7 +99,7 @@
 
         ret <- list(
           "fold" = x,
-          "performance" = outlist[["performance"]][[x]]
+          "performance" = outlist[["performance"]][[x]][[1]]
         )
 
         if (sum(add_args) > 0) {
