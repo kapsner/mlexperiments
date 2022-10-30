@@ -10,7 +10,7 @@
 #' Can be used with
 #' * [mlexperiments::MLTuneParameters]
 #' * [mlexperiments::MLCrossValidation]
-#' * [mlexperiments::MLNestedCVs]
+#' * [mlexperiments::MLNestedCV]
 #'
 #' Implemented methods:
 #' * `$fit` To fit the model.

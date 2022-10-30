@@ -172,7 +172,7 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
       )
     },
     USE.NAMES = TRUE,
-    simplify = FALSE 
+    simplify = FALSE
   )
   return(res)
 }

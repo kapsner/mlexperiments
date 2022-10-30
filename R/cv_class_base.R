@@ -204,7 +204,6 @@ MLCrossValidation <- R6::R6Class( # nolint
     #' )
     #' cv$predict_args <- list(type = "response")
     #' cv$performance_metric <- metric("bacc")
-    #' cv$performance_metric_name <- "Balanced accuracy"
     #'
     #' # set data
     #' cv$set_data(
@@ -254,7 +253,7 @@ MLCrossValidation <- R6::R6Class( # nolint
         )
       }
       stopifnot(all(sapply(self$performance_metric, is.function)))
-      
+
       # apply parameter_grid stuff
       .organize_parameter_grid(self = self, private = private)
 
@@ -275,5 +274,5 @@ MLCrossValidation <- R6::R6Class( # nolint
     },
     USE.NAMES = TRUE,
     simplify = FALSE
-  ) 
+  )
 }

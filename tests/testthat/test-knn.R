@@ -40,7 +40,6 @@ test_that(
     )
     knn_optimization$predict_args <- list(type = "response")
     knn_optimization$performance_metric <- metric("bacc")
-    knn_optimization$performance_metric_name <- "Balanced accuracy"
     knn_optimization$return_models <- TRUE
 
     # set data
@@ -245,7 +244,6 @@ test_that(
 
     knn_optimization$predict_args <- list(type = "response")
     knn_optimization$performance_metric <- metric("bacc")
-    knn_optimization$performance_metric_name <- "Balanced accuracy"
 
     # set data
     knn_optimization$set_data(
@@ -282,7 +280,6 @@ test_that(
 
     knn_optimization$predict_args <- list(type = "response")
     knn_optimization$performance_metric <- metric("bacc")
-    knn_optimization$performance_metric_name <- "Balanced accuracy"
 
     # set data
     knn_optimization$set_data(

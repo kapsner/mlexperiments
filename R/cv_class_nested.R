@@ -60,7 +60,6 @@
 #' # performance parameters
 #' cv$predict_args <- list(type = "response")
 #' cv$performance_metric <- metric("bacc")
-#' cv$performance_metric_name <- "Balanced accuracy"
 #'
 #' # set data
 #' cv$set_data(
@@ -269,7 +268,6 @@ MLNestedCV <- R6::R6Class( # nolint
     #' # performance parameters
     #' cv$predict_args <- list(type = "response")
     #' cv$performance_metric <- metric("bacc")
-    #' cv$performance_metric_name <- "Balanced accuracy"
     #'
     #' # set data
     #' cv$set_data(

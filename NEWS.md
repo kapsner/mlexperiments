@@ -1,9 +1,18 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-19)
+## Unreleased (2022-10-29)
+
+#### Breaking changes
+
+-   removed performance metric name
+    ([01e4230](https://github.com/kapsner/mlexperiments/tree/01e423043b8938dc6e39cd72ca95586eb1f824ed))
+-   prepare for list of metrics
+    ([db8b709](https://github.com/kapsner/mlexperiments/tree/db8b7090f943bea96fd326ad6a8487da46e9c033))
 
 #### New features
 
+-   metric\_types\_helper again from kdry
+    ([22b6cdc](https://github.com/kapsner/mlexperiments/tree/22b6cdcd01421a196014b048d8f2dd59f1e9c6f6))
 -   added validation function for fold equality
     ([54a1ec6](https://github.com/kapsner/mlexperiments/tree/54a1ec643052ce650efad85ad303c8a97708371e))
 -   added functions for predictions and preformance calculations on
@@ -28,6 +37,12 @@
 
 #### Bug fixes
 
+-   updated recursive function call
+    ([f30c925](https://github.com/kapsner/mlexperiments/tree/f30c92597e37e6b542c73c462f8e0b35ee078e26))
+-   added recursiveness to calculating performance
+    ([17f38a3](https://github.com/kapsner/mlexperiments/tree/17f38a3aac77c3f2af8b88e06a00283fc8326702))
+-   fixed issues with data types when calculating performance metrics
+    ([b57c53e](https://github.com/kapsner/mlexperiments/tree/b57c53e4e4702453b53b0ac8bea4ae3468d8b33a))
 -   fixed buc in bayesian scoring function
     ([a1214e1](https://github.com/kapsner/mlexperiments/tree/a1214e1dbd4af11b8954fa8ff0d86c44ba01de03))
 -   fixed general parsing of parameters
@@ -49,6 +64,30 @@
 
 #### Refactorings
 
+-   metric\_from\_char
+    ([8baaf3a](https://github.com/kapsner/mlexperiments/tree/8baaf3a99d8f56b3f19c4a2dec400854a7585a46))
+-   switch to .compute\_performance
+    ([3d8565d](https://github.com/kapsner/mlexperiments/tree/3d8565de4f1f9c707c92955b2b5d0f7f36a23a6f))
+-   switch to .compute\_performance
+    ([fa24034](https://github.com/kapsner/mlexperiments/tree/fa24034719f84e8c97557fece5a0f9f43764c299))
+-   added .compute\_performance
+    ([fffdf78](https://github.com/kapsner/mlexperiments/tree/fffdf78e10562f42b3da6ff4841697fc1030642f))
+-   updated performance fun to comply with list
+    ([67792f3](https://github.com/kapsner/mlexperiments/tree/67792f398f956a11bafedcf7e353d2bbd0342fad))
+-   adapted metric calculation to new list logic
+    ([46500f7](https://github.com/kapsner/mlexperiments/tree/46500f74a2d41c2360bf62c2766c14d2fa590f81))
+-   metric as function now to list
+    ([8bccfbc](https://github.com/kapsner/mlexperiments/tree/8bccfbcb90194a10e65b4a65a26d07ffc0dc5e18))
+-   to internal metric\_types\_helper
+    ([024adcb](https://github.com/kapsner/mlexperiments/tree/024adcb7fd765c603e94c41474d64a34791efe1a))
+-   to internal metric\_types\_helper
+    ([fde6e77](https://github.com/kapsner/mlexperiments/tree/fde6e770fb1e4743447edde46b0df5a7c8d69368))
+-   to internal metric\_types\_helper
+    ([97deeb7](https://github.com/kapsner/mlexperiments/tree/97deeb7fe20fb22b7da162de427d9935c80338e7))
+-   moved fix performance types to kdry
+    ([600a660](https://github.com/kapsner/mlexperiments/tree/600a6605bc53b94fd1a885fc66edf2de446e770c))
+-   format\_xy to kdry
+    ([322db94](https://github.com/kapsner/mlexperiments/tree/322db944f5115dbb6127ca2dab1f4962931d355d))
 -   updated code to upstream changes
     ([54766cc](https://github.com/kapsner/mlexperiments/tree/54766cc8b63c84b74170ac3a629ddf0f82cd7da2))
 -   learner to self
@@ -72,6 +111,22 @@
 
 #### CI
 
+-   whatever is going on with tic
+    ([0ca30f0](https://github.com/kapsner/mlexperiments/tree/0ca30f0252b347fb5612bf883ca61029fd6bb97e))
+-   back to previous tic
+    ([e1a4541](https://github.com/kapsner/mlexperiments/tree/e1a45410a5226af057a1e0e4ff02899bbf0ecd35))
+-   hopefully fixes ci
+    ([17e5b28](https://github.com/kapsner/mlexperiments/tree/17e5b28f97bb43cd7769e1b15758fd545b6ae2c5))
+-   try fixing
+    ([5cd1579](https://github.com/kapsner/mlexperiments/tree/5cd1579681809863c536039b4ee919a65f55c19c))
+-   try to fix ci
+    ([7c1dad3](https://github.com/kapsner/mlexperiments/tree/7c1dad366d147362caa2a6d4bba1c7d373cfdb18))
+-   try to fix ci
+    ([2ba876e](https://github.com/kapsner/mlexperiments/tree/2ba876e5b7d807fd59b0bdc1b3b152bd9c4052e0))
+-   update tic
+    ([4ffa188](https://github.com/kapsner/mlexperiments/tree/4ffa188ef56ef11dbe352472019031f704ea41fc))
+-   installing dependencies for kdry
+    ([59b95e0](https://github.com/kapsner/mlexperiments/tree/59b95e0191e8b7c1d7c3b8eab55f2a577ab039bf))
 -   fixed linting error
     ([35190b6](https://github.com/kapsner/mlexperiments/tree/35190b62b45ec9773efd922dd9e30485cc5dbff9))
 -   solve warning for missing global variables
@@ -85,6 +140,32 @@
 
 #### Docs
 
+-   updated metric types documentation
+    ([dd07e5d](https://github.com/kapsner/mlexperiments/tree/dd07e5da61002c4b2b6a00c1a2f6bd78eb24e4f3))
+-   finalizing documentation, added exaple to readme
+    ([587de28](https://github.com/kapsner/mlexperiments/tree/587de2854ec002a6493eb94eafc2479aebb37c3e))
+-   updated vignette intro
+    ([3e0edd4](https://github.com/kapsner/mlexperiments/tree/3e0edd432cbd0a5997521bab85d3eab19dc29923))
+-   finalizing vignette; working on documentation
+    ([7c24878](https://github.com/kapsner/mlexperiments/tree/7c2487858aa7d56bcdd2315371f390fdf94ef035))
+-   updated readme
+    ([8add37f](https://github.com/kapsner/mlexperiments/tree/8add37f81a048273a3118a6d157c218e5ade2509))
+-   updated readme
+    ([40e38e5](https://github.com/kapsner/mlexperiments/tree/40e38e58d709116dab5856bf5500d46a8f26c4df))
+-   working on vignette
+    ([84ce219](https://github.com/kapsner/mlexperiments/tree/84ce219883335b6cbfa12dacc9234acd4f9710b5))
+-   updated readme
+    ([14cf011](https://github.com/kapsner/mlexperiments/tree/14cf0116a1fd6c1684d1ad35039630cd9fcafb70))
+-   updated readme
+    ([0d4e0ce](https://github.com/kapsner/mlexperiments/tree/0d4e0cecf593908a8d317f35f1f0ab1fc86c94c7))
+-   working on vignette
+    ([e4158f0](https://github.com/kapsner/mlexperiments/tree/e4158f0822cb36680688779087b0eafa40861d8e))
+-   working on vignette
+    ([66177d3](https://github.com/kapsner/mlexperiments/tree/66177d3f0579d70860b77d5b02e3e6116e8d2e71))
+-   working on package vignette
+    ([6fa520c](https://github.com/kapsner/mlexperiments/tree/6fa520cac5b25099744f05fe711da57f381c748a))
+-   updated documentation
+    ([0ff5511](https://github.com/kapsner/mlexperiments/tree/0ff5511cfc7f7f42508efed6ca295d2b351dd8ef))
 -   finished most of the package documentation
     ([21102f0](https://github.com/kapsner/mlexperiments/tree/21102f08051ce4a80f4fa5ea8d2154247fc89d50))
 -   finished documenting all r6 classes
@@ -98,6 +179,16 @@
 
 #### Other changes
 
+-   fixed typo
+    ([4d497d2](https://github.com/kapsner/mlexperiments/tree/4d497d217083e9aa65ce6f58fd1fb78628b04682))
+-   updated readme
+    ([c36c9ef](https://github.com/kapsner/mlexperiments/tree/c36c9efbb1d13424043cffff5f1d31cd55f7f21d))
+-   fixed typo
+    ([c8f7a88](https://github.com/kapsner/mlexperiments/tree/c8f7a88bef27acf1d10bc4766d3b199b28001183))
+-   fixed typo
+    ([26a9489](https://github.com/kapsner/mlexperiments/tree/26a9489ad1036980dc46102c77857c73274d0788))
+-   updated readme and description
+    ([6c0084f](https://github.com/kapsner/mlexperiments/tree/6c0084f912f11a681255368b9c64c40109e296ea))
 -   adaptions to upstream changes
     ([294e9f3](https://github.com/kapsner/mlexperiments/tree/294e9f3cd19fdfdd7e9febdd87f1421cb8d7af39))
 -   updated readme, added lifecycle badge
@@ -110,4 +201,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...21102f0`](https://github.com/kapsner/mlexperiments/compare/edb76c3...21102f0)
+[`edb76c3...0ca30f0`](https://github.com/kapsner/mlexperiments/compare/edb76c3...0ca30f0)

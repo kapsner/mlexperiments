@@ -52,7 +52,6 @@ test_that(
     glm_optimization$predict_args <- list(type = "response")
     glm_optimization$performance_metric_args <- list(positive = "1")
     glm_optimization$performance_metric <- metric("auc")
-    glm_optimization$performance_metric_name <- "AUC"
 
     # set data
     glm_optimization$set_data(
@@ -79,7 +78,6 @@ test_that(
     knn_optimization$predict_args <- list(type = "prob")
     knn_optimization$performance_metric_args <- list(positive = "1")
     knn_optimization$performance_metric <- metric("auc")
-    knn_optimization$performance_metric_name <- "AUC"
 
     # set data
     knn_optimization$set_data(

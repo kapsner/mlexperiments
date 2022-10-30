@@ -13,7 +13,7 @@ Can be used with
 \itemize{
 \item \link{MLTuneParameters}
 \item \link{MLCrossValidation}
-\item \link{MLNestedCVs}
+\item \link{MLNestedCV}
 }
 
 Implemented methods:

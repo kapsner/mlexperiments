@@ -27,17 +27,16 @@ Suggests:
     mlbench,
     mlr3measures,
     ParBayesianOptimization,
-    rmarkdown,
     rpart,
     testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
 Remotes: 
-    kapsner/kdry@main,
-    mayer79/splitTools@master
+    github::kapsner/kdry@main,
+    github::mayer79/splitTools@master
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2022-10-19 12:33:25 UTC
+Date/Publication: 2022-10-30 07:58:03 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

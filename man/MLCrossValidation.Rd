@@ -52,7 +52,6 @@ cv$learner_args <- list(
 # performance parameters
 cv$predict_args <- list(type = "response")
 cv$performance_metric <- metric("bacc")
-cv$performance_metric_name <- "Balanced accuracy"
 
 # set data
 cv$set_data(
@@ -124,7 +123,6 @@ cv$learner_args <- list(
 )
 cv$predict_args <- list(type = "response")
 cv$performance_metric <- metric("bacc")
-cv$performance_metric_name <- "Balanced accuracy"
 
 # set data
 cv$set_data(
@@ -155,9 +153,6 @@ with the results (default: \code{FALSE}).}
 \item{\code{performance_metric}}{A function to compute the performance metric.
 This function must take two named arguments: \code{ground_truth} and
 \code{predictions}.}
-
-\item{\code{performance_metric_name}}{A character. The name of the performance
-metric.}
 
 \item{\code{performance_metric_args}}{A list. Further arguments required to
 compute the performance metric.}
@@ -324,7 +319,6 @@ cv$learner_args <- list(
 )
 cv$predict_args <- list(type = "response")
 cv$performance_metric <- metric("bacc")
-cv$performance_metric_name <- "Balanced accuracy"
 
 # set data
 cv$set_data(
