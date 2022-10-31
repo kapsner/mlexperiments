@@ -97,7 +97,7 @@ LearnerRpart <- R6::R6Class( # nolint
 
 
 rpart_ce <- function() {
-  c("rpart_optimization", "rpart_fit", "rpart_predict", "metric")
+  c("rpart_optimization", "rpart_cv", "rpart_fit", "rpart_predict", "metric")
 }
 
 rpart_bsF <- function(...) { # nolint
@@ -123,30 +123,22 @@ rpart_bsF <- function(...) { # nolint
   return(ret)
 }
 
-rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
-  stopifnot(
-    is.list(params),
-    "method" %in% names(params),
-    params$method %in% c("class", "anova")
-  )
+rpart_cv <- function(
+    x,
+    y,
+    params,
+    fold_list,
+    ncores,
+    seed,
+    FUN,
+    pred_type
+  ) {
 
   # initialize a dataframe to store the results
   results_df <- data.table::data.table(
     "fold" = character(0),
     "metric" = numeric(0)
   )
-
-  # check, if this is a classification context and select metric accordingly
-  if (params$method == "class") {
-    msg <- "Classification: using 'classification error rate'"
-    FUN <- mlexperiments::metric("ce") # nolint
-    pred_type <- "class"
-  } else {
-    msg <- "Regression: using 'mean squared error'"
-    FUN <- mlexperiments::metric("mse") # nolint
-    pred_type <- "vector"
-  }
-  message(paste("\n", msg, "as optimization metric."))
 
   # loop over the folds
   for (fold in names(fold_list)) {
@@ -199,6 +191,39 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
       fill = TRUE
     )
   }
+  return(results_df)
+}
+
+rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
+  stopifnot(
+    is.list(params),
+    "method" %in% names(params),
+    params$method %in% c("class", "anova")
+  )
+
+  # check, if this is a classification context and select metric accordingly
+  if (params$method == "class") {
+    msg <- "Classification: using 'classification error rate'"
+    FUN <- mlexperiments::metric("ce") # nolint
+    pred_type <- "class"
+  } else {
+    msg <- "Regression: using 'mean squared error'"
+    FUN <- mlexperiments::metric("mse") # nolint
+    pred_type <- "vector"
+  }
+  message(paste("\n", msg, "as optimization metric."))
+
+  args <- list(
+    x = x,
+    y = y,
+    params = params,
+    fold_list = fold_list,
+    ncores = ncores,
+    seed = seed,
+    FUN = FUN,
+    pred_type = pred_type
+  )
+  results_df <- do.call(rpart_cv, args)
 
   res <- list(
     "metric_optim_mean" = mean(results_df$validation_metric)
@@ -207,10 +232,8 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
   return(res)
 }
 
-rpart_fit <- function(x, y, ncores, seed, ...) {
+rpart_fit_fun <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
-  stopifnot("method" %in% names(kwargs),
-            kwargs$method %in% c("class", "anova"))
 
   rpart_formula <- stats::as.formula(object = "rpart_y_train ~ .")
 
@@ -251,9 +274,25 @@ rpart_fit <- function(x, y, ncores, seed, ...) {
   return(fit)
 }
 
-rpart_predict <- function(model, newdata, ncores, ...) {
+rpart_fit <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
+  stopifnot("method" %in% names(kwargs),
+            kwargs$method %in% c("class", "anova"))
+  fit_args <- kdry::list.append(
+    list(
+      x = x,
+      y = y,
+      ncores = ncores,
+      seed = seed
+    ),
+    kwargs
+  )
+  return(do.call(rpart_fit_fun, fit_args))
+}
 
+
+
+rpart_predict_base <- function(model, newdata, ncores, kwargs) {
   if ("cat_vars" %in% names(kwargs)) {
     cat_vars <- kwargs[["cat_vars"]]
     rpart_params <- kwargs[names(kwargs) != "cat_vars"]
@@ -270,7 +309,19 @@ rpart_predict <- function(model, newdata, ncores, ...) {
     rpart_params
   )
 
-  preds <- (do.call(stats::predict, predict_args))
+  return(do.call(stats::predict, predict_args))
+}
+
+rpart_predict <- function(model, newdata, ncores, ...) {
+  kwargs <- list(...)
+
+  args <- list(
+    model = model,
+    newdata = newdata,
+    ncores = ncores,
+    kwargs = kwargs
+  )
+  preds <- do.call(rpart_predict_base, args)
 
   if (!is.null(kwargs$reshape)) {
     if (isTRUE(kwargs$reshape)) {
