@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-29)
+## Unreleased (2022-10-30)
 
 #### Breaking changes
 
@@ -37,6 +37,8 @@
 
 #### Bug fixes
 
+-   consolidized metrics as lists, fixed unit tests
+    ([393a4d6](https://github.com/kapsner/mlexperiments/tree/393a4d642a168b501ae13c70116347fbb6a06a29))
 -   updated recursive function call
     ([f30c925](https://github.com/kapsner/mlexperiments/tree/f30c92597e37e6b542c73c462f8e0b35ee078e26))
 -   added recursiveness to calculating performance
@@ -111,6 +113,8 @@
 
 #### CI
 
+-   try to fix installation of kdry
+    ([359de02](https://github.com/kapsner/mlexperiments/tree/359de0281a752d2674d46b5c402202e2d8a0f8ca))
 -   whatever is going on with tic
     ([0ca30f0](https://github.com/kapsner/mlexperiments/tree/0ca30f0252b347fb5612bf883ca61029fd6bb97e))
 -   back to previous tic
@@ -201,4 +205,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...0ca30f0`](https://github.com/kapsner/mlexperiments/compare/edb76c3...0ca30f0)
+[`edb76c3...359de02`](https://github.com/kapsner/mlexperiments/compare/edb76c3...359de02)

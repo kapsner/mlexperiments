@@ -112,6 +112,15 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
   stopifnot(is.function(FUN), is.list(perf_args),
             all(c("ground_truth", "predictions") %in% names(perf_args)))
   # note that this is very specific to the mlr3measures package
+  if (!requireNamespace("mlr3measures", quietly = TRUE)) {
+    stop(
+      paste0(
+        "Package \"mlr3measures\" must be installed to use ",
+        "function 'metric_types_helper()'."
+      ),
+      call. = FALSE
+    )
+  }
   tryCatch(
     expr = {
       return(do.call(FUN, perf_args))
@@ -121,6 +130,17 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
       }
       lvls <- levels(y)
       error <- TRUE
+
+      # function name
+      pat <- ".*mlr3measures::(.*),.*"
+      fun_line <- grep(
+        pattern = pat,
+        x = deparse(FUN),
+        value = TRUE
+      )
+      fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
+      fun_metadata <- mlr3measures::measures[[fun_name]]
+
       if (grepl(
         pattern = "Assertion on 'truth' failed: Must be of type 'factor'",
         x = e
@@ -135,11 +155,25 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
         pattern = "Assertion on 'response' failed: Must be of type 'factor'",
         x = e
       )) {
+        # logic for conversion of probabilities to classes in case of binary
+        # classification
+        if (fun_metadata$type %in% c("binary", "classif") && (
+          min(perf_args$predictions) >= 0 && max(perf_args$predictions) <= 1
+        )) {
+          perf_args$predictions <- ifelse(
+            test = perf_args$predictions > 0.5,
+            yes = 1,
+            no = 0
+          )
+        }
+
         perf_args$predictions <- factor(
           x = perf_args$predictions,
           levels = lvls
         )
-        error <- FALSE
+        if (!any(is.na(perf_args$predictions))) {
+          error <- FALSE
+        }
       }
 
       if (isFALSE(error)) {
@@ -157,22 +191,13 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
   )
 }
 
-.compute_performance <- function(
-  function_list,
-  y,
-  perf_args
-) {
-  res <- sapply(
-    X = names(function_list),
+.metric_from_char <- function(metric_vector) {
+  sapply(
+    X = metric_vector,
     FUN = function(x) {
-      metric_types_helper(
-        FUN = function_list[[x]],
-        y = y,
-        perf_args = perf_args
-      )
+      metric(x)
     },
     USE.NAMES = TRUE,
     simplify = FALSE
   )
-  return(res)
 }

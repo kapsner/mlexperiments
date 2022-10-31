@@ -7,6 +7,9 @@
 #' @param prediction_results An object of class `"mlexPredictions"` (the output
 #'   of the function [mlexperiments::predictions()]).
 #' @param y_ground_truth A vector with the ground truth of the predicted data.
+#' @param type A character to select a pre-defined set of metrics for "binary"
+#'   and "regression" tasks. If not specified (default: `NULL`), the metrics
+#'   that were specified during fitting the `object` are used.
 #' @param ...  A list. Further arguments required to compute the performance
 #'   metrics.
 #'
@@ -49,8 +52,10 @@
 #' glm_optimization$learner_args <- list(family = binomial(link = "logit"))
 #' glm_optimization$predict_args <- list(type = "response")
 #' glm_optimization$performance_metric_args <- list(positive = "1")
-#' glm_optimization$performance_metric <- metric("auc")
-#' glm_optimization$performance_metric_name <- "AUC"
+#' glm_optimization$performance_metric <- list(
+#'   auc = metric("auc"), sensitivity = metric("sensitivity"),
+#'   specificity = metric("specificity")
+#' )
 #' glm_optimization$return_models <- TRUE
 #'
 #' # set data
@@ -78,9 +83,24 @@
 #'   positive = "1"
 #' )
 #'
+#' # performance - binary
+#' mlexperiments::performance(
+#'   object = glm_optimization,
+#'   prediction_results = preds,
+#'   y_ground_truth = dataset[, 7],
+#'   type = "binary",
+#'   positive = "1"
+#' )
+#'
 #' @export
 #'
-performance <- function(object, prediction_results, y_ground_truth, ...) {
+performance <- function(
+    object,
+    prediction_results,
+    y_ground_truth,
+    type = NULL,
+    ...
+  ) {
   stopifnot(
     inherits(object, what = "MLCrossValidation"),
     R6::is.R6(object),
@@ -90,6 +110,31 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
   kwargs <- list(...)
   model_names <- setdiff(colnames(prediction_results), c("mean", "sd"))
   perf_fun <- object$performance_metric
+
+  if (!is.null(type)) {
+    type <- match.arg(type, c("regression", "binary"))
+    if (!requireNamespace("mlr3measures", quietly = TRUE)) {
+      stop(
+        paste0(
+          "Package \"mlr3measures\" must be installed to use ",
+          "function 'performance()'."
+        ),
+        call. = FALSE
+      )
+    }
+    if (type == "regression") {
+      append_metrics <- c(
+        "mse", "msle", "mae", "mape", "rmse", "rmsle", "rsq", "sse"
+      )
+    } else if (type == "binary") {
+      append_metrics <- c(
+        "auc", "prauc", "sensitivity", "specificity", "ppv", "npv", "tn", "tp",
+        "fn", "fp", "tnr", "tpr", "fnr", "fpr", "bbrier", "acc", "ce", "fbeta"
+      )
+    }
+    base_metric_list <- .metric_from_char(append_metrics)
+    perf_fun <- kdry::list.append(perf_fun, base_metric_list)
+  }
 
   res <- data.table::rbindlist(
     l = lapply(
@@ -103,17 +148,39 @@ performance <- function(object, prediction_results, y_ground_truth, ...) {
           kwargs
         )
 
-        data.table::data.table(
-          "model" = mn,
+        dt_list <- kdry::list.append(
+          list("model" = mn),
           .compute_performance(
             function_list = perf_fun,
             y = y_ground_truth,
             perf_args = perf_args
           )
         )
+        data.table::setDT(dt_list)
+        return(dt_list)
       }
     )
   )
 
+  return(res)
+}
+
+.compute_performance <- function(
+    function_list,
+    y,
+    perf_args
+) {
+  res <- sapply(
+    X = names(function_list),
+    FUN = function(x) {
+      metric_types_helper(
+        FUN = function_list[[x]],
+        y = y,
+        perf_args = perf_args
+      )
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE
+  )
   return(res)
 }

@@ -332,6 +332,7 @@ The result of these efforts are:
 ## Backlog
 
 - rpart
+- cat_vars
 
 Document:
 - learner args as expression "parse(text = )"

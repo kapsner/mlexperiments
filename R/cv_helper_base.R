@@ -89,9 +89,9 @@
           FUN.VALUE = logical(1L)
         )
 
-        ret <- list(
-          "fold" = x,
-          "performance" = outlist[["performance"]][[x]][[1]]
+        ret <- c(
+          list("fold" = x),
+          outlist[["performance"]][[x]]
         )
 
         if (sum(add_args) > 0) {

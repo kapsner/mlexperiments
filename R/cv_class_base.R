@@ -75,9 +75,13 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   with the results (default: `FALSE`).
     return_models = NULL,
 
-    #' @field performance_metric A function to compute the performance metric.
-    #'   This function must take two named arguments: `ground_truth` and
-    #'   `predictions`.
+    #' @field performance_metric Either a named list with metric functions, a
+    #'   single metric function, or a character vector with metric names from
+    #'   the `mlr3measures` package. The provided functions must take two named
+    #'   arguments: `ground_truth` and `predictions`. For metrics from the
+    #'   `mlr3measures` package, the wrapper function [mlexperiments::metric()]
+    #'   exists in order to prepare them for use with the `mlexperiments`
+    #'   package.
     performance_metric = NULL,
 
     #' @field performance_metric_args A list. Further arguments required to
@@ -111,7 +115,8 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   repeated fold definitions, e.g., when specifing the argument `m_rep` of
     #'   [splitTools::create_folds()].
     #'
-    #' @seealso [splitTools::create_folds()]
+    #' @seealso [splitTools::create_folds()], [mlr3measures::measures],
+    #'    [mlexperiments::metric()]
     #'
     #' @examples
     #' dataset <- do.call(
@@ -265,14 +270,3 @@ MLCrossValidation <- R6::R6Class( # nolint
     }
   )
 )
-
-.metric_from_char <- function(metric_vector) {
-  sapply(
-    X = metric_vector,
-    FUN = function(x) {
-      metric(x)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-  )
-}

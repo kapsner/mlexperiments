@@ -4,7 +4,7 @@
 \alias{performance}
 \title{performance}
 \usage{
-performance(object, prediction_results, y_ground_truth, ...)
+performance(object, prediction_results, y_ground_truth, type = NULL, ...)
 }
 \arguments{
 \item{object}{An R6 object of class \code{"MLCrossValidation"} for which the
@@ -14,6 +14,10 @@ performance should be computed.}
 of the function \code{\link[=predictions]{predictions()}}).}
 
 \item{y_ground_truth}{A vector with the ground truth of the predicted data.}
+
+\item{type}{A character to select a pre-defined set of metrics for "binary"
+and "regression" tasks. If not specified (default: \code{NULL}), the metrics
+that were specified during fitting the \code{object} are used.}
 
 \item{...}{A list. Further arguments required to compute the performance
 metrics.}
@@ -61,8 +65,10 @@ glm_optimization <- mlexperiments::MLCrossValidation$new(
 glm_optimization$learner_args <- list(family = binomial(link = "logit"))
 glm_optimization$predict_args <- list(type = "response")
 glm_optimization$performance_metric_args <- list(positive = "1")
-glm_optimization$performance_metric <- metric("auc")
-glm_optimization$performance_metric_name <- "AUC"
+glm_optimization$performance_metric <- list(
+  auc = metric("auc"), sensitivity = metric("sensitivity"),
+  specificity = metric("specificity")
+)
 glm_optimization$return_models <- TRUE
 
 # set data
@@ -87,6 +93,15 @@ mlexperiments::performance(
   object = glm_optimization,
   prediction_results = preds,
   y_ground_truth = dataset[, 7],
+  positive = "1"
+)
+
+# performance - binary
+mlexperiments::performance(
+  object = glm_optimization,
+  prediction_results = preds,
+  y_ground_truth = dataset[, 7],
+  type = "binary",
   positive = "1"
 )
 

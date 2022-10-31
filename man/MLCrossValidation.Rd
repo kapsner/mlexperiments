@@ -135,7 +135,8 @@ cv$execute()
 \seealso{
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 
-\code{\link[splitTools:create_folds]{splitTools::create_folds()}}
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}, \link[mlr3measures:measures]{mlr3measures::measures},
+\code{\link[=metric]{metric()}}
 }
 \section{Super classes}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLCrossValidation}
@@ -150,9 +151,13 @@ validation folds, e.g., created with the function
 \item{\code{return_models}}{A logical. If the fitted models should be returned
 with the results (default: \code{FALSE}).}
 
-\item{\code{performance_metric}}{A function to compute the performance metric.
-This function must take two named arguments: \code{ground_truth} and
-\code{predictions}.}
+\item{\code{performance_metric}}{Either a named list with metric functions, a
+single metric function, or a character vector with metric names from
+the \code{mlr3measures} package. The provided functions must take two named
+arguments: \code{ground_truth} and \code{predictions}. For metrics from the
+\code{mlr3measures} package, the wrapper function \code{\link[=metric]{metric()}}
+exists in order to prepare them for use with the \code{mlexperiments}
+package.}
 
 \item{\code{performance_metric_args}}{A list. Further arguments required to
 compute the performance metric.}

@@ -36,7 +36,6 @@ Remotes:
     github::mayer79/splitTools@master
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2022-10-30 07:58:03 UTC
+Date/Publication: 2022-10-31 10:32:13 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
