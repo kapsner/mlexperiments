@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-30)
+## Unreleased (2022-10-31)
 
 #### Breaking changes
 
@@ -11,6 +11,10 @@
 
 #### New features
 
+-   added rpart learner
+    ([808042e](https://github.com/kapsner/mlexperiments/tree/808042e5d5d121adaccd699b9dd9ee155715959f))
+-   added support for defining multiple metrics
+    ([6cc6340](https://github.com/kapsner/mlexperiments/tree/6cc634057c0d23ab294cc33a46556215b0dcbb6f))
 -   metric\_types\_helper again from kdry
     ([22b6cdc](https://github.com/kapsner/mlexperiments/tree/22b6cdcd01421a196014b048d8f2dd59f1e9c6f6))
 -   added validation function for fold equality
@@ -37,6 +41,8 @@
 
 #### Bug fixes
 
+-   fixing examples
+    ([ed3a461](https://github.com/kapsner/mlexperiments/tree/ed3a46155a47341fb71e2c0fbe44e945fa32b355))
 -   consolidized metrics as lists, fixed unit tests
     ([393a4d6](https://github.com/kapsner/mlexperiments/tree/393a4d642a168b501ae13c70116347fbb6a06a29))
 -   updated recursive function call
@@ -144,6 +150,8 @@
 
 #### Docs
 
+-   updated documentation
+    ([c2182d4](https://github.com/kapsner/mlexperiments/tree/c2182d4abc9667d64ea366b9e0186363d45fc7cf))
 -   updated metric types documentation
     ([dd07e5d](https://github.com/kapsner/mlexperiments/tree/dd07e5da61002c4b2b6a00c1a2f6bd78eb24e4f3))
 -   finalizing documentation, added exaple to readme
@@ -205,4 +213,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...359de02`](https://github.com/kapsner/mlexperiments/compare/edb76c3...359de02)
+[`edb76c3...808042e`](https://github.com/kapsner/mlexperiments/compare/edb76c3...808042e)
