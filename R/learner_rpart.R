@@ -117,7 +117,7 @@ rpart_bsF <- function(...) { # nolint
   # call to rpart_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
-  bayes_opt_knn <- rpart_optimization(
+  bayes_opt_rpart <- rpart_optimization(
     x = x,
     y = y,
     params = params,
@@ -127,8 +127,8 @@ rpart_bsF <- function(...) { # nolint
   )
 
   ret <- kdry::list.append(
-    list("Score" = bayes_opt_knn$metric_optim_mean),
-    bayes_opt_knn
+    list("Score" = bayes_opt_rpart$metric_optim_mean),
+    bayes_opt_rpart
   )
 
   return(ret)
@@ -140,16 +140,10 @@ rpart_cv <- function(
     params,
     fold_list,
     ncores,
-    seed,
-    FUN,
-    pred_type
+    seed
   ) {
 
-  # initialize a dataframe to store the results
-  results_df <- data.table::data.table(
-    "fold" = character(0),
-    "metric" = numeric(0)
-  )
+  outlist <- list()
 
   # loop over the folds
   for (fold in names(fold_list)) {
@@ -170,7 +164,51 @@ rpart_cv <- function(
       params
     )
     set.seed(seed)
-    cvfit <- do.call(rpart_fit, args)
+    outlist[[fold]] <- list(cvfit = do.call(rpart_fit, args),
+                            train_idx = train_idx)
+  }
+  return(outlist)
+}
+
+rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
+  stopifnot(
+    is.list(params),
+    "method" %in% names(params),
+    params$method %in% c("class", "anova")
+  )
+
+  # check, if this is a classification context and select metric accordingly
+  if (params$method == "class") {
+    msg <- "Classification: using 'classification error rate'"
+    FUN <- mlexperiments::metric("ce") # nolint
+    pred_type <- "class"
+  } else {
+    msg <- "Regression: using 'mean squared error'"
+    FUN <- mlexperiments::metric("mse") # nolint
+    pred_type <- "vector"
+  }
+  message(paste("\n", msg, "as optimization metric."))
+
+  args <- list(
+    x = x,
+    y = y,
+    params = params,
+    fold_list = fold_list,
+    ncores = ncores,
+    seed = seed
+  )
+  cv_fit_list <- do.call(rpart_cv, args)
+
+  # initialize a dataframe to store the results
+  results_df <- data.table::data.table(
+    "fold" = character(0),
+    "metric" = numeric(0)
+  )
+
+  for (fold in names(cv_fit_list)) {
+
+    cvfit <- cv_fit_list[[fold]][["cvfit"]]
+    train_idx <- cv_fit_list[[fold]][["train_idx"]]
 
     pred_args <- list(
       model = cvfit,
@@ -202,39 +240,6 @@ rpart_cv <- function(
       fill = TRUE
     )
   }
-  return(results_df)
-}
-
-rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
-  stopifnot(
-    is.list(params),
-    "method" %in% names(params),
-    params$method %in% c("class", "anova")
-  )
-
-  # check, if this is a classification context and select metric accordingly
-  if (params$method == "class") {
-    msg <- "Classification: using 'classification error rate'"
-    FUN <- mlexperiments::metric("ce") # nolint
-    pred_type <- "class"
-  } else {
-    msg <- "Regression: using 'mean squared error'"
-    FUN <- mlexperiments::metric("mse") # nolint
-    pred_type <- "vector"
-  }
-  message(paste("\n", msg, "as optimization metric."))
-
-  args <- list(
-    x = x,
-    y = y,
-    params = params,
-    fold_list = fold_list,
-    ncores = ncores,
-    seed = seed,
-    FUN = FUN,
-    pred_type = pred_type
-  )
-  results_df <- do.call(rpart_cv, args)
 
   res <- list(
     "metric_optim_mean" = mean(results_df$validation_metric)
