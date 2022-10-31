@@ -158,7 +158,7 @@ test_that(
 
 
 test_that(
-  desc = "test bayesian tuner, initPoints - surv_glmnet_cox",
+  desc = "test bayesian tuner, initPoints - LearnerKnn",
   code = {
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
@@ -189,7 +189,7 @@ test_that(
 
 
 test_that(
-  desc = "test grid tuner - surv_glmnet_cox",
+  desc = "test grid tuner - knn",
   code = {
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(

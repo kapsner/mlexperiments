@@ -15,9 +15,9 @@ Can be used with
 }
 
 Implemented methods:
-\describe{
-\item{\verb{$fit}}{To fit the model.}
-\item{\verb{$predict}}{To predict new data with the model.}
+\itemize{
+\item \verb{$fit} To fit the model.
+\item \verb{$predict} To predict new data with the model.
 }
 }
 \examples{

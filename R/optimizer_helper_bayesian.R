@@ -4,7 +4,7 @@
     y,
     method_helper
 ) {
-  stopifnot(!is.null(self$parameter_bounds))
+  stopifnot(!is.null(self$parameter_bounds), private$ncores > 1L)
   if (self$optim_args$parallel) {
     stopifnot(!is.null(self$learner$cluster_export))
     message(sprintf(

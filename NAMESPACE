@@ -3,6 +3,7 @@
 export(LearnerGlm)
 export(LearnerKnn)
 export(LearnerLm)
+export(LearnerRpart)
 export(MLCrossValidation)
 export(MLLearnerBase)
 export(MLNestedCV)

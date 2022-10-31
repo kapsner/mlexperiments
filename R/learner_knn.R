@@ -44,11 +44,9 @@ LearnerKnn <- R6::R6Class( # nolint
     #' This learner is a wrapper around [class::knn()] in order to perform a
     #'   k-nearest neighbour classification. The following experiments are
     #'   implemented:
-    #'   \enumerate{
-    #'   \item `mlexperiments::MLTuneParameters`
-    #'   \item `mlexperiments::MLCrossValidation`
-    #'   \item `mlexperiments::MLNestedCV`
-    #'   }
+    #' * [mlexperiments::MLTuneParameters]
+    #' * [mlexperiments::MLCrossValidation]
+    #' * [mlexperiments::MLNestedCV]
     #' For the two hyperparamter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
     #'   learner is set to `FALSE` by default as the classification error rate

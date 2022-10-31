@@ -314,7 +314,7 @@ The result of these efforts are:
 
 * the [`mlexperiments`](https://github.com/kapsner/mlexperiments) R package, providing
   + R6 classes to perform the machine learning experiments (hyperparameter tuning, cross-validation, and nested cross-validation)
-  + some base learners (`LearnerLm`, `LearnerGlm`, and `LearnerKnn`)
+  + some base learners (`LearnerLm`, `LearnerGlm`, `LearnerRpart`, and `LearnerKnn`)
   + an R6 class to inherit new learners from (`MLLearnerBase`)
   + as well as functions
     - to validate the equality of folds used between different experiments (`mlexperiments::validate_fold_equality()`)
@@ -332,10 +332,4 @@ The result of these efforts are:
 
 ## Backlog
 
-- rpart
 - cat_vars
-
-Document:
-- learner args as expression "parse(text = )"
-- LearnerLm
-
