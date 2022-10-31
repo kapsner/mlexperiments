@@ -164,7 +164,8 @@ rpart_cv <- function(
       params
     )
     set.seed(seed)
-    outlist[[fold]] <- list(cvfit = do.call(rpart_fit, args),
+    cvfit <- do.call(rpart_fit, args)
+    outlist[[fold]] <- list(cvfit = cvfit,
                             train_idx = train_idx)
   }
   return(outlist)
