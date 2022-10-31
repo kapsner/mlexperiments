@@ -11,10 +11,8 @@
 #'
 #' @details
 #' Implemented methods:
-#' \describe{
-#' \item{`$fit`}{To fit the model.}
-#' \item{`$predict`}{To predict new data with the model.}
-#' }
+#' * `$fit` To fit the model.
+#' * `$predict` To predict new data with the model.
 #'
 #' @seealso [stats::lm()]
 #'
