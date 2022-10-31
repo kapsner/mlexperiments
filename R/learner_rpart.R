@@ -88,7 +88,17 @@ LearnerRpart <- R6::R6Class( # nolint
       self$environment <- "mlexperiments"
       self$cluster_export <- rpart_ce()
       private$fun_optim_cv <- rpart_optimization
-      private$fun_fit <- rpart_fit
+      private$fun_fit <- function(x, y, ncores, seed, ...) {
+        kwargs <- list(...)
+        stopifnot(kwargs$method %in% c("class", "anova"))
+        args <- kdry::list.append(
+          list(
+            x = x, y = y, ncores = ncores, seed = seed
+          ),
+          kwargs
+        )
+        return(do.call(rpart_fit, args))
+      }
       private$fun_predict <- rpart_predict
       private$fun_bayesian_scoring_function <- rpart_bsF
     }
@@ -97,7 +107,8 @@ LearnerRpart <- R6::R6Class( # nolint
 
 
 rpart_ce <- function() {
-  c("rpart_optimization", "rpart_cv", "rpart_fit", "rpart_predict", "metric")
+  c("rpart_optimization", "rpart_cv", "rpart_fit", "rpart_fit_fun",
+    "rpart_predict_base", "rpart_predict", "metric")
 }
 
 rpart_bsF <- function(...) { # nolint
@@ -237,10 +248,8 @@ rpart_fit_fun <- function(x, y, ncores, seed, ...) {
 
   rpart_formula <- stats::as.formula(object = "rpart_y_train ~ .")
 
-  train_x <- cbind(
-    "rpart_y_train" = y,
-    x
-  )
+  rpart_y_train <- y # nolint
+  train_x <- x
 
   rpart_control <- NULL
   rpart_control_default <- formals(rpart::rpart.control)
@@ -276,8 +285,7 @@ rpart_fit_fun <- function(x, y, ncores, seed, ...) {
 
 rpart_fit <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
-  stopifnot("method" %in% names(kwargs),
-            kwargs$method %in% c("class", "anova"))
+  stopifnot("method" %in% names(kwargs))
   fit_args <- kdry::list.append(
     list(
       x = x,
