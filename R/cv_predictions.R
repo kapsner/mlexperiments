@@ -48,7 +48,6 @@
 #' glm_optimization$predict_args <- list(type = "response")
 #' glm_optimization$performance_metric_args <- list(positive = "1")
 #' glm_optimization$performance_metric <- metric("auc")
-#' glm_optimization$performance_metric_name <- "AUC"
 #' glm_optimization$return_models <- TRUE
 #'
 #' # set data

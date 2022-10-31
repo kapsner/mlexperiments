@@ -328,6 +328,7 @@ The result of these efforts are:
   + LearnerSurvXgboostCox
   + LearnerXgboost
   + LearnerLightgbm
+  + LearnerRanger
 
 ## Backlog
 
