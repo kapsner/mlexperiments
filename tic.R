@@ -2,6 +2,6 @@
 do_package_checks()
 
 get_stage("install") %>%
-  add_code_step(remotes::install_github("kapsner/kdry", dependencies = c("Imports", "Suggests"), upgrade = "always", force = TRUE)) %>%
+  add_step(step_install_cran("doParallel")) %>%
   add_code_step(devtools::install(".", upgrade = "always"))
 
