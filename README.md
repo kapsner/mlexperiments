@@ -8,7 +8,7 @@
 [![codecov](https://codecov.io/gh/kapsner/mlexperiments/branch/main/graph/badge.svg?branch=main)](https://app.codecov.io/gh/kapsner/mlexperiments)
 <!-- badges: end -->
 
-The goal of the package `mlexperiments` is to provide a re-useable framework for reproducible machine learning experiments, namely:
+The goal of the package `mlexperiments` is to provide an extensible framework for reproducible machine learning experiments, namely:
 
 * Hyperparameter tuning: with the R6 class `mlexperiments::MLTuneParameters`, to optimize the hyperparameters in a k-fold cross-validation with one of the two strategies
   + Grid search
@@ -16,7 +16,7 @@ The goal of the package `mlexperiments` is to provide a re-useable framework for
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
-The package provides a minimal shell for these experiments, and - with few adjustments - users can prepare different algorithms so that they can be used with `mlexperiments`.
+The package provides a minimal shell for these experiments, and - with few adjustments - users can prepare different learner algorithms so that they can be used with `mlexperiments`.
 
 ## Installation
 
