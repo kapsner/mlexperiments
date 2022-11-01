@@ -293,7 +293,9 @@ The `mlexperiments` R package provides a standardized interface to define these 
 Some basic learners are included into the `mlexperiments` package, mainly to provide a set of baseline learners that can be used for comparison throughout experiments (e.g., wrappers for `stats::lm()` and `stats::glm()`). Some more learners are prepared for the use with `mlexperiments` in the R package [`mllrnrs`](https://github.com/kapsner/mllrnrs). Generally, the flexibility of the `mlexperiments` package implies that users have a deeper understanding of the algorithms they use, including the hyperparameters that can be optimized.
 
 However, `mlexperiments` aims not at providing a ready-to-use interface for many learner algorithms. Instead, users are encouraged to prepare the algorithms they want to use with `mlexperiments` according to their tasks, needs, experience, and personal preferences.
+
 Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
+Users that want to use a new algorithm with `mlexperiments` are also encouraged to dive into the available implementations, especially [`LearnerKnn`](R/LearnerKnn.R) and [`LearnerRpart`](R/LearnerRpart.R), in order to get an understanding of the functioning and the flexibility of the framework.
 
 ## Background
 
@@ -322,7 +324,9 @@ The result of these efforts are:
   + LearnerSurvCoxPHCox
   + LearnerSurvGlmnetCox
   + LearnerSurvRangerCox
+  + LearnerSurvRpartCox
   + LearnerSurvXgboostCox
+  + LearnerGlmnet
   + LearnerXgboost
   + LearnerLightgbm
   + LearnerRanger
