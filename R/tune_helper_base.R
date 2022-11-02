@@ -51,7 +51,10 @@
           size = as.integer(options("mlexperiments.bayesian.max_init")),
           replace = FALSE
         )
-        self$parameter_grid <- self$parameter_grid[select_rows, ]
+        self$parameter_grid <- kdry::mlh_subset(
+          object = self$parameter_grid,
+          ids = select_rows
+        )
       }
     }
   } else {
