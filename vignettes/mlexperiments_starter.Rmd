@@ -381,10 +381,6 @@ knn_cv$set_data(
 
 results <- knn_cv$execute()
 head(results)
-#>     fold performance  k l
-#> 1: Fold1   0.8912781 68 0
-#> 2: Fold2   0.8832388 68 0
-#> 3: Fold3   0.8657147 68 0
 ```
 
 ### Nested Cross-Validation
