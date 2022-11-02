@@ -1,9 +1,9 @@
 ---
-title: "mlexperiments: Getting Stared"
+title: "mlexperiments: Getting Started"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{mlexperiments: Getting Stared}
+  %\VignetteIndexEntry{mlexperiments: Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
