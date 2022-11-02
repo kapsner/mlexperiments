@@ -170,7 +170,7 @@ str(fold_list)
 #>  $ Fold3: int [1:2124] 4 5 6 7 8 10 12 14 15 16 ...
 ```
 
-Furthermore, a specific hyperparameter setting needs to be selected in order to validate it with the cross-validation:
+Furthermore, a specific hyperparameter setting that should be validated with the cross-validation needs to be selected:
 
 ```{r}
 knn_cv <- mlexperiments::MLCrossValidation$new(
@@ -204,7 +204,7 @@ head(results)
 
 ### Nested Cross-Validation
 
-Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies (Bayesian optimization or grid search, both implemented with an "inner" cross-validation), and a model with the as such identified best hyperparameter setting is then fitted on all in-sample observations of the outer cross-validation loop and validated on the respective out-sample observations.
+Last but not least, the hyperparameter optimization and validation can be combined in a nested cross-validation. In each fold of the so-called "outer" cross-validation loop, the hyperparameters are optimized on the in-sample observations with one of the two strategies: Bayesian optimization or grid search. Both of these strategies are implemented again with a "nested" ("inner") cross-validation. The best hyperparameter setting as identified by the inner cross-validation is then used to fit a model with all in-sample observations of the outer cross-validation loop and finally validate it on the respective out-sample observations.
 
 The experiment classes must be parameterized as described above.
 
