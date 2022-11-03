@@ -182,12 +182,12 @@ The placeholders are:
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| private$fun_fit | A function to fit a model of the respective algorithm. The function must return the fitted model. |
-| private$fun_predict | function | A function to predict the outcome in new data. The returned value of the `predict` method should be a vector with the predictions. |
-| private$fun_optim_cv | function | A function to perform a k-fold cross-validation for one hyperparameter setting. The function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric. |
-| private$fun_bayesian_scoring_function | function | A function that is defined according to the requirements of the [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) R package. It must return a named list that contains the optimization metric as the item `Score`. |
-| self$environment | field | The environment, where to search for the objects that need to be exported to a parallel cluster (required for Bayesian optimization). When the R6 learner is part of an R package, you can write the name of the R package here. Otherwise, `-1L` (the global environment) might be suitable as long as all objects that are defined in the field `cluster_export` are available from the global environment. |
-| self$cluster_export | field | A character vector with the names of objects that need to be exported to each node of a parallel cluster when performing a Bayesian optimization. |
+| `private$fun_fit` | function | A function to fit a model of the respective algorithm. The function must return the fitted model. |
+| `private$fun_predict` | function | A function to predict the outcome in new data. The returned value of the `predict` method should be a vector with the predictions. |
+| `private$fun_optim_cv` | function | A function to perform a k-fold cross-validation for one hyperparameter setting. The function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric. |
+| `private$fun_bayesian_scoring_function` | function | A function that is defined according to the requirements of the [`ParBayesianOptimization`](https://cran.r-project.org/web/packages/ParBayesianOptimization/index.html) R package. It must return a named list that contains the optimization metric as the item `Score`. |
+| `self$environment` | field | The environment, where to search for the objects that need to be exported to a parallel cluster (required for Bayesian optimization). When the R6 learner is part of an R package, you can write the name of the R package here. Otherwise, `-1L` (the global environment) might be suitable as long as all objects that are defined in the field `cluster_export` are available from the global environment. |
+| `self$cluster_export` | field | A character vector with the names of objects that need to be exported to each node of a parallel cluster when performing a Bayesian optimization. |
 
 These assignments should be done in the `initialize()` function. The following code example shows the assignment of the previously created functions to the respective functions and fields of the newly created R6 class `LearnerKnn`:
 

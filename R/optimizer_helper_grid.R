@@ -10,7 +10,7 @@
 
   # init a progress bar
   pb <- progress::progress_bar$new(
-    format = "Parameter settings [:bar] :current/:total (:percent)",
+    format = "\nParameter settings [:bar] :current/:total (:percent)",
     total = ngrid
   )
 
