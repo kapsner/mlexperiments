@@ -1,0 +1,273 @@
+---
+title: "KNN: Binary Classification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{KNN: Binary Classification}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mlexperiments)
+```
+
+# Preprocessing
+
+## Import and Prepare Data
+
+```{r}
+library(mlbench)
+data("PimaIndiansDiabetes2")
+dataset <- PimaIndiansDiabetes2 |>
+  data.table::as.data.table() |>
+  na.omit()
+
+feature_cols <- colnames(dataset)[1:8]
+```
+
+## General Configurarions
+
+```{r}
+seed <- 123
+if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
+  # on cran
+  ncores <- 2L
+} else {
+  ncores <- ifelse(
+    test = parallel::detectCores() > 4,
+    yes = 4L,
+    no = ifelse(
+      test = parallel::detectCores() < 2L,
+      yes = 1L,
+      no = parallel::detectCores()
+    )
+  )
+}
+options("mlexperiments.bayesian.max_init" = 10L)
+```
+
+## Generate Training- and Test Data
+
+```{r}
+data_split <- splitTools::partition(
+  y = dataset[, get("diabetes")],
+  p = c(train = 0.7, test = 0.3),
+  type = "stratified",
+  seed = seed
+)
+
+train_x <- model.matrix(
+  ~ -1 + .,
+  dataset[data_split$train, .SD, .SDcols = feature_cols]
+)
+train_y <- as.integer(dataset[data_split$train, get("diabetes")]) - 1L
+
+
+test_x <- model.matrix(
+  ~ -1 + .,
+  dataset[data_split$test, .SD, .SDcols = feature_cols]
+)
+test_y <- as.integer(dataset[data_split$test, get("diabetes")]) - 1L
+```
+
+## Generate Training Data Folds
+
+```{r}
+fold_list <- splitTools::create_folds(
+  y = train_y,
+  k = 3,
+  type = "stratified",
+  seed = seed
+)
+```
+
+# Experiments
+
+## Prepare Experiments
+
+```{r}
+# required learner arguments, not optimized
+learner_args <- list(
+  l = 2,
+  test = parse(text = "fold_test$x"),
+  use.all = FALSE
+)
+
+# set arguments for predict function and performance metric,
+# required for mlexperiments::MLCrossValidation and
+# mlexperiments::MLNestedCV
+predict_args <- list(type = "response")
+performance_metric <- metric("acc")
+performance_metric_args <- NULL
+return_models <- FALSE
+
+# required for grid search and initialization of bayesian optimization
+parameter_grid <- expand.grid(
+  k = seq(4, 68, 6)
+)
+
+# required for bayesian optimization
+parameter_bounds <- list(k = c(2L, 80L))
+optim_args <- list(
+  iters.n = ncores,
+  kappa = 3.5,
+  acq = "ucb"
+)
+```
+
+
+## Hyperparameter Tuning
+
+### Grid Search
+
+```{r}
+tuner <- mlexperiments::MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  strategy = "grid",
+  ncores = ncores,
+  seed = seed
+)
+
+tuner$parameter_grid <- parameter_grid
+tuner$learner_args <- learner_args
+tuner$split_type <- "stratified"
+
+tuner$set_data(
+  x = train_x,
+  y = train_y
+)
+
+tuner_results_grid <- tuner$execute(k = 3)
+head(tuner_results_grid)
+```
+
+
+### Bayesian Optimization
+
+```{r}
+tuner <- mlexperiments::MLTuneParameters$new(
+  learner = LearnerKnn$new(),
+  strategy = "bayesian",
+  ncores = ncores,
+  seed = seed
+)
+
+tuner$parameter_grid <- parameter_grid
+tuner$parameter_bounds <- parameter_bounds
+
+tuner$learner_args <- learner_args
+tuner$optim_args <- optim_args
+
+tuner$split_type <- "stratified"
+
+tuner$set_data(
+  x = train_x,
+  y = train_y
+)
+
+tuner_results_bayesian <- tuner$execute(k = 3)
+head(tuner_results_bayesian)
+```
+
+## k-Fold Cross Validation
+
+```{r}
+validator <- mlexperiments::MLCrossValidation$new(
+  learner = LearnerKnn$new(),
+  fold_list = fold_list,
+  ncores = ncores,
+  seed = seed
+)
+
+validator$learner_args <- tuner$results$best.setting[-1]
+
+validator$predict_args <- predict_args
+validator$performance_metric <- performance_metric
+validator$performance_metric_args <- performance_metric_args
+validator$return_models <- return_models
+
+validator$set_data(
+  x = train_x,
+  y = train_y
+)
+
+validator_results <- validator$execute()
+head(validator_results)
+```
+
+
+## Nested Cross Validation
+
+### Inner Grid Search
+
+```{r}
+validator <- mlexperiments::MLNestedCV$new(
+  learner = LearnerKnn$new(),
+  strategy = "grid",
+  fold_list = fold_list,
+  k_tuning = 3L,
+  ncores = ncores,
+  seed = seed
+)
+
+validator$parameter_grid <- parameter_grid
+validator$learner_args <- learner_args
+validator$split_type <- "stratified"
+
+validator$predict_args <- predict_args
+validator$performance_metric <- performance_metric
+validator$performance_metric_args <- performance_metric_args
+validator$return_models <- return_models
+
+validator$set_data(
+  x = train_x,
+  y = train_y
+)
+
+validator_results <- validator$execute()
+head(validator_results)
+```
+
+
+### Inner Bayesian Optimization
+
+```{r}
+validator <- mlexperiments::MLNestedCV$new(
+  learner = LearnerKnn$new(),
+  strategy = "bayesian",
+  fold_list = fold_list,
+  k_tuning = 3L,
+  ncores = ncores,
+  seed = seed
+)
+
+validator$parameter_grid <- parameter_grid
+validator$learner_args <- learner_args
+validator$split_type <- "stratified"
+
+
+validator$parameter_bounds <- parameter_bounds
+validator$optim_args <- optim_args
+
+validator$predict_args <- predict_args
+validator$performance_metric <- performance_metric
+validator$performance_metric_args <- performance_metric_args
+validator$return_models <- return_models
+
+validator$set_data(
+  x = train_x,
+  y = train_y
+)
+
+validator_results <- validator$execute()
+head(validator_results)
+```
