@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-10-31)
+## Unreleased (2022-11-05)
 
 #### Breaking changes
 
@@ -41,6 +41,8 @@
 
 #### Bug fixes
 
+-   fixed performance and predictions
+    ([e0174cf](https://github.com/kapsner/mlexperiments/tree/e0174cf95b7470aafd93828bf8beb2565e44cbc7))
 -   fixing examples
     ([ed3a461](https://github.com/kapsner/mlexperiments/tree/ed3a46155a47341fb71e2c0fbe44e945fa32b355))
 -   consolidized metrics as lists, fixed unit tests
@@ -72,6 +74,12 @@
 
 #### Refactorings
 
+-   further optimizing rpart for reuse
+    ([ce67a4f](https://github.com/kapsner/mlexperiments/tree/ce67a4fcfda8a8a0554dfc63fa4f8e624a0f0272))
+-   optimized rpart for re-use
+    ([fa0ca53](https://github.com/kapsner/mlexperiments/tree/fa0ca539cec775711ec2c2baec4702b7977e82ae))
+-   refactored rpart, no user-visible changes
+    ([207aafd](https://github.com/kapsner/mlexperiments/tree/207aafd52852f000abd0e30f261aeb8d8d599e2b))
 -   metric\_from\_char
     ([8baaf3a](https://github.com/kapsner/mlexperiments/tree/8baaf3a99d8f56b3f19c4a2dec400854a7585a46))
 -   switch to .compute\_performance
@@ -119,6 +127,12 @@
 
 #### CI
 
+-   explicitly installing doparallel
+    ([a288058](https://github.com/kapsner/mlexperiments/tree/a288058dd65b4dbc335637394f5b010751407be5))
+-   explicitly installing suggests of kdry
+    ([7682912](https://github.com/kapsner/mlexperiments/tree/768291265b52153a61e9529b5dfb4cb4d48db6a5))
+-   switch again to code step
+    ([d3e6556](https://github.com/kapsner/mlexperiments/tree/d3e6556b99bda11e7c5963e1e19cc95d62780eac))
 -   try to fix installation of kdry
     ([359de02](https://github.com/kapsner/mlexperiments/tree/359de0281a752d2674d46b5c402202e2d8a0f8ca))
 -   whatever is going on with tic
@@ -150,6 +164,24 @@
 
 #### Docs
 
+-   added vignettes with examples
+    ([b315dad](https://github.com/kapsner/mlexperiments/tree/b315dadba12a4b8d86f70a3233415d86bf392a6a))
+-   started with vignettes - knn binary
+    ([14c12f8](https://github.com/kapsner/mlexperiments/tree/14c12f871e6f84e266e22335b0c2b4f90611ae40))
+-   fixed issues in vignette
+    ([33a3951](https://github.com/kapsner/mlexperiments/tree/33a3951ebe3a5d718c82032ac15f37e5f79ff293))
+-   removed commented output
+    ([d92aad8](https://github.com/kapsner/mlexperiments/tree/d92aad89427e54079ad8e5c6e9a806997bb0874a))
+-   updated example in vignette
+    ([a958f42](https://github.com/kapsner/mlexperiments/tree/a958f4221782da6232031800452ff85f5b33d359))
+-   update example in readme
+    ([9663fff](https://github.com/kapsner/mlexperiments/tree/9663fffcba86f60bd3a98055c456b3f87ef226b7))
+-   updated vignette accordingly
+    ([4442cc5](https://github.com/kapsner/mlexperiments/tree/4442cc53c82e1ceef1c657e56c743e256b9d73b0))
+-   updated readme
+    ([41dfa7e](https://github.com/kapsner/mlexperiments/tree/41dfa7e7f6346185dd9a12be46f6c7b70fe4ed9f))
+-   updated readme
+    ([5bb27ca](https://github.com/kapsner/mlexperiments/tree/5bb27caf222018ae8d0bb23abcb285b50be087ec))
 -   updated documentation
     ([c2182d4](https://github.com/kapsner/mlexperiments/tree/c2182d4abc9667d64ea366b9e0186363d45fc7cf))
 -   updated metric types documentation
@@ -191,6 +223,16 @@
 
 #### Other changes
 
+-   fixed typo in vignette title
+    ([f51cad2](https://github.com/kapsner/mlexperiments/tree/f51cad2bff63f4ad0dc76a16a499de48f4f2caf3))
+-   fixed rpart and optimized parsing of parameter grid
+    ([74edba2](https://github.com/kapsner/mlexperiments/tree/74edba2c6ccffd240ef488a40b176e33fbbc1155))
+-   updated readme example
+    ([06727a0](https://github.com/kapsner/mlexperiments/tree/06727a002e8a85287dc42aa4732d9e0e340ad643))
+-   finished refactoring rpart
+    ([eb25888](https://github.com/kapsner/mlexperiments/tree/eb25888196d21983efbb452d905b664fef5ba168))
+-   updated news.md
+    ([a2b1cfb](https://github.com/kapsner/mlexperiments/tree/a2b1cfb55a32a5ff26d2c9cd70385392a0a9bb78))
 -   fixed typo
     ([4d497d2](https://github.com/kapsner/mlexperiments/tree/4d497d217083e9aa65ce6f58fd1fb78628b04682))
 -   updated readme
@@ -213,4 +255,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...808042e`](https://github.com/kapsner/mlexperiments/compare/edb76c3...808042e)
+[`edb76c3...b315dad`](https://github.com/kapsner/mlexperiments/compare/edb76c3...b315dad)

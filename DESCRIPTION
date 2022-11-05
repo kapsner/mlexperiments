@@ -22,12 +22,12 @@ Imports:
 Suggests: 
     class,
     datasets,
+    ggpubr,
     knitr,
     lintr,
     mlbench,
     mlr3measures,
     ParBayesianOptimization,
-    rmarkdown,
     rpart,
     testthat (>= 3.0.1)
 VignetteBuilder: 
@@ -37,7 +37,7 @@ Remotes:
     github::mayer79/splitTools@master
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2022-10-31 12:54:24 UTC
+Date/Publication: 2022-11-05 13:13:29 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
