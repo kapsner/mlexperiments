@@ -98,6 +98,10 @@ predictions <- function(
     ),
     kwargs
   )
+  pred_args_base <- kdry::list.append(
+    pred_args_base,
+    object$predict_args
+  )
 
   res_pre <- sapply(
     X = model_names,

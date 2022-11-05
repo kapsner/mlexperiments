@@ -111,6 +111,8 @@ performance <- function(
   model_names <- setdiff(colnames(prediction_results), c("mean", "sd"))
   perf_fun <- object$performance_metric
 
+  perf_metric_args <- object$performance_metric_args
+
   if (!is.null(type)) {
     type <- match.arg(type, c("regression", "binary"))
     if (!requireNamespace("mlr3measures", quietly = TRUE)) {
@@ -146,6 +148,11 @@ performance <- function(
             predictions = prediction_results[[mn]]
           ),
           kwargs
+        )
+
+        perf_args <- kdry::list.append(
+          perf_args,
+          perf_metric_args
         )
 
         dt_list <- kdry::list.append(

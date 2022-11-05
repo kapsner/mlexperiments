@@ -337,6 +337,12 @@ rpart_predict <- function(model, newdata, ncores, ...) {
   )
   preds <- do.call(rpart_predict_base, args)
 
+  if ("type" %in% names(kwargs)) {
+    if (kwargs$type == "prob" && ncol(preds) == 2) { # in case of binary classif
+      preds <- as.vector(preds[, 2])
+    }
+  }
+
   if (!is.null(kwargs$reshape)) {
     if (isTRUE(kwargs$reshape)) {
       preds <- kdry::mlh_reshape(preds)

@@ -160,10 +160,22 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
         if (fun_metadata$type %in% c("binary", "classif") && (
           min(perf_args$predictions) >= 0 && max(perf_args$predictions) <= 1
         )) {
+          if ("positive" %in% names(perf_args)) {
+            val_positive <- perf_args$positive
+            val_negative <- setdiff(lvls, val_positive)
+          } else {
+            if ("0" %in% lvls && "1" %in% lvls) {
+              val_positive <- "1"
+              val_negative <- "0"
+            } else {
+              stop("Argument 'positive' is missing.")
+            }
+          }
+
           perf_args$predictions <- ifelse(
             test = perf_args$predictions > 0.5,
-            yes = 1,
-            no = 0
+            yes = val_positive,
+            no = val_negative
           )
         }
 
@@ -174,6 +186,18 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
         if (!any(is.na(perf_args$predictions))) {
           error <- FALSE
         }
+      } else if (grepl(
+        pattern = paste0(
+          "Assertion on 'response' failed: Must have length ",
+          "\\d+, but has length \\d+\\."
+        ),
+        x = e
+      )) {
+        msg <- paste0(
+          "An error occurred... Try to use 'predict_args <- list(",
+          "reshape = TRUE)'"
+        )
+        stop(paste0(msg, "\n", e))
       }
 
       if (isFALSE(error)) {
