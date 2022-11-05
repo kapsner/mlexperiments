@@ -1,9 +1,9 @@
 ---
-title: "KNN: Binary Classification"
+title: "rpart: Regression"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{KNN: Binary Classification}
+  %\VignetteIndexEntry{rpart: Regression}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -26,13 +26,13 @@ library(mlexperiments)
 
 ```{r}
 library(mlbench)
-data("PimaIndiansDiabetes2")
-dataset <- PimaIndiansDiabetes2 |>
+data("BostonHousing")
+dataset <- BostonHousing |>
   data.table::as.data.table() |>
   na.omit()
 
-feature_cols <- colnames(dataset)[1:8]
-target_col <- "diabetes"
+feature_cols <- colnames(dataset)[1:13]
+target_col <- "medv"
 ```
 
 ## General Configurarions
@@ -70,14 +70,14 @@ train_x <- model.matrix(
   ~ -1 + .,
   dataset[data_split$train, .SD, .SDcols = feature_cols]
 )
-train_y <- as.integer(dataset[data_split$train, get(target_col)]) - 1L
+train_y <- dataset[data_split$train, get(target_col)]
 
 
 test_x <- model.matrix(
   ~ -1 + .,
   dataset[data_split$test, .SD, .SDcols = feature_cols]
 )
-test_y <- as.integer(dataset[data_split$test, get(target_col)]) - 1L
+test_y <- dataset[data_split$test, get(target_col)]
 ```
 
 ## Generate Training Data Folds
@@ -97,23 +97,21 @@ fold_list <- splitTools::create_folds(
 
 ```{r}
 # required learner arguments, not optimized
-learner_args <- list(
-  l = 2,
-  test = parse(text = "fold_test$x"),
-  use.all = FALSE
-)
+learner_args <- list(method = "anova")
 
 # set arguments for predict function and performance metric,
 # required for mlexperiments::MLCrossValidation and
 # mlexperiments::MLNestedCV
-predict_args <- list(type = "response")
-performance_metric <- metric("acc")
+predict_args <- list(type = "vector")
+performance_metric <- metric("mse")
 performance_metric_args <- NULL
 return_models <- FALSE
 
 # required for grid search and initialization of bayesian optimization
 parameter_grid <- expand.grid(
-  k = seq(4, 68, 6)
+  minsplit = seq(2L, 82L, 10L),
+  cp = seq(0.01, 0.1, 0.01),
+  maxdepth = seq(2L, 30L, 5L)
 )
 # reduce to a maximum of 10 rows
 if (nrow(parameter_grid) > 10) {
@@ -123,7 +121,11 @@ if (nrow(parameter_grid) > 10) {
 }
 
 # required for bayesian optimization
-parameter_bounds <- list(k = c(2L, 80L))
+parameter_bounds <- list(
+  minsplit = c(2L, 100L),
+  cp = c(0.01, 0.1),
+  maxdepth = c(2L, 30L)
+)
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,
@@ -138,7 +140,7 @@ optim_args <- list(
 
 ```{r}
 tuner <- mlexperiments::MLTuneParameters$new(
-  learner = LearnerKnn$new(),
+  learner = LearnerRpart$new(),
   strategy = "grid",
   ncores = ncores,
   seed = seed
@@ -162,7 +164,7 @@ head(tuner_results_grid)
 
 ```{r}
 tuner <- mlexperiments::MLTuneParameters$new(
-  learner = LearnerKnn$new(),
+  learner = LearnerRpart$new(),
   strategy = "bayesian",
   ncores = ncores,
   seed = seed
@@ -189,7 +191,7 @@ head(tuner_results_bayesian)
 
 ```{r}
 validator <- mlexperiments::MLCrossValidation$new(
-  learner = LearnerKnn$new(),
+  learner = LearnerRpart$new(),
   fold_list = fold_list,
   ncores = ncores,
   seed = seed
@@ -218,7 +220,7 @@ head(validator_results)
 
 ```{r}
 validator <- mlexperiments::MLNestedCV$new(
-  learner = LearnerKnn$new(),
+  learner = LearnerRpart$new(),
   strategy = "grid",
   fold_list = fold_list,
   k_tuning = 3L,
@@ -249,7 +251,7 @@ head(validator_results)
 
 ```{r}
 validator <- mlexperiments::MLNestedCV$new(
-  learner = LearnerKnn$new(),
+  learner = LearnerRpart$new(),
   strategy = "bayesian",
   fold_list = fold_list,
   k_tuning = 3L,
@@ -268,7 +270,7 @@ validator$optim_args <- optim_args
 validator$predict_args <- predict_args
 validator$performance_metric <- performance_metric
 validator$performance_metric_args <- performance_metric_args
-validator$return_models <- return_models
+validator$return_models <- TRUE
 
 validator$set_data(
   x = train_x,
@@ -278,3 +280,86 @@ validator$set_data(
 validator_results <- validator$execute()
 head(validator_results)
 ```
+
+## Comparison with Linear Regression
+
+```{r}
+validator_lm <- mlexperiments::MLCrossValidation$new(
+  learner = LearnerLm$new(),
+  fold_list = fold_list,
+  ncores = ncores,
+  seed = seed
+)
+
+validator_lm$predict_args <- list(type = "response")
+validator_lm$performance_metric <- performance_metric
+validator_lm$performance_metric_args <- performance_metric_args
+validator_lm$return_models <- TRUE
+
+validator_lm$set_data(
+  x = train_x,
+  y = train_y
+)
+
+validator_lm_results <- validator_lm$execute()
+head(validator_lm_results)
+```
+
+### Test Fold Equality
+
+```{r}
+mlexperiments::validate_fold_equality(
+  experiments = list(validator, validator_lm)
+)
+```
+
+### Predict Outcome in Holdout Test Dataset
+
+```{r}
+preds_rpart <- mlexperiments::predictions(
+  object = validator,
+  newdata = test_x
+)
+
+preds_lm <- mlexperiments::predictions(
+  object = validator_lm,
+  newdata = test_x
+)
+```
+
+### Evaluate Performance on Holout Test Dataset
+
+```{r}
+perf_rpart <- mlexperiments::performance(
+  object = validator,
+  prediction_results = preds_rpart,
+  y_ground_truth = test_y,
+  type = "regression"
+)
+
+perf_lm <- mlexperiments::performance(
+  object = validator_lm,
+  prediction_results = preds_lm,
+  y_ground_truth = test_y,
+  type = "regression"
+)
+```
+
+```{r}
+# combine results for plotting
+final_results <- rbind(
+  cbind(algorithm = "rpart", perf_rpart),
+  cbind(algorithm = "lm", perf_lm)
+)
+```
+
+```{r}
+ggpubr::ggdotchart(
+  data = final_results,
+  x = "algorithm",
+  y = "mse",
+  color = "model",
+  rotate = TRUE
+)
+```
+

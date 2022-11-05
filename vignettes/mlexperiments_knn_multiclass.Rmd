@@ -1,9 +1,9 @@
 ---
-title: "KNN: Binary Classification"
+title: "KNN: Multiclass Classification"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{KNN: Binary Classification}
+  %\VignetteIndexEntry{KNN: Multiclass Classification}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -26,13 +26,13 @@ library(mlexperiments)
 
 ```{r}
 library(mlbench)
-data("PimaIndiansDiabetes2")
-dataset <- PimaIndiansDiabetes2 |>
+data("DNA")
+dataset <- DNA |>
   data.table::as.data.table() |>
   na.omit()
 
-feature_cols <- colnames(dataset)[1:8]
-target_col <- "diabetes"
+feature_cols <- colnames(dataset)[1:180]
+target_col <- "Class"
 ```
 
 ## General Configurarions
@@ -70,14 +70,14 @@ train_x <- model.matrix(
   ~ -1 + .,
   dataset[data_split$train, .SD, .SDcols = feature_cols]
 )
-train_y <- as.integer(dataset[data_split$train, get(target_col)]) - 1L
+train_y <- dataset[data_split$train, get(target_col)]
 
 
 test_x <- model.matrix(
   ~ -1 + .,
   dataset[data_split$test, .SD, .SDcols = feature_cols]
 )
-test_y <- as.integer(dataset[data_split$test, get(target_col)]) - 1L
+test_y <- dataset[data_split$test, get(target_col)]
 ```
 
 ## Generate Training Data Folds
@@ -107,7 +107,7 @@ learner_args <- list(
 # required for mlexperiments::MLCrossValidation and
 # mlexperiments::MLNestedCV
 predict_args <- list(type = "response")
-performance_metric <- metric("acc")
+performance_metric <- metric("bacc")
 performance_metric_args <- NULL
 return_models <- FALSE
 
