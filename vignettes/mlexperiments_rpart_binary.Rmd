@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 library(mlexperiments)
 ```
 
+See [https://github.com/kapsner/mlexperiments/blob/main/R/learner_rpart.R](https://github.com/kapsner/mlexperiments/blob/main/R/learner_rpart.R) for implementation details.
+
 # Preprocessing
 
 ## Import and Prepare Data
@@ -283,6 +285,8 @@ head(validator_results)
 
 
 ## Comparison with Logistic Regression
+
+See [https://github.com/kapsner/mlexperiments/blob/main/R/learner_glm.R](https://github.com/kapsner/mlexperiments/blob/main/R/learner_glm.R) for implementation details.
 
 ```{r}
 validator_glm <- mlexperiments::MLCrossValidation$new(

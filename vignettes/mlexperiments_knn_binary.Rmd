@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 library(mlexperiments)
 ```
 
+See [https://github.com/kapsner/mlexperiments/blob/main/R/learner_knn.R](https://github.com/kapsner/mlexperiments/blob/main/R/learner_knn.R) for implementation details.
+
 # Preprocessing
 
 ## Import and Prepare Data
