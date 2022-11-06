@@ -117,7 +117,7 @@ predictions <- function(
     USE.NAMES = TRUE
   )
 
-  res <- data.table::as.data.table(c, res_pre)
+  res <- data.table::as.data.table(res_pre)
 
   res[, `:=`(
     mean = mean(as.numeric(.SD), na.rm = na.rm),
