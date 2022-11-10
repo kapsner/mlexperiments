@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-11-06)
+## v0.0.1 (2022-11-10)
 
 #### Breaking changes
 
@@ -229,6 +229,8 @@
 
 #### Other changes
 
+-   version 0.0.1
+    ([1354f65](https://github.com/kapsner/mlexperiments/tree/1354f6590db043b7ed05d34f787a481323f8d714))
 -   fixed canonical form of cran url
     ([6dbd31a](https://github.com/kapsner/mlexperiments/tree/6dbd31aa49adb572368a4c2ff25e88df56be6525))
 -   added implementation details to vignettes
@@ -267,4 +269,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...5067f95`](https://github.com/kapsner/mlexperiments/compare/edb76c3...5067f95)
+[`edb76c3...v0.0.1`](https://github.com/kapsner/mlexperiments/compare/edb76c3...v0.0.1)
