@@ -294,8 +294,9 @@ Some basic learners are included into the `mlexperiments` package, mainly to pro
 
 However, `mlexperiments` aims not at providing a ready-to-use interface for many learner algorithms. Instead, users are encouraged to prepare the algorithms they want to use with `mlexperiments` according to their tasks, needs, experience, and personal preferences.
 
-Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](vignettes/mlexperiments_starter.Rmd).
+Details on how to prepare an algorithm for use with `mlexperiments` can be found in the [package vignette](https://github.com/kapsner/mlexperiments/wiki/mlexperiments_starter).
 Users that want to use a new algorithm with `mlexperiments` are also encouraged to dive into the available implementations, especially [`LearnerKnn`](R/LearnerKnn.R) and [`LearnerRpart`](R/LearnerRpart.R), in order to get an understanding of the functioning and the flexibility of the framework.
+Furthermore, there is a [wiki](https://github.com/kapsner/mlexperiments/wiki) to demonstrate the application of some basic learners to common tasks.
 
 ## Background
 
@@ -326,11 +327,9 @@ The result of these efforts are:
   + LearnerSurvRangerCox
   + LearnerSurvRpartCox
   + LearnerSurvXgboostCox
+  + LearnerSurvXgboostAft
+  + LearnerSurvSurvivalsvm
   + LearnerGlmnet
   + LearnerXgboost
   + LearnerLightgbm
   + LearnerRanger
-
-## Backlog
-
-- cat_vars

@@ -1,6 +1,12 @@
 # nolint start
 
-output_dir <- "data-raw/"
+output_dir <- "../mlexperiments.wiki"
+
+git2r::clone(
+  url = "https://github.com/kapsner/mlexperiments.wiki.git",
+  local_path = output_dir
+)
+
 file_list <- list.files(
   path = "vignettes",
   pattern = "\\.Rmd$"
@@ -20,4 +26,5 @@ for (rmd_file in file_list) {
     output_dir = output_dir
   )
 }
+
 # nolint end

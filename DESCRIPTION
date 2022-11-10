@@ -1,6 +1,6 @@
 Package: mlexperiments
 Title: Toolkit for Machine Learning Experiments
-Version: 0.0.0.9001
+Version: 0.0.1
 Authors@R: 
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
@@ -37,7 +37,7 @@ Remotes:
     github::mayer79/splitTools@master
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2022-11-05 13:13:29 UTC
+Date/Publication: 2022-11-10 18:34:27 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

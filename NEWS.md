@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-11-05)
+## Unreleased (2022-11-06)
 
 #### Breaking changes
 
@@ -41,6 +41,10 @@
 
 #### Bug fixes
 
+-   fixed typo
+    ([5067f95](https://github.com/kapsner/mlexperiments/tree/5067f95707971aa948738ce1fc2662288c7e0735))
+-   fixed cbind of list in predictions
+    ([a81309e](https://github.com/kapsner/mlexperiments/tree/a81309e8a0c010e7955b8cb92aa16a9360c6b7af))
 -   fixed performance and predictions
     ([e0174cf](https://github.com/kapsner/mlexperiments/tree/e0174cf95b7470aafd93828bf8beb2565e44cbc7))
 -   fixing examples
@@ -127,6 +131,8 @@
 
 #### CI
 
+-   removed vignette building from ci
+    ([97f3dbe](https://github.com/kapsner/mlexperiments/tree/97f3dbee1a0658345d0456530b0272187f663ac4))
 -   explicitly installing doparallel
     ([a288058](https://github.com/kapsner/mlexperiments/tree/a288058dd65b4dbc335637394f5b010751407be5))
 -   explicitly installing suggests of kdry
@@ -223,6 +229,12 @@
 
 #### Other changes
 
+-   fixed canonical form of cran url
+    ([6dbd31a](https://github.com/kapsner/mlexperiments/tree/6dbd31aa49adb572368a4c2ff25e88df56be6525))
+-   added implementation details to vignettes
+    ([4401139](https://github.com/kapsner/mlexperiments/tree/4401139d83cd9d0204749044b26f06cc3ab7667a))
+-   updated description and news.md
+    ([49c35b6](https://github.com/kapsner/mlexperiments/tree/49c35b66941491e096465baa993439251bcb09de))
 -   fixed typo in vignette title
     ([f51cad2](https://github.com/kapsner/mlexperiments/tree/f51cad2bff63f4ad0dc76a16a499de48f4f2caf3))
 -   fixed rpart and optimized parsing of parameter grid
@@ -255,4 +267,4 @@
     ([5fc4a0a](https://github.com/kapsner/mlexperiments/tree/5fc4a0a9c24e719bbe2bda0584b86e80c13b15cc))
 
 Full set of changes:
-[`edb76c3...b315dad`](https://github.com/kapsner/mlexperiments/compare/edb76c3...b315dad)
+[`edb76c3...5067f95`](https://github.com/kapsner/mlexperiments/compare/edb76c3...5067f95)
