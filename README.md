@@ -321,7 +321,12 @@ The result of these efforts are:
     - to apply learners to new data and predict the outcome (`mlexperiments::predictions()`)
     - to calculate performance measures with these predictions (`mlexperiments::performance()`)
     - and a utility function to select performance metrics from the [`mlr3measures`](https://cran.r-project.org/web/packages/mlr3measures/index.html) R package
-* the [`mllrnrs`](https://github.com/kapsner/mllrnrs) R package, which enhances `mlexperiments` with some learner wrappers for algorithms I commonly use. They were separated into their own package in order to reduce overall maintenance load and to avoid having lots of dependencies in the [`mlexperiments`](https://github.com/kapsner/mlexperiments) R package. Implemented learners are
+* the [`mllrnrs`](https://github.com/kapsner/mllrnrs) R package, which enhances `mlexperiments` with some learner wrappers for algorithms I commonly use. They were separated into their own package in order to reduce overall maintenance load and to avoid having lots of dependencies in the [`mlexperiments`](https://github.com/kapsner/mlexperiments) R package. Implemented learners are:
+  + LearnerGlmnet
+  + LearnerXgboost
+  + LearnerLightgbm
+  + LearnerRanger
+* the [`mlsurvlrnrs`](https://github.com/kapsner/mlsurvlrnrs) R package, which enhances `mlexperiments` with some learner wrappers for survival analysis. Implemented learners are:
   + LearnerSurvCoxPHCox
   + LearnerSurvGlmnetCox
   + LearnerSurvRangerCox
@@ -329,7 +334,3 @@ The result of these efforts are:
   + LearnerSurvXgboostCox
   + LearnerSurvXgboostAft
   + LearnerSurvSurvivalsvm
-  + LearnerGlmnet
-  + LearnerXgboost
-  + LearnerLightgbm
-  + LearnerRanger

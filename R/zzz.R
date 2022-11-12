@@ -8,10 +8,6 @@ NULL
 utils::globalVariables(c("seed", "method_helper", "x", "y"))
 
 mlexperiments_default_options <- list(
-  # mlexperiments.learner = c(
-  #   LearnerKnn$classname, # = "LearnerSurvGlmnetCox"
-  #   LearnerRpart$classname
-  # ),
   mlexperiments.bayesian.max_init = 50L
 )
 
