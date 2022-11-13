@@ -333,7 +333,7 @@ preds_glm <- mlexperiments::predictions(
 )
 ```
 
-### Evaluate Performance on Holout Test Dataset
+### Evaluate Performance on Holdout Test Dataset
 
 ```{r}
 perf_rpart <- mlexperiments::performance(
