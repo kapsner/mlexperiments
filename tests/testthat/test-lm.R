@@ -1,19 +1,21 @@
-dataset <- datasets::trees |>
+library(mlbench)
+data("BostonHousing")
+dataset <- BostonHousing |>
   data.table::as.data.table() |>
   na.omit()
 
 seed <- 123
-feature_cols <- colnames(dataset)[1:2]
+feature_cols <- colnames(dataset)[1:13]
+cat_vars <- "chas"
 
-train_x <- model.matrix(
-  ~ -1 + .,
+train_x <- data.matrix(
   dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- dataset[, get("Volume")]
+train_y <- dataset[, get("medv")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,
-  k = 5,
+  k = 3,
   type = "stratified",
   seed = seed
 )
@@ -37,12 +39,13 @@ test_that(
     # set data
     lm_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- lm_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 2))
+    expect_equal(dim(cv_results), c(3, 2))
     expect_true(inherits(
       x = lm_optimization$results,
       what = "mlexCV"
@@ -67,7 +70,8 @@ test_that(
     # set data
     lm_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- lm_optimization$execute()

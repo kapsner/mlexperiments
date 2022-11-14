@@ -1,7 +1,4 @@
 .organize_parameter_grid <- function(self, private) {
-  if (!is.null(private$cat_vars)) {
-    private$method_helper$execute_params$cat_vars <- private$cat_vars
-  }
 
   if (!is.null(self$parameter_grid)) {
     # even if there is only one param setting, expand to grid here to make

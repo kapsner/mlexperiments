@@ -35,6 +35,7 @@ dataset <- BostonHousing |>
 
 feature_cols <- colnames(dataset)[1:13]
 target_col <- "medv"
+cat_vars <- "chas"
 ```
 
 ## General Configurarions
@@ -68,15 +69,13 @@ data_split <- splitTools::partition(
   seed = seed
 )
 
-train_x <- model.matrix(
-  ~ -1 + .,
+train_x <- data.matrix(
   dataset[data_split$train, .SD, .SDcols = feature_cols]
 )
 train_y <- dataset[data_split$train, get(target_col)]
 
 
-test_x <- model.matrix(
-  ~ -1 + .,
+test_x <- data.matrix(
   dataset[data_split$test, .SD, .SDcols = feature_cols]
 )
 test_y <- dataset[data_split$test, get(target_col)]
@@ -154,7 +153,8 @@ tuner$split_type <- "stratified"
 
 tuner$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 tuner_results_grid <- tuner$execute(k = 3)
@@ -182,7 +182,8 @@ tuner$split_type <- "stratified"
 
 tuner$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
@@ -208,7 +209,8 @@ validator$return_models <- return_models
 
 validator$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 validator_results <- validator$execute()
@@ -241,7 +243,8 @@ validator$return_models <- return_models
 
 validator$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 validator_results <- validator$execute()
@@ -276,7 +279,8 @@ validator$return_models <- TRUE
 
 validator$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 validator_results <- validator$execute()
@@ -302,7 +306,8 @@ validator_lm$return_models <- TRUE
 
 validator_lm$set_data(
   x = train_x,
-  y = train_y
+  y = train_y,
+  cat_vars = cat_vars
 )
 
 validator_lm_results <- validator_lm$execute()

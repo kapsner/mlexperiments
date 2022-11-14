@@ -6,9 +6,9 @@ dataset <- BostonHousing |>
 
 seed <- 123
 feature_cols <- colnames(dataset)[1:13]
+cat_vars <- "chas"
 
-train_x <- model.matrix(
-  ~ -1 + .,
+train_x <- data.matrix(
   dataset[, .SD, .SDcols = feature_cols]
 )
 train_y <- dataset[, get("medv")]
@@ -48,12 +48,13 @@ test_that(
     # set data
     rpart_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 6))
+    expect_equal(dim(cv_results), c(3, 7))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"
@@ -115,7 +116,8 @@ test_that(
     # set data
     rpart_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results1 <- rpart_optimization$execute(k = 3)
@@ -147,12 +149,13 @@ test_that(
     # set data
     rpart_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- rpart_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 6))
+    expect_equal(dim(cv_results), c(5, 7))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexTune"
@@ -191,12 +194,13 @@ test_that(
     # set data
     rpart_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 6))
+    expect_equal(dim(cv_results), c(3, 7))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"
@@ -230,12 +234,13 @@ test_that(
     # set data
     rpart_optimization$set_data(
       x = train_x,
-      y = train_y
+      y = train_y,
+      cat_vars = cat_vars
     )
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 6))
+    expect_equal(dim(cv_results), c(3, 7))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"

@@ -62,21 +62,22 @@ LearnerLm <- R6::R6Class( # nolint
 # pass parameters as ...
 lm_fit <- function(x, y, ncores, seed, ...) {
   message("Parameter 'ncores' is ignored for learner 'LearnerLm'.")
-  params <- list(...)
+  kwargs <- list(...)
 
-  if ("cat_vars" %in% names(params)) {
-    cat_vars <- params[["cat_vars"]]
-  } else {
-    cat_vars <- NULL
-  }
+  var_handler <- handle_cat_vars(kwargs)
+  cat_vars <- var_handler$cat_vars
+  lm_params <- var_handler$params
 
   x <- kdry::dtr_matrix2df(matrix = x, cat_vars = cat_vars)
 
   lm_formula <- stats::as.formula(object = "y ~ .")
 
-  args <- list(
-    formula = lm_formula,
-    data = x
+  args <- kdry::list.append(
+    list(
+      formula = lm_formula,
+      data = x
+    ),
+    lm_params
   )
 
   set.seed(seed)
@@ -88,18 +89,16 @@ lm_fit <- function(x, y, ncores, seed, ...) {
 lm_predict <- function(model, newdata, ncores, ...) {
   kwargs <- list(...)
 
-  if ("cat_vars" %in% names(kwargs)) {
-    cat_vars <- kwargs[["cat_vars"]]
-  } else {
-    cat_vars <- NULL
-  }
+  var_handler <- handle_cat_vars(kwargs)
+  cat_vars <- var_handler$cat_vars
+  params <- var_handler$params
 
   pred_args <- kdry::list.append(
     list(
       object = model,
       newdata = kdry::dtr_matrix2df(matrix = newdata, cat_vars = cat_vars)
     ),
-    kwargs
+    params
   )
 
   return(do.call(stats::predict.lm, pred_args))

@@ -114,6 +114,11 @@ rpart_ce <- function() {
 rpart_bsF <- function(...) { # nolint
   params <- list(...)
 
+  params <- kdry::list.append(
+    main_list = params,
+    append_list = method_helper$execute_params["cat_vars"]
+  )
+
   # call to rpart_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
@@ -215,7 +220,8 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
       model = cvfit,
       newdata = kdry::mlh_subset(x, -train_idx),
       ncores = ncores,
-      type = pred_type
+      type = pred_type,
+      cat_vars = params$cat_vars
     )
 
     preds <- do.call(rpart_predict, pred_args)
@@ -251,6 +257,9 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
 rpart_fit_fun <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
+  var_handler <- handle_cat_vars(kwargs)
+  cat_vars <- var_handler$cat_vars
+  rpart_params <- var_handler$params
 
   rpart_formula <- stats::as.formula(object = "rpart_y_train ~ .")
 
@@ -259,14 +268,14 @@ rpart_fit_fun <- function(x, y, ncores, seed, ...) {
 
   rpart_control <- NULL
   rpart_control_default <- formals(rpart::rpart.control)
-  for (update_arg in names(kwargs)) {
+  for (update_arg in names(rpart_params)) {
     control_list <- list()
     if (update_arg %in% names(rpart_control_default)) {
       control_list <- c(
         control_list,
-        kwargs[update_arg])
-      # delete item from kwargs
-      kwargs[[update_arg]] <- NULL
+        rpart_params[update_arg])
+      # delete item from rpart_params
+      rpart_params[[update_arg]] <- NULL
     }
     if (length(control_list) > 0L) {
       rpart_control <- do.call(rpart::rpart.control, control_list)
@@ -276,9 +285,9 @@ rpart_fit_fun <- function(x, y, ncores, seed, ...) {
   args <- kdry::list.append(
     list(
       formula = rpart_formula,
-      data = kdry::dtr_matrix2df(train_x, cat_vars = kwargs$cat_vars)
+      data = kdry::dtr_matrix2df(train_x, cat_vars = cat_vars)
     ),
-    kwargs
+    rpart_params
   )
   args <- kdry::list.append(
     args,
@@ -304,16 +313,10 @@ rpart_fit <- function(x, y, ncores, seed, ...) {
   return(do.call(rpart_fit_fun, fit_args))
 }
 
-
-
 rpart_predict_base <- function(model, newdata, ncores, kwargs) {
-  if ("cat_vars" %in% names(kwargs)) {
-    cat_vars <- kwargs[["cat_vars"]]
-    rpart_params <- kwargs[names(kwargs) != "cat_vars"]
-  } else {
-    cat_vars <- NULL
-    rpart_params <- kwargs
-  }
+  var_handler <- handle_cat_vars(kwargs)
+  cat_vars <- var_handler$cat_vars
+  rpart_params <- var_handler$params
 
   predict_args <- kdry::list.append(
     list(

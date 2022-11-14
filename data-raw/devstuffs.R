@@ -172,4 +172,9 @@ an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
 an$write()
 
+# rcmdcheck::rcmdcheck(
+#   args = c("--as-cran", "--no-vignettes"),
+#   build_args = c("--no-build-vignettes")
+# )
+
 # nolint end

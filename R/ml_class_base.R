@@ -133,12 +133,12 @@ MLExperimentsBase <- R6::R6Class( # nolint
           test = is.null(cat_vars),
           yes = TRUE,
           no = is.character(cat_vars) && is.atomic(cat_vars) &&
-            intersect(cat_vars, colnames(x)) == cat_vars
+            length(intersect(cat_vars, colnames(x))) == length(cat_vars)
         )
       )
       private$x <- x
       private$y <- y
-      private$method_helper$cat_vars <- cat_vars
+      private$method_helper$execute_params$cat_vars <- cat_vars
     }
   ),
   private = list(

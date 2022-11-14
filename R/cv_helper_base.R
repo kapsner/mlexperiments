@@ -125,27 +125,34 @@
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
     learner_args <- .eval_params(learner_args)
 
-    fit_args <- kdry::list.append(
-      fit_args,
-      learner_args
-    )
   } else {
     learner_args <- NULL
   }
+
+  fit_args <- kdry::list.append(
+    fit_args,
+    learner_args
+  )
+
+  fit_args <- kdry::list.append(
+    main_list = fit_args,
+    append_list = private$method_helper$execute_params["cat_vars"]
+  )
 
   set.seed(private$seed)
   fitted <- do.call(self$learner$fit, fit_args)
 
   # make predictions
-  pred_args <- list(
-    model = fitted,
-    newdata = fold_test$x,
-    ncores = private$ncores
+  pred_args <- kdry::list.append(
+    main_list = list(
+      model = fitted,
+      newdata = fold_test$x,
+      ncores = private$ncores
+    ),
+    append_list = private$method_helper$execute_params["cat_vars"]
   )
-  if (!is.null(private$cat_vars)) {
-    pred_args <- kdry::list.append(pred_args, list(cat_vars = private$cat_vars))
-  }
   pred_args <- kdry::list.append(pred_args, self$predict_args)
+
   preds <- do.call(self$learner$predict, pred_args)
 
   res <- list(

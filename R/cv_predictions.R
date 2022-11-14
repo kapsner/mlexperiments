@@ -91,13 +91,21 @@ predictions <- function(
   model_names <- names(object$results$folds)
   pred_fun <- object$learner$predict
 
+  # add base-vars + categorical variables
   pred_args_base <- kdry::list.append(
-    list(
+    main_list = list(
       newdata = newdata,
       ncores = ncores
     ),
+    append_list =
+      object$.__enclos_env__$private$method_helper$execute_params["cat_vars"]
+  )
+  # add kwargs
+  pred_args_base <- kdry::list.append(
+    pred_args_base,
     kwargs
   )
+  # add predict args from object
   pred_args_base <- kdry::list.append(
     pred_args_base,
     object$predict_args
