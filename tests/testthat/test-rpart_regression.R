@@ -54,7 +54,7 @@ test_that(
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 7))
+    expect_equal(dim(cv_results), c(3, 6))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"
@@ -155,7 +155,7 @@ test_that(
 
     cv_results <- rpart_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 7))
+    expect_equal(dim(cv_results), c(5, 6))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexTune"
@@ -200,7 +200,7 @@ test_that(
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 7))
+    expect_equal(dim(cv_results), c(3, 6))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"
@@ -240,7 +240,7 @@ test_that(
 
     cv_results <- rpart_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 7))
+    expect_equal(dim(cv_results), c(3, 6))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexCV"

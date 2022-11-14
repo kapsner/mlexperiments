@@ -126,6 +126,9 @@
     FUN = is.expression,
     FUN.VALUE = logical(1L)
   )
+  if ("cat_vars" %in% names(exl_cols)) {
+    exl_cols["cat_vars"] <- TRUE
+  }
   outlist[["summary"]] <- summary_object[, .SD, .SDcols = !exl_cols]
 
   outlist[["best.setting"]] <- .get_best_setting(
@@ -139,9 +142,6 @@
     outlist[["best.setting"]],
     private$method_helper$execute_params$params_not_optimized
   )
-  outlist[["best.setting"]] <- outlist[["best.setting"]][
-      !kdry::misc_duplicated_by_names(outlist[["best.setting"]])
-    ]
   return(outlist)
 }
 

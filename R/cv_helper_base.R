@@ -89,6 +89,11 @@
           FUN.VALUE = logical(1L)
         )
 
+
+        if ("cat_vars" %in% names(add_args)) {
+          add_args["cat_vars"] <- FALSE
+        }
+
         ret <- c(
           list("fold" = x),
           outlist[["performance"]][[x]]

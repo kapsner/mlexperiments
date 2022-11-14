@@ -1,21 +1,32 @@
 # mlexperiments NEWS
 
-## Unreleased (2022-11-11)
+## Unreleased (2022-11-14)
+
+#### Bug fixes
+
+-   fixed issues with cat\_vars
+    ([94f60c4](https://github.com/kapsner/mlexperiments/tree/94f60c49574f51ae1a94b17997868f1c01a58a51))
 
 #### CI
 
+-   removed unnecessary install
+    ([6da60ce](https://github.com/kapsner/mlexperiments/tree/6da60ce9ee9c9c01515a526b5d2869987b8a22e5))
 -   updated ci
     ([30ba875](https://github.com/kapsner/mlexperiments/tree/30ba8758e7059e78654f9e6db8bd7ec1c1727df4))
 
 #### Other changes
 
+-   fixed typo
+    ([d0224f2](https://github.com/kapsner/mlexperiments/tree/d0224f2855f2df987affef807e0cc3e154868e8a))
+-   updated docs on mlsurvlrnrs
+    ([0a49a4b](https://github.com/kapsner/mlexperiments/tree/0a49a4b58e79a75fc412839b52cb500dafd2be80))
 -   fixed canoncial form of cran url in vignette
     ([71818db](https://github.com/kapsner/mlexperiments/tree/71818dbbadd85ccba775f6b66ad299875acaab69))
 -   updated news.md
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...30ba875`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...30ba875)
+[`v0.0.1...94f60c4`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...94f60c4)
 
 ## v0.0.1 (2022-11-10)
 
