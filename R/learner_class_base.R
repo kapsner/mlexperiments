@@ -179,7 +179,10 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' learner$predict()
     #' }
     #'
-    predict = function(model, newdata, ncores, ...) {
+    predict = function(model, newdata, ncores = -1L, ...) {
+      if (ncores < 0) {
+        ncores <- kdry::pch_check_available_cores()
+      }
       kwargs <- list(
         model = model,
         newdata = newdata,

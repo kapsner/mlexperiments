@@ -19,7 +19,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.1.9002")
+my_desc$set_version("0.0.1.9003")
 # The title of your package
 my_desc$set(Title = "Toolkit for Machine Learning Experiments")
 # The description of your package
@@ -170,7 +170,7 @@ badger::badge_github_actions(action = "test-coverage")
 # )
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
-an$write()
+an$write(force = TRUE)
 
 # rcmdcheck::rcmdcheck(
 #   args = c("--as-cran", "--no-vignettes"),

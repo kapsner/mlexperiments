@@ -255,7 +255,7 @@ learner$fit()
 \subsection{Method \code{predict()}}{
 Make predictions from a fitted \code{MLLearnerBase} object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$predict(model, newdata, ncores, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$predict(model, newdata, ncores = -1L, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

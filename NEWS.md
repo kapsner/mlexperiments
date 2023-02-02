@@ -4,6 +4,8 @@
 
 #### Bug fixes
 
+-   fixing cat\_vars stuff
+    ([0a13083](https://github.com/kapsner/mlexperiments/tree/0a1308355b895e3d6032058172aa5e098ce5e4da))
 -   fixed issues with cat\_vars
     ([94f60c4](https://github.com/kapsner/mlexperiments/tree/94f60c49574f51ae1a94b17997868f1c01a58a51))
 
@@ -26,7 +28,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...94f60c4`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...94f60c4)
+[`v0.0.1...0a13083`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...0a13083)
 
 ## v0.0.1 (2022-11-10)
 
