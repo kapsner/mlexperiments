@@ -33,8 +33,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    github::kapsner/kdry@main,
-    github::mayer79/splitTools@master
+    github::kapsner/kdry@main
 Config/testthat/edition: 3
 Config/testthat/parallel: false
 Date/Publication: 2023-02-02 12:39:54 UTC
