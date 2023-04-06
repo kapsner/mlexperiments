@@ -82,7 +82,7 @@ usethis::use_package("ggpubr", type = "Suggests")
 remotes_append_vector <- NULL
 
 # Development package 1
-tag1 <- "master" # e.g. "v0.1.7", "development" or "cran"
+tag1 <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tag1 == "cran") {
   install.packages("splitTools")
 } else{
