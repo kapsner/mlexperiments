@@ -5,7 +5,7 @@ BaseOptimizer <- R6::R6Class( # nolint
     parameter_grid = NULL,
     learner = NULL,
     initialize = function(learner, seed, ncores) {
-      stopifnot(R6::is.R6(learner))
+      stopifnot("`learner` must be an R6 class" = R6::is.R6(learner))
       super$initialize(seed = seed, ncores = ncores)
       self$learner <- learner
     },

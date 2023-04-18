@@ -5,9 +5,10 @@
     method_helper
 ) {
   stopifnot(
-    (ngrid <- nrow(method_helper$execute_params$parameter_grid)) > 1L
+    "`parameter_grid` must have more than one row" =
+      nrow(method_helper$execute_params$parameter_grid) > 1L
   )
-
+  ngrid <- nrow(method_helper$execute_params$parameter_grid)
   # init a progress bar
   pb <- progress::progress_bar$new(
     format = "\nParameter settings [:bar] :current/:total (:percent)",

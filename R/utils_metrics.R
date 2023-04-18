@@ -31,7 +31,10 @@
 #' @export
 #'
 metric <- function(name) {
-  stopifnot(is.character(name) && length(name) == 1L)
+  stopifnot(
+    "`name` must be a character of length() == 1" =
+      is.character(name) && length(name) == 1L
+  )
   if (!requireNamespace("mlr3measures", quietly = TRUE)) {
     stop(
       paste0(
@@ -42,16 +45,19 @@ metric <- function(name) {
     )
   }
   stopifnot(
-    is.function(
-      FUN <- utils::getFromNamespace(x = name, ns = "mlr3measures") # nolint
+    "`name` is not a function exported from R package {mlr3measures}" =
+      is.function(
+      utils::getFromNamespace(x = name, ns = "mlr3measures")
     )
   )
+  FUN <- utils::getFromNamespace(x = name, ns = "mlr3measures") # nolint
 
   fun_name <- paste0("mlr3measures::", name)
 
   default_args <- formals(FUN)
   response_name <- names(default_args)[2]
-  stopifnot(response_name %in% c("response", "prob"))
+  stopifnot("`response_name` must be one of c('response', 'prob')" =
+              response_name %in% c("response", "prob"))
 
   # compose function body
   fun_body <- paste0(
@@ -109,8 +115,11 @@ metric <- function(name) {
 #' @export
 #'
 metric_types_helper <- function(FUN, y, perf_args) { # nolint
-  stopifnot(is.function(FUN), is.list(perf_args),
-            all(c("ground_truth", "predictions") %in% names(perf_args)))
+  stopifnot(
+    "`FUN` must be a function" = is.function(FUN),
+    "`perf_args` must be a list" = is.list(perf_args),
+    "`perf_args` must contain named elements `ground_truth` and `predictions`" =
+      all(c("ground_truth", "predictions") %in% names(perf_args)))
   # note that this is very specific to the mlr3measures package
   if (!requireNamespace("mlr3measures", quietly = TRUE)) {
     stop(

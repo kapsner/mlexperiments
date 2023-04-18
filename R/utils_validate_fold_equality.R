@@ -85,8 +85,11 @@
 #'
 validate_fold_equality <- function(experiments) {
   stopifnot(
-    is.list(experiments) || length(experiments) > 1L,
-    all(sapply(
+    "`experiments` must be a list and contain more than 1 item" =
+      is.list(experiments) || length(experiments) > 1L,
+    "All elements of `experiments` must be of type `MLCrossValidation \
+    or of type `MLTuneParameters`" =
+      all(sapply(
       X = experiments,
       FUN = function(x) {
         inherits(x, "MLCrossValidation")
@@ -114,7 +117,7 @@ validate_fold_equality <- function(experiments) {
     message(sprintf("\nTesting for identical folds in %s and %s.", i, test_i))
     stopifnot(
       all(
-        sapply(
+        "Folds are not identical" = sapply(
           X = names(eval(parse(text = sprintf(fold_lists, "i")))),
           FUN = function(x) {
             all(eval(parse(text = sprintf(fold_lists, "i")))[[x]] ==

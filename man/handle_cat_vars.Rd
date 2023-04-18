@@ -7,12 +7,12 @@
 handle_cat_vars(kwargs)
 }
 \arguments{
-\item{kwargs}{A list with key word arguments.}
+\item{kwargs}{A list containing keyword arguments.}
 }
 \value{
 Returns a list with two elements:
 \itemize{
-\item \code{params} The key word arguments without \code{cat_vars}.
+\item \code{params} The keyword arguments without \code{cat_vars}.
 \item \code{cat_vars} The vector \code{cat_vars}.
 }
 }

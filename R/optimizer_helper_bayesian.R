@@ -4,9 +4,15 @@
     y,
     method_helper
 ) {
-  stopifnot(!is.null(self$parameter_bounds), private$ncores > 1L)
+  stopifnot(
+    "`parameter_bounds` must not be empty for Bayesian optimization" =
+      !is.null(self$parameter_bounds),
+    "`ncores` must be >1L when using Bayesian optimization" =
+      private$ncores > 1L)
   if (self$optim_args$parallel) {
-    stopifnot(!is.null(self$learner$cluster_export))
+    stopifnot(
+      "`learner$cluster_export` must not be empty when using Bayesian \
+      optimization" = !is.null(self$learner$cluster_export))
     message(sprintf(
       "\nRegistering parallel backend using %s cores.",
       private$ncores
@@ -47,7 +53,10 @@
       # https://stackoverflow.com/questions/67595111/r-package-design-how-to-
       # export-internal-functions-to-a-cluster
       #%ns <- asNamespace("mlexperiments")
-      stopifnot(is.character(self$learner$environment))
+      stopifnot(
+        "`learner$environment` must be a character" =
+          is.character(self$learner$environment)
+      )
       ns <- asNamespace(self$learner$environment)
       parallel::clusterExport(
         cl = cl,
@@ -117,7 +126,8 @@
 }
 
 .bayesopt_postprocessing <- function(self, private, object) {
-  stopifnot(inherits(x = object, what = "bayesOpt"))
+  stopifnot("`object` is not of class `bayesOpt`" =
+              inherits(x = object, what = "bayesOpt"))
   exl_cols <- vapply(
     X = private$method_helper$execute_params$params_not_optimized,
     FUN = is.expression,

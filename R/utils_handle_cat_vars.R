@@ -7,10 +7,10 @@
 #'   names of the categorical variables from the key word arguments list to
 #'   be passed further on to [kdry::dtr_matrix2df()].
 #'
-#' @param kwargs A list with key word arguments.
+#' @param kwargs A list containing keyword arguments.
 #'
 #' @return Returns a list with two elements:
-#'   * `params` The key word arguments without `cat_vars`.
+#'   * `params` The keyword arguments without `cat_vars`.
 #'   * `cat_vars` The vector `cat_vars`.
 #'
 #' @seealso [kdry::dtr_matrix2df()]
@@ -21,7 +21,7 @@
 #' @export
 #'
 handle_cat_vars <- function(kwargs) {
-  stopifnot(is.list(kwargs))
+  stopifnot("`kwargs` must be a list" = is.list(kwargs))
   if ("cat_vars" %in% names(kwargs)) {
     cat_vars <- kwargs[["cat_vars"]]
     params <- kwargs[names(kwargs) != "cat_vars"]

@@ -1,6 +1,6 @@
 .config_grid_optimizer <- function(self, private) {
   stopifnot(
-    is.list(private$method_helper$fold_list)
+    "`fold_list` is not a list" = is.list(private$method_helper$fold_list)
   )
   # init and configure optimizer
   optimizer <- GridOptimizer$new(
@@ -13,8 +13,8 @@
 
 .config_bayesian_optimizer <- function(self, private) {
   stopifnot(
-    !is.null(self$parameter_bounds),
-    is.list(private$method_helper$fold_list)
+    "`parameter_bounds` must not be empty" = !is.null(self$parameter_bounds),
+    "`fold_list` must be a list" = is.list(private$method_helper$fold_list)
   )
   # init and configure optimizer
   optimizer <- BayesianOptimizer$new(

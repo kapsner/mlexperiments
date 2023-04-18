@@ -6,12 +6,14 @@
 
 .tune_init <- function(self, private, k) {
   stopifnot(
-    !is.null(private$strategy),
-    !is.null(self$learner),
-    !is.null(private$x), !is.null(private$y),
-    as.integer(k) >= 3L,
-    is.integer(k <- as.integer(k))
+    "`private$strategy` must not be `NULL`" = !is.null(private$strategy),
+    "`private$learner` must not be `NULL`" = !is.null(self$learner),
+    "`private$x` must not be `NULL`" = !is.null(private$x),
+    "`private$y` must not be `NULL`" = !is.null(private$y),
+    "`k` must be an integer >= 3L" = is.integer(as.integer(k)) &&
+      as.integer(k) >= 3L
   )
+  k <- as.integer(k)
 
   # add fold list, if it hasn't set manually
   if (is.null(private$method_helper$fold_list)) {

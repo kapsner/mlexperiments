@@ -60,8 +60,10 @@
   # append learner_args to params_not_optimized
   if (!is.null(self$learner_args)) {
     stopifnot(
-      is.list(self$learner_args),
-      ifelse(
+      "`learner_args` must be a list" = is.list(self$learner_args),
+      "`learner_args` contains parameters that have also been specified \
+      with `parameter_grid`, however, which are static and thus not optimized" =
+        ifelse(
         test = !is.null(
           private$method_helper$execute_params$params_not_optimized
         ),
@@ -72,7 +74,9 @@
           ))) == length(self$learner_args),
         no = TRUE
       ),
-      length(setdiff(names(self$learner_args),
+      "`learner_args` contains parameters that have also been specified \
+      with `parameter_grid`" =
+        length(setdiff(names(self$learner_args),
               names(private$method_helper$execute_params$parameter_grid))) ==
         length(self$learner_args)
     )

@@ -90,11 +90,13 @@ MLTuneParameters <- R6::R6Class( # nolint
     ) {
       super$initialize(learner = learner, seed = seed, ncores = ncores)
       stopifnot(
-        !is.null(self$learner$.__enclos_env__$private$fun_optim_cv)
+        "`private$fun_optim_cv` must not be `NULL`" =
+          !is.null(self$learner$.__enclos_env__$private$fun_optim_cv)
       )
       strategy <- match.arg(strategy)
       stopifnot(
-        ifelse(
+        "`learner$cluster_export` must not be `NULL` when using \
+        `strategy = 'bayesian'" = ifelse(
           test = strategy == "bayesian",
           yes = !is.null(self$learner$cluster_export),
           no = TRUE
