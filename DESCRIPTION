@@ -1,10 +1,10 @@
 Package: mlexperiments
 Title: Toolkit for Machine Learning Experiments
-Version: 0.0.1.9003
+Version: 0.0.1.9004
 Authors@R: 
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
-Description: A set of functions to perform machine learning experiments,
+Description: A set of functions to perform machine learning experiments
     such as (nested) cross-validation and hyperparameter optimization.
 License: GPL (>= 3)
 URL: https://github.com/kapsner/mlexperiments
@@ -32,11 +32,9 @@ Suggests:
     testthat (>= 3.0.1)
 VignetteBuilder: 
     knitr
-Remotes: 
-    github::kapsner/kdry@main
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2023-02-02 12:39:54 UTC
+Date/Publication: 2023-04-18 19:11:00 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

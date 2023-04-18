@@ -12,6 +12,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
@@ -161,7 +162,7 @@ knn_bsF <- function(...) { # nolint
 }
 ```
 
-More details on the package [`ParBayesianOptimization`](https://CRAN.R-project.org/package=ParBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [package vignette](https://CRAN.R-project.org/package=ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+More details on the package [`ParBayesianOptimization`](https://cran.r-project.org/package=ParBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/package=ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
 
 For the parallelization of the Bayesian process, all required functions must be exported to the cluster. To facilitate this, a simple wrapper function can be created that returns a character vector of all custom functions that are called from within the Bayesian scoring function. The following function shows the objects that need to be exported for a correct functioning of the `LearnerKnn`:
 

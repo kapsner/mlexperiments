@@ -19,12 +19,12 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.1.9003")
+my_desc$set_version("0.0.1.9004")
 # The title of your package
 my_desc$set(Title = "Toolkit for Machine Learning Experiments")
 # The description of your package
 my_desc$set(Description = paste0(
-  "A set of functions to perform machine learning experiments, ",
+  "A set of functions to perform machine learning experiments ",
   "such as (nested) cross-validation and hyperparameter optimization."
 ))
 # The description of your package
@@ -101,7 +101,7 @@ if (tag1 == "cran") {
   }
 }
 
-tag2 <- "main" # e.g. "v0.1.7", "development" or "cran"
+tag2 <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tag2 == "cran") {
   install.packages("kdry")
 } else{
