@@ -12,6 +12,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
@@ -156,7 +157,15 @@ tuner$set_data(
 )
 
 tuner_results_grid <- tuner$execute(k = 3)
+
 head(tuner_results_grid)
+#>    setting_id metric_optim_mean  k l use.all
+#> 1:          1         0.2224638 16 2   FALSE
+#> 2:          2         0.2628019 64 2   FALSE
+#> 3:          3         0.2297907 10 2   FALSE
+#> 4:          4         0.2371981 34 2   FALSE
+#> 5:          5         0.2627214 58 2   FALSE
+#> 6:          6         0.2444444 28 2   FALSE
 ```
 
 
@@ -184,7 +193,16 @@ tuner$set_data(
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
+#> Registering parallel backend using 4 cores.
+
 head(tuner_results_bayesian)
+#>    Epoch setting_id  k gpUtility acqOptimum inBounds Elapsed      Score metric_optim_mean errorMessage l use.all
+#> 1:     0          1 16        NA      FALSE     TRUE   0.024 -0.2262480         0.2262480           NA 2   FALSE
+#> 2:     0          2 64        NA      FALSE     TRUE   0.026 -0.2700483         0.2700483           NA 2   FALSE
+#> 3:     0          3 10        NA      FALSE     TRUE   0.023 -0.2370370         0.2370370           NA 2   FALSE
+#> 4:     0          4 34        NA      FALSE     TRUE   0.025 -0.2262480         0.2262480           NA 2   FALSE
+#> 5:     0          5 58        NA      FALSE     TRUE   0.008 -0.2735910         0.2735910           NA 2   FALSE
+#> 6:     0          6 28        NA      FALSE     TRUE   0.006 -0.2589372         0.2589372           NA 2   FALSE
 ```
 
 ## k-Fold Cross Validation
@@ -210,7 +228,18 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> CV fold: Fold2
+#> 
+#> CV fold: Fold3
+
 head(validator_results)
+#>     fold performance  k l use.all
+#> 1: Fold1   0.7934783 16 2   FALSE
+#> 2: Fold2   0.7391304 16 2   FALSE
+#> 3: Fold3   0.8000000 16 2   FALSE
 ```
 
 
@@ -243,7 +272,19 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> CV fold: Fold2
+#> 
+#> CV fold: Fold3
+#> CV progress [==========================================================================================================] 3/3 (100%)
+
 head(validator_results)
+#>     fold performance  k l use.all
+#> 1: Fold1   0.7391304 22 2   FALSE
+#> 2: Fold2   0.7391304 28 2   FALSE
+#> 3: Fold3   0.7666667 34 2   FALSE
 ```
 
 
@@ -278,5 +319,24 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold2
+#> CV progress [======================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold3
+#> CV progress [==========================================================================================================] 3/3 (100%)
+#>                                                                                                                                     
+#> Registering parallel backend using 4 cores.
+
 head(validator_results)
+#>     fold performance  k l use.all
+#> 1: Fold1   0.7391304 22 2   FALSE
+#> 2: Fold2   0.7934783 10 2   FALSE
+#> 3: Fold3   0.7888889 10 2   FALSE
 ```
