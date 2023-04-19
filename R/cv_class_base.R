@@ -150,8 +150,11 @@ MLCrossValidation <- R6::R6Class( # nolint
       return_models = FALSE
     ) {
       super$initialize(learner = learner, seed = seed, ncores = ncores)
-      stopifnot(is.logical(self$return_models <- return_models))
-      stopifnot(is.list(fold_list) && length(fold_list) >= 3L)
+      stopifnot(
+        "`return_models` must be a boolean value" = is.logical(return_models),
+        "`fold_list` must be a list with >= 3 folds" =
+          is.list(fold_list) && length(fold_list) >= 3L)
+      self$return_models <- return_models
       self$fold_list <- fold_list
     },
 
@@ -237,14 +240,16 @@ MLCrossValidation <- R6::R6Class( # nolint
     },
     prepare = function() {
       stopifnot(
-        !is.null(private$x), !is.null(private$y),
-        !is.null(self$fold_list),
-        ifelse(
+        "`x` must not be empty" = !is.null(private$x),
+        "`y` must not be empty" = !is.null(private$y),
+        "`fold_list` must not be empty" = !is.null(self$fold_list),
+        "`performance_metric_args` must be a list" = ifelse(
           test = is.null(self$performance_metric_args),
           yes = TRUE,
           no = is.list(self$performance_metric_args)
         ),
-        is.list(self$performance_metric) ||
+        "`performance_metric` must be either a list, a character string, \
+        or a function" = is.list(self$performance_metric) ||
           is.character(self$performance_metric) ||
           is.function(self$performance_metric)
       )
@@ -257,13 +262,17 @@ MLCrossValidation <- R6::R6Class( # nolint
           "performance" = self$performance_metric
         )
       }
-      stopifnot(all(sapply(self$performance_metric, is.function)))
+      stopifnot(
+        "All elements from `performance_metric` must be a function" =
+          all(sapply(self$performance_metric, is.function))
+      )
 
       # apply parameter_grid stuff
       .organize_parameter_grid(self = self, private = private)
 
       stopifnot(
-        length(intersect(
+        "Some parameters have been specified in both, `execute_params` \
+        and `params_not_optimized`" = length(intersect(
           names(private$method_helper$params_not_optimized),
           names(private$execute_params))) == 0L
       )

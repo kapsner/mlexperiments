@@ -78,13 +78,15 @@ predictions <- function(
     ...
   ) {
   stopifnot(
-    is.integer(as.integer(ncores)),
-    ncores != 0L,
-    inherits(object, what = "MLCrossValidation"),
-    R6::is.R6(object),
-    inherits(object$results, "mlexCV"),
-    isTRUE(object$return_models),
-    is.logical(na.rm)
+    "`ncores` must be an integer" = is.integer(as.integer(ncores)),
+    "`ncores` must not be `0L`" = ncores != 0L,
+    "`object` must be of class `MLCrossValidation`" =
+      inherits(object, what = "MLCrossValidation"),
+    "`object` must be an R6-class" = R6::is.R6(object),
+    "`object$results` must be of class `mlexCV`" =
+      inherits(object$results, "mlexCV"),
+    "`object$return_models` must be `TRUE`" = isTRUE(object$return_models),
+    "`na.rm` must be a boolean value" = is.logical(na.rm)
   )
   kwargs <- list(...)
   ncores <- kdry::pch_check_available_cores(ncores = as.integer(ncores))

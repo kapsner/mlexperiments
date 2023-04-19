@@ -191,10 +191,12 @@ MLNestedCV <- R6::R6Class( # nolint
         return_models = return_models
       )
       stopifnot(
-        !is.null(self$learner$.__enclos_env__$private$fun_optim_cv),
-        as.integer(k_tuning) >= 3L,
-        is.integer(self$k_tuning <- as.integer(k_tuning))
+        "`fun_optim_cv` must not be `NULL`" =
+          !is.null(self$learner$.__enclos_env__$private$fun_optim_cv),
+        "`k_tuning` must be an integer >= 3" = as.integer(k_tuning) >= 3L,
+        "`k_tuning` must be an integer" = is.integer(as.integer(k_tuning))
       )
+      self$k_tuning <- as.integer(k_tuning)
       strategy <- match.arg(strategy)
       self$strategy <- strategy
     },
@@ -280,13 +282,15 @@ MLNestedCV <- R6::R6Class( # nolint
     execute = function() {
       private$prepare()
       stopifnot(
-        !is.null(self$strategy),
-        ifelse(
+        "`strategy` must not be `NULL`" = !is.null(self$strategy),
+        "For `strategy = 'bayesian', `parameter_bounds` must be provided.\
+        For `strategy = 'grid', `parameter_grid` must be provided" = ifelse(
           test = self$strategy == "bayesian",
           yes = !is.null(self$parameter_bounds),
           no = !is.null(self$parameter_grid)
         ),
-        !is.null(private$method_helper$execute_params)
+        "`execute_params` must not be empty" =
+          !is.null(private$method_helper$execute_params)
       )
       return(.run_cv(self = self, private = private))
     }

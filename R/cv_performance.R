@@ -102,9 +102,11 @@ performance <- function(
     ...
   ) {
   stopifnot(
-    inherits(object, what = "MLCrossValidation"),
-    R6::is.R6(object),
-    inherits(prediction_results, "mlexPredictions")
+    "`object` must be of class `MLCrossValidation`" =
+      inherits(object, what = "MLCrossValidation"),
+    "`object` must be an R6 class" = R6::is.R6(object),
+    "`prediction_results` must be of class `mlexPredictions`" =
+      inherits(prediction_results, "mlexPredictions")
   )
 
   kwargs <- list(...)

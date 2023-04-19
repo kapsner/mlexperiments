@@ -69,7 +69,8 @@ MLLearnerBase <- R6::R6Class( # nolint
       metric_optimization_higher_better # nolint
       ) {
       stopifnot(
-        is.logical(metric_optimization_higher_better) ||
+        "`metric_optimization_higher_better` must be a boolean value or \
+        `NULL`" = is.logical(metric_optimization_higher_better) ||
           is.null(metric_optimization_higher_better)
       )
       self$metric_optimization_higher_better <-

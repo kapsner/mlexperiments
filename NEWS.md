@@ -22,6 +22,10 @@
 
 #### Other changes
 
+-   working on more informative stopifnot messages
+    ([408d248](https://github.com/kapsner/mlexperiments/tree/408d248c9215d29f9da179c03b9877078c485ae3))
+-   fixed issue with news.md
+    ([b4bf1fb](https://github.com/kapsner/mlexperiments/tree/b4bf1fb2461a4a6216c50414ce539315376d575e))
 -   removed remotes packages!
     ([b8fdc5a](https://github.com/kapsner/mlexperiments/tree/b8fdc5a9f36a6b82183c817e0128883302d8ead1))
 -   catch missing ncores argument in learner’s predict function
@@ -36,7 +40,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...b8fdc5a`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...b8fdc5a)
+[`v0.0.1...408d248`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...408d248)
 
 ## v0.0.1 (2022-11-10)
 

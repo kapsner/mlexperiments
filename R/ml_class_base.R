@@ -26,9 +26,9 @@ MLBase <- R6::R6Class( # nolint
     #'
     initialize = function(seed, ncores = -1L) {
       stopifnot(
-        is.integer(as.integer(ncores)),
-        is.integer(as.integer(seed)),
-        ncores != 0L
+        "`ncores` must be an integer" = is.integer(as.integer(ncores)),
+        "`seed` must be an integer" = is.integer(as.integer(seed)),
+        "`ncores` must not be `0L`" = ncores != 0L
       )
       private$seed <- as.integer(seed)
 
@@ -80,8 +80,8 @@ MLExperimentsBase <- R6::R6Class( # nolint
       super$initialize(seed = seed, ncores = ncores)
       stopifnot(
         # only accept instantiated learners
-        R6::is.R6(learner),
-        inherits(learner, "MLLearnerBase")
+        "`learner` must be an R6-class and inherit from `MLLearnerBase`" =
+          R6::is.R6(learner) && inherits(learner, "MLLearnerBase")
       )
       self$learner <- learner
     },
@@ -127,9 +127,11 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'
     set_data = function(x, y, cat_vars = NULL) {
       stopifnot(
-        inherits(x = x, what = c("matrix", "array")),
-        nrow(x) > 1L, !is.vector(x),
-        ifelse(
+        "`x` must be a matrix" = inherits(x = x, what = c("matrix", "array")),
+        "`x` must contain more than one row" = nrow(x) > 1L,
+        "`x` must not be a vector" = !is.vector(x),
+        "`cat_vars` must be a character verctor and may contain only \
+        column names of `x`" = ifelse(
           test = is.null(cat_vars),
           yes = TRUE,
           no = is.character(cat_vars) && is.atomic(cat_vars) &&

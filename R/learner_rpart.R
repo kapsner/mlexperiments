@@ -90,7 +90,10 @@ LearnerRpart <- R6::R6Class( # nolint
       private$fun_optim_cv <- rpart_optimization
       private$fun_fit <- function(x, y, ncores, seed, ...) {
         kwargs <- list(...)
-        stopifnot(kwargs$method %in% c("class", "anova"))
+        stopifnot(
+          "`method` must be one of c('class', 'anova')" =
+            kwargs$method %in% c("class", "anova")
+        )
         args <- kdry::list.append(
           list(
             x = x, y = y, ncores = ncores, seed = seed
@@ -178,9 +181,10 @@ rpart_cv <- function(
 
 rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
-    is.list(params),
-    "method" %in% names(params),
-    params$method %in% c("class", "anova")
+    "`params` must be a list" = is.list(params),
+    "One item of `params` must be `method`" = "method" %in% names(params),
+    "`method` must be one of c('class', 'anova')" =
+      params$method %in% c("class", "anova")
   )
 
   # check, if this is a classification context and select metric accordingly

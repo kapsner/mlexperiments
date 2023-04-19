@@ -112,8 +112,8 @@ knn_bsF <- function(...) { # nolint
 
 knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
-    is.list(params),
-    "k" %in% names(params)
+    "`params` must be a list" = is.list(params),
+    "One item of `params` must be `k`" = "k" %in% names(params)
   )
 
   # initialize a dataframe to store the results
@@ -184,7 +184,7 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
 knn_fit <- function(x, y, ncores, seed, ...) {
   kwargs <- list(...)
-  stopifnot("k" %in% names(kwargs))
+  stopifnot("`k` is a required argument" = "k" %in% names(kwargs))
 
   args <- kdry::list.append(
     list(
@@ -201,7 +201,7 @@ knn_fit <- function(x, y, ncores, seed, ...) {
 
 knn_predict <- function(model, newdata, ncores, ...) {
   kwargs <- list(...)
-  stopifnot("type" %in% names(kwargs))
+  stopifnot("`type` is a required argument" = "type" %in% names(kwargs))
 
   if (kwargs$type == "response") {
     return(model)
