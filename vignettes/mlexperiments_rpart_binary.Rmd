@@ -531,4 +531,4 @@ ggpubr::ggdotchart(
 )
 ```
 
-![Model Comparison](rpart_chart.png)
+![Model Comparison](rpart_chart_bin.png)

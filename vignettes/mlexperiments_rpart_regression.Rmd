@@ -12,6 +12,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
@@ -158,7 +159,37 @@ tuner$set_data(
 )
 
 tuner_results_grid <- tuner$execute(k = 3)
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Regression: using 'mean squared error' as optimization metric.
+
 head(tuner_results_grid)
+#>    setting_id metric_optim_mean minsplit   cp maxdepth method
+#> 1:          1          26.14038        2 0.07       22  anova
+#> 2:          2          26.14038       32 0.02       27  anova
+#> 3:          3          26.14038       72 0.10        7  anova
+#> 4:          4          26.14038       32 0.09       27  anova
+#> 5:          5          26.14038       52 0.02       12  anova
+#> 6:          6          26.14038        2 0.04        7  anova
 ```
 
 
@@ -187,7 +218,17 @@ tuner$set_data(
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
+#> 
+#> Registering parallel backend using 4 cores.
+
 head(tuner_results_bayesian)
+#>    Epoch setting_id minsplit   cp maxdepth gpUtility acqOptimum inBounds Elapsed     Score metric_optim_mean errorMessage method
+#> 1:     0          1        2 0.07       22        NA      FALSE     TRUE   0.049 -26.14038          26.14038           NA  anova
+#> 2:     0          2       32 0.02       27        NA      FALSE     TRUE   0.049 -26.14038          26.14038           NA  anova
+#> 3:     0          3       72 0.10        7        NA      FALSE     TRUE   0.049 -26.14038          26.14038           NA  anova
+#> 4:     0          4       32 0.09       27        NA      FALSE     TRUE   0.049 -26.14038          26.14038           NA  anova
+#> 5:     0          5       52 0.02       12        NA      FALSE     TRUE   0.027 -26.14038          26.14038           NA  anova
+#> 6:     0          6        2 0.04        7        NA      FALSE     TRUE   0.027 -26.14038          26.14038           NA  anova
 ```
 
 ## k-Fold Cross Validation
@@ -214,7 +255,18 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> CV fold: Fold2
+#> 
+#> CV fold: Fold3
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1    29.20022        2 0.07       22  anova
+#> 2: Fold2    17.76631        2 0.07       22  anova
+#> 3: Fold3    31.45460        2 0.07       22  anova
 ```
 
 
@@ -248,7 +300,85 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> CV fold: Fold2
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Regression: using 'mean squared error' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Regression: using 'mean squared error' as optimization metric.
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1    29.20022        2 0.07       22  anova
+#> 2: Fold2    17.76631        2 0.07       22  anova
+#> 3: Fold3    31.45460        2 0.07       22  anova
 ```
 
 
@@ -284,7 +414,26 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold2
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+#> Registering parallel backend using 4 cores.
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1    29.20022        2 0.07       22  anova
+#> 2: Fold2    17.76631        2 0.07       22  anova
+#> 3: Fold3    31.45460        2 0.07       22  anova
 ```
 
 ## Comparison with Linear Regression
@@ -311,7 +460,21 @@ validator_lm$set_data(
 )
 
 validator_lm_results <- validator_lm$execute()
+#> 
+#> CV fold: Fold1
+#> Parameter 'ncores' is ignored for learner 'LearnerLm'.
+#> 
+#> CV fold: Fold2
+#> Parameter 'ncores' is ignored for learner 'LearnerLm'.
+#> 
+#> CV fold: Fold3
+#> Parameter 'ncores' is ignored for learner 'LearnerLm'.
+
 head(validator_lm_results)
+#>     fold performance
+#> 1: Fold1    35.49058
+#> 2: Fold2    22.04977
+#> 3: Fold3    21.39721
 ```
 
 ### Test Fold Equality
@@ -320,6 +483,10 @@ head(validator_lm_results)
 mlexperiments::validate_fold_equality(
   experiments = list(validator, validator_lm)
 )
+#> 
+#> Testing for identical folds in 1 and 2.
+#> 
+#> Testing for identical folds in 2 and 1.
 ```
 
 ### Predict Outcome in Holdout Test Dataset
@@ -372,3 +539,4 @@ ggpubr::ggdotchart(
 )
 ```
 
+![Model Comparison](rpart_chart_reg.png)

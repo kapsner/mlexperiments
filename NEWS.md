@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-04-18)
+## Unreleased (2023-04-19)
 
 #### Bug fixes
 
@@ -22,6 +22,10 @@
 
 #### Other changes
 
+-   working on making vignettes static
+    ([e8ddc09](https://github.com/kapsner/mlexperiments/tree/e8ddc09da12389dbb129702727f3063cc7dfef96))
+-   further working on more informative stopifnot statements
+    ([9e9b0c1](https://github.com/kapsner/mlexperiments/tree/9e9b0c190949c88f89e782c74bbbb268f2c7dbf7))
 -   working on more informative stopifnot messages
     ([408d248](https://github.com/kapsner/mlexperiments/tree/408d248c9215d29f9da179c03b9877078c485ae3))
 -   fixed issue with news.md
@@ -40,7 +44,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...408d248`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...408d248)
+[`v0.0.1...e8ddc09`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...e8ddc09)
 
 ## v0.0.1 (2022-11-10)
 

@@ -12,6 +12,7 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
@@ -158,7 +159,44 @@ tuner$set_data(
 )
 
 tuner_results_grid <- tuner$execute(k = 3)
+#> 
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================>-----------------------------------------------------------------------------] 2/10 ( 20%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Classification: using 'classification error rate' as optimization metric.
+
 head(tuner_results_grid)
+#>    setting_id metric_optim_mean minsplit   cp maxdepth method
+#> 1:          1        0.09465558        2 0.07       22  class
+#> 2:          2        0.09465558       32 0.02       27  class
+#> 3:          3        0.09465558       72 0.10        7  class
+#> 4:          4        0.09465558       32 0.09       27  class
+#> 5:          5        0.09465558       52 0.02       12  class
+#> 6:          6        0.09465558        2 0.04        7  class
 ```
 
 
@@ -186,7 +224,17 @@ tuner$set_data(
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
+#> 
+#> Registering parallel backend using 4 cores.
+
 head(tuner_results_bayesian)
+#>    Epoch setting_id minsplit   cp maxdepth gpUtility acqOptimum inBounds Elapsed       Score metric_optim_mean errorMessage method
+#> 1:     0          1        2 0.07       22        NA      FALSE     TRUE   2.108 -0.09465558        0.09465558           NA  class
+#> 2:     0          2       32 0.02       27        NA      FALSE     TRUE   2.122 -0.09465558        0.09465558           NA  class
+#> 3:     0          3       72 0.10        7        NA      FALSE     TRUE   2.025 -0.09465558        0.09465558           NA  class
+#> 4:     0          4       32 0.09       27        NA      FALSE     TRUE   2.258 -0.09465558        0.09465558           NA  class
+#> 5:     0          5       52 0.02       12        NA      FALSE     TRUE   2.030 -0.09465558        0.09465558           NA  class
+#> 6:     0          6        2 0.04        7        NA      FALSE     TRUE   2.099 -0.09465558        0.09465558           NA  class
 ```
 
 ## k-Fold Cross Validation
@@ -212,7 +260,21 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> CV fold: Fold2
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1   0.8950174        2 0.07       22  class
+#> 2: Fold2   0.8978974        2 0.07       22  class
+#> 3: Fold3   0.8917513        2 0.07       22  class
 ```
 
 
@@ -245,7 +307,107 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================>-----------------------------------------------------------------------------] 2/10 ( 20%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> CV fold: Fold2
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================>-----------------------------------------------------------------------------] 2/10 ( 20%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================>-----------------------------------------------------------------------------] 2/10 ( 20%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'classification error rate' as optimization metric.
+#> 
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+#>  Classification: using 'classification error rate' as optimization metric.
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1   0.8950174        2 0.07       22  class
+#> 2: Fold2   0.8978974        2 0.07       22  class
+#> 3: Fold3   0.8917513        2 0.07       22  class
 ```
 
 
@@ -280,5 +442,24 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold2
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#> 
+#> Registering parallel backend using 4 cores.
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+#> Registering parallel backend using 4 cores.
+
 head(validator_results)
+#>     fold performance minsplit   cp maxdepth method
+#> 1: Fold1   0.8950174        2 0.07       22  class
+#> 2: Fold2   0.8978974        2 0.07       22  class
+#> 3: Fold3   0.8917513        2 0.07       22  class
 ```
