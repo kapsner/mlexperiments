@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-04-19)
+## Unreleased (2023-04-20)
 
 #### Bug fixes
 
@@ -19,6 +19,13 @@
     ([6da60ce](https://github.com/kapsner/mlexperiments/tree/6da60ce9ee9c9c01515a526b5d2869987b8a22e5))
 -   updated ci
     ([30ba875](https://github.com/kapsner/mlexperiments/tree/30ba8758e7059e78654f9e6db8bd7ec1c1727df4))
+
+#### Docs
+
+-   fixed invalid url in vignette
+    ([54546f1](https://github.com/kapsner/mlexperiments/tree/54546f13f9ab59af257293fa40fac587b53779dc))
+-   vignettes now static
+    ([e870ee4](https://github.com/kapsner/mlexperiments/tree/e870ee4504a791c11f6b1f9caf42d110962f9b64))
 
 #### Other changes
 
@@ -44,7 +51,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...e8ddc09`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...e8ddc09)
+[`v0.0.1...54546f1`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...54546f1)
 
 ## v0.0.1 (2022-11-10)
 

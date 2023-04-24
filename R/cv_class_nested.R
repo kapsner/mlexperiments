@@ -53,7 +53,7 @@
 #'
 #' # parameters for hyperparameter tuning
 #' cv$parameter_grid <- expand.grid(
-#'   k = seq(4, 68, 8)
+#'   k = seq(4, 16, 8)
 #' )
 #' cv$split_type <- "stratified"
 #'

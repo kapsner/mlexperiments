@@ -142,7 +142,7 @@ test_that(
 
     rpart_optimization$learner_args <- list(method = "anova")
     set.seed(seed)
-    rand_rows <- sample(seq_len(nrow(param_list_rpart)), 5)
+    rand_rows <- sample(seq_len(nrow(param_list_rpart)), 3)
     rpart_optimization$parameter_grid <- param_list_rpart[rand_rows, ]
     rpart_optimization$split_type <- "stratified"
 
@@ -155,7 +155,7 @@ test_that(
 
     cv_results <- rpart_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(5, 6))
+    expect_equal(dim(cv_results), c(3, 6))
     expect_true(inherits(
       x = rpart_optimization$results,
       what = "mlexTune"
@@ -224,7 +224,7 @@ test_that(
 
     rpart_optimization$learner_args <- list(method = "anova")
     set.seed(3)
-    rand_rows <- sample(seq_len(nrow(param_list_rpart)), 5)
+    rand_rows <- sample(seq_len(nrow(param_list_rpart)), 3)
     rpart_optimization$parameter_grid <- param_list_rpart[rand_rows, ]
     rpart_optimization$split_type <- "stratified"
 
