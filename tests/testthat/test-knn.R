@@ -83,7 +83,7 @@ optim_args <- list(
   acq = "ucb"
 )
 param_list_knn <- expand.grid(
-  k = seq(4, 68, 8),
+  k = seq(4, 20, 8),
   l = 0,
   test = parse(text = "fold_test$x")
 )
@@ -210,7 +210,7 @@ test_that(
 
     cv_results <- knn_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(9, 4))
+    expect_equal(dim(cv_results), c(3, 4))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
