@@ -532,7 +532,7 @@ p <- ggpubr::ggdotchart(
 p
 ```
 
-```{r include=False}
+```{r, include=FALSE}
 ggplot2::ggsave(
   filename = "rpart_chart_bin.png",
   plot = p
@@ -540,4 +540,4 @@ ggplot2::ggsave(
 ```
 
 
-![Model Comparison](https://github.com/kapsner/mlexperiments/blob/main/vignettes/rpart_chart_bin.png)
+![Model Comparison](https://raw.githubusercontent.com/kapsner/mlexperiments/main/vignettes/rpart_chart_bin.png)
