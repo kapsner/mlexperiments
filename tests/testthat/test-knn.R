@@ -20,6 +20,21 @@ fold_list <- splitTools::create_folds(
   seed = seed
 )
 
+
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
+)
+if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
+  # on cran
+  ncores <- 2L
+}
+
 # ###########################################################################
 # %% CV
 # ###########################################################################
@@ -31,6 +46,7 @@ test_that(
     knn_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerKnn$new(),
       fold_list = fold_list,
+      ncores = ncores,
       seed = seed
     )
     knn_optimization$learner_args <- list(
@@ -64,19 +80,6 @@ test_that(
 
 
 knn_bounds <- list(k = c(2L, 80L))
-ncores <- ifelse(
-  test = parallel::detectCores() > 4,
-  yes = 4L,
-  no = ifelse(
-    test = parallel::detectCores() < 2L,
-    yes = 1L,
-    no = parallel::detectCores()
-  )
-)
-if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
-  # on cran
-  ncores <- 2L
-}
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,

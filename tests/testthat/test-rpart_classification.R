@@ -22,6 +22,20 @@ fold_list <- splitTools::create_folds(
 
 options("mlexperiments.bayesian.max_init" = 10L)
 
+ncores <- ifelse(
+  test = parallel::detectCores() > 4,
+  yes = 4L,
+  no = ifelse(
+    test = parallel::detectCores() < 2L,
+    yes = 1L,
+    no = parallel::detectCores()
+  )
+)
+if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
+  # on cran
+  ncores <- 2L
+}
+
 # ###########################################################################
 # %% CV
 # ###########################################################################
@@ -33,6 +47,7 @@ test_that(
     rpart_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerRpart$new(),
       fold_list = fold_list,
+      ncores = ncores,
       seed = seed
     )
     rpart_optimization$learner_args <- list(
@@ -71,19 +86,6 @@ rpart_bounds <- list(
   cp = c(0.01, 0.1),
   maxdepth = c(2L, 30L)
 )
-ncores <- ifelse(
-  test = parallel::detectCores() > 4,
-  yes = 4L,
-  no = ifelse(
-    test = parallel::detectCores() < 2L,
-    yes = 1L,
-    no = parallel::detectCores()
-  )
-)
-if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
-  # on cran
-  ncores <- 2L
-}
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,

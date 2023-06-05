@@ -21,11 +21,21 @@ my_desc$del("Maintainer")
 # Set the version
 my_desc$set_version("0.0.2")
 # The title of your package
-my_desc$set(Title = "Toolkit for Machine Learning Experiments")
+my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
 my_desc$set(Description = paste0(
-  "A set of functions to perform machine learning experiments ",
-  "such as (nested) cross-validation and hyperparameter optimization."
+  "Provides 'R6' objects to perform parallelized hyperparameter ",
+  "optimization and cross-validation. ",
+  "Hyperparameter optimization can be performed with Bayesian ",
+  "optimization (via 'ParBayesianOptimization' ",
+  "<https://cran.r-project.org/package=ParBayesianOptimization>) and ",
+  "grid search. The optimized hyperparameters can be validated using ",
+  "k-fold cross-validation. Alternatively, hyperparameter optimization and ",
+  "validation can be performed with nested cross-validation. ",
+  "While 'mlexperiments' focuses on ",
+  "core wrappers for machine learning experiments, additional learner ",
+  "algorithms can be supplmenented by inheriting from the provided learner ",
+  "base class."
 ))
 # The description of your package
 my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))

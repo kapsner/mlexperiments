@@ -100,8 +100,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
-    #' \dontrun{
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+    #' \dontrun{
+    #' # This example cannot does not work for the `MLLearnerBase` class.
+    #' # The method `$cross_validation()` needs to be overwritten when
+    #' # inheriting from this class.
     #' learner$cross_validation()
     #' }
     #'
@@ -132,8 +135,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
-    #' \dontrun{
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+    #' \dontrun{
+    #' # This example cannot does not work for the `MLLearnerBase` class.
+    #' # The method `$fit()` needs to be overwritten when
+    #' # inheriting from this class.
     #' learner$fit()
     #' }
     #'
@@ -174,8 +180,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   [mlexperiments::MLNestedCV]
     #'
     #' @examples
-    #' \dontrun{
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+    #' \dontrun{
+    #' # This example cannot does not work for the `MLLearnerBase` class.
+    #' # The method `$predict()` needs to be overwritten when
+    #' # inheriting from this class.
     #' learner$fit()
     #' learner$predict()
     #' }
@@ -216,8 +225,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   [mlexperiments::MLTuneParameters], and [mlexperiments::MLNestedCV]
     #'
     #' @examples
-    #' \dontrun{
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+    #' \dontrun{
+    #' # This example cannot does not work for the `MLLearnerBase` class.
+    #' # The method `$prbayesian_scoring_functionedict()` needs to be
+    #' overwritten when inheriting from this class.
     #' learner$bayesian_scoring_function()
     #' }
     #'

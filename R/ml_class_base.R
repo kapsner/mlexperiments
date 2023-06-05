@@ -18,6 +18,8 @@ MLBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' \dontrun{
+    #' # Very basic class and unexported class used for the building blocks
+    #' of the `mlexperiments` package.
     #' MLBase$new(
     #'   seed = 123,
     #'   ncores = 2
@@ -68,7 +70,8 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #' @return A new `MLExperimentsBase` R6 object.
     #'
     #' @examples
-    #' \dontrun{
+    #' # Very basic class and unexported class used for the building blocks
+    #' of the `mlexperiments` package.
     #' MLExperimentsBase$new(
     #'   learner = LearnerKnn$new(),
     #'   seed = 123,
@@ -100,7 +103,8 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'   the R6 class.
     #'
     #' @examples
-    #' \dontrun{
+    #' # Very basic class and unexported class used for the building blocks
+    #' of the `mlexperiments` package.
     #' dataset <- do.call(
     #'   cbind,
     #'   c(sapply(paste0("col", 1:6), function(x) {

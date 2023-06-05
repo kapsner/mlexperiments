@@ -48,8 +48,11 @@ MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 ## Method `MLLearnerBase$cross_validation`
 ## ------------------------------------------------
 
-\dontrun{
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$cross_validation()` needs to be overwritten when
+# inheriting from this class.
 learner$cross_validation()
 }
 
@@ -58,8 +61,11 @@ learner$cross_validation()
 ## Method `MLLearnerBase$fit`
 ## ------------------------------------------------
 
-\dontrun{
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$fit()` needs to be overwritten when
+# inheriting from this class.
 learner$fit()
 }
 
@@ -68,8 +74,11 @@ learner$fit()
 ## Method `MLLearnerBase$predict`
 ## ------------------------------------------------
 
-\dontrun{
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$predict()` needs to be overwritten when
+# inheriting from this class.
 learner$fit()
 learner$predict()
 }
@@ -79,8 +88,11 @@ learner$predict()
 ## Method `MLLearnerBase$bayesian_scoring_function`
 ## ------------------------------------------------
 
-\dontrun{
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$prbayesian_scoring_functionedict()` needs to be
+overwritten when inheriting from this class.
 learner$bayesian_scoring_function()
 }
 
@@ -195,8 +207,11 @@ The fitted model.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$cross_validation()` needs to be overwritten when
+# inheriting from this class.
 learner$cross_validation()
 }
 
@@ -238,8 +253,11 @@ The fitted model.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$fit()` needs to be overwritten when
+# inheriting from this class.
 learner$fit()
 }
 
@@ -294,8 +312,11 @@ The predictions for \code{newdata}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$predict()` needs to be overwritten when
+# inheriting from this class.
 learner$fit()
 learner$predict()
 }
@@ -339,8 +360,11 @@ The results of the Bayesian scoring.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
+\dontrun{
+# This example cannot does not work for the `MLLearnerBase` class.
+# The method `$prbayesian_scoring_functionedict()` needs to be
+overwritten when inheriting from this class.
 learner$bayesian_scoring_function()
 }
 

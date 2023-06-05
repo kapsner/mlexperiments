@@ -22,6 +22,10 @@
 
 #### Docs
 
+-   updated vignettes
+    ([b7df96e](https://github.com/kapsner/mlexperiments/tree/b7df96ecd6c824182e75f916c367e7cad2e69891))
+-   added png plots for vignettes
+    ([73a66d9](https://github.com/kapsner/mlexperiments/tree/73a66d965a402448b26174ba210bfeadb902ad53))
 -   fixed invalid url in vignette
     ([54546f1](https://github.com/kapsner/mlexperiments/tree/54546f13f9ab59af257293fa40fac587b53779dc))
 -   vignettes now static
@@ -29,8 +33,13 @@
 
 #### Other changes
 
+-   preparing v0.0.2
+    ([0f7cc35](https://github.com/kapsner/mlexperiments/tree/0f7cc35f061b96681a8fcec403ca5bac96c4f328))
 -   updating version
     ([d3dcadf](https://github.com/kapsner/mlexperiments/tree/d3dcadfeca949f68fdaf32a1b244b5d81744f886))
+-   working on optimizations to reduce building time and unit test run
+    time
+    ([2346fcd](https://github.com/kapsner/mlexperiments/tree/2346fcd043f70ea2d0c52326394cdd16b8d4c882))
 -   working on making vignettes static
     ([e8ddc09](https://github.com/kapsner/mlexperiments/tree/e8ddc09da12389dbb129702727f3063cc7dfef96))
 -   further working on more informative stopifnot statements
@@ -53,7 +62,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...d3dcadf`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...d3dcadf)
+[`v0.0.1...b7df96e`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...b7df96e)
 
 ## v0.0.1 (2022-11-10)
 
