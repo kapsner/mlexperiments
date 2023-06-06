@@ -38,7 +38,7 @@ feature_cols <- colnames(dataset)[1:180]
 target_col <- "Class"
 ```
 
-## General Configurarions
+## General Configurations
 
 ```{r}
 seed <- 123

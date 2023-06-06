@@ -27,7 +27,7 @@
 #'   are forwarded to `rpart`'s argument `control` (see
 #'   [rpart::rpart.control()] for further details).
 #'
-#' For the two hyperparamter optimization strategies ("grid" and "bayesian"),
+#' For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is
 #'   set to `FALSE` by default as the classification error rate
 #'   ([mlr3measures::ce()]) is used as the optimization metric for
@@ -58,7 +58,7 @@ LearnerRpart <- R6::R6Class( # nolint
     #' * [mlexperiments::MLCrossValidation]
     #' * [mlexperiments::MLNestedCV]
     #'
-    #' For the two hyperparamter optimization strategies ("grid" and
+    #' For the two hyperparameter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
     #'   learner is set to `FALSE` by default as the classification error rate
     #'   ([mlr3measures::ce()]) is used as the optimization metric for

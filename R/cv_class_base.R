@@ -11,7 +11,7 @@
 #'   [splitTools::create_folds()]. This list also defines the `k` of the k-fold
 #'   cross-validation. When wanting to perform a repeated k-fold cross
 #'   validations, just provide a list with all repeated fold definitions, e.g.,
-#'   when specifing the argument `m_rep` of [splitTools::create_folds()].
+#'   when specifying the argument `m_rep` of [splitTools::create_folds()].
 #'
 #' @seealso [splitTools::create_folds()]
 #'

@@ -34,7 +34,7 @@ my_desc$set(Description = paste0(
   "validation can be performed with nested cross-validation. ",
   "While 'mlexperiments' focuses on ",
   "core wrappers for machine learning experiments, additional learner ",
-  "algorithms can be supplmenented by inheriting from the provided learner ",
+  "algorithms can be supplemented by inheriting from the provided learner ",
   "base class."
 ))
 # The description of your package

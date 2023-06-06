@@ -18,8 +18,8 @@ MLBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' \dontrun{
-    #' # Very basic class and unexported class used for the building blocks
-    #' of the `mlexperiments` package.
+    #' # Very basic class and un-exported class used for the building blocks
+    #' # of the `mlexperiments` package.
     #' MLBase$new(
     #'   seed = 123,
     #'   ncores = 2
@@ -70,8 +70,9 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #' @return A new `MLExperimentsBase` R6 object.
     #'
     #' @examples
-    #' # Very basic class and unexported class used for the building blocks
-    #' of the `mlexperiments` package.
+    #' \dontrun{
+    #' # Very basic class and un-exported class used for the building blocks
+    #' # of the `mlexperiments` package.
     #' MLExperimentsBase$new(
     #'   learner = LearnerKnn$new(),
     #'   seed = 123,
@@ -96,15 +97,16 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #' @param y A vector with the target.
     #' @param cat_vars A character vector with the column names of variables
     #'   that should be treated as categorical features (if applicable /
-    #'   supported by the respective alogrithm).
+    #'   supported by the respective algorithm).
     #'
     #' @return The function has no return value. It internally performs quality
     #'   checks on the provided data and, if passed, defines private fields of
     #'   the R6 class.
     #'
     #' @examples
-    #' # Very basic class and unexported class used for the building blocks
-    #' of the `mlexperiments` package.
+    #' \dontrun{
+    #' # Very basic class and un-exported class used for the building blocks
+    #' # of the `mlexperiments` package.
     #' dataset <- do.call(
     #'   cbind,
     #'   c(sapply(paste0("col", 1:6), function(x) {

@@ -26,7 +26,7 @@ optimization).
 optimization.
 }
 
-For the two hyperparamter optimization strategies ("grid" and "bayesian"),
+For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 the parameter \code{metric_optimization_higher_better} of the learner is
 set to \code{FALSE} by default as the classification error rate
 (\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric.
@@ -78,13 +78,13 @@ Create a new \code{LearnerKnn} object.
 
 \subsection{Details}{
 This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
-k-nearest neighbour classification. The following experiments are
+k-nearest neighbor classification. The following experiments are
 implemented:
 \itemize{
 \item \link{MLTuneParameters}
 \item \link{MLCrossValidation}
 \item \link{MLNestedCV}
-For the two hyperparamter optimization strategies ("grid" and
+For the two hyperparameter optimization strategies ("grid" and
 "bayesian"), the parameter \code{metric_optimization_higher_better} of the
 learner is set to \code{FALSE} by default as the classification error rate
 (\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric.

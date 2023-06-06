@@ -39,7 +39,7 @@ target_col <- "medv"
 cat_vars <- "chas"
 ```
 
-## General Configurarions
+## General Configurations
 
 ```{r}
 seed <- 123

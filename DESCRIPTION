@@ -12,7 +12,7 @@ Description: Provides 'R6' objects to perform parallelized hyperparameter
     cross-validation. Alternatively, hyperparameter optimization and
     validation can be performed with nested cross-validation. While
     'mlexperiments' focuses on core wrappers for machine learning
-    experiments, additional learner algorithms can be supplmenented by
+    experiments, additional learner algorithms can be supplemented by
     inheriting from the provided learner base class.
 License: GPL (>= 3)
 URL: https://github.com/kapsner/mlexperiments
@@ -42,7 +42,7 @@ VignetteBuilder:
     knitr
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2023-06-05 19:09:16.142237 UTC
+Date/Publication: 2023-06-06 07:41:55 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

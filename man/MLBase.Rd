@@ -15,8 +15,8 @@ Basic R6 Class for the mlexperiments package
 ## ------------------------------------------------
 
 \dontrun{
-# Very basic class and unexported class used for the building blocks
-of the `mlexperiments` package.
+# Very basic class and un-exported class used for the building blocks
+# of the `mlexperiments` package.
 MLBase$new(
   seed = 123,
   ncores = 2
@@ -64,8 +64,8 @@ A new \code{MLBase} R6 object.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{\dontrun{
-# Very basic class and unexported class used for the building blocks
-of the `mlexperiments` package.
+# Very basic class and un-exported class used for the building blocks
+# of the `mlexperiments` package.
 MLBase$new(
   seed = 123,
   ncores = 2

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tune_class_base.R
 \name{MLTuneParameters}
 \alias{MLTuneParameters}
-\title{R6 Class to perform hyperparamter tuning experiments}
+\title{R6 Class to perform hyperparameter tuning experiments}
 \description{
 The \code{MLTuneParameters} class is used to construct a parameter tuner object
 and to perform the tuning of a set of hyperparameters for a specified

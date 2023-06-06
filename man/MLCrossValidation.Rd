@@ -14,7 +14,7 @@ row indices for the cross validation folds, e.g., created with the function
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}. This list also defines the \code{k} of the k-fold
 cross-validation. When wanting to perform a repeated k-fold cross
 validations, just provide a list with all repeated fold definitions, e.g.,
-when specifing the argument \code{m_rep} of \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
+when specifying the argument \code{m_rep} of \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
 }
 \examples{
 dataset <- do.call(

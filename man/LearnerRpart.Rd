@@ -36,7 +36,7 @@ Parameters that are specified with \code{parameter_grid} and / or \code{learner_
 are forwarded to \code{rpart}'s argument \code{control} (see
 \code{\link[rpart:rpart.control]{rpart::rpart.control()}} for further details).
 
-For the two hyperparamter optimization strategies ("grid" and "bayesian"),
+For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 the parameter \code{metric_optimization_higher_better} of the learner is
 set to \code{FALSE} by default as the classification error rate
 (\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric for
@@ -99,7 +99,7 @@ are implemented:
 \item \link{MLNestedCV}
 }
 
-For the two hyperparamter optimization strategies ("grid" and
+For the two hyperparameter optimization strategies ("grid" and
 "bayesian"), the parameter \code{metric_optimization_higher_better} of the
 learner is set to \code{FALSE} by default as the classification error rate
 (\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric for
