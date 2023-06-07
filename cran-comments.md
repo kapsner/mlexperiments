@@ -3,6 +3,7 @@
 0 errors | 0 warnings | 1 note
 
 * This is a new release.  
-* Title and Description have been revised according to suggestions.  
-* Wherever possible, "\dontrun"-examples have been unwrapped. Where this was not possible, comments have been added for clarity.  
-* Tests have been revised to run on onlyl 2 cores when environment variable '_R_CHECK_LIMIT_CORES_' equals `TRUE` (tests/testthat/test-knn.R; tests/testthat/test-rpart_classification.R; tests/testthat/test-rpart_regression.R)
+* Sorry for the inconveniences
+* Examples wrapped into \dontrun{} are now removed from the documentation of the two un-exported classes `MLExperimentsBase` and `MLBase`
+* Missing comment has been added in man/MLLearnerBase.Rd to fix error regarding "unexecutable code"
+

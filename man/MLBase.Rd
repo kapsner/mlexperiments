@@ -8,22 +8,6 @@ Basic R6 Class for the mlexperiments package
 
 Basic R6 Class for the mlexperiments package
 }
-\examples{
-
-## ------------------------------------------------
-## Method `MLBase$new`
-## ------------------------------------------------
-
-\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-MLBase$new(
-  seed = 123,
-  ncores = 2
-)
-}
-
-}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -61,22 +45,6 @@ parallelization (default: \code{-1L}).}
 \subsection{Returns}{
 A new \code{MLBase} R6 object.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-MLBase$new(
-  seed = 123,
-  ncores = 2
-)
-}
-
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLBase-clone"></a>}}

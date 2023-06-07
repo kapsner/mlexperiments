@@ -16,16 +16,6 @@ MLBase <- R6::R6Class( # nolint
     #'
     #' @return A new `MLBase` R6 object.
     #'
-    #' @examples
-    #' \dontrun{
-    #' # Very basic class and un-exported class used for the building blocks
-    #' # of the `mlexperiments` package.
-    #' MLBase$new(
-    #'   seed = 123,
-    #'   ncores = 2
-    #' )
-    #' }
-    #'
     initialize = function(seed, ncores = -1L) {
       stopifnot(
         "`ncores` must be an integer" = is.integer(as.integer(ncores)),
@@ -69,17 +59,6 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #'
     #' @return A new `MLExperimentsBase` R6 object.
     #'
-    #' @examples
-    #' \dontrun{
-    #' # Very basic class and un-exported class used for the building blocks
-    #' # of the `mlexperiments` package.
-    #' MLExperimentsBase$new(
-    #'   learner = LearnerKnn$new(),
-    #'   seed = 123,
-    #'   ncores = 2
-    #' )
-    #' }
-    #'
     initialize = function(learner, seed, ncores = -1L) {
       super$initialize(seed = seed, ncores = ncores)
       stopifnot(
@@ -102,34 +81,6 @@ MLExperimentsBase <- R6::R6Class( # nolint
     #' @return The function has no return value. It internally performs quality
     #'   checks on the provided data and, if passed, defines private fields of
     #'   the R6 class.
-    #'
-    #' @examples
-    #' \dontrun{
-    #' # Very basic class and un-exported class used for the building blocks
-    #' # of the `mlexperiments` package.
-    #' dataset <- do.call(
-    #'   cbind,
-    #'   c(sapply(paste0("col", 1:6), function(x) {
-    #'     rnorm(n = 500)
-    #'     },
-    #'     USE.NAMES = TRUE,
-    #'     simplify = FALSE
-    #'    ),
-    #'    list(target = sample(0:1, 500, TRUE))
-    #' ))
-    #'
-    #' tuner <- MLExperimentsBase$new(
-    #'   learner = LearnerKnn$new(),
-    #'   seed = 123,
-    #'   ncores = 2
-    #' )
-    #'
-    #' # set data
-    #' tuner$set_data(
-    #'   x = data.matrix(dataset[, -7]),
-    #'   y = dataset[, 7]
-    #' )
-    #' }
     #'
     set_data = function(x, y, cat_vars = NULL) {
       stopifnot(

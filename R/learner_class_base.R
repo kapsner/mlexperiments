@@ -229,7 +229,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' \dontrun{
     #' # This example cannot does not work for the `MLLearnerBase` class.
     #' # The method `$prbayesian_scoring_functionedict()` needs to be
-    #' overwritten when inheriting from this class.
+    #' # overwritten when inheriting from this class.
     #' learner$bayesian_scoring_function()
     #' }
     #'

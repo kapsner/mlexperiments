@@ -8,55 +8,6 @@ R6 Class on which the experiment classes are built on
 
 R6 Class on which the experiment classes are built on
 }
-\examples{
-
-## ------------------------------------------------
-## Method `MLExperimentsBase$new`
-## ------------------------------------------------
-
-\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-MLExperimentsBase$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  ncores = 2
-)
-}
-
-
-## ------------------------------------------------
-## Method `MLExperimentsBase$set_data`
-## ------------------------------------------------
-
-\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-
-tuner <- MLExperimentsBase$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  ncores = 2
-)
-
-# set data
-tuner$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
-}
-
-}
 \section{Super class}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{MLExperimentsBase}
 }
@@ -104,23 +55,6 @@ parallelization (default: \code{-1L}).}
 \subsection{Returns}{
 A new \code{MLExperimentsBase} R6 object.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-MLExperimentsBase$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  ncores = 2
-)
-}
-
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLExperimentsBase-set_data"></a>}}
@@ -149,40 +83,6 @@ The function has no return value. It internally performs quality
 checks on the provided data and, if passed, defines private fields of
 the R6 class.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-# Very basic class and un-exported class used for the building blocks
-# of the `mlexperiments` package.
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-
-tuner <- MLExperimentsBase$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  ncores = 2
-)
-
-# set data
-tuner$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
-}
-
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLExperimentsBase-clone"></a>}}

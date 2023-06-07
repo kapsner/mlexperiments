@@ -92,7 +92,7 @@ learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 \dontrun{
 # This example cannot does not work for the `MLLearnerBase` class.
 # The method `$prbayesian_scoring_functionedict()` needs to be
-overwritten when inheriting from this class.
+# overwritten when inheriting from this class.
 learner$bayesian_scoring_function()
 }
 
@@ -364,7 +364,7 @@ The results of the Bayesian scoring.
 \dontrun{
 # This example cannot does not work for the `MLLearnerBase` class.
 # The method `$prbayesian_scoring_functionedict()` needs to be
-overwritten when inheriting from this class.
+# overwritten when inheriting from this class.
 learner$bayesian_scoring_function()
 }
 

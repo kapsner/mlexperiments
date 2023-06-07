@@ -1,13 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-06-05)
-
-#### Refactorings
-
--   preparing cran submission
-    ([7af8517](https://github.com/kapsner/mlexperiments/tree/7af8517fcccc050ee08d8f635d163503110fc122))
-
-## v0.0.2 (2023-06-03)
+## Unreleased (2023-06-06)
 
 #### Bug fixes
 
@@ -19,6 +12,11 @@
     ([0a13083](https://github.com/kapsner/mlexperiments/tree/0a1308355b895e3d6032058172aa5e098ce5e4da))
 -   fixed issues with cat\_vars
     ([94f60c4](https://github.com/kapsner/mlexperiments/tree/94f60c49574f51ae1a94b17997868f1c01a58a51))
+
+#### Refactorings
+
+-   preparing cran submission
+    ([7af8517](https://github.com/kapsner/mlexperiments/tree/7af8517fcccc050ee08d8f635d163503110fc122))
 
 #### CI
 
@@ -40,6 +38,8 @@
 
 #### Other changes
 
+-   fixed spelling and examples
+    ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 -   preparing v0.0.2
     ([0f7cc35](https://github.com/kapsner/mlexperiments/tree/0f7cc35f061b96681a8fcec403ca5bac96c4f328))
 -   updating version
@@ -69,7 +69,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...v0.0.2`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...v0.0.2)
+[`v0.0.1...dd99be3`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...dd99be3)
 
 ## v0.0.1 (2022-11-10)
 
