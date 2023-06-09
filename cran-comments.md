@@ -3,7 +3,5 @@
 0 errors | 0 warnings | 1 note
 
 * This is a new release.  
-* Sorry for the inconveniences
-* Examples wrapped into \dontrun{} are now removed from the documentation of the two un-exported classes `MLExperimentsBase` and `MLBase`
-* Missing comment has been added in man/MLLearnerBase.Rd to fix error regarding "unexecutable code"
+* Removed \dontrun{}-parts from `MLLearnerBase` (sorry, I thought this would be allowed in the case that examples cannot be executed at all; `MLLearnerBase` is a template-class that contains methods which need to be overwritten and filled with logic when inheriting from this class; the direct calling of the methods of this class does not make sense; however, the examples are not meaningless i.m.h.o. and are intended to demonstrated the expected use; the examples previously wrapped into \dontrun{}-parts are now commented out)
 

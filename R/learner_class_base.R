@@ -101,12 +101,10 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-    #' \dontrun{
-    #' # This example cannot does not work for the `MLLearnerBase` class.
-    #' # The method `$cross_validation()` needs to be overwritten when
-    #' # inheriting from this class.
-    #' learner$cross_validation()
-    #' }
+    #' # # This example cannot be run without further adaptions.
+    #' # # The method `$cross_validation()` needs to be overwritten when
+    #' # # inheriting from this class.
+    #' # learner$cross_validation()
     #'
     cross_validation = function(...) {
       kwargs <- list(...)
@@ -136,12 +134,10 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-    #' \dontrun{
-    #' # This example cannot does not work for the `MLLearnerBase` class.
-    #' # The method `$fit()` needs to be overwritten when
-    #' # inheriting from this class.
-    #' learner$fit()
-    #' }
+    #' # # This example cannot be run without further adaptions.
+    #' # # The method `$fit()` needs to be overwritten when
+    #' # # inheriting from this class.
+    #' # learner$fit()
     #'
     fit = function(...) {
       kwargs <- list(...)
@@ -181,13 +177,11 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-    #' \dontrun{
-    #' # This example cannot does not work for the `MLLearnerBase` class.
-    #' # The method `$predict()` needs to be overwritten when
-    #' # inheriting from this class.
-    #' learner$fit()
-    #' learner$predict()
-    #' }
+    #' # # This example cannot be run without further adaptions.
+    #' # # The method `$predict()` needs to be overwritten when
+    #' # # inheriting from this class.
+    #' # learner$fit()
+    #' # learner$predict()
     #'
     predict = function(model, newdata, ncores = -1L, ...) {
       if (ncores < 0) {
@@ -226,12 +220,10 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @examples
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-    #' \dontrun{
-    #' # This example cannot does not work for the `MLLearnerBase` class.
-    #' # The method `$prbayesian_scoring_functionedict()` needs to be
-    #' # overwritten when inheriting from this class.
-    #' learner$bayesian_scoring_function()
-    #' }
+    #' # # This example cannot be run without further adaptions.
+    #' # # The method `$bayesian_scoring_function()` needs to be overwritten when
+    #' # # inheriting from this class.
+    #' # learner$bayesian_scoring_function()
     #'
     bayesian_scoring_function = function(...) {
       kwargs <- list(...)

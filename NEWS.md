@@ -1,9 +1,11 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-06-06)
+## Unreleased (2023-06-07)
 
 #### Bug fixes
 
+-   fixed issues for cran submission
+    ([273c1de](https://github.com/kapsner/mlexperiments/tree/273c1de3b25777b9cf08bc2001b5ccd5099748b8))
 -   removed splittools from remotes
     ([5b501cc](https://github.com/kapsner/mlexperiments/tree/5b501cc7b9eb1a8940a4c1ed3026cea43cf28b97))
 -   removed splittools from remotes
@@ -69,7 +71,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...dd99be3`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...dd99be3)
+[`v0.0.1...273c1de`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...273c1de)
 
 ## v0.0.1 (2022-11-10)
 
