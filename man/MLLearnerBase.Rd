@@ -49,10 +49,12 @@ MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$cross_validation()` needs to be overwritten when
-# # inheriting from this class.
-# learner$cross_validation()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$cross_validation()` needs to be overwritten when
+# inheriting from this class.
+learner$cross_validation()
+}
 
 
 ## ------------------------------------------------
@@ -60,10 +62,12 @@ learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$fit()` needs to be overwritten when
-# # inheriting from this class.
-# learner$fit()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$fit()` needs to be overwritten when
+# inheriting from this class.
+learner$fit()
+}
 
 
 ## ------------------------------------------------
@@ -71,11 +75,13 @@ learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$predict()` needs to be overwritten when
-# # inheriting from this class.
-# learner$fit()
-# learner$predict()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$predict()` needs to be overwritten when
+# inheriting from this class.
+learner$fit()
+learner$predict()
+}
 
 
 ## ------------------------------------------------
@@ -83,10 +89,12 @@ learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$bayesian_scoring_function()` needs to be overwritten when
-# # inheriting from this class.
-# learner$bayesian_scoring_function()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$bayesian_scoring_function()` needs to be overwritten when
+# inheriting from this class.
+learner$bayesian_scoring_function()
+}
 
 }
 \seealso{
@@ -200,10 +208,12 @@ The fitted model.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$cross_validation()` needs to be overwritten when
-# # inheriting from this class.
-# learner$cross_validation()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$cross_validation()` needs to be overwritten when
+# inheriting from this class.
+learner$cross_validation()
+}
 
 }
 \if{html}{\out{</div>}}
@@ -244,10 +254,12 @@ The fitted model.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$fit()` needs to be overwritten when
-# # inheriting from this class.
-# learner$fit()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$fit()` needs to be overwritten when
+# inheriting from this class.
+learner$fit()
+}
 
 }
 \if{html}{\out{</div>}}
@@ -301,11 +313,13 @@ The predictions for \code{newdata}.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$predict()` needs to be overwritten when
-# # inheriting from this class.
-# learner$fit()
-# learner$predict()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$predict()` needs to be overwritten when
+# inheriting from this class.
+learner$fit()
+learner$predict()
+}
 
 }
 \if{html}{\out{</div>}}
@@ -347,10 +361,12 @@ The results of the Bayesian scoring.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-# # This example cannot be run without further adaptions.
-# # The method `$bayesian_scoring_function()` needs to be overwritten when
-# # inheriting from this class.
-# learner$bayesian_scoring_function()
+\dontrun{
+# This example cannot be run without further adaptions.
+# The method `$bayesian_scoring_function()` needs to be overwritten when
+# inheriting from this class.
+learner$bayesian_scoring_function()
+}
 
 }
 \if{html}{\out{</div>}}

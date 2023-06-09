@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-06-07)
+## v0.0.2 (2023-06-09)
 
 #### Bug fixes
 
@@ -29,6 +29,8 @@
 
 #### Docs
 
+-   removed dontrun from roxygen examples of mllearnerbase
+    ([a9d0a77](https://github.com/kapsner/mlexperiments/tree/a9d0a776083dbc6168fcad23c37bc27ea8e2102d))
 -   updated vignettes
     ([b7df96e](https://github.com/kapsner/mlexperiments/tree/b7df96ecd6c824182e75f916c367e7cad2e69891))
 -   added png plots for vignettes
@@ -71,7 +73,7 @@
     ([0c799d3](https://github.com/kapsner/mlexperiments/tree/0c799d323a64f1c67a53e073c20aef61c975ffac))
 
 Full set of changes:
-[`v0.0.1...273c1de`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...273c1de)
+[`v0.0.1...v0.0.2`](https://github.com/kapsner/mlexperiments/compare/v0.0.1...v0.0.2)
 
 ## v0.0.1 (2022-11-10)
 
