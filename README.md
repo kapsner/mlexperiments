@@ -2,6 +2,11 @@
 
 <!-- badges: start -->
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![](https://www.r-pkg.org/badges/version/mlexperiments)](https://cran.r-project.org/package=mlexperiments)
+[![CRAN checks](https://badges.cranchecks.info/worst/mlexperiments.svg)](https://cran.r-project.org/web/checks/check_results_mlexperiments.html)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/mlexperiments?color=blue)](https://cran.r-project.org/package=mlexperiments)
+[![](http://cranlogs.r-pkg.org/badges/last-month/mlexperiments?color=blue)](https://cran.r-project.org/package=mlexperiments)
+[![Dependencies](https://tinyverse.netlify.com/badge/mlexperiments)](https://cran.r-project.org/package=mlexperiments)
 [![R build status](https://github.com/kapsner/mlexperiments/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=main)](https://github.com/kapsner/mlexperiments/actions)
 [![R build status](https://github.com/kapsner/mlexperiments/workflows/lint/badge.svg?branch=main)](https://github.com/kapsner/mlexperiments/actions)
 [![R build status](https://github.com/kapsner/mlexperiments/workflows/test-coverage/badge.svg?branch=main)](https://github.com/kapsner/mlexperiments/actions)
@@ -19,6 +24,13 @@ The goal of the package `mlexperiments` is to provide an extensible framework fo
 The package provides a minimal wrapper for these ML experiments, and - with few adjustments - users can prepare different learner algorithms so that they can be used with `mlexperiments`.
 
 ## Installation
+
+To install `mlexperiments` simply run
+
+
+```r
+install.packages("mlexperiments")
+```
 
 To install the development version, run
 
