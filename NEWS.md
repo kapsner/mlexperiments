@@ -1,6 +1,6 @@
 # mlexperiments NEWS
 
-## Unreleased (2023-07-18)
+## v0.0.3 (2024-03-07)
 
 #### Docs
 
@@ -11,13 +11,15 @@
 
 #### Other changes
 
+-   preparing version 0.0.3
+    ([5e0f2ba](https://github.com/kapsner/mlexperiments/tree/5e0f2bad4f2751132f213551e48b86c9a5f595bd))
 -   updated development version
     ([6898ca9](https://github.com/kapsner/mlexperiments/tree/6898ca9218f9e646c51e881d7cbf7ab47f369018))
 -   update README.md
     ([c06f675](https://github.com/kapsner/mlexperiments/tree/c06f67595d14ac7aa7fc585b6e2efead7dda95ad))
 
 Full set of changes:
-[`v0.0.2...4557410`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...4557410)
+[`v0.0.2...v0.0.3`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...v0.0.3)
 
 ## v0.0.2 (2023-06-09)
 
