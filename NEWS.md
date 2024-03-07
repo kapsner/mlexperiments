@@ -1,5 +1,12 @@
 # mlexperiments NEWS
 
+## Unreleased (2024-03-07)
+
+#### Other changes
+
+-   updated news.md
+    ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
+
 ## v0.0.3 (2024-03-07)
 
 #### Docs
