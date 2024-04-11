@@ -130,6 +130,12 @@
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
     learner_args <- .eval_params(learner_args)
 
+    if ("target_weights" %in% names(learner_args)) {
+      learner_args$target_weights <- kdry::mlh_subset(
+        self$learner_args$target_weights, train_index
+      )
+    }
+
   } else {
     learner_args <- NULL
   }

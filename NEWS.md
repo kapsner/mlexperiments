@@ -4,8 +4,13 @@
 
 #### Other changes
 
+-   prep new dev-version
+    ([50e0592](https://github.com/kapsner/mlexperiments/tree/50e0592a00ce41fc342565f2be9f14c55cd6e2bf))
 -   updated news.md
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
+
+Full set of changes:
+[`v0.0.3...50e0592`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...50e0592)
 
 ## v0.0.3 (2024-03-07)
 

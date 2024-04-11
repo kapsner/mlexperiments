@@ -133,6 +133,11 @@
     FUN = is.expression,
     FUN.VALUE = logical(1L)
   )
+
+  # remove target_weights from params, otherwise displaying is very strange
+  if ("target_weights" %in% names(self$learner_args)) {
+    exl_cols["target_weights"] <- TRUE
+  }
   optim_results <- cbind(
       data.table::as.data.table(object$scoreSummary),
       data.table::as.data.table(

@@ -276,6 +276,17 @@ MLCrossValidation <- R6::R6Class( # nolint
           names(private$method_helper$params_not_optimized),
           names(private$execute_params))) == 0L
       )
+
+      # handle `target_weights`, if present
+      if ("target_weights" %in% names(self$learner_args)) {
+        stopifnot(
+          "`learner_args$target_weights` must be of same length as `y`" =
+            length(self$learner_args$target_weights) == length(private$y),
+          "`learner_args$target_weights` must be a 1-dimensional vector" =
+            is.vector(self$learner_args$target_weights) &&
+            is.atomic(self$learner_args$target_weights)
+        )
+      }
     }
   )
 )
