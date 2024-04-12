@@ -87,5 +87,23 @@
         self$learner_args,
         private$method_helper$execute_params$params_not_optimized
       )
+    # quality check
+    private$method_helper$execute_params$params_not_optimized <- sapply(
+      X = names(private$method_helper$execute_params$params_not_optimized),
+      FUN = function(x) {
+        if (x == "") {
+          stop(paste0("`parameter_grid` or `learner_args` may not contain ",
+                      "unnamed entries."))
+        }
+        ret <- private$method_helper$execute_params$params_not_optimized[[x]]
+        if (is.list(ret) || !is.null(dim(ret))) {
+          stop(paste0("`parameter_grid` or `learner_args` may not contain ",
+                      "multidimensional entries or lists"))
+        }
+        ret
+      },
+      simplify = FALSE,
+      USE.NAMES = TRUE
+    )
   }
 }

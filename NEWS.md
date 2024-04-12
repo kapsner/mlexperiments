@@ -1,6 +1,11 @@
 # mlexperiments NEWS
 
-## Unreleased (2024-03-07)
+## Unreleased (2024-04-11)
+
+#### New features
+
+-   added target-weight option
+    ([6b39d21](https://github.com/kapsner/mlexperiments/tree/6b39d21e63237f3e397f1e486740cac4b27d320a))
 
 #### Other changes
 
@@ -10,7 +15,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...50e0592`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...50e0592)
+[`v0.0.3...6b39d21`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...6b39d21)
 
 ## v0.0.3 (2024-03-07)
 
