@@ -132,7 +132,8 @@
 
     if ("target_weights" %in% names(learner_args)) {
       learner_args$target_weights <- kdry::mlh_subset(
-        self$learner_args$target_weights, train_index
+        private$method_helper$execute_params$params_not_optimized$target_weights, # nolint
+        train_index
       )
     }
 
