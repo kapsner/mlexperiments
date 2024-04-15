@@ -10,6 +10,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
+# nolint start
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = FALSE,
@@ -462,4 +463,106 @@ head(validator_results)
 #> 1: Fold1   0.8950174        2 0.07       22  class
 #> 2: Fold2   0.8978974        2 0.07       22  class
 #> 3: Fold3   0.8917513        2 0.07       22  class
+```
+
+## Appendix I: Grid-Search with Target Weigths
+
+Here, `rpart`'s [`weights`-argument](https://stat.ethz.ch/R-manual/R-devel/library/rpart/html/rpart.html) is used to rescale the case-weights during the training.
+
+```{r}
+# define the target weights
+y_weights <- ifelse(train_y == "n", 0.8, ifelse(train_y == "ei", 1.2, 1))
+head(y_weights)
+#> [1] 1.2 1.2 0.0 0.8 0.8 0.0
+```
+
+```{r}
+tuner_w_weights <- mlexperiments::MLTuneParameters$new(
+  learner = LearnerRpart$new(),
+  strategy = "grid",
+  ncores = ncores,
+  seed = seed
+)
+
+tuner_w_weights$parameter_grid <- parameter_grid
+tuner_w_weights$learner_args <- c(
+  learner_args,
+  list(case_weights = y_weights)
+)
+tuner_w_weights$split_type <- "stratified"
+
+tuner_w_weights$set_data(
+  x = train_x,
+  y = train_y
+)
+
+tuner_results_grid <- tuner_w_weights$execute(k = 3)
+#> 
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#> Parameter settings [===============================================================================================] 10/10 (100%)                                                                                                                                  
+
+head(tuner_results_grid)
+#>    setting_id metric_optim_mean minsplit    cp maxdepth method
+#>         <int>             <num>    <int> <num>    <int> <char>
+#> 1:          1         0.1062916        2  0.07       22  class
+#> 2:          2         0.1062916       32  0.02       27  class
+#> 3:          3         0.1062916       72  0.10        7  class
+#> 4:          4         0.1062916       32  0.09       27  class
+#> 5:          5         0.1062916       52  0.02       12  class
+#> 6:          6         0.1062916        2  0.04        7  class
+```
+
+
+## Appendix II: k-Fold Cross Validation with Target Weigths
+
+```{r}
+validator <- mlexperiments::MLCrossValidation$new(
+  learner = LearnerRpart$new(),
+  fold_list = fold_list,
+  ncores = ncores,
+  seed = seed
+)
+
+# append the optimized setting from above with the newly created weights
+validator$learner_args <- c(
+  tuner$results$best.setting[-1],
+  list("case_weights" = y_weights)
+)
+
+validator$predict_args <- predict_args
+validator$performance_metric <- performance_metric
+validator$performance_metric_args <- performance_metric_args
+validator$return_models <- return_models
+
+validator$set_data(
+  x = train_x,
+  y = train_y
+)
+
+validator_results <- validator$execute()
+#> 
+#> CV fold: Fold1
+#> 
+#> CV fold: Fold2
+#> 
+#> CV fold: Fold3
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>                                                                                                                                   
+
+head(validator_results)
+#>      fold performance minsplit    cp maxdepth method
+#>    <char>       <num>    <num> <num>    <num> <char>
+#> 1:  Fold1   0.8812005        2  0.07       22  class
+#> 2:  Fold2   0.9129256        2  0.07       22  class
+#> 3:  Fold3   0.8800668        2  0.07       22  class
+```
+
+```{r include=FALSE}
+# nolint end
 ```

@@ -50,11 +50,13 @@ test_that(
       ncores = ncores,
       seed = seed
     )
+    y_weights <- ifelse(train_y == 0, 0.8, ifelse(train_y == 1, 1.2, 1))
     rpart_optimization$learner_args <- list(
       minsplit = 10L,
       maxdepth = 20L,
       cp = 0.03,
-      method = "class"
+      method = "class",
+      case_weights = y_weights
     )
     rpart_optimization$predict_args <- list(type = "class")
     rpart_optimization$performance_metric <- metric("bacc")
@@ -181,7 +183,10 @@ test_that(
       seed = seed
     )
 
-    rpart_optimization$learner_args <- list(method = "class")
+    rpart_optimization$learner_args <- list(
+      method = "class",
+      case_weights = y_weights
+    )
     rpart_optimization$parameter_grid <- param_list_rpart
     rpart_optimization$parameter_bounds <- rpart_bounds
     rpart_optimization$split_type <- "stratified"

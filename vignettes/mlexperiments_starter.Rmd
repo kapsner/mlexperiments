@@ -10,6 +10,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
+# nolint start
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = FALSE,
@@ -559,4 +560,8 @@ head(results)
 #> 1: Fold1   0.8959736 52 0
 #> 2: Fold2   0.8832388 68 0
 #> 3: Fold3   0.8657147 68 0
+```
+
+```{r include=FALSE}
+# nolint end
 ```

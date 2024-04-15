@@ -159,18 +159,24 @@ rpart_cv <- function(
     # get row-ids of the current fold
     train_idx <- fold_list[[fold]]
 
+    x_train <- kdry::mlh_subset(x, train_idx)
     y_train <- kdry::mlh_subset(y, train_idx)
 
     # train the model for this cv-fold
     args <- kdry::list.append(
       list(
         y = y_train,
-        x = kdry::mlh_subset(x, train_idx),
+        x = x_train,
         ncores = ncores,
         seed = seed
       ),
       params
     )
+
+    if ("case_weights" %in% names(args)) {
+      args$weights <- kdry::mlh_subset(args$case_weights, train_idx)
+      args$case_weights <- NULL
+    }
     set.seed(seed)
     cvfit <- do.call(rpart_fit, args)
     outlist[[fold]] <- list(cvfit = cvfit,
@@ -314,6 +320,16 @@ rpart_fit <- function(x, y, ncores, seed, ...) {
     ),
     kwargs
   )
+  # rename mlexperiments "case_weights" to implementation specific (rpart)
+  # "weights"
+  if ("case_weights" %in% names(fit_args)) {
+    stopifnot(
+      "late fail: `case_weights` must be of same length as `y`" =
+        length(fit_args$case_weights) == length(y)
+    )
+    names(fit_args)[which(names(fit_args) == "case_weights")] <-
+      "weights"
+  }
   return(do.call(rpart_fit_fun, fit_args))
 }
 

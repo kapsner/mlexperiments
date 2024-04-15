@@ -10,6 +10,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
+# nolint start
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = FALSE,
@@ -541,3 +542,7 @@ ggplot2::ggsave(
 
 
 ![Model Comparison](https://raw.githubusercontent.com/kapsner/mlexperiments/main/vignettes/rpart_chart_bin.png)
+
+```{r include=FALSE}
+# nolint end
+```
