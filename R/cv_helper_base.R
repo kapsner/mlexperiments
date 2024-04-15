@@ -130,9 +130,9 @@
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
     learner_args <- .eval_params(learner_args)
 
-    if ("target_weights" %in% names(learner_args)) {
-      learner_args$target_weights <- kdry::mlh_subset(
-        private$method_helper$execute_params$params_not_optimized$target_weights, # nolint
+    if ("case_weights" %in% names(learner_args)) {
+      learner_args$case_weights <- kdry::mlh_subset(
+        private$method_helper$execute_params$params_not_optimized$case_weights, # nolint
         train_index
       )
     }

@@ -9,6 +9,11 @@
 -   added target-weight option
     ([6b39d21](https://github.com/kapsner/mlexperiments/tree/6b39d21e63237f3e397f1e486740cac4b27d320a))
 
+#### Bug fixes
+
+-   fixed issue with weights in nested cv
+    ([066dd6f](https://github.com/kapsner/mlexperiments/tree/066dd6fb072fc0215c044bd0966bad98f9a3235d))
+
 #### Other changes
 
 -   prep new dev-version
@@ -17,7 +22,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...cdbbc52`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...cdbbc52)
+[`v0.0.3...066dd6f`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...066dd6f)
 
 ## v0.0.3 (2024-03-07)
 

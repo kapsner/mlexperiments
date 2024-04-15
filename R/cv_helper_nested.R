@@ -18,9 +18,9 @@
   hparam_tuner$learner_args <-
     private$method_helper$execute_params$params_not_optimized
 
-  if ("target_weights" %in% names(hparam_tuner$learner_args)) {
-    hparam_tuner$learner_args$target_weights <- kdry::mlh_subset(
-      private$method_helper$execute_params$params_not_optimized$target_weights,
+  if ("case_weights" %in% names(hparam_tuner$learner_args)) {
+    hparam_tuner$learner_args$case_weights <- kdry::mlh_subset(
+      private$method_helper$execute_params$params_not_optimized$case_weights,
       train_index
     )
   }
@@ -47,8 +47,8 @@
     learner_args, fromLast = TRUE
   )]
 
-  if ("target_weights" %in% names(learner_args)) {
-    learner_args$target_weights <- NULL
+  if ("case_weights" %in% names(learner_args)) {
+    learner_args$case_weights <- NULL
   }
 
   self$learner_args <- learner_args
