@@ -183,6 +183,7 @@ test_that(
       seed = seed
     )
 
+    y_weights <- ifelse(train_y == 0, 0.8, ifelse(train_y == 1, 1.2, 1))
     rpart_optimization$learner_args <- list(
       method = "class",
       case_weights = y_weights

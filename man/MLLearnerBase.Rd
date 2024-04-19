@@ -129,6 +129,8 @@ the evaluation functions from \link{MLTuneParameters}.}
 
 \item{\code{environment}}{The environment in which to search for the functions
 of the learner (default: \code{-1L}).}
+
+\item{\code{seed}}{Seed for reproducible results.}
 }
 \if{html}{\out{</div>}}
 }

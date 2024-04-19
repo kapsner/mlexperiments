@@ -53,6 +53,9 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'   of the learner (default: `-1L`).
     environment = -1L,
 
+    #' @field seed Seed for reproducible results.
+    seed = NULL,
+
     #' @description
     #' Create a new `MLLearnerBase` object.
     #'
@@ -110,6 +113,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     cross_validation = function(...) {
       kwargs <- list(...)
+      set.seed(self$seed)
       do.call(private$fun_optim_cv, kwargs)
     },
 
@@ -145,6 +149,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     fit = function(...) {
       kwargs <- list(...)
+      set.seed(self$seed)
       do.call(private$fun_fit, kwargs)
     },
 
@@ -200,6 +205,7 @@ MLLearnerBase <- R6::R6Class( # nolint
       )
       catch_kwargs <- list(...)
       kwargs <- kdry::list.append(kwargs, catch_kwargs)
+      set.seed(self$seed)
       do.call(private$fun_predict, kwargs)
     },
 
@@ -239,6 +245,7 @@ MLLearnerBase <- R6::R6Class( # nolint
         kwargs,
         method_helper
       )
+      set.seed(self$seed)
       res <- do.call(private$fun_bayesian_scoring_function, args)
 
       # take care of transforming results in case higher-better = FALSE
