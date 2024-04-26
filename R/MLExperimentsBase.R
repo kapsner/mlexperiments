@@ -67,6 +67,12 @@ MLExperimentsBase <- R6::R6Class( # nolint
           R6::is.R6(learner) && inherits(learner, "MLLearnerBase")
       )
       self$learner <- learner
+
+      # handle learner seed
+      if (is.null(self$learner$seed) && !is.null(private$seed)) {
+        self$learner$seed <- private$seed
+      }
+
     },
 
     #' @description
