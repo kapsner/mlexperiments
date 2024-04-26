@@ -97,7 +97,7 @@
         }
         ret <- private$method_helper$execute_params$params_not_optimized[[x]]
         if (is.list(ret) || !is.null(dim(ret))) {
-          if (class(ret) != "family") {
+          if (!inherits(ret, "family")) {
             stop(paste0("`parameter_grid` or `learner_args` may not contain ",
                         "multidimensional entries or lists"))
           }

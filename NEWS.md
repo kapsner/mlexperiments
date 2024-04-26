@@ -1,9 +1,15 @@
 # mlexperiments NEWS
 
-## Unreleased (2024-04-15)
+## Unreleased (2024-04-26)
 
 #### New features
 
+-   automatic setting of seed when initializing experiments
+    ([4980563](https://github.com/kapsner/mlexperiments/tree/4980563fcfe77dad3d9d74f8e9a834a2078bf537))
+-   add seed argument for learner base class
+    ([3917318](https://github.com/kapsner/mlexperiments/tree/3917318bfefd1e9a78cf720b2761bec66d90957b))
+-   added support for weights-argument for rpart
+    ([677a14b](https://github.com/kapsner/mlexperiments/tree/677a14bb84307b38cf6475d558c954b89a53c766))
 -   added quality check to validate learner\_args and parameter\_grid
     ([cdbbc52](https://github.com/kapsner/mlexperiments/tree/cdbbc5286f99eeb45aadb898672d6f8ba24a8ae7))
 -   added target-weight option
@@ -22,7 +28,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...ae1301d`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...ae1301d)
+[`v0.0.3...4980563`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...4980563)
 
 ## v0.0.3 (2024-03-07)
 
