@@ -9,7 +9,7 @@
 #' Optimization metric:
 #' * classification (`method = "class"`): classification error rate
 #' * regression (`method = "anova"`): mean squared error
-#' *
+#'
 #' Can be used with
 #' * [mlexperiments::MLTuneParameters]
 #' * [mlexperiments::MLCrossValidation]

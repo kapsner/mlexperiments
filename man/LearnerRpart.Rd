@@ -12,7 +12,6 @@ Optimization metric:
 \itemize{
 \item classification (\code{method = "class"}): classification error rate
 \item regression (\code{method = "anova"}): mean squared error
-\item 
 }
 
 Can be used with
