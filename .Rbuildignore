@@ -12,3 +12,4 @@
 ^Meta$
 ^\.ccache$
 ^CRAN-SUBMISSION$
+^README\.qmd$

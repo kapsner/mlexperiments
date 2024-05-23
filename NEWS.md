@@ -1,7 +1,6 @@
-
 # mlexperiments NEWS
 
-## Unreleased (2024-04-26)
+## Unreleased (2024-05-16)
 
 #### New features
 
@@ -11,7 +10,7 @@
     ([3917318](https://github.com/kapsner/mlexperiments/tree/3917318bfefd1e9a78cf720b2761bec66d90957b))
 -   added support for weights-argument for rpart
     ([677a14b](https://github.com/kapsner/mlexperiments/tree/677a14bb84307b38cf6475d558c954b89a53c766))
--   added quality check to validate learner_args and parameter_grid
+-   added quality check to validate learner\_args and parameter\_grid
     ([cdbbc52](https://github.com/kapsner/mlexperiments/tree/cdbbc5286f99eeb45aadb898672d6f8ba24a8ae7))
 -   added target-weight option
     ([6b39d21](https://github.com/kapsner/mlexperiments/tree/6b39d21e63237f3e397f1e486740cac4b27d320a))
@@ -21,8 +20,15 @@
 -   fixed issue with weights in nested cv
     ([066dd6f](https://github.com/kapsner/mlexperiments/tree/066dd6fb072fc0215c044bd0966bad98f9a3235d))
 
+#### CI
+
+-   update gha
+    ([68ab4dd](https://github.com/kapsner/mlexperiments/tree/68ab4dd17e394e65bef92582c9033f9516cade63))
+
 #### Other changes
 
+-   updated docs to comply with tools::checkRd
+    ([9388052](https://github.com/kapsner/mlexperiments/tree/93880529fcf04ab699cee61df92e8b27e367cdec))
 -   updated dev-version
     ([20870f7](https://github.com/kapsner/mlexperiments/tree/20870f7807669ab7876fb0ed2643e274b8fb5d73))
 -   prep new dev-version
@@ -31,7 +37,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...20870f7`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...20870f7)
+[`v0.0.3...9388052`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...9388052)
 
 ## v0.0.3 (2024-03-07)
 
@@ -64,9 +70,9 @@ Full set of changes:
     ([5b501cc](https://github.com/kapsner/mlexperiments/tree/5b501cc7b9eb1a8940a4c1ed3026cea43cf28b97))
 -   removed splittools from remotes
     ([56fa700](https://github.com/kapsner/mlexperiments/tree/56fa700905f74010690dead9d82cf311031b6e39))
--   fixing cat_vars stuff
+-   fixing cat\_vars stuff
     ([0a13083](https://github.com/kapsner/mlexperiments/tree/0a1308355b895e3d6032058172aa5e098ce5e4da))
--   fixed issues with cat_vars
+-   fixed issues with cat\_vars
     ([94f60c4](https://github.com/kapsner/mlexperiments/tree/94f60c49574f51ae1a94b17997868f1c01a58a51))
 
 #### Refactorings
@@ -146,7 +152,7 @@ Full set of changes:
     ([808042e](https://github.com/kapsner/mlexperiments/tree/808042e5d5d121adaccd699b9dd9ee155715959f))
 -   added support for defining multiple metrics
     ([6cc6340](https://github.com/kapsner/mlexperiments/tree/6cc634057c0d23ab294cc33a46556215b0dcbb6f))
--   metric_types_helper again from kdry
+-   metric\_types\_helper again from kdry
     ([22b6cdc](https://github.com/kapsner/mlexperiments/tree/22b6cdcd01421a196014b048d8f2dd59f1e9c6f6))
 -   added validation function for fold equality
     ([54a1ec6](https://github.com/kapsner/mlexperiments/tree/54a1ec643052ce650efad85ad303c8a97708371e))
@@ -215,13 +221,13 @@ Full set of changes:
     ([fa0ca53](https://github.com/kapsner/mlexperiments/tree/fa0ca539cec775711ec2c2baec4702b7977e82ae))
 -   refactored rpart, no user-visible changes
     ([207aafd](https://github.com/kapsner/mlexperiments/tree/207aafd52852f000abd0e30f261aeb8d8d599e2b))
--   metric_from_char
+-   metric\_from\_char
     ([8baaf3a](https://github.com/kapsner/mlexperiments/tree/8baaf3a99d8f56b3f19c4a2dec400854a7585a46))
--   switch to .compute_performance
+-   switch to .compute\_performance
     ([3d8565d](https://github.com/kapsner/mlexperiments/tree/3d8565de4f1f9c707c92955b2b5d0f7f36a23a6f))
--   switch to .compute_performance
+-   switch to .compute\_performance
     ([fa24034](https://github.com/kapsner/mlexperiments/tree/fa24034719f84e8c97557fece5a0f9f43764c299))
--   added .compute_performance
+-   added .compute\_performance
     ([fffdf78](https://github.com/kapsner/mlexperiments/tree/fffdf78e10562f42b3da6ff4841697fc1030642f))
 -   updated performance fun to comply with list
     ([67792f3](https://github.com/kapsner/mlexperiments/tree/67792f398f956a11bafedcf7e353d2bbd0342fad))
@@ -229,15 +235,15 @@ Full set of changes:
     ([46500f7](https://github.com/kapsner/mlexperiments/tree/46500f74a2d41c2360bf62c2766c14d2fa590f81))
 -   metric as function now to list
     ([8bccfbc](https://github.com/kapsner/mlexperiments/tree/8bccfbcb90194a10e65b4a65a26d07ffc0dc5e18))
--   to internal metric_types_helper
+-   to internal metric\_types\_helper
     ([024adcb](https://github.com/kapsner/mlexperiments/tree/024adcb7fd765c603e94c41474d64a34791efe1a))
--   to internal metric_types_helper
+-   to internal metric\_types\_helper
     ([fde6e77](https://github.com/kapsner/mlexperiments/tree/fde6e770fb1e4743447edde46b0df5a7c8d69368))
--   to internal metric_types_helper
+-   to internal metric\_types\_helper
     ([97deeb7](https://github.com/kapsner/mlexperiments/tree/97deeb7fe20fb22b7da162de427d9935c80338e7))
 -   moved fix performance types to kdry
     ([600a660](https://github.com/kapsner/mlexperiments/tree/600a6605bc53b94fd1a885fc66edf2de446e770c))
--   format_xy to kdry
+-   format\_xy to kdry
     ([322db94](https://github.com/kapsner/mlexperiments/tree/322db944f5115dbb6127ca2dab1f4962931d355d))
 -   updated code to upstream changes
     ([54766cc](https://github.com/kapsner/mlexperiments/tree/54766cc8b63c84b74170ac3a629ddf0f82cd7da2))
@@ -247,11 +253,11 @@ Full set of changes:
     ([d9f6f67](https://github.com/kapsner/mlexperiments/tree/d9f6f679139de06dce34d4d3d4f0d168030a1061))
 -   metric-performance to cv-class now
     ([d4209e5](https://github.com/kapsner/mlexperiments/tree/d4209e5aad59ad46cc9297e29f9a1e5ca20be493))
--   removed metric_perf_h_b
+-   removed metric\_perf\_h\_b
     ([e63b3da](https://github.com/kapsner/mlexperiments/tree/e63b3da8e465ff73f1a136c5a6a869789e9ff679))
 -   optmizing code quality
     ([401bdf1](https://github.com/kapsner/mlexperiments/tree/401bdf14328bb4825b5030a7420559f1cb7e4e1a))
--   now using of learner_args is also possible
+-   now using of learner\_args is also possible
     ([0ce1f6c](https://github.com/kapsner/mlexperiments/tree/0ce1f6c92f503779bf232bfd3cac5a38bee63e60))
 -   working on making code more straightforward
     ([c697e5f](https://github.com/kapsner/mlexperiments/tree/c697e5f49e2641ecaad6cf5ea0498056b2a73d00))

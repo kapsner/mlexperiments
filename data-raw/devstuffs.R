@@ -19,7 +19,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.3.9008")
+my_desc$set_version("0.0.3.9009")
 # The title of your package
 my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
@@ -145,23 +145,19 @@ usethis::use_build_ignore("tic.R")
 usethis::use_build_ignore(".github")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("README.md")
+usethis::use_build_ignore("README.qmd")
 usethis::use_build_ignore("docs")
 usethis::use_build_ignore("Meta")
 
 usethis::use_git_ignore("!NEWS.md")
 usethis::use_git_ignore("!README.md")
+usethis::use_git_ignore("!README.qmd")
 usethis::use_git_ignore("docs")
 usethis::use_git_ignore("Meta")
 
 usethis::use_tidy_description()
 
-
-badger::badge_github_actions(action = "R CMD Check via {tic}") |> URLencode()
-badger::badge_github_actions(action = "lint")
-badger::badge_github_actions(action = "test-coverage")
-
-
-
+quarto::quarto_render(input = "./README.qmd")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
