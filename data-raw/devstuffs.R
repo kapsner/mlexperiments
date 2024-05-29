@@ -45,10 +45,12 @@ my_desc$set("BugReports",
             "https://github.com/kapsner/mlexperiments/issues")
 
 # Vignette Builder
-my_desc$set("VignetteBuilder" = "knitr")
-
-# License
-my_desc$set("License", "GPL-3")
+my_desc$set("VignetteBuilder" = "quarto")
+# Quarto
+my_desc$set("SystemRequirements" = paste0(
+  "Quarto command line tools ",
+  "(https://github.com/quarto-dev/quarto-cli).")
+)
 
 # Testthat stuff
 my_desc$set("Config/testthat/parallel" = "false")
@@ -63,7 +65,7 @@ my_desc$write(file = "DESCRIPTION")
 usethis::use_gpl3_license()
 
 # Depends
-usethis::use_package("R", min_version = "2.10", type = "Depends")
+usethis::use_package("R", min_version = "3.6", type = "Depends")
 
 # Imports
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
@@ -78,14 +80,13 @@ usethis::use_package("stats", type = "Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests", min_version = "3.0.1")
 usethis::use_package("lintr", type = "Suggests")
-usethis::use_package("knitr", type = "Suggests")
+usethis::use_package("quarto", type = "Suggests")
 usethis::use_package("ParBayesianOptimization", type = "Suggests")
 usethis::use_package("datasets", type = "Suggests")
 usethis::use_package("class", type = "Suggests")
 usethis::use_package("rpart", type = "Suggests")
 usethis::use_package("mlbench", type = "Suggests")
 usethis::use_package("mlr3measures", type = "Suggests")
-usethis::use_package("ggpubr", type = "Suggests")
 
 
 # define remotes
@@ -154,6 +155,7 @@ usethis::use_git_ignore("!README.md")
 usethis::use_git_ignore("!README.qmd")
 usethis::use_git_ignore("docs")
 usethis::use_git_ignore("Meta")
+usethis::use_git_ignore("!vignettes/*.qmd")
 
 usethis::use_tidy_description()
 

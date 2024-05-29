@@ -1,21 +1,20 @@
 ---
 title: "mlexperiments: Getting Started"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{mlexperiments: Getting Started}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
 editor_options: 
   chunk_output_type: console
+
+execute:
+  eval: false
+  collapse: true
+  comment: "#>"
 ---
 
 ```{r, include = FALSE}
 # nolint start
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  eval = FALSE,
-  comment = "#>"
-)
 ```
 
 The goal of the package `mlexperiments` is to provide an extensible framework for reproducible machine learning experiments, namely:

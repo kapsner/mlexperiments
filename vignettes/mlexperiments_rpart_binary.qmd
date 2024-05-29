@@ -1,24 +1,19 @@
 ---
 title: "rpart: Binary Classification"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{rpart: Binary Classification}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
 editor_options: 
   chunk_output_type: console
+execute:
+  eval: false
+  collapse: true
+  comment: "#>"
 ---
 
-```{r, include = FALSE}
-# nolint start
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  eval = FALSE,
-  comment = "#>"
-)
-```
-
 ```{r setup}
+# nolint start
 library(mlexperiments)
 ```
 
@@ -523,21 +518,21 @@ final_results <- rbind(
 ```
 
 ```{r}
-p <- ggpubr::ggdotchart(
-  data = final_results,
-  x = "algorithm",
-  y = "auc",
-  color = "model",
-  rotate = TRUE
-)
-p
+# p <- ggpubr::ggdotchart(
+#   data = final_results,
+#   x = "algorithm",
+#   y = "auc",
+#   color = "model",
+#   rotate = TRUE
+# )
+# p
 ```
 
 ```{r, include=FALSE}
-ggplot2::ggsave(
-  filename = "rpart_chart_bin.png",
-  plot = p
-)
+# ggplot2::ggsave(
+#   filename = "rpart_chart_bin.png",
+#   plot = p
+# )
 ```
 
 

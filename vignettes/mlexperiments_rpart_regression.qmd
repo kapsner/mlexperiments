@@ -1,24 +1,19 @@
 ---
 title: "rpart: Regression"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{rpart: Regression}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
 editor_options: 
   chunk_output_type: console
+execute:
+  eval: false
+  collapse: true
+  comment: "#>"
 ---
 
-```{r, include = FALSE}
-# nolint start
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  eval = FALSE,
-  comment = "#>"
-)
-```
-
 ```{r setup}
+# nolint start
 library(mlexperiments)
 ```
 
@@ -531,23 +526,23 @@ final_results <- rbind(
 ```
 
 ```{r}
-p <- ggpubr::ggdotchart(
-  data = final_results,
-  x = "algorithm",
-  y = "mse",
-  color = "model",
-  rotate = TRUE
-)
-p
+# p <- ggpubr::ggdotchart(
+#   data = final_results,
+#   x = "algorithm",
+#   y = "mse",
+#   color = "model",
+#   rotate = TRUE
+# )
+# p
 ```
 
 ```{r, include=FALSE}
-ggplot2::ggsave(
-  filename = "rpart_chart_reg.png",
-  plot = p,
-  width = 7,
-  height = 5
-)
+# ggplot2::ggsave(
+#   filename = "rpart_chart_reg.png",
+#   plot = p,
+#   width = 7,
+#   height = 5
+# )
 ```
 
 ![Model Comparison](https://raw.githubusercontent.com/kapsner/mlexperiments/main/vignettes/rpart_chart_reg.png)

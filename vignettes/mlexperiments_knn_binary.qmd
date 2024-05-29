@@ -1,24 +1,19 @@
 ---
 title: "KNN: Binary Classification"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{KNN: Binary Classification}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
 editor_options: 
   chunk_output_type: console
+execute:
+  eval: false
+  collapse: true
+  comment: "#>"
 ---
 
-```{r, include = FALSE}
-# nolint start
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  eval = FALSE,
-  comment = "#>"
-)
-```
-
 ```{r setup}
+# nolint start
 library(mlexperiments)
 ```
 
