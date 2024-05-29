@@ -148,7 +148,7 @@
 
   fit_args <- kdry::list.append(
     main_list = fit_args,
-    append_list = private$method_helper$execute_params["cat_vars"]
+    append_list = list(cat_vars = learner_args$cat_vars)
   )
 
   set.seed(private$seed)
@@ -161,7 +161,7 @@
       newdata = fold_test$x,
       ncores = private$ncores
     ),
-    append_list = private$method_helper$execute_params["cat_vars"]
+    append_list = list(cat_vars = learner_args$cat_vars)
   )
   pred_args <- kdry::list.append(pred_args, self$predict_args)
 
