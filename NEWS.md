@@ -2,7 +2,7 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2024-05-23)
+## Unreleased (2024-05-29)
 
 #### New features
 
@@ -29,6 +29,8 @@
 
 #### Other changes
 
+-   switching to quarto as vignette engine
+    ([4d51f82](https://github.com/kapsner/mlexperiments/tree/4d51f821dc376904561ecc731596460b3bc7544a))
 -   automated gen of readme
     ([7a6b46b](https://github.com/kapsner/mlexperiments/tree/7a6b46b93ee27bfbeec486dc23254691fc22b243))
 -   updated docs to comply with tools::checkRd
@@ -41,7 +43,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...7a6b46b`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...7a6b46b)
+[`v0.0.3...4d51f82`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...4d51f82)
 
 ## v0.0.3 (2024-03-07)
 
