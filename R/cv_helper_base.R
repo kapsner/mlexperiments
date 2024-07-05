@@ -118,11 +118,11 @@
 .cv_fit_model <- function(self, private, train_index, fold_train, fold_test) {
 
   fit_args <- list(
-      x = fold_train$x,
-      y = fold_train$y,
-      seed = private$seed,
-      ncores = private$ncores
-    )
+    x = fold_train$x,
+    y = fold_train$y,
+    seed = private$seed,
+    ncores = private$ncores
+  )
 
   if (is.list(self$learner_args)) {
 

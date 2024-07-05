@@ -4,7 +4,7 @@
     train_index,
     fold_train,
     fold_test
-  ) {
+) {
 
   hparam_tuner <- MLTuneParameters$new(
     learner = self$learner,

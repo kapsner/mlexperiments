@@ -19,6 +19,8 @@
 
 #### Bug fixes
 
+-   fixed issue with cat_vars
+    ([29e1530](https://github.com/kapsner/mlexperiments/tree/29e15303137316709ba0914b39934f86fd854d9a))
 -   fixed issue with weights in nested cv
     ([066dd6f](https://github.com/kapsner/mlexperiments/tree/066dd6fb072fc0215c044bd0966bad98f9a3235d))
 
@@ -29,6 +31,8 @@
 
 #### Other changes
 
+-   updated description
+    ([f47fc2a](https://github.com/kapsner/mlexperiments/tree/f47fc2a08f777cf8f40e3a167411b7beb4451c35))
 -   switching to quarto as vignette engine
     ([4d51f82](https://github.com/kapsner/mlexperiments/tree/4d51f821dc376904561ecc731596460b3bc7544a))
 -   automated gen of readme
@@ -43,7 +47,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...4d51f82`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...4d51f82)
+[`v0.0.3...29e1530`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...29e1530)
 
 ## v0.0.3 (2024-03-07)
 

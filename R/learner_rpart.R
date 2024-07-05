@@ -4,7 +4,6 @@
 #' This learner is a wrapper around [rpart::rpart()] in order to fit recursive
 #'   partitioning and regression trees.
 #'
-#'
 #' @details
 #' Optimization metric:
 #' * classification (`method = "class"`): classification error rate
