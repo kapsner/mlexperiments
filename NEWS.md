@@ -2,7 +2,7 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2024-05-29)
+## v0.0.4 (2024-07-05)
 
 #### New features
 
@@ -31,6 +31,8 @@
 
 #### Other changes
 
+-   updated pkg, prepared new cran release
+    ([5887294](https://github.com/kapsner/mlexperiments/tree/58872947c2d1813fe04a1659d54a7448af14232d))
 -   updated description
     ([f47fc2a](https://github.com/kapsner/mlexperiments/tree/f47fc2a08f777cf8f40e3a167411b7beb4451c35))
 -   switching to quarto as vignette engine
@@ -47,7 +49,7 @@
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
 
 Full set of changes:
-[`v0.0.3...29e1530`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...29e1530)
+[`v0.0.3...v0.0.4`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...v0.0.4)
 
 ## v0.0.3 (2024-03-07)
 
