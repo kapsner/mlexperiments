@@ -120,7 +120,7 @@ test_that(
 # ###########################################################################
 
 test_that(
-  desc = "test nested cv, grid - lm",
+  desc = "test nested cv, bayesian - lm",
   code = {
 
     expect_error(mlexperiments::MLNestedCV$new(
@@ -147,5 +147,76 @@ test_that(
       ncores = ncores,
       seed = seed
     ))
+  }
+)
+
+
+# ###########################################################################
+# %% OTHER ERRORS
+# ###########################################################################
+
+
+test_that(
+  desc = "test lm, error when no cat_vars in prediction",
+  code = {
+
+    lm_optimization <- mlexperiments::MLCrossValidation$new(
+      learner = LearnerLm$new(),
+      fold_list = fold_list,
+      seed = seed
+    )
+    lm_optimization$predict_args <- list(type = "response")
+    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$learner_args <- list(cat_vars = cat_vars)
+    lm_optimization$return_models <- TRUE
+
+    # set data
+    lm_optimization$set_data(
+      x = train_x,
+      y = train_y
+    )
+
+    cv_results <- lm_optimization$execute()
+
+    expect_error(
+      expect_warning(
+        mlexperiments::predictions(
+          object = lm_optimization,
+          newdata = test_x
+        )
+      )
+    )
+  }
+)
+
+test_that(
+  desc = "test lm, error when cat_vars in prediction",
+  code = {
+
+    lm_optimization <- mlexperiments::MLCrossValidation$new(
+      learner = LearnerLm$new(),
+      fold_list = fold_list,
+      seed = seed
+    )
+    lm_optimization$predict_args <- list(type = "response")
+    lm_optimization$performance_metric <- metric("mse")
+
+    lm_optimization$return_models <- TRUE
+
+    # set data
+    lm_optimization$set_data(
+      x = train_x,
+      y = train_y
+    )
+
+    cv_results <- lm_optimization$execute()
+
+    expect_error(
+      mlexperiments::predictions(
+        object = lm_optimization,
+        newdata = test_x,
+        cat_vars = cat_vars
+      )
+    )
   }
 )
