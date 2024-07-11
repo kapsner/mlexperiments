@@ -68,14 +68,12 @@ lm_fit <- function(x, y, ncores, seed, ...) {
   cat_vars <- var_handler$cat_vars
   lm_params <- var_handler$params
 
-  x <- kdry::dtr_matrix2df(matrix = x, cat_vars = cat_vars)
-
   lm_formula <- stats::as.formula(object = "y ~ .")
 
   args <- kdry::list.append(
     list(
       formula = lm_formula,
-      data = x
+      data = kdry::dtr_matrix2df(matrix = x, cat_vars = cat_vars)
     ),
     lm_params
   )

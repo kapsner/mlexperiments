@@ -2,6 +2,13 @@
 
 # mlexperiments NEWS
 
+## Unreleased (2024-07-05)
+
+#### Other changes
+
+-   updated dev-version
+    ([e2d88c7](https://github.com/kapsner/mlexperiments/tree/e2d88c7fe1fd6c627692a1b55ed5bed9e2da9ca5))
+
 ## v0.0.4 (2024-07-05)
 
 #### New features

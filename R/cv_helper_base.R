@@ -146,9 +146,19 @@
     learner_args
   )
 
+  # hacky handling of cat_vars, that are not provided via `learner_args`
+  cat_vars_provider <- NULL
+  if (!is.null(learner_args$cat_vars)) {
+    cat_vars_provider <- learner_args$cat_vars
+  }
+  if (is.null(cat_vars_provider) &&
+      !is.null(private$method_helper$execute_params$cat_vars)) {
+    cat_vars_provider <- private$method_helper$execute_params$cat_vars
+  }
+
   fit_args <- kdry::list.append(
     main_list = fit_args,
-    append_list = list(cat_vars = learner_args$cat_vars)
+    append_list = list(cat_vars = cat_vars_provider)
   )
 
   set.seed(private$seed)
@@ -161,7 +171,7 @@
       newdata = fold_test$x,
       ncores = private$ncores
     ),
-    append_list = list(cat_vars = learner_args$cat_vars)
+    append_list = list(cat_vars = cat_vars_provider)
   )
   pred_args <- kdry::list.append(pred_args, self$predict_args)
 
