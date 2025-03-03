@@ -6,6 +6,9 @@
 # * https://r-pkgs.org/tests.html
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
+Sys.setenv("OMP_THREAD_LIMIT" = 2)
+Sys.setenv("Ncpu" = 2)
+
 library(testthat)
 library(mlexperiments)
 

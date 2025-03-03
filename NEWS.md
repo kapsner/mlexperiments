@@ -2,14 +2,7 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2024-07-05)
-
-#### Other changes
-
--   updated dev-version
-    ([e2d88c7](https://github.com/kapsner/mlexperiments/tree/e2d88c7fe1fd6c627692a1b55ed5bed9e2da9ca5))
-
-## v0.0.4 (2024-07-05)
+## Unreleased (2024-07-11)
 
 #### New features
 
@@ -26,18 +19,40 @@
 
 #### Bug fixes
 
+-   fixed issue with taking cat_vars for model fitting
+    ([bc55d6f](https://github.com/kapsner/mlexperiments/tree/bc55d6ffabc34473d5cea479b966f903acd3c8b6))
 -   fixed issue with cat_vars
     ([29e1530](https://github.com/kapsner/mlexperiments/tree/29e15303137316709ba0914b39934f86fd854d9a))
 -   fixed issue with weights in nested cv
     ([066dd6f](https://github.com/kapsner/mlexperiments/tree/066dd6fb072fc0215c044bd0966bad98f9a3235d))
+-   fixed issues for cran submission
+    ([273c1de](https://github.com/kapsner/mlexperiments/tree/273c1de3b25777b9cf08bc2001b5ccd5099748b8))
+
+#### Tests
+
+-   added unittest for cat_vars
+    ([c3a6f84](https://github.com/kapsner/mlexperiments/tree/c3a6f84df222acfa14e9b69e326554be0ee51c51))
 
 #### CI
 
 -   update gha
     ([68ab4dd](https://github.com/kapsner/mlexperiments/tree/68ab4dd17e394e65bef92582c9033f9516cade63))
 
+#### Docs
+
+-   updated documentation of r-option for initialization iterations
+    ([4557410](https://github.com/kapsner/mlexperiments/tree/455741038ec0922b1a76d4ccfdce10660d06f0e0))
+-   updated and restrucutred readme!
+    ([908fa03](https://github.com/kapsner/mlexperiments/tree/908fa03fa3008491bccc1e9c983f06903e3e6167))
+-   mllearnerbase examples again into dontrun
+    ([1cb02da](https://github.com/kapsner/mlexperiments/tree/1cb02daa0616ba399f53bda0733e4f216aa94a30))
+-   removed dontrun from roxygen examples of mllearnerbase
+    ([a9d0a77](https://github.com/kapsner/mlexperiments/tree/a9d0a776083dbc6168fcad23c37bc27ea8e2102d))
+
 #### Other changes
 
+-   updated dev-version
+    ([e2d88c7](https://github.com/kapsner/mlexperiments/tree/e2d88c7fe1fd6c627692a1b55ed5bed9e2da9ca5))
 -   updated pkg, prepared new cran release
     ([5887294](https://github.com/kapsner/mlexperiments/tree/58872947c2d1813fe04a1659d54a7448af14232d))
 -   updated description
@@ -54,37 +69,22 @@
     ([50e0592](https://github.com/kapsner/mlexperiments/tree/50e0592a00ce41fc342565f2be9f14c55cd6e2bf))
 -   updated news.md
     ([ea4fed9](https://github.com/kapsner/mlexperiments/tree/ea4fed94f17764fdddfcd18ba224ec6140aef4fc))
-
-Full set of changes:
-[`v0.0.3...v0.0.4`](https://github.com/kapsner/mlexperiments/compare/v0.0.3...v0.0.4)
-
-## v0.0.3 (2024-03-07)
-
-#### Docs
-
--   updated documentation of r-option for initialization iterations
-    ([4557410](https://github.com/kapsner/mlexperiments/tree/455741038ec0922b1a76d4ccfdce10660d06f0e0))
--   updated and restrucutred readme!
-    ([908fa03](https://github.com/kapsner/mlexperiments/tree/908fa03fa3008491bccc1e9c983f06903e3e6167))
-
-#### Other changes
-
 -   preparing version 0.0.3
     ([5e0f2ba](https://github.com/kapsner/mlexperiments/tree/5e0f2bad4f2751132f213551e48b86c9a5f595bd))
 -   updated development version
     ([6898ca9](https://github.com/kapsner/mlexperiments/tree/6898ca9218f9e646c51e881d7cbf7ab47f369018))
 -   update README.md
     ([c06f675](https://github.com/kapsner/mlexperiments/tree/c06f67595d14ac7aa7fc585b6e2efead7dda95ad))
+-   fixed spelling and examples
+    ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 
 Full set of changes:
-[`v0.0.2...v0.0.3`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...v0.0.3)
+[`v0.0.2...c3a6f84`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...c3a6f84)
 
-## v0.0.2 (2023-06-09)
+## v0.0.2 (2023-06-05)
 
 #### Bug fixes
 
--   fixed issues for cran submission
-    ([273c1de](https://github.com/kapsner/mlexperiments/tree/273c1de3b25777b9cf08bc2001b5ccd5099748b8))
 -   removed splittools from remotes
     ([5b501cc](https://github.com/kapsner/mlexperiments/tree/5b501cc7b9eb1a8940a4c1ed3026cea43cf28b97))
 -   removed splittools from remotes
@@ -108,10 +108,6 @@ Full set of changes:
 
 #### Docs
 
--   mllearnerbase examples again into dontrun
-    ([1cb02da](https://github.com/kapsner/mlexperiments/tree/1cb02daa0616ba399f53bda0733e4f216aa94a30))
--   removed dontrun from roxygen examples of mllearnerbase
-    ([a9d0a77](https://github.com/kapsner/mlexperiments/tree/a9d0a776083dbc6168fcad23c37bc27ea8e2102d))
 -   updated vignettes
     ([b7df96e](https://github.com/kapsner/mlexperiments/tree/b7df96ecd6c824182e75f916c367e7cad2e69891))
 -   added png plots for vignettes
@@ -123,8 +119,6 @@ Full set of changes:
 
 #### Other changes
 
--   fixed spelling and examples
-    ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 -   preparing v0.0.2
     ([0f7cc35](https://github.com/kapsner/mlexperiments/tree/0f7cc35f061b96681a8fcec403ca5bac96c4f328))
 -   updating version
