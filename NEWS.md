@@ -2,7 +2,7 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2024-07-11)
+## v0.0.5 (2025-03-03)
 
 #### New features
 
@@ -51,6 +51,8 @@
 
 #### Other changes
 
+-   adresses notes on cran-checks
+    ([088f4c2](https://github.com/kapsner/mlexperiments/tree/088f4c23d5d7371b6754be889ad5019bf4901888))
 -   updated dev-version
     ([e2d88c7](https://github.com/kapsner/mlexperiments/tree/e2d88c7fe1fd6c627692a1b55ed5bed9e2da9ca5))
 -   updated pkg, prepared new cran release
@@ -79,7 +81,7 @@
     ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 
 Full set of changes:
-[`v0.0.2...c3a6f84`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...c3a6f84)
+[`v0.0.2...v0.0.5`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...v0.0.5)
 
 ## v0.0.2 (2023-06-05)
 
