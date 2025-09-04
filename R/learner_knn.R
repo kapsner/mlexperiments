@@ -23,9 +23,9 @@
 #' For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is
 #'   set to `FALSE` by default as the classification error rate
-#'   ([mlr3measures::ce()]) is used as the optimization metric.
+#'   ([measures::BER()]) is used as the optimization metric.
 #'
-#' @seealso [class::knn()], [mlr3measures::ce()]
+#' @seealso [class::knn()], [measures::BER()]
 #'
 #' @examples
 #' LearnerKnn$new()
@@ -50,9 +50,9 @@ LearnerKnn <- R6::R6Class( # nolint
     #' For the two hyperparameter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
     #'   learner is set to `FALSE` by default as the classification error rate
-    #'   ([mlr3measures::ce()]) is used as the optimization metric.
+    #'   ([measures::multiclass.Brier()]) is used as the optimization metric.
     #'
-    #' @seealso [class::knn()], [mlr3measures::ce()]
+    #' @seealso [class::knn()], [measures::multiclass.Brier()]
     #'
     #' @examples
     #' LearnerKnn$new()
@@ -147,7 +147,7 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     cvfit <- do.call(knn_fit, args)
 
     # optimize error rate
-    FUN <- metric("ce") # nolint
+    FUN <- metric("BER") # nolint
     perf_args <- list(
       predictions = knn_predict(
         model = cvfit,
@@ -204,9 +204,37 @@ knn_predict <- function(model, newdata, ncores, ...) {
   stopifnot("`type` is a required argument" = "type" %in% names(kwargs))
 
   if (kwargs$type == "response") {
-    return(model)
+    preds <- model
   } else if (kwargs$type == "prob") {
     # there is no knn-model but the probabilities predicted for the test data
-    return(attributes(model)$prob)
+    preds <- attributes(model)$prob
+    preds <- .expand_predictions(preds = preds, classes = model)
   }
+  return(preds)
+}
+
+.expand_preds_helper <- function(pred_row, name, prob) {
+  pred_row[name] <- prob
+  return(pred_row)
+}
+
+.expand_predictions <- function(preds, classes) {
+
+  names(preds) <- classes
+
+  c_names <- unique(names(preds))
+  pred_row <- rep(0, length(c_names))
+  names(pred_row) <- c_names
+
+  pred_list <- lapply(
+    X = seq_along(preds),
+    FUN = function(x) {
+      .expand_preds_helper(
+        pred_row = pred_row,
+        name = names(preds[x]),
+        prob = preds[x]
+      )
+    }
+  )
+  return(do.call(rbind, pred_list))
 }

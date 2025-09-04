@@ -19,7 +19,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.5.9001")
+my_desc$set_version("0.0.6")
 # The title of your package
 my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
@@ -86,7 +86,7 @@ usethis::use_package("datasets", type = "Suggests")
 usethis::use_package("class", type = "Suggests")
 usethis::use_package("rpart", type = "Suggests")
 usethis::use_package("mlbench", type = "Suggests")
-usethis::use_package("mlr3measures", type = "Suggests")
+usethis::use_package("measures", type = "Suggests")
 
 
 # define remotes

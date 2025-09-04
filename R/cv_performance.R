@@ -51,9 +51,9 @@
 #'
 #' glm_optimization$learner_args <- list(family = binomial(link = "logit"))
 #' glm_optimization$predict_args <- list(type = "response")
-#' glm_optimization$performance_metric_args <- list(positive = "1")
+#' glm_optimization$performance_metric_args <- list(pos_level = 2)
 #' glm_optimization$performance_metric <- list(
-#'   auc = metric("auc"), sensitivity = metric("sensitivity"),
+#'   auc = metric("AUC_roc"), sensitivity = metric("sensitivity"),
 #'   specificity = metric("specificity")
 #' )
 #' glm_optimization$return_models <- TRUE
@@ -117,10 +117,10 @@ performance <- function(
 
   if (!is.null(type)) {
     type <- match.arg(type, c("regression", "binary"))
-    if (!requireNamespace("mlr3measures", quietly = TRUE)) {
+    if (!requireNamespace("metrica", quietly = TRUE)) {
       stop(
         paste0(
-          "Package \"mlr3measures\" must be installed to use ",
+          "Package \"metrica\" must be installed to use ",
           "function 'performance()'."
         ),
         call. = FALSE
@@ -128,12 +128,12 @@ performance <- function(
     }
     if (type == "regression") {
       append_metrics <- c(
-        "mse", "msle", "mae", "mape", "rmse", "rmsle", "rsq", "sse"
+        "MSE", "MAE", "MAPE", "RMSE", "RMSLE", "SSE", "RSQ"
       )
     } else if (type == "binary") {
       append_metrics <- c(
-        "auc", "prauc", "sensitivity", "specificity", "ppv", "npv", "tn", "tp",
-        "fn", "fp", "tnr", "tpr", "fnr", "fpr", "bbrier", "acc", "ce", "fbeta"
+        "AUC", "F1", "TPR", "TNR", "PPV", "NPV",
+        "FNR", "FPR", "ACC", "BER", "BAC", "Brier", "multiclass.Brier"
       )
     }
     base_metric_list <- .metric_from_char(append_metrics)

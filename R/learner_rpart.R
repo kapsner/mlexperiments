@@ -29,11 +29,11 @@
 #' For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is
 #'   set to `FALSE` by default as the classification error rate
-#'   ([mlr3measures::ce()]) is used as the optimization metric for
-#'   classification tasks and the mean squared error ([mlr3measures::mse()]) is
+#'   ([measures::BER()]) is used as the optimization metric for
+#'   classification tasks and the mean squared error ([measures::MSE()]) is
 #'   used for regression tasks.
 #'
-#' @seealso [rpart::rpart()], [mlr3measures::ce()], [mlr3measures::mse()],
+#' @seealso [rpart::rpart()], [measures::BER()], [measures::MSE)],
 #'   [rpart::rpart.control()]
 #'
 #' @examples
@@ -60,11 +60,11 @@ LearnerRpart <- R6::R6Class( # nolint
     #' For the two hyperparameter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
     #'   learner is set to `FALSE` by default as the classification error rate
-    #'   ([mlr3measures::ce()]) is used as the optimization metric for
-    #'   classification tasks and the mean squared error ([mlr3measures::mse()])
+    #'   ([measures::BER()]) is used as the optimization metric for
+    #'   classification tasks and the mean squared error ([measures::MSE()])
     #'   is used for regression tasks.
     #'
-    #' @seealso [rpart::rpart()], [mlr3measures::ce()], [mlr3measures::mse()]
+    #' @seealso [rpart::rpart()], [measures::BER()], [measures::MSE()]
     #'
     #' @examples
     #' LearnerRpart$new()
@@ -194,12 +194,12 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
   # check, if this is a classification context and select metric accordingly
   if (params$method == "class") {
-    msg <- "Classification: using 'classification error rate'"
-    FUN <- mlexperiments::metric("ce") # nolint
+    msg <- "Classification: using 'balanced error rate'"
+    FUN <- metric("BER") # nolint
     pred_type <- "class"
   } else {
     msg <- "Regression: using 'mean squared error'"
-    FUN <- mlexperiments::metric("mse") # nolint
+    FUN <- metric("MSE") # nolint
     pred_type <- "vector"
   }
   message(paste("\n", msg, "as optimization metric."))
@@ -360,8 +360,10 @@ rpart_predict <- function(model, newdata, ncores, ...) {
   preds <- do.call(rpart_predict_base, args)
 
   if ("type" %in% names(kwargs)) {
-    if (kwargs$type == "prob" && ncol(preds) == 2) { # in case of binary classif
-      preds <- as.vector(preds[, 2])
+    if (kwargs$type == "prob") {
+      if (ncol(preds) == 2) { # in case of binary classif
+        preds <- as.vector(preds[, 2])
+      }
     }
   }
 

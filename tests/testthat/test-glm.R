@@ -37,8 +37,11 @@ test_that(
 
     glm_optimization$learner_args <- list(family = binomial(link = "logit"))
     glm_optimization$predict_args <- list(type = "response")
-    glm_optimization$performance_metric_args <- list(positive = "pos")
-    glm_optimization$performance_metric <- metric("auc")
+    glm_optimization$performance_metric_args <- list(
+      positive = "pos",
+      negative = "neg"
+    )
+    glm_optimization$performance_metric <- metric("AUC")
 
     # set data
     glm_optimization$set_data(
@@ -68,8 +71,11 @@ test_that(
 
     glm_optimization$learner_args <- list(family = binomial(link = "logit"))
     glm_optimization$predict_args <- list(type = "response")
-    glm_optimization$performance_metric_args <- list(positive = "pos")
-    glm_optimization$performance_metric <- metric("auc")
+    glm_optimization$performance_metric_args <- list(
+      positive = "pos",
+      negative = "neg"
+    )
+    glm_optimization$performance_metric <- metric("AUC")
     glm_optimization$return_models <- TRUE
 
     # set data

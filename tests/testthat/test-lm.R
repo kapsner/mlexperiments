@@ -34,7 +34,7 @@ test_that(
       seed = seed
     )
     lm_optimization$predict_args <- list(type = "response")
-    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric <- metric("MSE")
 
     # set data
     lm_optimization$set_data(
@@ -63,7 +63,7 @@ test_that(
       seed = seed
     )
     lm_optimization$predict_args <- list(type = "response")
-    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric <- metric("MSE")
 
     lm_optimization$return_models <- TRUE
 
@@ -166,7 +166,7 @@ test_that(
       seed = seed
     )
     lm_optimization$predict_args <- list(type = "response")
-    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric <- metric("MSE")
     lm_optimization$learner_args <- list(cat_vars = cat_vars)
     lm_optimization$return_models <- TRUE
 
@@ -199,7 +199,7 @@ test_that(
       seed = seed
     )
     lm_optimization$predict_args <- list(type = "response")
-    lm_optimization$performance_metric <- metric("mse")
+    lm_optimization$performance_metric <- metric("MSE")
 
     lm_optimization$return_models <- TRUE
 

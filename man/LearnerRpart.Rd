@@ -38,8 +38,8 @@ are forwarded to \code{rpart}'s argument \code{control} (see
 For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 the parameter \code{metric_optimization_higher_better} of the learner is
 set to \code{FALSE} by default as the classification error rate
-(\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric for
-classification tasks and the mean squared error (\code{\link[mlr3measures:mse]{mlr3measures::mse()}}) is
+(\code{\link[metrica:error_rate]{metrica::error_rate()}}) is used as the optimization metric for
+classification tasks and the mean squared error (\code{\link[metrica:MSE]{metrica::MSE()}}) is
 used for regression tasks.
 }
 \examples{
@@ -54,10 +54,13 @@ LearnerRpart$new()
 
 }
 \seealso{
-\code{\link[rpart:rpart]{rpart::rpart()}}, \code{\link[mlr3measures:ce]{mlr3measures::ce()}}, \code{\link[mlr3measures:mse]{mlr3measures::mse()}},
-\code{\link[rpart:rpart.control]{rpart::rpart.control()}}
+\code{\link[rpart:rpart]{rpart::rpart()}}, \code{\link[metrica:error_rate]{metrica::error_rate()}}, [metrica::MSE)],
+[rpart::rpart.control()]
 
-\code{\link[rpart:rpart]{rpart::rpart()}}, \code{\link[mlr3measures:ce]{mlr3measures::ce()}}, \code{\link[mlr3measures:mse]{mlr3measures::mse()}}
+[metrica::MSE)]: R:metrica::MSE)
+[rpart::rpart.control()]: R:rpart::rpart.control()
+
+\code{\link[rpart:rpart]{rpart::rpart()}}, \code{\link[metrica:error_rate]{metrica::error_rate()}}, \code{\link[metrica:MSE]{metrica::MSE()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerRpart}
@@ -101,8 +104,8 @@ are implemented:
 For the two hyperparameter optimization strategies ("grid" and
 "bayesian"), the parameter \code{metric_optimization_higher_better} of the
 learner is set to \code{FALSE} by default as the classification error rate
-(\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric for
-classification tasks and the mean squared error (\code{\link[mlr3measures:mse]{mlr3measures::mse()}})
+(\code{\link[metrica:error_rate]{metrica::error_rate()}}) is used as the optimization metric for
+classification tasks and the mean squared error (\code{\link[metrica:MSE]{metrica::MSE()}})
 is used for regression tasks.
 }
 

@@ -52,10 +52,11 @@ test_that(
     knn_optimization$learner_args <- list(
       k = 20,
       l = 0,
-      test = parse(text = "fold_test$x")
+      test = parse(text = "fold_test$x"),
+      prob = TRUE
     )
-    knn_optimization$predict_args <- list(type = "response")
-    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$predict_args <- list(type = "prob")
+    knn_optimization$performance_metric <- metric("multiclass.Brier")
     knn_optimization$return_models <- TRUE
 
     # set data
@@ -66,7 +67,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 4))
+    expect_equal(dim(cv_results), c(3, 5))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"
@@ -79,16 +80,17 @@ test_that(
 # ###########################################################################
 
 
-knn_bounds <- list(k = c(2L, 80L))
+knn_bounds <- list(k = c(2L, 40L))
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,
   acq = "ucb"
 )
 param_list_knn <- expand.grid(
-  k = seq(4, 20, 8),
+  k = seq(4, 68, 6),
   l = 0,
-  test = parse(text = "fold_test$x")
+  test = parse(text = "fold_test$x"),
+  prob = FALSE
 )
 
 test_that(
@@ -108,17 +110,11 @@ test_that(
     knn_optimization$optim_args <- optim_args
 
     # set data
-    knn_optimization$set_data(
-      x = train_x,
-      y = train_y
-    )
+    knn_optimization$set_data(x = train_x, y = train_y)
 
     cv_results1 <- knn_optimization$execute(k = 3)
     expect_type(cv_results1, "list")
-    expect_true(inherits(
-      x = knn_optimization$results,
-      what = "mlexTune"
-    ))
+    expect_true(inherits(x = knn_optimization$results, what = "mlexTune"))
 
     # check if learner_args yield same results
     knn_optimization <- mlexperiments::MLTuneParameters$new(
@@ -134,7 +130,8 @@ test_that(
     )
     knn_optimization$learner_args <- list(
       l = 0,
-      test = parse(text = "fold_test$x")
+      test = parse(text = "fold_test$x"),
+      prob = FALSE
     )
     knn_optimization$split_type <- "stratified"
     knn_optimization$optim_args <- optim_args
@@ -213,7 +210,7 @@ test_that(
 
     cv_results <- knn_optimization$execute(k = 3)
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 4))
+    expect_equal(dim(cv_results), c(3, 5))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexTune"
@@ -246,7 +243,7 @@ test_that(
     knn_optimization$optim_args <- optim_args
 
     knn_optimization$predict_args <- list(type = "response")
-    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$performance_metric <- metric("BER")
 
     # set data
     knn_optimization$set_data(
@@ -256,7 +253,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 4))
+    expect_equal(dim(cv_results), c(3, 5))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"
@@ -282,7 +279,7 @@ test_that(
     knn_optimization$split_type <- "stratified"
 
     knn_optimization$predict_args <- list(type = "response")
-    knn_optimization$performance_metric <- metric("bacc")
+    knn_optimization$performance_metric <- metric("BER")
 
     # set data
     knn_optimization$set_data(
@@ -292,7 +289,7 @@ test_that(
 
     cv_results <- knn_optimization$execute()
     expect_type(cv_results, "list")
-    expect_equal(dim(cv_results), c(3, 4))
+    expect_equal(dim(cv_results), c(3, 5))
     expect_true(inherits(
       x = knn_optimization$results,
       what = "mlexCV"

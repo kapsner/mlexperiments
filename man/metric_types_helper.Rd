@@ -18,10 +18,10 @@ Returns the calculated performance measure.
 }
 \description{
 Prepares the data to be conform with the requirements of
-the metrics from \code{mlr3measures}.
+the metrics from \code{metrica}.
 }
 \details{
-The \code{mlr3measures} R package makes some restrictions on the data type of
+The \code{metrica} R package makes some restrictions on the data type of
 the ground truth and the predictions, depending on the metric, i.e. the
 type of the task (regression or classification).
 Thus, it is necessary to convert the inputs to the metric function
@@ -31,7 +31,7 @@ accordingly, which is done with this helper function.
 set.seed(123)
 ground_truth <- sample(0:1, 100, replace = TRUE)
 predictions <- sample(0:1, 100, replace = TRUE)
-FUN <- metric("acc")
+FUN <- metric("accuracy")
 
 perf_args <- list(
   ground_truth = ground_truth,

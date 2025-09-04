@@ -51,7 +51,7 @@ cv$learner_args <- list(
 
 # performance parameters
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("bacc")
+cv$performance_metric <- metric("balacc")
 
 # set data
 cv$set_data(
@@ -122,7 +122,7 @@ cv$learner_args <- list(
   test = parse(text = "fold_test$x")
 )
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("bacc")
+cv$performance_metric <- metric("balacc")
 
 # set data
 cv$set_data(
@@ -135,8 +135,7 @@ cv$execute()
 \seealso{
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 
-\code{\link[splitTools:create_folds]{splitTools::create_folds()}}, \link[mlr3measures:measures]{mlr3measures::measures},
-\code{\link[=metric]{metric()}}
+\code{\link[splitTools:create_folds]{splitTools::create_folds()}}, \code{\link[=metric]{metric()}}
 }
 \section{Super classes}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLCrossValidation}
@@ -153,9 +152,9 @@ with the results (default: \code{FALSE}).}
 
 \item{\code{performance_metric}}{Either a named list with metric functions, a
 single metric function, or a character vector with metric names from
-the \code{mlr3measures} package. The provided functions must take two named
+the \code{metrica} package. The provided functions must take two named
 arguments: \code{ground_truth} and \code{predictions}. For metrics from the
-\code{mlr3measures} package, the wrapper function \code{\link[=metric]{metric()}}
+\code{metrica} package, the wrapper function \code{\link[=metric]{metric()}}
 exists in order to prepare them for use with the \code{mlexperiments}
 package.}
 
@@ -323,7 +322,7 @@ cv$learner_args <- list(
   test = parse(text = "fold_test$x")
 )
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("bacc")
+cv$performance_metric <- metric("balacc")
 
 # set data
 cv$set_data(

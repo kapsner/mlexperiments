@@ -50,10 +50,13 @@ test_that(
 
     glm_optimization$learner_args <- list(family = binomial(link = "logit"))
     glm_optimization$predict_args <- list(type = "response")
-    glm_optimization$performance_metric_args <- list(positive = "1")
+    glm_optimization$performance_metric_args <- list(
+      positive = "1",
+      negative = "0"
+    )
     glm_optimization$performance_metric <- list(
-      auc = metric("auc"), sensitivity = metric("sensitivity"),
-      specificity = metric("specificity")
+      auc = metric("AUC"), sensitivity = metric("TPR"),
+      specificity = metric("TNR")
     )
 
     # set data

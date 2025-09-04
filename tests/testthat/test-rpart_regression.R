@@ -57,7 +57,7 @@ test_that(
       method = "anova"
     )
     rpart_optimization$predict_args <- list(type = "vector")
-    rpart_optimization$performance_metric <- metric("rmsle")
+    rpart_optimization$performance_metric <- metric("RMSE")
     rpart_optimization$return_models <- TRUE
 
     # set data
@@ -191,7 +191,7 @@ test_that(
     rpart_optimization$optim_args <- optim_args
 
     rpart_optimization$predict_args <- list(type = "vector")
-    rpart_optimization$performance_metric <- metric("rmsle")
+    rpart_optimization$performance_metric <- metric("RMSE")
 
     # set data
     rpart_optimization$set_data(
@@ -231,7 +231,7 @@ test_that(
     rpart_optimization$split_type <- "stratified"
 
     rpart_optimization$predict_args <- list(type = "vector")
-    rpart_optimization$performance_metric <- metric("rmsle")
+    rpart_optimization$performance_metric <- metric("RMSE")
 
     # set data
     rpart_optimization$set_data(

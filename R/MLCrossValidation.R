@@ -50,7 +50,7 @@
 #'
 #' # performance parameters
 #' cv$predict_args <- list(type = "response")
-#' cv$performance_metric <- metric("bacc")
+#' cv$performance_metric <- metric("balacc")
 #'
 #' # set data
 #' cv$set_data(
@@ -77,9 +77,9 @@ MLCrossValidation <- R6::R6Class( # nolint
 
     #' @field performance_metric Either a named list with metric functions, a
     #'   single metric function, or a character vector with metric names from
-    #'   the `mlr3measures` package. The provided functions must take two named
+    #'   the `measures` package. The provided functions must take two named
     #'   arguments: `ground_truth` and `predictions`. For metrics from the
-    #'   `mlr3measures` package, the wrapper function [mlexperiments::metric()]
+    #'   `measures` package, the wrapper function [mlexperiments::metric()]
     #'   exists in order to prepare them for use with the `mlexperiments`
     #'   package.
     performance_metric = NULL,
@@ -115,8 +115,7 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   repeated fold definitions, e.g., when specifing the argument `m_rep` of
     #'   [splitTools::create_folds()].
     #'
-    #' @seealso [splitTools::create_folds()], [mlr3measures::measures],
-    #'    [mlexperiments::metric()]
+    #' @seealso [splitTools::create_folds()], [mlexperiments::metric()]
     #'
     #' @examples
     #' dataset <- do.call(
@@ -211,7 +210,7 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   test = parse(text = "fold_test$x")
     #' )
     #' cv$predict_args <- list(type = "response")
-    #' cv$performance_metric <- metric("bacc")
+    #' cv$performance_metric <- metric("balacc")
     #'
     #' # set data
     #' cv$set_data(

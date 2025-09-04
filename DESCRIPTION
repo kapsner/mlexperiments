@@ -1,6 +1,6 @@
 Package: mlexperiments
 Title: Machine Learning Experiments
-Version: 0.0.5.9001
+Version: 0.0.6
 Authors@R: 
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
@@ -31,8 +31,8 @@ Suggests:
     class,
     datasets,
     lintr,
+    measures,
     mlbench,
-    mlr3measures,
     ParBayesianOptimization,
     quarto,
     rpart,
@@ -41,7 +41,7 @@ VignetteBuilder:
     quarto
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2025-03-05 07:30:56.410906 UTC
+Date/Publication: 2025-09-04 13:16:49.327965 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 SystemRequirements: Quarto command line tools

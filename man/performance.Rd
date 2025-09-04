@@ -64,9 +64,9 @@ glm_optimization <- mlexperiments::MLCrossValidation$new(
 
 glm_optimization$learner_args <- list(family = binomial(link = "logit"))
 glm_optimization$predict_args <- list(type = "response")
-glm_optimization$performance_metric_args <- list(positive = "1")
+glm_optimization$performance_metric_args <- list(pos_level = 2)
 glm_optimization$performance_metric <- list(
-  auc = metric("auc"), sensitivity = metric("sensitivity"),
+  auc = metric("AUC_roc"), sensitivity = metric("sensitivity"),
   specificity = metric("specificity")
 )
 glm_optimization$return_models <- TRUE
