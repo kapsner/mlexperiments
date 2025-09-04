@@ -55,7 +55,7 @@ cv$performance_metric_args <- list(
   positive = "1",
   negative = "0"
 )
-cv$performance_metric <- metric("BAC")
+cv$performance_metric <- metric("MMCE")
 
 # set data
 cv$set_data(
@@ -130,7 +130,7 @@ cv$performance_metric_args <- list(
   positive = "1",
   negative = "0"
 )
-cv$performance_metric <- metric("BAC")
+cv$performance_metric <- metric("MMCE")
 
 # set data
 cv$set_data(
@@ -334,7 +334,7 @@ cv$performance_metric_args <- list(
   positive = "1",
   negative = "0"
 )
-cv$performance_metric <- metric("BAC")
+cv$performance_metric <- metric("MMCE")
 
 # set data
 cv$set_data(

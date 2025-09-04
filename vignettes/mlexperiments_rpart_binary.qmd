@@ -102,8 +102,11 @@ learner_args <- list(method = "class")
 # required for mlexperiments::MLCrossValidation and
 # mlexperiments::MLNestedCV
 predict_args <- list(type = "prob")
-performance_metric <- metric("auc")
-performance_metric_args <- list(positive = "pos")
+performance_metric <- metric("AUC")
+performance_metric_args <- list(
+  positive = "pos",
+  negative = "neg"
+)
 return_models <- FALSE
 
 # required for grid search and initialization of bayesian optimization

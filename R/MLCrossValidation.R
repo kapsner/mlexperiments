@@ -54,7 +54,7 @@
 #'   positive = "1",
 #'   negative = "0"
 #' )
-#' cv$performance_metric <- metric("BAC")
+#' cv$performance_metric <- metric("MMCE")
 #'
 #' # set data
 #' cv$set_data(
@@ -218,7 +218,7 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   positive = "1",
     #'   negative = "0"
     #' )
-    #' cv$performance_metric <- metric("BAC")
+    #' cv$performance_metric <- metric("MMCE")
     #'
     #' # set data
     #' cv$set_data(

@@ -109,8 +109,8 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     )
     set.seed(seed)
     cvfit <- do.call(knn_fit, args)
-    # optimize error rate
-    FUN <- metric("ce") # nolint
+    # optimize mean misclassification error
+    FUN <- metric("MMAC") # nolint
     err <- FUN(predictions = knn_predict(
       model = cvfit,
       newdata = kdry::mlh_subset(x, -train_idx),
@@ -222,7 +222,7 @@ LearnerKnn <- R6::R6Class( # nolint
 )
 ```
 
-Please note that `metric_optimization_higher_better` is defaulted to `FALSE` here when initializing the super-class. This is because of choosing the error rate as the optimization metric (`FUN <- metric("ce")`) when defining the `cross_validation`-function above.
+Please note that `metric_optimization_higher_better` is defaulted to `FALSE` here when initializing the super-class. This is because of choosing the mean misclassification error as the optimization metric (`FUN <- metric("MMCE")`) when defining the `cross_validation`-function above.
 
 ## Examples
 
@@ -412,7 +412,7 @@ best_grid_result
 knn_cv$learner_args <- best_grid_result[-1]
 
 knn_cv$predict_args <- list(type = "response")
-knn_cv$performance_metric <- metric("bacc")
+knn_cv$performance_metric <- metric("MMAC")
 knn_cv$return_models <- TRUE
 
 # set data
@@ -463,7 +463,7 @@ knn_cv_nested_bayesian$split_type <- "stratified"
 knn_cv_nested_bayesian$optim_args <- optim_args
 
 knn_cv_nested_bayesian$predict_args <- list(type = "response")
-knn_cv_nested_bayesian$performance_metric <- metric("bacc")
+knn_cv_nested_bayesian$performance_metric <- metric("MMAC")
 
 # set data
 knn_cv_nested_bayesian$set_data(
@@ -510,7 +510,7 @@ knn_cv_nested_grid$parameter_grid <- param_list_knn
 knn_cv_nested_grid$split_type <- "stratified"
 
 knn_cv_nested_grid$predict_args <- list(type = "response")
-knn_cv_nested_grid$performance_metric <- metric("bacc")
+knn_cv_nested_grid$performance_metric <- metric("MMAC")
 
 # set data
 knn_cv_nested_grid$set_data(
