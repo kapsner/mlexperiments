@@ -28,8 +28,8 @@ optimization.
 
 For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 the parameter \code{metric_optimization_higher_better} of the learner is
-set to \code{FALSE} by default as the classification error rate
-(\code{\link[mlr3measures:ce]{mlr3measures::ce()}}) is used as the optimization metric.
+set to \code{FALSE} by default as the mean misclassification error
+(\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimization metric.
 }
 \examples{
 LearnerKnn$new()
@@ -43,9 +43,9 @@ LearnerKnn$new()
 
 }
 \seealso{
-\code{\link[class:knn]{class::knn()}}, \code{\link[mlr3measures:ce]{mlr3measures::ce()}}
+\code{\link[class:knn]{class::knn()}}, \code{\link[measures:MMCE]{measures::MMCE()}}
 
-\code{\link[class:knn]{class::knn()}}, \code{\link[metrica:error_rate]{metrica::error_rate()}}
+\code{\link[class:knn]{class::knn()}}, \code{\link[measures:multiclass.Brier]{measures::multiclass.Brier()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerKnn}
@@ -87,7 +87,7 @@ implemented:
 For the two hyperparameter optimization strategies ("grid" and
 "bayesian"), the parameter \code{metric_optimization_higher_better} of the
 learner is set to \code{FALSE} by default as the classification error rate
-(\code{\link[metrica:error_rate]{metrica::error_rate()}}) is used as the optimization metric.
+(\code{\link[measures:multiclass.Brier]{measures::multiclass.Brier()}}) is used as the optimization metric.
 }
 }
 

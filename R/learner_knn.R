@@ -22,10 +22,10 @@
 #'
 #' For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is
-#'   set to `FALSE` by default as the classification error rate
-#'   ([measures::BER()]) is used as the optimization metric.
+#'   set to `FALSE` by default as the mean misclassification error
+#'   ([measures::MMCE()]) is used as the optimization metric.
 #'
-#' @seealso [class::knn()], [measures::BER()]
+#' @seealso [class::knn()], [measures::MMCE()]
 #'
 #' @examples
 #' LearnerKnn$new()
@@ -147,7 +147,7 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     cvfit <- do.call(knn_fit, args)
 
     # optimize error rate
-    FUN <- metric("BER") # nolint
+    FUN <- metric("MMCE") # nolint
     perf_args <- list(
       predictions = knn_predict(
         model = cvfit,

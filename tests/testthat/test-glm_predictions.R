@@ -108,7 +108,7 @@ test_that(
       positive = "1"
     )
 
-    expect_equal(dim(perf), c(5, 19))
+    expect_equal(dim(perf), c(5, 17))
   }
 )
 
@@ -166,7 +166,7 @@ test_that(
     )
 
     lm_optimization$predict_args <- list(type = "response")
-    lm_optimization$performance_metric <- c("rmse", "rmsle", "mse", "msle")
+    lm_optimization$performance_metric <- c("RMSE", "RMSLE", "MSE", "MSLE")
 
     # set data
     lm_optimization$set_data(

@@ -8,7 +8,7 @@ metric(name)
 }
 \arguments{
 \item{name}{A metric name. Accepted names are the names of the metric
-function exported from the \code{metrica} R package.}
+function exported from the \code{measures} R package.}
 }
 \value{
 Returns a function that can be used as function to calculate the
@@ -20,7 +20,7 @@ Returns a metric function which can be used for the experiments
 }
 \details{
 This function is a utility function to select performance metrics from the
-\code{metrica} R package and to reformat them into a form that is required
+\code{measures} R package and to reformat them into a form that is required
 by the \code{mlexperiments} R package. For \code{mlexperiments} it is required that
 a metric function takes the two arguments \code{ground_truth}, and \code{predictions},
 as well as additional names arguments that are necessary to compute the

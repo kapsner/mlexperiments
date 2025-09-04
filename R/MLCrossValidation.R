@@ -50,7 +50,11 @@
 #'
 #' # performance parameters
 #' cv$predict_args <- list(type = "response")
-#' cv$performance_metric <- metric("balacc")
+#' cv$performance_metric_args <- list(
+#'   positive = "1",
+#'   negative = "0"
+#' )
+#' cv$performance_metric <- metric("BAC")
 #'
 #' # set data
 #' cv$set_data(
@@ -210,7 +214,11 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'   test = parse(text = "fold_test$x")
     #' )
     #' cv$predict_args <- list(type = "response")
-    #' cv$performance_metric <- metric("balacc")
+    #' cv$performance_metric_args <- list(
+    #'   positive = "1",
+    #'   negative = "0"
+    #' )
+    #' cv$performance_metric <- metric("BAC")
     #'
     #' # set data
     #' cv$set_data(

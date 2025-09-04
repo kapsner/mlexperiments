@@ -28,12 +28,12 @@
 #'
 #' For the two hyperparameter optimization strategies ("grid" and "bayesian"),
 #'   the parameter `metric_optimization_higher_better` of the learner is
-#'   set to `FALSE` by default as the classification error rate
-#'   ([measures::BER()]) is used as the optimization metric for
+#'   set to `FALSE` by default as the mean misclassification error rate
+#'   ([measures::MMCE()]) is used as the optimization metric for
 #'   classification tasks and the mean squared error ([measures::MSE()]) is
 #'   used for regression tasks.
 #'
-#' @seealso [rpart::rpart()], [measures::BER()], [measures::MSE)],
+#' @seealso [rpart::rpart()], [measures::MMCE()], [measures::MSE)],
 #'   [rpart::rpart.control()]
 #'
 #' @examples
@@ -59,12 +59,12 @@ LearnerRpart <- R6::R6Class( # nolint
     #'
     #' For the two hyperparameter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
-    #'   learner is set to `FALSE` by default as the classification error rate
-    #'   ([measures::BER()]) is used as the optimization metric for
+    #'   learner is set to `FALSE` by default as the mean misclassification
+    #'   error ([measures::MMCE()]) is used as the optimization metric for
     #'   classification tasks and the mean squared error ([measures::MSE()])
     #'   is used for regression tasks.
     #'
-    #' @seealso [rpart::rpart()], [measures::BER()], [measures::MSE()]
+    #' @seealso [rpart::rpart()], [measures::MMCE()], [measures::MSE()]
     #'
     #' @examples
     #' LearnerRpart$new()
@@ -194,8 +194,8 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
   # check, if this is a classification context and select metric accordingly
   if (params$method == "class") {
-    msg <- "Classification: using 'balanced error rate'"
-    FUN <- metric("BER") # nolint
+    msg <- "Classification: using 'mean misclassification error'"
+    FUN <- metric("MMCE") # nolint
     pred_type <- "class"
   } else {
     msg <- "Regression: using 'mean squared error'"

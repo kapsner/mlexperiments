@@ -51,7 +51,11 @@ cv$learner_args <- list(
 
 # performance parameters
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("balacc")
+cv$performance_metric_args <- list(
+  positive = "1",
+  negative = "0"
+)
+cv$performance_metric <- metric("BAC")
 
 # set data
 cv$set_data(
@@ -122,7 +126,11 @@ cv$learner_args <- list(
   test = parse(text = "fold_test$x")
 )
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("balacc")
+cv$performance_metric_args <- list(
+  positive = "1",
+  negative = "0"
+)
+cv$performance_metric <- metric("BAC")
 
 # set data
 cv$set_data(
@@ -152,9 +160,9 @@ with the results (default: \code{FALSE}).}
 
 \item{\code{performance_metric}}{Either a named list with metric functions, a
 single metric function, or a character vector with metric names from
-the \code{metrica} package. The provided functions must take two named
+the \code{measures} package. The provided functions must take two named
 arguments: \code{ground_truth} and \code{predictions}. For metrics from the
-\code{metrica} package, the wrapper function \code{\link[=metric]{metric()}}
+\code{measures} package, the wrapper function \code{\link[=metric]{metric()}}
 exists in order to prepare them for use with the \code{mlexperiments}
 package.}
 
@@ -322,7 +330,11 @@ cv$learner_args <- list(
   test = parse(text = "fold_test$x")
 )
 cv$predict_args <- list(type = "response")
-cv$performance_metric <- metric("balacc")
+cv$performance_metric_args <- list(
+  positive = "1",
+  negative = "0"
+)
+cv$performance_metric <- metric("BAC")
 
 # set data
 cv$set_data(

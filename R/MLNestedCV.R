@@ -59,7 +59,11 @@
 #'
 #' # performance parameters
 #' cv$predict_args <- list(type = "response")
-#' cv$performance_metric <- metric("balacc")
+#' cv$performance_metric_args <- list(
+#'   positive = "1",
+#'   negative = "0"
+#' )
+#' cv$performance_metric <- metric("BAC")
 #'
 #' # set data
 #' cv$set_data(
@@ -269,7 +273,11 @@ MLNestedCV <- R6::R6Class( # nolint
     #'
     #' # performance parameters
     #' cv$predict_args <- list(type = "response")
-    #' cv$performance_metric <- metric("balacc")
+    #' cv$performance_metric_args <- list(
+    #'   positive = "1",
+    #'   negative = "0"
+    #' )
+    #' cv$performance_metric <- metric("BAC")
     #'
     #' # set data
     #' cv$set_data(

@@ -151,24 +151,63 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     "AUC", "F1", "TPR", "TNR", "PPV", "NPV",
     "FNR", "FPR", "ACC", "BER", "BAC", "Brier", "multiclass.Brier"
   )
+
+  # function name
+  pat <- ".*measures::(.*),.*"
+  fun_line <- grep(
+    pattern = pat,
+    x = deparse(FUN),
+    value = TRUE
+  )
+  fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
+
+  # fix binary metrics here
+  # logic for conversion of probabilities to classes in case of binary
+  # classification
+  error <- FALSE
+  if (!is.factor(y) && fun_name %in% .binary_metrics() &&
+      !(fun_name %in% .binary_metrics_probs()) &&
+      (min(perf_args$predictions) >= 0 &&
+       max(perf_args$predictions) <= 1)) {
+    if (!is.factor(y)) {
+      y <- factor(y)
+    }
+    lvls <- levels(y)
+    if ("positive" %in% names(perf_args)) {
+      val_positive <- perf_args$positive
+      val_negative <- setdiff(lvls, val_positive)
+    } else {
+      if ("0" %in% lvls && "1" %in% lvls) {
+        val_positive <- "1"
+        val_negative <- "0"
+      } else {
+        stop("Argument 'pos_level' is missing.")
+      }
+    }
+
+    perf_args$predictions <- ifelse(
+      test = perf_args$predictions > 0.5,
+      yes = val_positive,
+      no = val_negative
+    )
+
+    perf_args$predictions <- factor(
+      x = perf_args$predictions,
+      levels = lvls
+    )
+    if (!any(is.na(perf_args$predictions))) {
+      error <- FALSE
+    }
+  }
+
+
   tryCatch(
     expr = {
+      if (isTRUE(error)) {
+        errorCondition("An error happend preparing response for binary metric.")
+      }
       return(do.call(FUN, perf_args))
     }, error = function(e) {
-      if (!is.factor(y)) {
-        y <- factor(y)
-      }
-      lvls <- levels(y)
-      error <- TRUE
-
-      # function name
-      pat <- ".*measures::(.*),.*"
-      fun_line <- grep(
-        pattern = pat,
-        x = deparse(FUN),
-        value = TRUE
-      )
-      fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
 
       if (grepl(
         pattern = "Assertion on 'truth' failed: Must be of type 'factor'",
@@ -180,41 +219,6 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
           levels = lvls
         )
         error <- FALSE
-      } else if (grepl(
-        pattern = "Assertion on 'response' failed: Must be of type 'factor'",
-        x = e
-      )) {
-        # logic for conversion of probabilities to classes in case of binary
-        # classification
-        if (fun_name %in% classification_metrics && (
-          min(perf_args$predictions) >= 0 && max(perf_args$predictions) <= 1
-        )) {
-          if ("pos_level" %in% names(perf_args)) {
-            val_positive <- perf_args$pos_level
-            val_negative <- setdiff(lvls, val_positive)
-          } else {
-            if ("0" %in% lvls && "1" %in% lvls) {
-              val_positive <- "1"
-              val_negative <- "0"
-            } else {
-              stop("Argument 'pos_level' is missing.")
-            }
-          }
-
-          perf_args$predictions <- ifelse(
-            test = perf_args$predictions > 0.5,
-            yes = val_positive,
-            no = val_negative
-          )
-        }
-
-        perf_args$predictions <- factor(
-          x = perf_args$predictions,
-          levels = lvls
-        )
-        if (!any(is.na(perf_args$predictions))) {
-          error <- FALSE
-        }
       } else if (grepl(
         pattern = paste0(
           "Assertion on 'response' failed: Must have length ",

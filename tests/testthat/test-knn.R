@@ -80,7 +80,7 @@ test_that(
 # ###########################################################################
 
 
-knn_bounds <- list(k = c(2L, 40L))
+knn_bounds <- list(k = c(2L, 80L))
 optim_args <- list(
   iters.n = ncores,
   kappa = 3.5,
@@ -89,7 +89,6 @@ optim_args <- list(
 param_list_knn <- expand.grid(
   k = seq(4, 68, 6),
   l = 0,
-  test = parse(text = "fold_test$x"),
   prob = FALSE
 )
 
@@ -106,6 +105,7 @@ test_that(
 
     knn_optimization$parameter_bounds <- knn_bounds
     knn_optimization$parameter_grid <- param_list_knn
+    knn_optimization$learner_args <- list(test = parse(text = "fold_test$x"))
     knn_optimization$split_type <- "stratified"
     knn_optimization$optim_args <- optim_args
 
@@ -169,6 +169,7 @@ test_that(
     )
 
     knn_optimization$parameter_bounds <- knn_bounds
+    knn_optimization$learner_args <- list(test = parse(text = "fold_test$x"))
     knn_optimization$split_type <- "stratified"
     knn_optimization$optim_args <- optim_args
 
@@ -199,7 +200,8 @@ test_that(
       seed = seed
     )
 
-    knn_optimization$parameter_grid <- param_list_knn
+    knn_optimization$parameter_grid <- param_list_knn[1:3, ]
+    knn_optimization$learner_args <- list(test = parse(text = "fold_test$x"))
     knn_optimization$split_type <- "stratified"
 
     # set data
@@ -239,11 +241,12 @@ test_that(
 
     knn_optimization$parameter_grid <- param_list_knn
     knn_optimization$parameter_bounds <- knn_bounds
+    knn_optimization$learner_args <- list(test = parse(text = "fold_test$x"))
     knn_optimization$split_type <- "stratified"
     knn_optimization$optim_args <- optim_args
 
     knn_optimization$predict_args <- list(type = "response")
-    knn_optimization$performance_metric <- metric("BER")
+    knn_optimization$performance_metric <- metric("MMCE")
 
     # set data
     knn_optimization$set_data(
@@ -276,10 +279,11 @@ test_that(
     )
 
     knn_optimization$parameter_grid <- param_list_knn
+    knn_optimization$learner_args <- list(test = parse(text = "fold_test$x"))
     knn_optimization$split_type <- "stratified"
 
     knn_optimization$predict_args <- list(type = "response")
-    knn_optimization$performance_metric <- metric("BER")
+    knn_optimization$performance_metric <- metric("MMCE")
 
     # set data
     knn_optimization$set_data(

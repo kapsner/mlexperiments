@@ -18,10 +18,10 @@ Returns the calculated performance measure.
 }
 \description{
 Prepares the data to be conform with the requirements of
-the metrics from \code{metrica}.
+the metrics from \code{measures}.
 }
 \details{
-The \code{metrica} R package makes some restrictions on the data type of
+The \code{measures} R package makes some restrictions on the data type of
 the ground truth and the predictions, depending on the metric, i.e. the
 type of the task (regression or classification).
 Thus, it is necessary to convert the inputs to the metric function
