@@ -51,10 +51,13 @@
 #'
 #' glm_optimization$learner_args <- list(family = binomial(link = "logit"))
 #' glm_optimization$predict_args <- list(type = "response")
-#' glm_optimization$performance_metric_args <- list(pos_level = 2)
+#' glm_optimization$performance_metric_args <- list(
+#'   positive = "1",
+#'   negative = "0"
+#' )
 #' glm_optimization$performance_metric <- list(
-#'   auc = metric("AUC_roc"), sensitivity = metric("sensitivity"),
-#'   specificity = metric("specificity")
+#'   auc = metric("AUC"), sensitivity = metric("TPR"),
+#'   specificity = metric("TNR")
 #' )
 #' glm_optimization$return_models <- TRUE
 #'
