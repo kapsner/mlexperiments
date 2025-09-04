@@ -31,7 +31,7 @@ accordingly, which is done with this helper function.
 set.seed(123)
 ground_truth <- sample(0:1, 100, replace = TRUE)
 predictions <- sample(0:1, 100, replace = TRUE)
-FUN <- metric("accuracy")
+FUN <- metric("ACC")
 
 perf_args <- list(
   ground_truth = ground_truth,

@@ -26,7 +26,7 @@
 #'   performance metric throughout the experiments.
 #'
 #' @examples
-#' metric("AUC_roc")
+#' metric("AUC")
 #'
 #' @export
 #'
@@ -114,7 +114,7 @@ metric <- function(name) {
 #' set.seed(123)
 #' ground_truth <- sample(0:1, 100, replace = TRUE)
 #' predictions <- sample(0:1, 100, replace = TRUE)
-#' FUN <- metric("accuracy")
+#' FUN <- metric("ACC")
 #'
 #' perf_args <- list(
 #'   ground_truth = ground_truth,
