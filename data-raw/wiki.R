@@ -15,25 +15,25 @@ tryCatch({
   )
 })
 
-
 file_list <- list.files(
   path = "vignettes",
-  pattern = "\\.Rmd$"
+  pattern = "\\.qmd$"
 )
 
 for (rmd_file in file_list) {
   rmd_path <- file.path("vignettes", rmd_file)
+  md_file <- gsub("\\.q", ".", rmd_file)
   # prepare wiki
-  rmarkdown::render(
+  quarto::quarto_render(
     input = rmd_path,
-    output_format = rmarkdown::md_document(
-      variant = "gfm",
-      toc = TRUE,
-      toc_depth = 3,
-      standalone = TRUE
-    ),
-    output_dir = output_dir
+    output_format = "md"
   )
+  cur_md_path <- file.path("vignettes", md_file)
+  file.copy(
+    from = cur_md_path,
+    to = file.path(output_dir, md_file),
+    overwrite = TRUE
+  )
+  file.remove(cur_md_path)
 }
-
 # nolint end
