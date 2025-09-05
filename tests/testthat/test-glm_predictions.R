@@ -108,7 +108,7 @@ test_that(
       positive = "1"
     )
 
-    expect_equal(dim(perf), c(5, 17))
+    expect_equal(dim(perf), c(5, 26))
   }
 )
 
@@ -202,8 +202,7 @@ test_that(
     perf <- mlexperiments::performance(
       object = lm_optimization,
       prediction_results = preds,
-      y_ground_truth = test_y,
-      positive = "1"
+      y_ground_truth = test_y
     )
 
     expect_equal(dim(perf), c(5, 5))
@@ -213,10 +212,9 @@ test_that(
       object = lm_optimization,
       prediction_results = preds,
       y_ground_truth = test_y,
-      type = "regression",
-      positive = "1"
+      type = "regression"
     )
 
-    expect_equal(dim(perf), c(5, 9))
+    expect_equal(dim(perf), c(5, 17))
   }
 )

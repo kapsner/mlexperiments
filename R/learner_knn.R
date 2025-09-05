@@ -49,10 +49,10 @@ LearnerKnn <- R6::R6Class( # nolint
     #' * [mlexperiments::MLNestedCV]
     #' For the two hyperparameter optimization strategies ("grid" and
     #'   "bayesian"), the parameter `metric_optimization_higher_better` of the
-    #'   learner is set to `FALSE` by default as the classification error rate
-    #'   ([measures::multiclass.Brier()]) is used as the optimization metric.
+    #'   learner is set to `FALSE` by default as the mean misclassification
+    #'   error ([measures::MMCE()]) is used as the optimization metric.
     #'
-    #' @seealso [class::knn()], [measures::multiclass.Brier()]
+    #' @seealso [class::knn()], [measures::MMCE()]
     #'
     #' @examples
     #' LearnerKnn$new()

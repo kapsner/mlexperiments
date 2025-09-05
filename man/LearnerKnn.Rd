@@ -45,7 +45,7 @@ LearnerKnn$new()
 \seealso{
 \code{\link[class:knn]{class::knn()}}, \code{\link[measures:MMCE]{measures::MMCE()}}
 
-\code{\link[class:knn]{class::knn()}}, \code{\link[measures:multiclass.Brier]{measures::multiclass.Brier()}}
+\code{\link[class:knn]{class::knn()}}, \code{\link[measures:MMCE]{measures::MMCE()}}
 }
 \section{Super class}{
 \code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerKnn}
@@ -86,8 +86,8 @@ implemented:
 \item \link{MLNestedCV}
 For the two hyperparameter optimization strategies ("grid" and
 "bayesian"), the parameter \code{metric_optimization_higher_better} of the
-learner is set to \code{FALSE} by default as the classification error rate
-(\code{\link[measures:multiclass.Brier]{measures::multiclass.Brier()}}) is used as the optimization metric.
+learner is set to \code{FALSE} by default as the mean misclassification
+error (\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimization metric.
 }
 }
 

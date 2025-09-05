@@ -129,12 +129,15 @@ performance <- function(
         call. = FALSE
       )
     }
-    if (type == "regression") {
-      append_metrics <- c(
-        "MSE", "MAE", "MAPE", "RMSE", "RMSLE", "SSE", "RSQ"
-      )
-    } else if (type == "binary") {
-      append_metrics <- .binary_metrics()
+    metrics_table <- .get_metrics_metadata()
+    append_metrics <- metrics_table[
+      grepl(pattern = type, x = get("task")),
+      get("function_name")
+    ] |> as.character()
+    if (type == "binary") {
+      append_metrics <- c(append_metrics, "ACC", "MMCE", "BER")
+    } else if (type == "regression") {
+      append_metrics <- setdiff(append_metrics, "ARSQ")
     }
     base_metric_list <- .metric_from_char(append_metrics)
     perf_fun <- kdry::list.append(perf_fun, base_metric_list)
@@ -192,17 +195,4 @@ performance <- function(
     simplify = FALSE
   )
   return(res)
-}
-
-.binary_metrics <- function() {
-  return(c(
-    "AUC", "F1", "TPR", "TNR", "PPV", "NPV",
-    "FNR", "FPR", "ACC", "BER", "BAC", "Brier", "BrierScaled"
-  ))
-}
-
-.binary_metrics_probs <- function() {
-  return(c(
-    "AUC", "Brier", "BrierScaled"
-  ))
 }

@@ -44,12 +44,17 @@ metric <- function(name) {
       call. = FALSE
     )
   }
-  stopifnot(
-    "`name` is not a function exported from R package {measures}" =
-      is.function(
-      utils::getFromNamespace(x = name, ns = "measures")
-    )
-  )
+  # test if name is available in a different typing
+  metrics_table <- .get_metrics_metadata()
+  if (!(name %in% metrics_table[, as.character(get("function_name"))])) {
+    # try upper case
+    name_try <- toupper(name)
+    if (name_try %in% metrics_table[, as.character(get("function_name"))]) {
+      name <- name_try
+    } else {
+      stop("`name` is not a function exported from R package {measures}")
+    }
+  }
   FUN <- utils::getFromNamespace(x = name, ns = "measures") # nolint
 
   fun_name <- paste0("measures::", name)
@@ -146,12 +151,6 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     )
   }
 
-  regression_metrics <- c("MSE", "MAE", "MAPE", "RMSE", "RMSLE", "SSE", "RSQ")
-  classification_metrics <- c(
-    "AUC", "F1", "TPR", "TNR", "PPV", "NPV",
-    "FNR", "FPR", "ACC", "BER", "BAC", "Brier", "multiclass.Brier"
-  )
-
   # function name
   pat <- ".*measures::(.*),.*"
   fun_line <- grep(
@@ -161,42 +160,60 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
   )
   fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
 
+  metric_metadata <- .metric_metadata(fun_name = fun_name)
+
+  if (fun_name == "PPV") {
+    # fix wrong metadata-list entry from measures::listAllMeasures
+    metric_metadata$probabilities <- FALSE
+  }
+  if (fun_name %in% c("ACC", "MMCE", "BER")) {
+    # infer binary cases
+    if (.test_binary_y_and_pred_probs(y, perf_args)) {
+      if (.test_pred_probs_value_boundaries(perf_args)) {
+        metric_metadata$binary <- TRUE
+      }
+    }
+  }
+
   # fix binary metrics here
   # logic for conversion of probabilities to classes in case of binary
   # classification
   error <- FALSE
-  if (!is.factor(y) && fun_name %in% .binary_metrics() &&
-      !(fun_name %in% .binary_metrics_probs()) &&
-      (min(perf_args$predictions) >= 0 &&
-       max(perf_args$predictions) <= 1)) {
-    if (!is.factor(y)) {
-      y <- factor(y)
-    }
-    lvls <- levels(y)
-    if ("positive" %in% names(perf_args)) {
-      val_positive <- perf_args$positive
-      val_negative <- setdiff(lvls, val_positive)
-    } else {
-      if ("0" %in% lvls && "1" %in% lvls) {
-        val_positive <- "1"
-        val_negative <- "0"
-      } else {
-        stop("Argument 'pos_level' is missing.")
+  if (.test_binary_y_and_pred_probs(y, perf_args) &&
+      isTRUE(metric_metadata$binary) &&
+      isFALSE(metric_metadata$probabilities)) {
+    # now test value bondaries
+    if (.test_pred_probs_value_boundaries(perf_args)) {
+      if (!is.factor(y)) {
+        # convert to factor
+        y <- factor(y)
       }
-    }
+      lvls <- levels(y)
+      if ("positive" %in% names(perf_args)) {
+        val_positive <- perf_args$positive
+        val_negative <- setdiff(lvls, val_positive)
+      } else {
+        if ("0" %in% lvls && "1" %in% lvls) {
+          val_positive <- "1"
+          val_negative <- "0"
+        } else {
+          stop("Argument 'pos_level' is missing.")
+        }
+      }
 
-    perf_args$predictions <- ifelse(
-      test = perf_args$predictions > 0.5,
-      yes = val_positive,
-      no = val_negative
-    )
+      perf_args$predictions <- ifelse(
+        test = perf_args$predictions > 0.5,
+        yes = val_positive,
+        no = val_negative
+      )
 
-    perf_args$predictions <- factor(
-      x = perf_args$predictions,
-      levels = lvls
-    )
-    if (!any(is.na(perf_args$predictions))) {
-      error <- FALSE
+      perf_args$predictions <- factor(
+        x = perf_args$predictions,
+        levels = lvls
+      )
+      if (any(is.na(perf_args$predictions))) {
+        error <- TRUE
+      }
     }
   }
 
@@ -257,4 +274,56 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     USE.NAMES = TRUE,
     simplify = FALSE
   )
+}
+
+
+.get_metrics_metadata <- function() {
+  metrics_table <- measures::listAllMeasures() |>
+    data.table::data.table()
+  return(metrics_table)
+}
+
+
+.metric_metadata <- function(fun_name) {
+  outlist <- list(
+    probabilities = FALSE,
+    task = FALSE,
+    binary = FALSE
+  )
+  if (requireNamespace("measures", quietly = TRUE)) {
+    metrics_table <- .get_metrics_metadata()
+    metric_row <- metrics_table[get("function_name") == fun_name, ]
+    if (metric_row[, .N] == 1) {
+      if (grepl(pattern = "classification", x = metric_row$task)) {
+        outlist[["task"]] <- "classification"
+      } else if (grepl(pattern = "regression", x = metric_row$task)) {
+        outlist[["task"]] <- "regression"
+      }
+      if (outlist[["task"]] == "classification") {
+        if (grepl(pattern = "binary", x = metric_row$task)) {
+          outlist[["binary"]] <- TRUE
+        }
+        outlist[["probabilities"]] <- metric_row$probabilities
+      }
+    }
+  }
+  return(outlist)
+}
+
+.test_binary_y_and_pred_probs <- function(y, perf_args) {
+  if (length(unique(y)) <= 2 &&
+    length(unique(perf_args$predictions)) > 2) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+.test_pred_probs_value_boundaries <- function(perf_args) {
+  if (min(perf_args$predictions) >= 0 &&
+      max(perf_args$predictions) <= 1) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
 }
