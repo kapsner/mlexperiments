@@ -194,7 +194,7 @@ The result of these efforts are:
     - to calculate performance measures with these predictions
       (`mlexperiments::performance()`)
     - and a utility function to select performance metrics from the
-      [`mlr3measures`](https://cran.r-project.org/web/packages/mlr3measures/index.html)
+      [`measures`](https://cran.r-project.org/web/packages/measures/index.html)
       R package
 - the [`mllrnrs`](https://github.com/kapsner/mllrnrs) R package, which
   enhances `mlexperiments` with some learner wrappers for algorithms I
@@ -387,7 +387,7 @@ best_grid_result
 knn_cv$learner_args <- best_grid_result[-1]
 
 knn_cv$predict_args <- list(type = "response")
-knn_cv$performance_metric <- metric("bacc")
+knn_cv$performance_metric <- metric("ACC")
 knn_cv$return_models <- TRUE
 
 # set data
@@ -399,9 +399,9 @@ knn_cv$set_data(
 results <- knn_cv$execute()
 head(results)
 #>     fold performance  k l
-#> 1: Fold1   0.8912781 68 0
-#> 2: Fold2   0.8832388 68 0
-#> 3: Fold3   0.8657147 68 0
+#> 1: Fold1   0.8926554 68 0
+#> 2: Fold2   0.8747646 68 0
+#> 3: Fold3   0.8596987 68 0
 ```
 
 ### Nested Cross-Validation
@@ -448,9 +448,9 @@ knn_cv_nested_bayesian$set_data(
 results <- knn_cv_nested_bayesian$execute()
 head(results)
 #>     fold performance  k l
-#> 1: Fold1   0.8912781 68 0
-#> 2: Fold2   0.8832388 68 0
-#> 3: Fold3   0.8657147 68 0
+#> 1: Fold1   0.8926554 68 0
+#> 2: Fold2   0.8747646 68 0
+#> 3: Fold3   0.8596987 68 0
 ```
 
 #### Inner Grid Search
@@ -480,7 +480,7 @@ knn_cv_nested_grid$set_data(
 results <- knn_cv_nested_grid$execute()
 head(results)
 #>     fold performance  k l
-#> 1: Fold1   0.8959736 52 0
-#> 2: Fold2   0.8832388 68 0
-#> 3: Fold3   0.8657147 68 0
+#> 1: Fold1   0.8945386 52 0
+#> 2: Fold2   0.8747646 68 0
+#> 3: Fold3   0.8596987 68 0
 ```

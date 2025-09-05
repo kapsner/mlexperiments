@@ -2,17 +2,36 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2025-03-05)
+## Unreleased (2025-09-05)
+
+#### Bug fixes
+
+-   working on switching to measures backend
+    ([81f43d3](https://github.com/kapsner/mlexperiments/tree/81f43d3b37ba500f4abc138455f39c2019f6e0a0))
+-   replacing mlr3measures with measures package
+    ([5a90b0a](https://github.com/kapsner/mlexperiments/tree/5a90b0a018c35996439de6234393c7f2f448d4b1))
 
 #### Other changes
 
+-   finalize code apdaptions
+    ([781b689](https://github.com/kapsner/mlexperiments/tree/781b6892dc1934db2feaebcbeca1be15f1bced2d))
+-   also fixed man file
+    ([c027f9f](https://github.com/kapsner/mlexperiments/tree/c027f9fed0c5bc9f4c37d115f5d64d79611b231d))
+-   fix another example
+    ([2fa1308](https://github.com/kapsner/mlexperiments/tree/2fa1308ba3ebca243e5f78e320fe14bd9a0f54d9))
+-   fixing yet another example
+    ([f4d2bd8](https://github.com/kapsner/mlexperiments/tree/f4d2bd844a5821b4a77db5419b8162c51067fcf6))
+-   fixing examples
+    ([4e9c2f8](https://github.com/kapsner/mlexperiments/tree/4e9c2f8bfb4d9a59d1302b8874dbbba38987aad7))
+-   adapting examples and vignettes
+    ([9e6a368](https://github.com/kapsner/mlexperiments/tree/9e6a36856f1c960b964ac25fa4cadecbf3ea4237))
 -   updated new dev-version
     ([1430c20](https://github.com/kapsner/mlexperiments/tree/1430c203f3fbb49bd7c75f62b6807de44d55ea93))
 -   updated news.md
     ([335d205](https://github.com/kapsner/mlexperiments/tree/335d205bf446e6a32ac75016e2a35fc084a3c6f5))
 
 Full set of changes:
-[`v0.0.5...1430c20`](https://github.com/kapsner/mlexperiments/compare/v0.0.5...1430c20)
+[`v0.0.5...781b689`](https://github.com/kapsner/mlexperiments/compare/v0.0.5...781b689)
 
 ## v0.0.5 (2025-03-03)
 

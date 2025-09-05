@@ -102,7 +102,7 @@ learner_args <- list(method = "class")
 # required for mlexperiments::MLCrossValidation and
 # mlexperiments::MLNestedCV
 predict_args <- list(type = "class")
-performance_metric <- metric("BAC")
+performance_metric <- metric("ACC")
 performance_metric_args <- NULL
 return_models <- FALSE
 
@@ -268,9 +268,9 @@ validator_results <- validator$execute()
 
 head(validator_results)
 #>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.8950174        2 0.07       22  class
-#> 2: Fold2   0.8978974        2 0.07       22  class
-#> 3: Fold3   0.8917513        2 0.07       22  class
+#> 1: Fold1   0.9018817        2 0.07       22  class
+#> 2: Fold2   0.9095816        2 0.07       22  class
+#> 3: Fold3   0.9045699        2 0.07       22  class
 ```
 
 
@@ -401,9 +401,9 @@ validator_results <- validator$execute()
 
 head(validator_results)
 #>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.8950174        2 0.07       22  class
-#> 2: Fold2   0.8978974        2 0.07       22  class
-#> 3: Fold3   0.8917513        2 0.07       22  class
+#> 1: Fold1   0.9018817        2 0.07       22  class
+#> 2: Fold2   0.9095816        2 0.07       22  class
+#> 3: Fold3   0.9045699        2 0.07       22  class
 ```
 
 
@@ -455,9 +455,9 @@ validator_results <- validator$execute()
 
 head(validator_results)
 #>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.8950174        2 0.07       22  class
-#> 2: Fold2   0.8978974        2 0.07       22  class
-#> 3: Fold3   0.8917513        2 0.07       22  class
+#> 1: Fold1   0.9018817        2 0.07       22  class
+#> 2: Fold2   0.9095816        2 0.07       22  class
+#> 3: Fold3   0.9045699        2 0.07       22  class
 ```
 
 ## Appendix I: Grid-Search with Target Weigths
@@ -553,9 +553,9 @@ validator_results <- validator$execute()
 head(validator_results)
 #>      fold performance minsplit    cp maxdepth method
 #>    <char>       <num>    <num> <num>    <num> <char>
-#> 1:  Fold1   0.8812005        2  0.07       22  class
-#> 2:  Fold2   0.9129256        2  0.07       22  class
-#> 3:  Fold3   0.8800668        2  0.07       22  class
+#> 1:  Fold1   0.8803763        2  0.07       22  class
+#> 2:  Fold2   0.9190283        2  0.07       22  class
+#> 3:  Fold3   0.8817204        2  0.07       22  class
 ```
 
 ```{r include=FALSE}

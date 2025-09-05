@@ -137,7 +137,7 @@ performance <- function(
     if (type == "binary") {
       append_metrics <- c(append_metrics, "ACC", "MMCE", "BER")
     } else if (type == "regression") {
-      append_metrics <- setdiff(append_metrics, "ARSQ")
+      append_metrics <- setdiff(append_metrics, c("ARSQ", "MSLE", "RMSLE"))
     }
     base_metric_list <- .metric_from_char(append_metrics)
     perf_fun <- kdry::list.append(perf_fun, base_metric_list)
