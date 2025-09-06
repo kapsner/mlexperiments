@@ -13,3 +13,4 @@
 ^\.ccache$
 ^CRAN-SUBMISSION$
 ^README\.qmd$
+^revdep$

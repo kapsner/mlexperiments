@@ -52,3 +52,4 @@ inst/doc
 !README.qmd
 !vignettes/
 !vignettes/*.qmd
+revdep
