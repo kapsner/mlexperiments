@@ -2,7 +2,7 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2025-09-05)
+## Unreleased (2025-09-06)
 
 #### Bug fixes
 
@@ -13,6 +13,14 @@
 
 #### Other changes
 
+-   revdep to gitignore and buildignore
+    ([295d17b](https://github.com/kapsner/mlexperiments/tree/295d17b29d38baf8dfcdb7b2788d08699aed9209))
+-   updated cran-comments
+    ([8d2df52](https://github.com/kapsner/mlexperiments/tree/8d2df524ceb85b12b474071f3df1ba3b24dbed65))
+-   updated wiki-creation
+    ([6258461](https://github.com/kapsner/mlexperiments/tree/625846122e560303304ad62b568ac3d9411a71fd))
+-   also updated vignette and readme-examples
+    ([fa49474](https://github.com/kapsner/mlexperiments/tree/fa49474cb72402882359dedfc79e4f3b71594e93))
 -   finalize code apdaptions
     ([781b689](https://github.com/kapsner/mlexperiments/tree/781b6892dc1934db2feaebcbeca1be15f1bced2d))
 -   also fixed man file
@@ -31,7 +39,7 @@
     ([335d205](https://github.com/kapsner/mlexperiments/tree/335d205bf446e6a32ac75016e2a35fc084a3c6f5))
 
 Full set of changes:
-[`v0.0.5...781b689`](https://github.com/kapsner/mlexperiments/compare/v0.0.5...781b689)
+[`v0.0.5...295d17b`](https://github.com/kapsner/mlexperiments/compare/v0.0.5...295d17b)
 
 ## v0.0.5 (2025-03-03)
 
