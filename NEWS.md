@@ -2,6 +2,13 @@
 
 # mlexperiments NEWS
 
+## Unreleased (2025-09-06)
+
+#### Other changes
+
+-   updated news.md, cran-comments
+    ([141cf71](https://github.com/kapsner/mlexperiments/tree/141cf71ee186bf4c774d489f2cbee69afcb6a357))
+
 ## v0.0.6 (2025-09-06)
 
 #### Bug fixes
