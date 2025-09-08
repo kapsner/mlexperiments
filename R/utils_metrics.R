@@ -158,61 +158,66 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     x = deparse(FUN),
     value = TRUE
   )
-  fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
 
-  metric_metadata <- .metric_metadata(fun_name = fun_name)
-
-  if (fun_name == "PPV") {
-    # fix wrong metadata-list entry from measures::listAllMeasures
-    metric_metadata$probabilities <- FALSE
-  }
-  if (fun_name %in% c("ACC", "MMCE", "BER")) {
-    # infer binary cases
-    if (.test_binary_y_and_pred_probs(y, perf_args)) {
-      if (.test_pred_probs_value_boundaries(perf_args)) {
-        metric_metadata$binary <- TRUE
-      }
-    }
-  }
-
-  # fix binary metrics here
-  # logic for conversion of probabilities to classes in case of binary
-  # classification
   error <- FALSE
-  if (.test_binary_y_and_pred_probs(y, perf_args) &&
-      isTRUE(metric_metadata$binary) &&
-      isFALSE(metric_metadata$probabilities)) {
-    # now test value bondaries
-    if (.test_pred_probs_value_boundaries(perf_args)) {
-      if (!is.factor(y)) {
-        # convert to factor
-        y <- factor(y)
-      }
-      lvls <- levels(y)
-      if ("positive" %in% names(perf_args)) {
-        val_positive <- perf_args$positive
-        val_negative <- setdiff(lvls, val_positive)
-      } else {
-        if ("0" %in% lvls && "1" %in% lvls) {
-          val_positive <- "1"
-          val_negative <- "0"
-        } else {
-          stop("Argument 'pos_level' is missing.")
+  # if there is a function from the measures-package, we can have
+  # the helpers here
+  if (length(fun_line) > 0) {
+    fun_name <- gsub(pattern = pat, replacement = "\\1", x = fun_line)
+
+    metric_metadata <- .metric_metadata(fun_name = fun_name)
+
+    if (fun_name == "PPV") {
+      # fix wrong metadata-list entry from measures::listAllMeasures
+      metric_metadata$probabilities <- FALSE
+    }
+    if (fun_name %in% c("ACC", "MMCE", "BER")) {
+      # infer binary cases
+      if (.test_binary_y_and_pred_probs(y, perf_args)) {
+        if (.test_pred_probs_value_boundaries(perf_args)) {
+          metric_metadata$binary <- TRUE
         }
       }
+    }
 
-      perf_args$predictions <- ifelse(
-        test = perf_args$predictions > 0.5,
-        yes = val_positive,
-        no = val_negative
-      )
+    # fix binary metrics here
+    # logic for conversion of probabilities to classes in case of binary
+    # classification
+    if (.test_binary_y_and_pred_probs(y, perf_args) &&
+        isTRUE(metric_metadata$binary) &&
+        isFALSE(metric_metadata$probabilities)) {
+      # now test value bondaries
+      if (.test_pred_probs_value_boundaries(perf_args)) {
+        if (!is.factor(y)) {
+          # convert to factor
+          y <- factor(y)
+        }
+        lvls <- levels(y)
+        if ("positive" %in% names(perf_args)) {
+          val_positive <- perf_args$positive
+          val_negative <- setdiff(lvls, val_positive)
+        } else {
+          if ("0" %in% lvls && "1" %in% lvls) {
+            val_positive <- "1"
+            val_negative <- "0"
+          } else {
+            stop("Argument 'pos_level' is missing.")
+          }
+        }
 
-      perf_args$predictions <- factor(
-        x = perf_args$predictions,
-        levels = lvls
-      )
-      if (any(is.na(perf_args$predictions))) {
-        error <- TRUE
+        perf_args$predictions <- ifelse(
+          test = perf_args$predictions > 0.5,
+          yes = val_positive,
+          no = val_negative
+        )
+
+        perf_args$predictions <- factor(
+          x = perf_args$predictions,
+          levels = lvls
+        )
+        if (any(is.na(perf_args$predictions))) {
+          error <- TRUE
+        }
       }
     }
   }

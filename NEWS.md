@@ -6,8 +6,13 @@
 
 #### Other changes
 
+-   updated dev-version
+    ([1b6c4b5](https://github.com/kapsner/mlexperiments/tree/1b6c4b58cf079a6b131fd292586377c62c19776a))
 -   updated news.md, cran-comments
     ([141cf71](https://github.com/kapsner/mlexperiments/tree/141cf71ee186bf4c774d489f2cbee69afcb6a357))
+
+Full set of changes:
+[`v0.0.6...1b6c4b5`](https://github.com/kapsner/mlexperiments/compare/v0.0.6...1b6c4b5)
 
 ## v0.0.6 (2025-09-06)
 
