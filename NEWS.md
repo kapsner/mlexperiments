@@ -2,6 +2,13 @@
 
 # mlexperiments NEWS
 
+## Unreleased (2025-09-09)
+
+#### Other changes
+
+-   updated news.md
+    ([9a51e06](https://github.com/kapsner/mlexperiments/tree/9a51e061b16a9dc29ccce3257d144cbe52592069))
+
 ## v0.0.7 (2025-09-08)
 
 #### Other changes
