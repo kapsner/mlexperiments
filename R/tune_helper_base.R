@@ -39,13 +39,17 @@
   if (!is.null(self$parameter_grid)) {
     # check if there are additional parameters that are not tuned
     if (private$strategy == "bayesian") {
-      if (nrow(self$parameter_grid) >
-          as.integer(options("mlexperiments.bayesian.max_init"))) {
-        message(sprintf(paste0(
-          "\nNumber of rows of initialization grid > than ",
-          "'options(\"mlexperiments.bayesian.max_init\")'...\n",
-          "... reducing initialization grid to %s rows."
-        ), options("mlexperiments.bayesian.max_init")
+      if (
+        nrow(self$parameter_grid) >
+          as.integer(options("mlexperiments.bayesian.max_init"))
+      ) {
+        message(sprintf(
+          paste0(
+            "\nNumber of rows of initialization grid > than ",
+            "'options(\"mlexperiments.bayesian.max_init\")'...\n",
+            "... reducing initialization grid to %s rows."
+          ),
+          options("mlexperiments.bayesian.max_init")
         ))
         set.seed(private$seed)
         select_rows <- sample(
@@ -76,20 +80,24 @@
       test = private$strategy == "bayesian",
       yes = length(intersect(
         names(private$method_helper$params_not_optimized),
-        names(self$parameter_bounds))) == 0L,
+        names(self$parameter_bounds)
+      )) ==
+        0L,
       no = TRUE
     ),
     length(intersect(
       names(private$method_helper$params_not_optimized),
-      names(private$execute_params))) == 0L
+      names(private$execute_params)
+    )) ==
+      0L
   )
 }
 
 .optimize_postprocessing <- function(
-    self,
-    private,
-    results_object,
-    metric_higher_better
+  self,
+  private,
+  results_object,
+  metric_higher_better
 ) {
   stopifnot(is.logical(metric_higher_better))
   # define object to be returned
@@ -105,9 +113,16 @@
 
     param_names <- setdiff(
       colnames(summary_object),
-      c("Epoch", "Iteration", "gpUtility",
-        "acqOptimum", "inBounds", "Elapsed",
-        "Score", "metric_optim_mean", "errorMessage"
+      c(
+        "Epoch",
+        "Iteration",
+        "gpUtility",
+        "acqOptimum",
+        "inBounds",
+        "Elapsed",
+        "Score",
+        "metric_optim_mean",
+        "errorMessage"
       )
     )
   } else if (private$strategy == "grid") {
@@ -149,10 +164,10 @@
 
 
 .get_best_setting <- function(
-    results,
-    opt_metric,
-    param_names,
-    higher_better
+  results,
+  opt_metric,
+  param_names,
+  higher_better
 ) {
   stopifnot(
     data.table::is.data.table(results),

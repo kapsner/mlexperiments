@@ -23,7 +23,8 @@
 #'
 #' @export
 #'
-MLTuneParameters <- R6::R6Class( # nolint
+MLTuneParameters <- R6::R6Class(
+  # nolint
   classname = "MLTuneParameters",
   inherit = MLExperimentsBase,
   public = list(
@@ -75,12 +76,12 @@ MLTuneParameters <- R6::R6Class( # nolint
     #' @return A new `MLTuneParameters` R6 object.
     #'
     #' @details
-        #' For `strategy = "bayesian"`, the number of starting iterations can be
-        #' set using the R option `"mlexperiments.bayesian.max_init"`, which
-        #' defaults to `50L`. This option reduces the provided initialization
-        #' grid to contain at most the specified number of rows. This
-        #' initialization grid is then further passed on to the `initGrid`
-        #' argument of [ParBayesianOptimization::bayesOpt].
+    #' For `strategy = "bayesian"`, the number of starting iterations can be
+    #' set using the R option `"mlexperiments.bayesian.max_init"`, which
+    #' defaults to `50L`. This option reduces the provided initialization
+    #' grid to contain at most the specified number of rows. This
+    #' initialization grid is then further passed on to the `initGrid`
+    #' argument of [ParBayesianOptimization::bayesOpt].
     #'
     #' @examples
     #' MLTuneParameters$new(
@@ -98,8 +99,9 @@ MLTuneParameters <- R6::R6Class( # nolint
     ) {
       super$initialize(learner = learner, seed = seed, ncores = ncores)
       stopifnot(
-        "`private$fun_optim_cv` must not be `NULL`" =
-          !is.null(self$learner$.__enclos_env__$private$fun_optim_cv)
+        "`private$fun_optim_cv` must not be `NULL`" = !is.null(
+          self$learner$.__enclos_env__$private$fun_optim_cv
+        )
       )
       strategy <- match.arg(strategy)
       stopifnot(
@@ -124,7 +126,6 @@ MLTuneParameters <- R6::R6Class( # nolint
         "grid" = .config_grid_optimizer,
         "bayesian" = .config_bayesian_optimizer
       )
-
     },
 
     #' @description

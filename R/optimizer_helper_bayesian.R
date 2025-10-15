@@ -1,25 +1,28 @@
 .bayesian_optimize <- function(
-    self, private,
-    x,
-    y,
-    method_helper
+  self,
+  private,
+  x,
+  y,
+  method_helper
 ) {
   stopifnot(
-    "`parameter_bounds` must not be empty for Bayesian optimization" =
-      !is.null(self$parameter_bounds),
-    "`ncores` must be >1L when using Bayesian optimization" =
-      private$ncores > 1L)
+    "`parameter_bounds` must not be empty for Bayesian optimization" = !is.null(
+      self$parameter_bounds
+    ),
+    "`ncores` must be >1L when using Bayesian optimization" = private$ncores >
+      1L
+  )
   if (self$optim_args$parallel) {
     stopifnot(
       "`learner$cluster_export` must not be empty when using Bayesian \
-      optimization" = !is.null(self$learner$cluster_export))
+      optimization" = !is.null(self$learner$cluster_export)
+    )
     message(sprintf(
       "\nRegistering parallel backend using %s cores.",
       private$ncores
     ))
 
     cl <- kdry::pch_register_parallel(private$ncores)
-
     self$optim_args$iters.k <- private$ncores
 
     on.exit(
@@ -41,7 +44,10 @@
     parallel::clusterExport(
       cl = cl,
       varlist = c(
-        "x", "y", "seed", "method_helper", # , "ncores" #, "cluster_load"
+        "x",
+        "y",
+        "seed",
+        "method_helper", # , "ncores" #, "cluster_load"
         "cluster_options"
       ),
       envir = environment()
@@ -54,8 +60,9 @@
       # export-internal-functions-to-a-cluster
       #%ns <- asNamespace("mlexperiments")
       stopifnot(
-        "`learner$environment` must be a character" =
-          is.character(self$learner$environment)
+        "`learner$environment` must be a character" = is.character(
+          self$learner$environment
+        )
       )
       ns <- asNamespace(self$learner$environment)
       parallel::clusterExport(
@@ -95,8 +102,12 @@
 
   # in any case, update gsPoints here, as default calculation fails when
   # calling bayesOpt with do.call
-  if (identical(str2lang("pmax(100, length(bounds)^3)"),
-                self$optim_args[["gsPoints"]])) {
+  if (
+    identical(
+      str2lang("pmax(100, length(bounds)^3)"),
+      self$optim_args[["gsPoints"]]
+    )
+  ) {
     self$optim_args[["gsPoints"]] <- pmax(100, length(self$parameter_bounds)^3)
   }
 
@@ -126,8 +137,12 @@
 }
 
 .bayesopt_postprocessing <- function(self, private, object) {
-  stopifnot("`object` is not of class `bayesOpt`" =
-              inherits(x = object, what = "bayesOpt"))
+  stopifnot(
+    "`object` is not of class `bayesOpt`" = inherits(
+      x = object,
+      what = "bayesOpt"
+    )
+  )
   exl_cols <- vapply(
     X = private$method_helper$execute_params$params_not_optimized,
     FUN = is.expression,
@@ -139,15 +154,16 @@
     exl_cols["case_weights"] <- TRUE
   }
   optim_results <- cbind(
-      data.table::as.data.table(object$scoreSummary),
-      data.table::as.data.table(
-        private$method_helper$execute_params$params_not_optimized[!exl_cols]
-      )
+    data.table::as.data.table(object$scoreSummary),
+    data.table::as.data.table(
+      private$method_helper$execute_params$params_not_optimized[!exl_cols]
     )
+  )
 
   colnames(optim_results)[grepl(
-    pattern = "Iteration", x = colnames(optim_results))
-  ] <- "setting_id"
+    pattern = "Iteration",
+    x = colnames(optim_results)
+  )] <- "setting_id"
 
   return(optim_results)
 }
