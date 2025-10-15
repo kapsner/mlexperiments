@@ -27,10 +27,14 @@
     # get fold ids
     train_index <- self$fold_list[[fold]]
 
-    fold_train <- list(x = kdry::mlh_subset(private$x, train_index),
-                       y = kdry::mlh_subset(private$y, train_index))
-    fold_test <- list(x = kdry::mlh_subset(private$x, -train_index),
-                      y = kdry::mlh_subset(private$y, -train_index))
+    fold_train <- list(
+      x = kdry::mlh_subset(private$x, train_index),
+      y = kdry::mlh_subset(private$y, train_index)
+    )
+    fold_test <- list(
+      x = kdry::mlh_subset(private$x, -train_index),
+      y = kdry::mlh_subset(private$y, -train_index)
+    )
 
     run_args <- list(
       train_index = train_index,
@@ -47,11 +51,10 @@
 }
 
 .cv_postprocessing <- function(
-    self,
-    private,
-    results_object
+  self,
+  private,
+  results_object
 ) {
-
   outlist <- list(folds = results_object)
 
   # calculate error metric for each fold
@@ -89,7 +92,6 @@
           FUN.VALUE = logical(1L)
         )
 
-
         if ("cat_vars" %in% names(add_args)) {
           add_args["cat_vars"] <- FALSE
         }
@@ -116,7 +118,6 @@
 }
 
 .cv_fit_model <- function(self, private, train_index, fold_train, fold_test) {
-
   fit_args <- list(
     x = fold_train$x,
     y = fold_train$y,
@@ -125,7 +126,6 @@
   )
 
   if (is.list(self$learner_args)) {
-
     learner_args <- self$learner_args
     learner_args <- .method_params_refactor(learner_args, private$method_helper)
     learner_args <- .eval_params(learner_args)
@@ -136,7 +136,6 @@
         train_index
       )
     }
-
   } else {
     learner_args <- NULL
   }
@@ -151,8 +150,10 @@
   if (!is.null(learner_args$cat_vars)) {
     cat_vars_provider <- learner_args$cat_vars
   }
-  if (is.null(cat_vars_provider) &&
-      !is.null(private$method_helper$execute_params$cat_vars)) {
+  if (
+    is.null(cat_vars_provider) &&
+      !is.null(private$method_helper$execute_params$cat_vars)
+  ) {
     cat_vars_provider <- private$method_helper$execute_params$cat_vars
   }
 

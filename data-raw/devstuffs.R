@@ -15,41 +15,45 @@ my_desc$set_authors(c(
     email = "lorenz.kapsner@gmail.com",
     role = c('cre', 'aut', 'cph'),
     comment = c(ORCID = "0000-0003-1866-860X")
-  )))
+  )
+))
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.7.9001")
+my_desc$set_version("0.0.7.9002")
 # The title of your package
 my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
-my_desc$set(Description = paste0(
-  "Provides 'R6' objects to perform parallelized hyperparameter ",
-  "optimization and cross-validation. ",
-  "Hyperparameter optimization can be performed with Bayesian ",
-  "optimization (via 'ParBayesianOptimization' ",
-  "<https://cran.r-project.org/package=ParBayesianOptimization>) and ",
-  "grid search. The optimized hyperparameters can be validated using ",
-  "k-fold cross-validation. Alternatively, hyperparameter optimization and ",
-  "validation can be performed with nested cross-validation. ",
-  "While 'mlexperiments' focuses on ",
-  "core wrappers for machine learning experiments, additional learner ",
-  "algorithms can be supplemented by inheriting from the provided learner ",
-  "base class."
-))
+my_desc$set(
+  Description = paste0(
+    "Provides 'R6' objects to perform parallelized hyperparameter ",
+    "optimization and cross-validation. ",
+    "Hyperparameter optimization can be performed with Bayesian ",
+    "optimization (via 'ParBayesianOptimization' ",
+    "<https://cran.r-project.org/package=ParBayesianOptimization>) and ",
+    "grid search. The optimized hyperparameters can be validated using ",
+    "k-fold cross-validation. Alternatively, hyperparameter optimization and ",
+    "validation can be performed with nested cross-validation. ",
+    "While 'mlexperiments' focuses on ",
+    "core wrappers for machine learning experiments, additional learner ",
+    "algorithms can be supplemented by inheriting from the provided learner ",
+    "base class."
+  )
+)
 # The description of your package
 my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
 # The urls
 my_desc$set("URL", "https://github.com/kapsner/mlexperiments")
-my_desc$set("BugReports",
-            "https://github.com/kapsner/mlexperiments/issues")
+my_desc$set("BugReports", "https://github.com/kapsner/mlexperiments/issues")
 
 # Vignette Builder
 my_desc$set("VignetteBuilder" = "quarto")
 # Quarto
-my_desc$set("SystemRequirements" = paste0(
-  "Quarto command line tools ",
-  "(https://github.com/quarto-dev/quarto-cli).")
+my_desc$set(
+  "SystemRequirements" = paste0(
+    "Quarto command line tools ",
+    "(https://github.com/quarto-dev/quarto-cli)."
+  )
 )
 
 # Testthat stuff
@@ -96,13 +100,14 @@ remotes_append_vector <- NULL
 tag1 <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tag1 == "cran") {
   install.packages("splitTools")
-} else{
+} else {
   remotes::install_github(
     repo = "mayer79/splitTools",
     ref = tag1
   )
   add_remotes <- paste0(
-    "github::mayer79/splitTools@", tag1
+    "github::mayer79/splitTools@",
+    tag1
   )
 
   if (is.null(remotes_append_vector)) {
@@ -115,13 +120,14 @@ if (tag1 == "cran") {
 tag2 <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tag2 == "cran") {
   install.packages("kdry")
-} else{
+} else {
   remotes::install_github(
     repo = "kapsner/kdry",
     ref = tag2
   )
   add_remotes <- paste0(
-    "github::kapsner/kdry@", tag2
+    "github::kapsner/kdry@",
+    tag2
   )
 
   if (is.null(remotes_append_vector)) {

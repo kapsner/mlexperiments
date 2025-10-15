@@ -2,12 +2,19 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2025-09-09)
+## Unreleased (2025-10-15)
 
 #### Other changes
 
+-   code formatting
+    ([583cda8](https://github.com/kapsner/mlexperiments/tree/583cda8d5b68b34821b56fef6f6b41de67617ada))
+-   updated dev-version
+    ([6d4a45d](https://github.com/kapsner/mlexperiments/tree/6d4a45dfc92427f5383944fec3173dbbb0cd2d6c))
 -   updated news.md
     ([9a51e06](https://github.com/kapsner/mlexperiments/tree/9a51e061b16a9dc29ccce3257d144cbe52592069))
+
+Full set of changes:
+[`v0.0.7...583cda8`](https://github.com/kapsner/mlexperiments/compare/v0.0.7...583cda8)
 
 ## v0.0.7 (2025-09-08)
 

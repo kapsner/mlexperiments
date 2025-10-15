@@ -1,11 +1,10 @@
 .cv_run_nested_model <- function(
-    self,
-    private,
-    train_index,
-    fold_train,
-    fold_test
+  self,
+  private,
+  train_index,
+  fold_train,
+  fold_test
 ) {
-
   hparam_tuner <- MLTuneParameters$new(
     learner = self$learner,
     strategy = self$strategy,
@@ -43,9 +42,12 @@
   # adjust best settings to fit final modle with
   learner_args <- hparam_tuner$results[["best.setting"]]
   learner_args <- learner_args[(names(learner_args) != "setting_id")]
-  learner_args <- learner_args[!kdry::misc_duplicated_by_names(
-    learner_args, fromLast = TRUE
-  )]
+  learner_args <- learner_args[
+    !kdry::misc_duplicated_by_names(
+      learner_args,
+      fromLast = TRUE
+    )
+  ]
 
   if ("case_weights" %in% names(learner_args)) {
     learner_args$case_weights <- NULL

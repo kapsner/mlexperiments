@@ -1,5 +1,4 @@
 .organize_parameter_grid <- function(self, private) {
-
   if (!is.null(self$parameter_grid)) {
     # even if there is only one param setting, expand to grid here to make
     # this code working in any case
@@ -37,8 +36,8 @@
       # columns, we then convert them back to a data.table
       private$method_helper$execute_params$parameter_grid <-
         data.table::as.data.table(
-        self$parameter_grid
-      )[, .SD, .SDcols = !vec]
+          self$parameter_grid
+        )[, .SD, .SDcols = !vec]
       params_not_optimized <- data.table::as.data.table(
         self$parameter_grid[1L, ]
       )[, .SD, .SDcols = vec]
@@ -46,7 +45,8 @@
       private$method_helper$execute_params$params_not_optimized <- sapply(
         X = names(params_not_optimized),
         FUN = function(x) {
-          params_not_optimized[[x]]
+          param <- params_not_optimized[[x]]
+          ifelse(is.factor(param), as.character(param), param)
         },
         simplify = FALSE,
         USE.NAMES = TRUE
@@ -56,31 +56,45 @@
         data.table::as.data.table(self$parameter_grid)
     }
   }
+  if (!is.null(private$method_helper$execute_params$params_not_optimized)) {
+    for (param_not_optim in names(
+      private$method_helper$execute_params$params_not_optimized
+    )) {
+      if (param_not_optim %in% names(self$learner_args)) {
+        # delete parameter from "prarms_not_optimized", when already present in learner_args
+        private$method_helper$execute_params$params_not_optimized[[
+          param_not_optim
+        ]] <- NULL
+      }
+    }
+  }
 
   # append learner_args to params_not_optimized
   if (!is.null(self$learner_args)) {
     stopifnot(
       "`learner_args` must be a list" = is.list(self$learner_args),
       "`learner_args` contains parameters that have also been specified \
-      with `parameter_grid`, however, which are static and thus not optimized" =
-        ifelse(
+      with `parameter_grid`, however, which are static and thus not optimized" = ifelse(
         test = !is.null(
           private$method_helper$execute_params$params_not_optimized
         ),
-        yes = length(setdiff(#
+        yes = length(setdiff(
+          #
           names(self$learner_args),
           names(
             private$method_helper$execute_params$params_not_optimized
-          ))) == length(self$learner_args),
+          )
+        )) ==
+          length(self$learner_args),
         no = TRUE
       ),
       "`learner_args` contains parameters that have also been specified \
-      with `parameter_grid`" =
-        length(setdiff(names(self$learner_args),
-              names(private$method_helper$execute_params$parameter_grid))) ==
+      with `parameter_grid`" = length(setdiff(
+        names(self$learner_args),
+        names(private$method_helper$execute_params$parameter_grid)
+      )) ==
         length(self$learner_args)
     )
-
 
     private$method_helper$execute_params$params_not_optimized <-
       kdry::list.append(
@@ -92,14 +106,18 @@
       X = names(private$method_helper$execute_params$params_not_optimized),
       FUN = function(x) {
         if (x == "") {
-          stop(paste0("`parameter_grid` or `learner_args` may not contain ",
-                      "unnamed entries."))
+          stop(paste0(
+            "`parameter_grid` or `learner_args` may not contain ",
+            "unnamed entries."
+          ))
         }
         ret <- private$method_helper$execute_params$params_not_optimized[[x]]
         if (is.list(ret) || !is.null(dim(ret))) {
           if (!inherits(ret, "family")) {
-            stop(paste0("`parameter_grid` or `learner_args` may not contain ",
-                        "multidimensional entries or lists"))
+            stop(paste0(
+              "`parameter_grid` or `learner_args` may not contain ",
+              "multidimensional entries or lists"
+            ))
           }
         }
         ret

@@ -18,7 +18,6 @@ status](https://github.com/kapsner/mlexperiments/workflows/lint/badge.svg)](http
 [![R build
 status](https://github.com/kapsner/mlexperiments/workflows/test-coverage/badge.svg)](https://github.com/kapsner/mlexperiments/actions)
 [![](https://codecov.io/gh/https://github.com/kapsner/mlexperiments/branch/main/graph/badge.svg)](https://app.codecov.io/gh/https://github.com/kapsner/mlexperiments)
-
 <!-- badges: end -->
 
 The `mlexperiments` R package provides an extensible framework for

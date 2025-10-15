@@ -75,7 +75,8 @@
 #'
 #' @export
 #'
-MLNestedCV <- R6::R6Class( # nolint
+MLNestedCV <- R6::R6Class(
+  # nolint
   classname = "MLNestedCV",
   inherit = MLCrossValidation,
   public = list(
@@ -195,8 +196,9 @@ MLNestedCV <- R6::R6Class( # nolint
         return_models = return_models
       )
       stopifnot(
-        "`fun_optim_cv` must not be `NULL`" =
-          !is.null(self$learner$.__enclos_env__$private$fun_optim_cv),
+        "`fun_optim_cv` must not be `NULL`" = !is.null(
+          self$learner$.__enclos_env__$private$fun_optim_cv
+        ),
         "`k_tuning` must be an integer >= 3" = as.integer(k_tuning) >= 3L,
         "`k_tuning` must be an integer" = is.integer(as.integer(k_tuning))
       )
@@ -297,8 +299,9 @@ MLNestedCV <- R6::R6Class( # nolint
           yes = !is.null(self$parameter_bounds),
           no = !is.null(self$parameter_grid)
         ),
-        "`execute_params` must not be empty" =
-          !is.null(private$method_helper$execute_params)
+        "`execute_params` must not be empty" = !is.null(
+          private$method_helper$execute_params
+        )
       )
       return(.run_cv(self = self, private = private))
     }
