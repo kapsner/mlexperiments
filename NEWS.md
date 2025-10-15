@@ -4,6 +4,11 @@
 
 ## Unreleased (2025-10-15)
 
+#### Bug fixes
+
+-   fixed issue that occured, when factor variables in grid
+    ([215d0d7](https://github.com/kapsner/mlexperiments/tree/215d0d72562e5e6bf04555abebbca742d22dd79e))
+
 #### Other changes
 
 -   code formatting
@@ -14,7 +19,7 @@
     ([9a51e06](https://github.com/kapsner/mlexperiments/tree/9a51e061b16a9dc29ccce3257d144cbe52592069))
 
 Full set of changes:
-[`v0.0.7...583cda8`](https://github.com/kapsner/mlexperiments/compare/v0.0.7...583cda8)
+[`v0.0.7...215d0d7`](https://github.com/kapsner/mlexperiments/compare/v0.0.7...215d0d7)
 
 ## v0.0.7 (2025-09-08)
 
