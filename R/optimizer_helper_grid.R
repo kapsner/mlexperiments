@@ -66,6 +66,11 @@
         params$case_weights <- NULL
       }
 
+      # remove cat_vars from params, otherwise displaying is very strange
+      if ("cat_vars" %in% names(params)) {
+        params$cat_vars <- NULL
+      }
+
       ret <- data.table::as.data.table(
         c(
           list("setting_id" = setting_id),

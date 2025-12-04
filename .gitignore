@@ -53,3 +53,4 @@ inst/doc
 !vignettes/
 !vignettes/*.qmd
 revdep
+!.pre-commit-config.yaml

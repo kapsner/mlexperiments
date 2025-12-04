@@ -46,7 +46,11 @@
         X = names(params_not_optimized),
         FUN = function(x) {
           param <- params_not_optimized[[x]]
-          ifelse(is.factor(param), as.character(param), param)
+          if (isTRUE(is.factor(param))) {
+            return(as.character(param))
+          } else {
+            return(param)
+          }
         },
         simplify = FALSE,
         USE.NAMES = TRUE
@@ -68,7 +72,7 @@
       }
     }
   }
-
+  
   # append learner_args to params_not_optimized
   if (!is.null(self$learner_args)) {
     stopifnot(
@@ -94,6 +98,20 @@
         names(private$method_helper$execute_params$parameter_grid)
       )) ==
         length(self$learner_args)
+    )
+    
+    self$learner_args <- sapply(
+      X = names(self$learner_args),
+      FUN = function(x) {
+        param <- self$learner_args[[x]]
+        if (isTRUE(is.factor(param))) {
+          return(as.character(param))
+        } else {
+          return(param)
+        }
+      },
+      simplify = FALSE,
+      USE.NAMES = TRUE
     )
 
     private$method_helper$execute_params$params_not_optimized <-

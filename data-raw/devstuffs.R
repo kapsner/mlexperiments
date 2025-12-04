@@ -20,7 +20,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.8.9001")
+my_desc$set_version("0.0.8.9002")
 # The title of your package
 my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
@@ -156,6 +156,7 @@ usethis::use_build_ignore("README.qmd")
 usethis::use_build_ignore("docs")
 usethis::use_build_ignore("Meta")
 usethis::use_build_ignore("revdep")
+usethis::use_build_ignore(".pre-commit-config.yaml")
 
 usethis::use_git_ignore("!NEWS.md")
 usethis::use_git_ignore("!README.md")

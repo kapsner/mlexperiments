@@ -1,6 +1,6 @@
 Package: mlexperiments
 Title: Machine Learning Experiments
-Version: 0.0.8.9001
+Version: 0.0.8.9002
 Authors@R: 
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
@@ -41,7 +41,7 @@ VignetteBuilder:
     quarto
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2025-10-16 08:00:41.425949 UTC
+Date/Publication: 2025-12-04 21:51:05.676424 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 SystemRequirements: Quarto command line tools
