@@ -14,3 +14,4 @@
 ^CRAN-SUBMISSION$
 ^README\.qmd$
 ^revdep$
+^\.pre-commit-config\.yaml$
