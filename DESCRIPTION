@@ -1,7 +1,7 @@
 Package: mlexperiments
 Title: Machine Learning Experiments
-Version: 0.0.8.9002
-Authors@R: 
+Version: 0.0.8.9003
+Authors@R:
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
 Description: Provides 'R6' objects to perform parallelized hyperparameter
@@ -17,9 +17,9 @@ Description: Provides 'R6' objects to perform parallelized hyperparameter
 License: GPL (>= 3)
 URL: https://github.com/kapsner/mlexperiments
 BugReports: https://github.com/kapsner/mlexperiments/issues
-Depends: 
+Depends:
     R (>= 4.1.0)
-Imports: 
+Imports:
     data.table,
     kdry,
     parallel,
@@ -27,7 +27,7 @@ Imports:
     R6,
     splitTools,
     stats
-Suggests: 
+Suggests:
     class,
     datasets,
     lintr,
@@ -37,11 +37,11 @@ Suggests:
     quarto,
     rpart,
     testthat (>= 3.0.1)
-VignetteBuilder: 
+VignetteBuilder:
     quarto
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2025-12-04 21:51:05.676424 UTC
+Date/Publication: 2025-12-05 22:09:28.745637 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 SystemRequirements: Quarto command line tools

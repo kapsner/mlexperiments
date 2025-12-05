@@ -12,7 +12,8 @@
   # init a progress bar
   pb <- progress::progress_bar$new(
     format = "\nParameter settings [:bar] :current/:total (:percent)",
-    total = ngrid
+    total = ngrid,
+    force = TRUE
   )
 
   optim_results <- lapply(

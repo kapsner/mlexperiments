@@ -14,7 +14,8 @@
   # init a progress bar
   pb <- progress::progress_bar$new(
     format = "CV progress [:bar] :current/:total (:percent)\n",
-    total = length(self$fold_list)
+    total = length(self$fold_list),
+    force = TRUE
   )
 
   outlist <- list()
