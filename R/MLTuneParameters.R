@@ -11,7 +11,7 @@
 #'   optimization. In both cases, each hyperparameter setting is evaluated in a
 #'   k-fold cross-validation on the dataset specified.
 #'
-#' @seealso [ParBayesianOptimization::bayesOpt()], [splitTools::create_folds()]
+#' @seealso [rBayesianOptimization::BayesianOptimization()], [splitTools::create_folds()]
 #'
 #' @examples
 #' knn_tuner <- MLTuneParameters$new(
@@ -39,7 +39,7 @@ MLTuneParameters <- R6::R6Class(
     #'   procedure. For `strategy = "grid"`, each row of the `parameter_grid` is
     #'   considered as a setting that is evaluated. For `strategy = "bayesian"`,
     #'   the `parameter_grid` is passed further on to the `initGrid` argument of
-    #'   the function [ParBayesianOptimization::bayesOpt()] in order to
+    #'   the function [rBayesianOptimization::BayesianOptimization()] in order to
     #'   initialize the Bayesian process. The maximum rows considered for
     #'   initializing the Bayesian process can be specified with the R option
     #'   `option("mlexperiments.bayesian.max_init")`, which is set to `50L` by
@@ -81,7 +81,7 @@ MLTuneParameters <- R6::R6Class(
     #' defaults to `50L`. This option reduces the provided initialization
     #' grid to contain at most the specified number of rows. This
     #' initialization grid is then further passed on to the `initGrid`
-    #' argument of [ParBayesianOptimization::bayesOpt].
+    #' argument of [rBayesianOptimization::BayesianOptimization].
     #'
     #' @examples
     #' MLTuneParameters$new(
@@ -145,7 +145,7 @@ MLTuneParameters <- R6::R6Class(
     #'     parameter `metric_optimization_higher_better`) identified during the
     #'     hyperparameter tuning.}
     #'    \item{"bayesOpt"}{The returned value of
-    #'      [ParBayesianOptimization::bayesOpt()] (only for `strategy =
+    #'      [rBayesianOptimization::BayesianOptimization()] (only for `strategy =
     #'     "bayesian"`).}
     #'   }
     #'
@@ -179,7 +179,7 @@ MLTuneParameters <- R6::R6Class(
     #' )
     #' tuner$split_type <- "stratified"
     #' tuner$optim_args <- list(
-    #'   iters.n = 4,
+    #'   n_iter = 4,
     #'   kappa = 3.5,
     #'   acq = "ucb"
     #' )

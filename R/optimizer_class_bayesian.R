@@ -3,14 +3,14 @@ BayesianOptimizer <- R6::R6Class( # nolint
   classname = "BayesianOptimizer",
   public = list(
     #' @field optim_args A list with the arguments that are passed to
-    #'   \code{ParBayesianOptimization::bayesOpt}
+    #'   \code{rBayesianOptimization::BayesianOptimization}
     optim_args = NULL,
     parameter_bounds = NULL,
     initialize = function(learner, seed, ncores, ...) {
-      if (!requireNamespace("ParBayesianOptimization", quietly = TRUE)) {
+      if (!requireNamespace("rBayesianOptimization", quietly = TRUE)) {
         stop(
           paste0(
-            "Package \"ParBayesianOptimization\" must be installed to use ",
+            "Package \"rBayesianOptimization\" must be installed to use ",
             "'strategy = \"bayesian\"'."
           ),
           call. = FALSE
@@ -20,8 +20,9 @@ BayesianOptimizer <- R6::R6Class( # nolint
       private$strategy <- "bayesian"
       kwargs <- kdry::misc_argument_catcher(...)
 
-      default_args <- formals(ParBayesianOptimization::bayesOpt)
+      default_args <- formals(rBayesianOptimization::BayesianOptimization)
       self$optim_args <- default_args[!sapply(default_args, is.symbol)]
+      self$optim_args["n_iter"] <- 3
 
       # update arguments
       if (length(kwargs) > 0) {

@@ -89,7 +89,7 @@ rpart_bounds <- list(
   maxdepth = c(2L, 30L)
 )
 optim_args <- list(
-  iters.n = ncores,
+  n_iter = ncores,
   kappa = 3.5,
   acq = "ucb"
 )

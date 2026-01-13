@@ -124,7 +124,7 @@ if (nrow(parameter_grid) > 10) {
 # required for bayesian optimization
 parameter_bounds <- list(k = c(2L, 80L))
 optim_args <- list(
-  iters.n = ncores,
+  n_iter = ncores,
   kappa = 3.5,
   acq = "ucb"
 )

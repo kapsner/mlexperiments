@@ -227,19 +227,20 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     #' @return The results of the Bayesian scoring.
     #'
-    #' @seealso [ParBayesianOptimization::bayesOpt()],
+    #' @seealso [rBayesianOptimization::BayesianOptimization()],
     #'   [mlexperiments::MLTuneParameters], and [mlexperiments::MLNestedCV]
     #'
     #' @examples
     #' learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
     #' \dontrun{
     #' # This example cannot be run without further adaptions.
-    #' # The method `$bayesian_scoring_function()` needs to be overwritten when
+    #' # The method `$fun_bayesian_scoring_function()` needs to be overwritten when
     #' # inheriting from this class.
     #' learner$bayesian_scoring_function()
     #' }
     #'
     bayesian_scoring_function = function(...) {
+      browser()
       kwargs <- list(...)
       args <- .method_params_refactor(
         kwargs,

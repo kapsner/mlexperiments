@@ -13,103 +13,60 @@
       1L
   )
   if (self$optim_args$parallel) {
+    self$optim_args$parallel <- NULL
+  }
+  # cluster options
+  cluster_options <- kdry::misc_subset_options("mlexperiments")
+  # required for cluster export
+  assign(
+    x = "seed",
+    value = private$seed
+  )
+
+  env_args <- list(
+    "x" = x,
+    "y" = y,
+    "seed" = seed,
+    "method_helper" = method_helper, # , "ncores" #, "cluster_load"
+    "cluster_options" = cluster_options
+  )
+  
+  bayesian_env <- rlang::new_environment(
+    data = env_args,
+    parent = environment()
+  )
+
+  # export from global env
+  # if (private$method %in% options("mlexperiments.learner")) {
+  if (self$learner$environment != -1L) {
+    # https://stackoverflow.com/questions/67595111/r-package-design-how-to-
+    # export-internal-functions-to-a-cluster
+    #%ns <- asNamespace("mlexperiments")
     stopifnot(
-      "`learner$cluster_export` must not be empty when using Bayesian \
-      optimization" = !is.null(self$learner$cluster_export)
-    )
-    message(sprintf(
-      "\nRegistering parallel backend using %s cores.",
-      private$ncores
-    ))
-
-    cl <- kdry::pch_register_parallel(private$ncores)
-    self$optim_args$iters.k <- private$ncores
-
-    on.exit(
-      expr = {
-        kdry::pch_clean_up(cl)
-        # reset random number generator
-        RNGkind(kind = "default")
-        invisible(gc())
-      }
-    )
-    # cluster options
-    cluster_options <- kdry::misc_subset_options("mlexperiments")
-    # required for cluster export
-    assign(
-      x = "seed",
-      value = private$seed
-    )
-    # export from current env
-    parallel::clusterExport(
-      cl = cl,
-      varlist = c(
-        "x",
-        "y",
-        "seed",
-        "method_helper", # , "ncores" #, "cluster_load"
-        "cluster_options"
-      ),
-      envir = environment()
-    )
-
-    # export from global env
-    # if (private$method %in% options("mlexperiments.learner")) {
-    if (self$learner$environment != -1L) {
-      # https://stackoverflow.com/questions/67595111/r-package-design-how-to-
-      # export-internal-functions-to-a-cluster
-      #%ns <- asNamespace("mlexperiments")
-      stopifnot(
-        "`learner$environment` must be a character" = is.character(
-          self$learner$environment
-        )
+      "`learner$environment` must be a character" = is.character(
+        self$learner$environment
       )
-      ns <- asNamespace(self$learner$environment)
-      parallel::clusterExport(
-        cl = cl,
-        #% varlist = unclass(
-        #%   utils::lsf.str(
-        #%     envir = ns,
-        #%     all = TRUE
-        #% )),
-        varlist = self$learner$cluster_export,
-        envir = as.environment(ns)
-      )
-    } else {
-      parallel::clusterExport(
-        cl = cl,
-        varlist = self$learner$cluster_export,
-        envir = -1L
-      )
-    }
-    parallel::clusterSetRNGStream(
-      cl = cl,
-      iseed = private$seed
     )
-    parallel::clusterEvalQ(
-      cl = cl,
-      expr = {
-        # set cluster options
-        options(cluster_options)
-        #%lapply(cluster_load, library, character.only = TRUE)
-        ## not necessary since using ::-notation everywhere
-        RNGkind("L'Ecuyer-CMRG")
-        # set seed in each job for reproducibility
-        set.seed(seed) #, kind = "L'Ecuyer-CMRG")
-      }
-    )
+    use_env <- asNamespace(self$learner$environment)
+  } else {
+    use_env <- -1L
   }
 
-  # in any case, update gsPoints here, as default calculation fails when
-  # calling bayesOpt with do.call
-  if (
-    identical(
-      str2lang("pmax(100, length(bounds)^3)"),
-      self$optim_args[["gsPoints"]]
-    )
-  ) {
-    self$optim_args[["gsPoints"]] <- pmax(100, length(self$parameter_bounds)^3)
-  }
+  get_from_env <- as.list(as.environment(use_env))
+  get_from_env <- sapply(
+    X = self$learner$cluster_export,
+    FUN = function(x) {
+      get_from_env[[x]]
+    },
+    USE.NAMES = TRUE,
+    simplify = FALSE
+  )
+
+  env_args <- kdry::list.append(
+    main_list = env_args,
+    append_list = get_from_env
+  )
+  bayesian_env <- list2env(x = env_args)
 
   args <- kdry::list.append(
     list(
@@ -119,20 +76,25 @@
       # ))),
       FUN = self$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
-      initGrid = method_helper$execute_params$parameter_grid
+      init_grid_dt = method_helper$execute_params$parameter_grid
     ),
     self$optim_args
   )
 
   # avoid error when setting initGrid / or initPoints
   if (!is.null(method_helper$execute_params$parameter_grid)) {
-    args <- args[names(args) != "initPoints"]
+    args <- args[names(args) != "init_points"]
   } else {
-    args <- args[names(args) != "initGrid"]
+    args <- args[names(args) != "init_grid_dt"]
   }
 
   set.seed(private$seed)
-  opt_obj <- do.call(ParBayesianOptimization::bayesOpt, args)
+  browser()
+  opt_obj <- do.call(
+    what = rBayesianOptimization::BayesianOptimization,
+    args = args,
+    envir = bayesian_env
+  )
   return(opt_obj)
 }
 

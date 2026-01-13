@@ -101,7 +101,7 @@ knn_bsF <- function(...) { # nolint
     ncores = 1L, # important, as bayesian search is already parallelized
     seed = seed
   )
-
+  browser()
   ret <- kdry::list.append(
     list("Score" = bayes_opt_knn$metric_optim_mean),
     bayes_opt_knn

@@ -278,7 +278,7 @@ param_list_knn <- expand.grid(
 knn_bounds <- list(k = c(2L, 80L))
 
 optim_args <- list(
-  iters.n = ncores,
+  n_iter = ncores,
   kappa = 3.5,
   acq = "ucb"
 )

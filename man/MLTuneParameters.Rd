@@ -63,7 +63,7 @@ tuner$parameter_grid <- expand.grid(
 )
 tuner$split_type <- "stratified"
 tuner$optim_args <- list(
-  iters.n = 4,
+  n_iter = 4,
   kappa = 3.5,
   acq = "ucb"
 )
@@ -253,7 +253,7 @@ tuner$parameter_grid <- expand.grid(
 )
 tuner$split_type <- "stratified"
 tuner$optim_args <- list(
-  iters.n = 4,
+  n_iter = 4,
   kappa = 3.5,
   acq = "ucb"
 )

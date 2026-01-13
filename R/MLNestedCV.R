@@ -95,7 +95,7 @@ MLNestedCV <- R6::R6Class(
     #'   procedure. For `strategy = "grid"`, each row of the `parameter_grid` is
     #'   considered as a setting that is evaluated. For `strategy = "bayesian"`,
     #'   the `parameter_grid` is passed further on to the `initGrid` argument of
-    #'   the function [ParBayesianOptimization::bayesOpt()] in order to
+    #'   the function [rBayesianOptimization::BayesianOptimization()] in order to
     #'   initialize the Bayesian process. The maximum rows considered for
     #'   initializing the Bayesian process can be specified with the R option
     #'   `option("mlexperiments.bayesian.max_init")`, which is set to `50L` by
