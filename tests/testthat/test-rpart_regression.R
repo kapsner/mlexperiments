@@ -44,6 +44,8 @@ test_that(
   desc = "test cv, regression - rpart",
   code = {
 
+    testthat::skip_if_not_installed("rpart")
+
     rpart_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerRpart$new(),
       fold_list = fold_list,
@@ -102,6 +104,9 @@ test_that(
   desc = "test bayesian tuner, initGrid, regression - rpart",
   code = {
 
+    testthat::skip_if_not_installed("rpart")
+    testthat::skip_if_not_installed("ParBayesianOptimization")
+
     rpart_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerRpart$new(),
       strategy = "bayesian",
@@ -134,6 +139,8 @@ test_that(
 test_that(
   desc = "test grid tuner, regression - rpart",
   code = {
+
+    testthat::skip_if_not_installed("rpart")
 
     rpart_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerRpart$new(),
@@ -175,6 +182,9 @@ test_that(
   desc = "test nested cv, bayesian, regression - rpart",
   code = {
 
+    testthat::skip_if_not_installed("rpart")
+    testthat::skip_if_not_installed("ParBayesianOptimization")
+
     rpart_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerRpart$new(),
       strategy = "bayesian",
@@ -214,6 +224,8 @@ test_that(
 test_that(
   desc = "test nested cv, grid, regression - rpart",
   code = {
+
+    testthat::skip_if_not_installed("rpart")
 
     rpart_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerRpart$new(),

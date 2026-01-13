@@ -43,6 +43,8 @@ test_that(
   desc = "test cv - knn",
   code = {
 
+    testthat::skip_if_not_installed("class")
+
     knn_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerKnn$new(),
       fold_list = fold_list,
@@ -95,6 +97,9 @@ param_list_knn <- expand.grid(
 test_that(
   desc = "test bayesian tuner, initGrid - knn",
   code = {
+
+    testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("ParBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerKnn$new(),
@@ -161,6 +166,9 @@ test_that(
   desc = "test bayesian tuner, initPoints - LearnerKnn",
   code = {
 
+    testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("ParBayesianOptimization")
+
     knn_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerKnn$new(),
       strategy = "bayesian",
@@ -192,6 +200,8 @@ test_that(
 test_that(
   desc = "test grid tuner - knn",
   code = {
+
+    testthat::skip_if_not_installed("class")
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerKnn$new(),
@@ -229,6 +239,9 @@ test_that(
 test_that(
   desc = "test nested cv, bayesian - knn",
   code = {
+
+    testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("ParBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerKnn$new(),
@@ -268,6 +281,8 @@ test_that(
 test_that(
   desc = "test nested cv, grid - knn",
   code = {
+
+    testthat::skip_if_not_installed("class")
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerKnn$new(),

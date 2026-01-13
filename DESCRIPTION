@@ -1,22 +1,20 @@
 Package: mlexperiments
 Title: Machine Learning Experiments
-Version: 0.0.8.9003
+Version: 0.0.9
 Authors@R:
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut", "cph"),
            comment = c(ORCID = "0000-0003-1866-860X"))
-Description: Provides 'R6' objects to perform parallelized hyperparameter
-    optimization and cross-validation. Hyperparameter optimization can be
-    performed with Bayesian optimization (via 'ParBayesianOptimization'
-    <https://cran.r-project.org/package=ParBayesianOptimization>) and grid
-    search. The optimized hyperparameters can be validated using k-fold
-    cross-validation. Alternatively, hyperparameter optimization and
-    validation can be performed with nested cross-validation. While
-    'mlexperiments' focuses on core wrappers for machine learning
-    experiments, additional learner algorithms can be supplemented by
-    inheriting from the provided learner base class.
+Description: Provides 'R6' objects to perform parallelized hyperparameter optimization and cross-validation. Hyperparameter optimization can be performed with Bayesian optimization (via 'ParBayesianOptimization' <https://cran.r-project.org/package=ParBayesianOptimization>) and grid search. The optimized hyperparameters can be validated using k-fold cross-validation. Alternatively, hyperparameter optimization and validation can be performed with nested cross-validation. While 'mlexperiments' focuses on core wrappers for machine learning experiments, additional learner algorithms can be supplemented by inheriting from the provided learner base class.
 License: GPL (>= 3)
 URL: https://github.com/kapsner/mlexperiments
 BugReports: https://github.com/kapsner/mlexperiments/issues
+Encoding: UTF-8
+Date/Publication: 2026-01-13 18:46:30.376188 UTC
+VignetteBuilder: quarto
+SystemRequirements: Quarto command line tools (https://github.com/quarto-dev/quarto-cli).
+Config/testthat/parallel: false
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -37,13 +35,3 @@ Suggests:
     quarto,
     rpart,
     testthat (>= 3.0.1)
-VignetteBuilder:
-    quarto
-Config/testthat/edition: 3
-Config/testthat/parallel: false
-Date/Publication: 2025-12-05 22:09:28.745637 UTC
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-SystemRequirements: Quarto command line tools
-    (https://github.com/quarto-dev/quarto-cli).
-RoxygenNote: 7.3.3
