@@ -103,7 +103,7 @@
   # define object to be returned
   outlist <- list()
   if (private$strategy == "bayesian") {
-    browser()
+    #browser()
     stopifnot(inherits(results_object, "bayesOpt"))
     outlist$bayesOpt <- results_object
     summary_object <- .bayesopt_postprocessing(

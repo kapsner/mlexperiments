@@ -4,7 +4,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{mlexperiments: Getting Started}
   %\VignetteEngine{quarto::html}
-editor_options: 
+editor_options:
   chunk_output_type: console
 execute:
   eval: false
@@ -20,7 +20,7 @@ The goal of the package `mlexperiments` is to provide an extensible framework fo
 
 * Hyperparameter tuning: with the R6 class `mlexperiments::MLTuneParameters`, to optimize the hyperparameters in a k-fold cross-validation with one of the two strategies
   + Grid search
-  + Bayesian optimization (using the [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization) R package)
+  + Bayesian optimization (using the [`rBayesianOptimization`](https://github.com/yanyachen/rBayesianOptimization) R package)
 * K-fold Cross-validation (CV): with the R6 class `mlexperiments::MLCrossValidation`, to validate one hyperparameter setting
 * Nested k-fold cross validation: with the R6 class `mlexperiments::MLNestedCV`, which basically combines the two experiments above to perform a hyperparameter optimization on an inner CV loop, and to validate the best hyperparameter setting on an outer CV loop
 
@@ -30,7 +30,7 @@ This vignette will go through the steps that are necessary to prepare a new lear
 
 ## General Overview
 
-In general, the learner class exposes 4 methods that can be defined:  
+In general, the learner class exposes 4 methods that can be defined:
 
 * `$fit` A wrapper around the private function `fun_fit`, which needs to be defined for every learner. The return value of this function is the fitted model.
 * `$predict` A wrapper around the private function `fun_predict`, which needs to be defined for every learner. The function must accept the three arguments `model`, `newdata`, and `ncores` and is a wrapper around the respective learner's predict-function. In order to allow the passing of further arguments, the ellipsis (`...`) can be used. The function should return the prediction results.
@@ -135,9 +135,7 @@ This function can be thought of as a "gatekeeper" that takes a new suggested hyp
 
 1. The functions needs to take the hyperparameters that should be optimized as function arguments (I generally use the ellipsis (`...`), however, the hyperparameters can also be defined as arguments explicitly).
 
-2. When using the `strategy = "bayesian"`, the package is configured in a way that the Bayesian process is parallelized, hence parallel threads evaluate different hyperparameter settings simultaneously (see [`ParBayesianOptimization's Readme`](https://github.com/AnotherSamWilson/ParBayesianOptimization#running-in-parallel) for more details). Therefore, the call to the `cross_validation` method must explicitly specify `ncores = 1L` in order to no get in trouble with requesting more resources than available, when using the `strategy = "bayesian"`.
-
-3. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item `Score`. As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `ParBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
+2. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item `Score`. As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `rBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
 
 ```{r eval=FALSE}
 knn_bsF <- function(...) { # nolint
@@ -150,7 +148,7 @@ knn_bsF <- function(...) { # nolint
     y = y,
     params = params,
     fold_list = method_helper$fold_list,
-    ncores = 1L, # important, as bayesian search is already parallelized
+    ncores = 1L, # currently, this cannot be parallelized
     seed = seed
   )
   ret <- kdry::list.append(
@@ -161,7 +159,7 @@ knn_bsF <- function(...) { # nolint
 }
 ```
 
-More details on the package [`ParBayesianOptimization`](https://cran.r-project.org/package=ParBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/package=ParBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+More details on the package [`rBayesianOptimization`](https://cran.r-project.org/package=rBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/package=rBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
 
 For the parallelization of the Bayesian process, all required functions must be exported to the cluster. To facilitate this, a simple wrapper function can be created that returns a character vector of all custom functions that are called from within the Bayesian scoring function. The following function shows the objects that need to be exported for a correct functioning of the `LearnerKnn`:
 
@@ -185,7 +183,7 @@ The placeholders are:
 | `private$fun_fit` | function | A function to fit a model of the respective algorithm. The function must return the fitted model. |
 | `private$fun_predict` | function | A function to predict the outcome in new data. The returned value of the `predict` method should be a vector with the predictions. |
 | `private$fun_optim_cv` | function | A function to perform a k-fold cross-validation for one hyperparameter setting. The function must return a named list with at least one item called `metric_optim_mean`, which contains the cross validated error metric. |
-| `private$fun_bayesian_scoring_function` | function | A function that is defined according to the requirements of the [`ParBayesianOptimization`](https://cran.r-project.org/package=ParBayesianOptimization) R package. It must return a named list that contains the optimization metric as the item `Score`. |
+| `private$fun_bayesian_scoring_function` | function | A function that is defined according to the requirements of the [`rBayesianOptimization`](https://cran.r-project.org/package=rBayesianOptimization) R package. It must return a named list that contains the optimization metric as the item `Score`. |
 | `self$environment` | field | The environment, where to search for the objects that need to be exported to a parallel cluster (required for Bayesian optimization). When the R6 learner is part of an R package, you can write the name of the R package here. Otherwise, `-1L` (the global environment) might be suitable as long as all objects that are defined in the field `cluster_export` are available from the global environment. |
 | `self$cluster_export` | field | A character vector with the names of objects that need to be exported to each node of a parallel cluster when performing a Bayesian optimization. |
 
@@ -313,7 +311,7 @@ knn_tune_bayesian$set_data(
 )
 
 results <- knn_tune_bayesian$execute(k = 3)
-#> 
+#>
 #> Registering parallel backend using 4 cores.
 
 head(results)
@@ -348,7 +346,7 @@ knn_tune_grid$set_data(
 )
 
 results <- knn_tune_grid$execute(k = 3)
-#> 
+#>
 #> Parameter settings [=====================>---------------------------------------------------------------------------] 2/9 ( 22%)
 #> Parameter settings [===============================>-----------------------------------------------------------------] 3/9 ( 33%)
 #> Parameter settings [==========================================>------------------------------------------------------] 4/9 ( 44%)
@@ -356,7 +354,7 @@ results <- knn_tune_grid$execute(k = 3)
 #> Parameter settings [================================================================>--------------------------------] 6/9 ( 67%)
 #> Parameter settings [==========================================================================>----------------------] 7/9 ( 78%)
 #> Parameter settings [=====================================================================================>-----------] 8/9 ( 89%)
-#> Parameter settings [=================================================================================================] 9/9 (100%)                                                                                                                                  
+#> Parameter settings [=================================================================================================] 9/9 (100%)
 
 head(results)
 #>    setting_id metric_optim_mean  k l
@@ -399,13 +397,13 @@ best_grid_result <- knn_tune_grid$results$best.setting
 best_grid_result
 #> $setting_id
 #> [1] 9
-#> 
+#>
 #> $k
 #> [1] 68
-#> 
+#>
 #> $l
 #> [1] 0
-#> 
+#>
 #> $test
 #> expression(fold_test$x)
 
@@ -422,15 +420,15 @@ knn_cv$set_data(
 )
 
 results <- knn_cv$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> CV fold: Fold2
 #> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
+#>
 #> CV fold: Fold3
 #> CV progress [========================================================================================================] 3/3 (100%)
-#>                                                                                                                                   
+#>
 
 head(results)
 #>     fold performance  k l
@@ -472,19 +470,19 @@ knn_cv_nested_bayesian$set_data(
 )
 
 results <- knn_cv_nested_bayesian$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> Registering parallel backend using 4 cores.
-#> 
+#>
 #> CV fold: Fold2
 #> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
+#>
 #> Registering parallel backend using 4 cores.
-#> 
+#>
 #> CV fold: Fold3
 #> CV progress [========================================================================================================] 3/3 (100%)
-#>                                                                                                                                   
+#>
 #> Registering parallel backend using 4 cores.
 
 head(results)
@@ -519,9 +517,9 @@ knn_cv_nested_grid$set_data(
 )
 
 results <- knn_cv_nested_grid$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> Parameter settings [=====================>---------------------------------------------------------------------------] 2/9 ( 22%)
 #> Parameter settings [===============================>-----------------------------------------------------------------] 3/9 ( 33%)
 #> Parameter settings [==========================================>------------------------------------------------------] 4/9 ( 44%)
@@ -529,10 +527,10 @@ results <- knn_cv_nested_grid$execute()
 #> Parameter settings [================================================================>--------------------------------] 6/9 ( 67%)
 #> Parameter settings [==========================================================================>----------------------] 7/9 ( 78%)
 #> Parameter settings [=====================================================================================>-----------] 8/9 ( 89%)
-#> Parameter settings [=================================================================================================] 9/9 (100%)                                                                                                                                  
+#> Parameter settings [=================================================================================================] 9/9 (100%)
 #> CV fold: Fold2
 #> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
+#>
 #> Parameter settings [=====================>---------------------------------------------------------------------------] 2/9 ( 22%)
 #> Parameter settings [===============================>-----------------------------------------------------------------] 3/9 ( 33%)
 #> Parameter settings [==========================================>------------------------------------------------------] 4/9 ( 44%)
@@ -540,10 +538,10 @@ results <- knn_cv_nested_grid$execute()
 #> Parameter settings [================================================================>--------------------------------] 6/9 ( 67%)
 #> Parameter settings [==========================================================================>----------------------] 7/9 ( 78%)
 #> Parameter settings [=====================================================================================>-----------] 8/9 ( 89%)
-#> Parameter settings [=================================================================================================] 9/9 (100%)                                                                                                                                  
+#> Parameter settings [=================================================================================================] 9/9 (100%)
 #> CV fold: Fold3
 #> CV progress [========================================================================================================] 3/3 (100%)
-#>                                                                                                                                   
+#>
 #> Parameter settings [=====================>---------------------------------------------------------------------------] 2/9 ( 22%)
 #> Parameter settings [===============================>-----------------------------------------------------------------] 3/9 ( 33%)
 #> Parameter settings [==========================================>------------------------------------------------------] 4/9 ( 44%)
@@ -551,7 +549,7 @@ results <- knn_cv_nested_grid$execute()
 #> Parameter settings [================================================================>--------------------------------] 6/9 ( 67%)
 #> Parameter settings [==========================================================================>----------------------] 7/9 ( 78%)
 #> Parameter settings [=====================================================================================>-----------] 8/9 ( 89%)
-#> Parameter settings [=================================================================================================] 9/9 (100%)                                                                                                                                  
+#> Parameter settings [=================================================================================================] 9/9 (100%)
 
 head(results)
 #>     fold performance  k l

@@ -30,7 +30,7 @@ MLTuneParameters <- R6::R6Class(
   public = list(
     #' @field parameter_bounds A named list of tuples to define the parameter
     #'   bounds of the Bayesian hyperparameter optimization. For further details
-    #'   please see the documentation of the `ParBayesianOptimization` package.
+    #'   please see the documentation of the `rBayesianOptimization` package.
     parameter_bounds = NULL,
 
     #' @field parameter_grid A matrix with named columns in which each column
@@ -48,7 +48,7 @@ MLTuneParameters <- R6::R6Class(
 
     #' @field optim_args A named list of tuples to define the parameter
     #'   bounds of the Bayesian hyperparameter optimization. For further details
-    #'   please see the documentation of the `ParBayesianOptimization` package.
+    #'   please see the documentation of the `rBayesianOptimization` package.
     optim_args = NULL,
 
     #' @field split_type A character. The splitting strategy to construct the

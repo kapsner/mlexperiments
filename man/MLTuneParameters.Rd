@@ -78,7 +78,7 @@ tuner$execute(k = 3)
 
 }
 \seealso{
-\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}}, \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
+\code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}}, \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 }
 \section{Super classes}{
 \code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLTuneParameters}
@@ -88,7 +88,7 @@ tuner$execute(k = 3)
 \describe{
 \item{\code{parameter_bounds}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
-please see the documentation of the \code{ParBayesianOptimization} package.}
+please see the documentation of the \code{rBayesianOptimization} package.}
 
 \item{\code{parameter_grid}}{A matrix with named columns in which each column
 represents a parameter that should be optimized and each row represents
@@ -96,7 +96,7 @@ a specific hyperparameter setting that should be tested throughout the
 procedure. For \code{strategy = "grid"}, each row of the \code{parameter_grid} is
 considered as a setting that is evaluated. For \code{strategy = "bayesian"},
 the \code{parameter_grid} is passed further on to the \code{initGrid} argument of
-the function \code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}} in order to
+the function \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}} in order to
 initialize the Bayesian process. The maximum rows considered for
 initializing the Bayesian process can be specified with the R option
 \code{option("mlexperiments.bayesian.max_init")}, which is set to \code{50L} by
@@ -104,7 +104,7 @@ default.}
 
 \item{\code{optim_args}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
-please see the documentation of the \code{ParBayesianOptimization} package.}
+please see the documentation of the \code{rBayesianOptimization} package.}
 
 \item{\code{split_type}}{A character. The splitting strategy to construct the
 k cross-validation folds. This parameter is passed further on to the
@@ -168,7 +168,7 @@ set using the R option \code{"mlexperiments.bayesian.max_init"}, which
 defaults to \code{50L}. This option reduces the provided initialization
 grid to contain at most the specified number of rows. This
 initialization grid is then further passed on to the \code{initGrid}
-argument of \link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt}.
+argument of \link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization}.
 }
 
 \subsection{Returns}{
@@ -217,7 +217,7 @@ the returned value of the \code{execute} method).}
 parameter \code{metric_optimization_higher_better}) identified during the
 hyperparameter tuning.}
 \item{"bayesOpt"}{The returned value of
-\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}} (only for \code{strategy = "bayesian"}).}
+\code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}} (only for \code{strategy = "bayesian"}).}
 }
 }
 

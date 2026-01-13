@@ -6,13 +6,17 @@
 
 #### Bug fixes
 
+-   fixing bayes-opt (wip)
+    ([832b84a](https://github.com/kapsner/mlexperiments/tree/832b84a9d0b5778fb6380aebbbb4754eca0c92d8))
+-   working on changing to rbayesianopt package (wip)
+    ([ff420e0](https://github.com/kapsner/mlexperiments/tree/ff420e05f1d0db3a69cc797bd41ba95ff2b7034b))
 -   removes cat_vars from tuner-results
     ([9ebb462](https://github.com/kapsner/mlexperiments/tree/9ebb462f4a7f6ff45d7d93f49868c4ec454b8163))
 
 #### Tests
 
 -   introduce conditional testing
-    ([85af10a](https://github.com/kapsner/mlexperiments/tree/85af10ae40e882aedce0c05d72970d8da2495730))
+    ([042806e](https://github.com/kapsner/mlexperiments/tree/042806e0776b742ff92efc645f748a6fd34dca77))
 
 #### Other changes
 
@@ -26,7 +30,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...85af10a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...85af10a)
+[`v0.0.8...832b84a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...832b84a)
 
 ## v0.0.8 (2025-10-15)
 

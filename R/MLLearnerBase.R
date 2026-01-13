@@ -240,14 +240,28 @@ MLLearnerBase <- R6::R6Class( # nolint
     #' }
     #'
     bayesian_scoring_function = function(...) {
-      browser()
       kwargs <- list(...)
+      env_args <- kwargs$env_args
+      kwargs$env_args <- NULL
+      for (el in names(env_args)) {
+        if (is.function(env_args[[el]])) {
+          environment(env_args[[el]]) <- environment()
+        }
+        assign(
+          x = el,
+          value = env_args[[el]]
+        )
+      }
       args <- .method_params_refactor(
         kwargs,
         method_helper
       )
+      args$FUN <- private$fun_bayesian_scoring_function
+      environment(args$FUN) <- environment()
       set.seed(self$seed)
-      res <- do.call(private$fun_bayesian_scoring_function, args)
+      #browser()
+      res <- do.call(rBayesianOptimization::BayesianOptimization, args)
+      res$Pred <- 0 # set pred=0 as placeholder
 
       # take care of transforming results in case higher-better = FALSE
       # --> bayesOpt tries to maximize the metric, so it is required to

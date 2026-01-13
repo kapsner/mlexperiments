@@ -99,7 +99,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
-    testthat::skip_if_not_installed("ParBayesianOptimization")
+    testthat::skip_if_not_installed("rBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerKnn$new(),
@@ -167,7 +167,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
-    testthat::skip_if_not_installed("ParBayesianOptimization")
+    testthat::skip_if_not_installed("rBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerKnn$new(),
@@ -241,7 +241,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
-    testthat::skip_if_not_installed("ParBayesianOptimization")
+    testthat::skip_if_not_installed("rBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerKnn$new(),

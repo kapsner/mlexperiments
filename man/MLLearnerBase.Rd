@@ -91,7 +91,7 @@ learner$predict()
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 \dontrun{
 # This example cannot be run without further adaptions.
-# The method `$bayesian_scoring_function()` needs to be overwritten when
+# The method `$fun_bayesian_scoring_function()` needs to be overwritten when
 # inheriting from this class.
 learner$bayesian_scoring_function()
 }
@@ -110,7 +110,7 @@ learner$bayesian_scoring_function()
 \link{MLCrossValidation}, and
 \link{MLNestedCV}
 
-\code{\link[ParBayesianOptimization:bayesOpt]{ParBayesianOptimization::bayesOpt()}},
+\code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}},
 \link{MLTuneParameters}, and \link{MLNestedCV}
 }
 \section{Public fields}{
@@ -365,7 +365,7 @@ The results of the Bayesian scoring.
 \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 \dontrun{
 # This example cannot be run without further adaptions.
-# The method `$bayesian_scoring_function()` needs to be overwritten when
+# The method `$fun_bayesian_scoring_function()` needs to be overwritten when
 # inheriting from this class.
 learner$bayesian_scoring_function()
 }

@@ -13,8 +13,10 @@
       1L
   )
   if (self$optim_args$parallel) {
-    self$optim_args$parallel <- NULL
+    self$optim_args$parallel <- NULL # (specific for rBayesianOptimization)
   }
+  # to not create issue afterwards, when args are initialized (specific for rBayesianOptimization)
+  self$optim_args$init_grid_dt <- NULL
   # cluster options
   cluster_options <- kdry::misc_subset_options("mlexperiments")
   # required for cluster export
@@ -29,11 +31,6 @@
     "seed" = seed,
     "method_helper" = method_helper, # , "ncores" #, "cluster_load"
     "cluster_options" = cluster_options
-  )
-  
-  bayesian_env <- rlang::new_environment(
-    data = env_args,
-    parent = environment()
   )
 
   # export from global env
@@ -66,7 +63,6 @@
     main_list = env_args,
     append_list = get_from_env
   )
-  bayesian_env <- list2env(x = env_args)
 
   args <- kdry::list.append(
     list(
@@ -74,9 +70,10 @@
       # FUN = eval(parse(text = paste0(
       #   private$method, "_bsF"
       # ))),
-      FUN = self$learner$bayesian_scoring_function,
+      FUN = NULL,
       bounds = self$parameter_bounds,
-      init_grid_dt = method_helper$execute_params$parameter_grid
+      init_grid_dt = method_helper$execute_params$parameter_grid,
+      env_args = env_args
     ),
     self$optim_args
   )
@@ -89,11 +86,9 @@
   }
 
   set.seed(private$seed)
-  browser()
   opt_obj <- do.call(
-    what = rBayesianOptimization::BayesianOptimization,
+    what = self$learner$bayesian_scoring_function,
     args = args,
-    envir = bayesian_env
   )
   return(opt_obj)
 }

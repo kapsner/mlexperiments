@@ -105,7 +105,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("rpart")
-    testthat::skip_if_not_installed("ParBayesianOptimization")
+    testthat::skip_if_not_installed("rBayesianOptimization")
 
     rpart_optimization <- mlexperiments::MLTuneParameters$new(
       learner = LearnerRpart$new(),
@@ -183,7 +183,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("rpart")
-    testthat::skip_if_not_installed("ParBayesianOptimization")
+    testthat::skip_if_not_installed("rBayesianOptimization")
 
     rpart_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerRpart$new(),

@@ -28,7 +28,7 @@ reproducible machine learning (ML) experiments, namely:
   a k-fold cross-validation with one of the two strategies
   - Grid search
   - Bayesian optimization (using the
-    [`ParBayesianOptimization`](https://github.com/AnotherSamWilson/ParBayesianOptimization)
+    [`rBayesianOptimization`](https://github.com/yanyachen/rBayesianOptimization)
     R package)
 - K-fold Cross-validation (CV): with the R6 class
   `mlexperiments::MLCrossValidation`, to validate one hyperparameter
@@ -266,7 +266,7 @@ grid with some hyperparameter combinations that is used for initializing
 the Bayesian process. Furthermore, the borders (allowed extreme values)
 of the hyperparameters that are actually optimized need to be defined in
 a list. Finally, further arguments that are passed to the function
-`ParBayesianOptimization::bayesOpt()` can be defined as well.
+`rBayesianOptimization::bayesOpt()` can be defined as well.
 
 ``` r
 param_list_knn <- expand.grid(
