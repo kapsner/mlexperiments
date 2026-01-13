@@ -2,17 +2,22 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2025-12-05)
+## Unreleased (2026-01-13)
 
 #### Bug fixes
 
 -   removes cat_vars from tuner-results
     ([9ebb462](https://github.com/kapsner/mlexperiments/tree/9ebb462f4a7f6ff45d7d93f49868c4ec454b8163))
 
+#### Tests
+
+-   introduce conditional testing
+    ([85af10a](https://github.com/kapsner/mlexperiments/tree/85af10ae40e882aedce0c05d72970d8da2495730))
+
 #### Other changes
 
 -   force=true for progress-bar
-    ([d15292d](https://github.com/kapsner/mlexperiments/tree/d15292d5127ae6db095aa5523dd51b692664f049))
+    ([f648f8b](https://github.com/kapsner/mlexperiments/tree/f648f8bdbbd01a6a2b286d22f2a7dd15b3b30e92))
 -   added pre-commit hooks
     ([38a450c](https://github.com/kapsner/mlexperiments/tree/38a450cba4501cb3c8ebf767be07fed50b43b753))
 -   updated dev-version
@@ -21,7 +26,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...d15292d`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...d15292d)
+[`v0.0.8...85af10a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...85af10a)
 
 ## v0.0.8 (2025-10-15)
 
