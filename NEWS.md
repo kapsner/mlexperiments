@@ -7,7 +7,7 @@
 #### Bug fixes
 
 -   fixing bayes-opt (wip)
-    ([832b84a](https://github.com/kapsner/mlexperiments/tree/832b84a9d0b5778fb6380aebbbb4754eca0c92d8))
+    ([a0ce426](https://github.com/kapsner/mlexperiments/tree/a0ce426d2b63614229f9c3f8b402ba8a5bc2f738))
 -   working on changing to rbayesianopt package (wip)
     ([ff420e0](https://github.com/kapsner/mlexperiments/tree/ff420e05f1d0db3a69cc797bd41ba95ff2b7034b))
 -   removes cat_vars from tuner-results
@@ -20,6 +20,8 @@
 
 #### Other changes
 
+-   another comment
+    ([00a3921](https://github.com/kapsner/mlexperiments/tree/00a39210a3a4352953d3af2582274b20d48f4b3d))
 -   force=true for progress-bar
     ([f648f8b](https://github.com/kapsner/mlexperiments/tree/f648f8bdbbd01a6a2b286d22f2a7dd15b3b30e92))
 -   added pre-commit hooks
@@ -30,7 +32,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...832b84a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...832b84a)
+[`v0.0.8...00a3921`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...00a3921)
 
 ## v0.0.8 (2025-10-15)
 
