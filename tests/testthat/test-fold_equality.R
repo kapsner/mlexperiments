@@ -42,6 +42,8 @@ test_that(
   desc = "test validate_fold_equality",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     glm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerGlm$new(),
       fold_list = fold_list,

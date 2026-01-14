@@ -75,7 +75,6 @@ usethis::use_package("R", min_version = "4.1.0", type = "Depends")
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("splitTools", type = "Imports")
-usethis::use_package("parallel", type = "Imports")
 usethis::use_package("progress", type = "Imports")
 usethis::use_package("R6", type = "Imports")
 usethis::use_package("kdry", type = "Imports")

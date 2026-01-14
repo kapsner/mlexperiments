@@ -44,6 +44,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("measures")
 
     knn_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerKnn$new(),
@@ -95,7 +96,7 @@ param_list_knn <- expand.grid(
 )
 
 test_that(
-  desc = "test bayesian tuner, initGrid - knn",
+  desc = "test bayesian tuner, init_grid_dt - knn",
   code = {
 
     testthat::skip_if_not_installed("class")
@@ -154,16 +155,13 @@ test_that(
       what = "mlexTune"
     ))
 
-    expect_equal(
-      cv_results1[, .SD, .SDcols = !"Elapsed"],
-      cv_results2[, .SD, .SDcols = !"Elapsed"]
-    )
+    expect_equal(cv_results1, cv_results2)
   }
 )
 
 
 test_that(
-  desc = "test bayesian tuner, initPoints - LearnerKnn",
+  desc = "test bayesian tuner, init_points - LearnerKnn",
   code = {
 
     testthat::skip_if_not_installed("class")
@@ -241,6 +239,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("measures")
     testthat::skip_if_not_installed("rBayesianOptimization")
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
@@ -283,6 +282,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("class")
+    testthat::skip_if_not_installed("measures")
 
     knn_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerKnn$new(),

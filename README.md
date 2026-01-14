@@ -266,7 +266,7 @@ grid with some hyperparameter combinations that is used for initializing
 the Bayesian process. Furthermore, the borders (allowed extreme values)
 of the hyperparameters that are actually optimized need to be defined in
 a list. Finally, further arguments that are passed to the function
-`rBayesianOptimization::bayesOpt()` can be defined as well.
+`rBayesianOptimization::BayesianOptimization()` can be defined as well.
 
 ``` r
 param_list_knn <- expand.grid(

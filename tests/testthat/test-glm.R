@@ -29,6 +29,8 @@ test_that(
   desc = "test cv - glm",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     glm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerGlm$new(),
       fold_list = fold_list,
@@ -62,6 +64,8 @@ test_that(
 test_that(
   desc = "test cv, return models - glm",
   code = {
+
+    testthat::skip_if_not_installed("measures")
 
     glm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerGlm$new(),

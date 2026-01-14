@@ -44,6 +44,8 @@ test_that(
   desc = "test cv, classification - rpart",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     testthat::skip_if_not_installed("rpart")
     rpart_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerRpart$new(),
@@ -180,6 +182,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("rpart")
+    testthat::skip_if_not_installed("measures")
     testthat::skip_if_not_installed("rBayesianOptimization")
 
     rpart_optimization <- mlexperiments::MLNestedCV$new(
@@ -226,6 +229,7 @@ test_that(
   code = {
 
     testthat::skip_if_not_installed("rpart")
+    testthat::skip_if_not_installed("measures")
 
     rpart_optimization <- mlexperiments::MLNestedCV$new(
       learner = LearnerRpart$new(),

@@ -42,6 +42,8 @@ test_that(
   desc = "test predictions, binary - glm",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     glm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerGlm$new(),
       fold_list = fold_list,
@@ -158,6 +160,8 @@ fold_list <- splitTools::create_folds(
 test_that(
   desc = "test predictions, regression - lm",
   code = {
+
+    testthat::skip_if_not_installed("measures")
 
     lm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerLm$new(),

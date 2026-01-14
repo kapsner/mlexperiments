@@ -28,6 +28,8 @@ test_that(
   desc = "test cv - lm",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     lm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerLm$new(),
       fold_list = fold_list,
@@ -56,6 +58,8 @@ test_that(
 test_that(
   desc = "test cv, return models - lm",
   code = {
+
+    testthat::skip_if_not_installed("measures")
 
     lm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerLm$new(),
@@ -160,6 +164,8 @@ test_that(
   desc = "test lm, error when no cat_vars in prediction",
   code = {
 
+    testthat::skip_if_not_installed("measures")
+
     lm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerLm$new(),
       fold_list = fold_list,
@@ -192,6 +198,8 @@ test_that(
 test_that(
   desc = "test lm, error when cat_vars in prediction",
   code = {
+
+    testthat::skip_if_not_installed("measures")
 
     lm_optimization <- mlexperiments::MLCrossValidation$new(
       learner = LearnerLm$new(),

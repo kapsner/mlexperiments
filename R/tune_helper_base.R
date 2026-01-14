@@ -103,8 +103,9 @@
   # define object to be returned
   outlist <- list()
   if (private$strategy == "bayesian") {
-    #browser()
-    stopifnot(inherits(results_object, "bayesOpt"))
+    stopifnot(inherits(results_object, "list"))
+    # delete Pred-col as it's unused
+    results_object$Pred <- NULL
     outlist$bayesOpt <- results_object
     summary_object <- .bayesopt_postprocessing(
       self = self,
@@ -115,15 +116,9 @@
     param_names <- setdiff(
       colnames(summary_object),
       c(
-        "Epoch",
-        "Iteration",
-        "gpUtility",
-        "acqOptimum",
-        "inBounds",
-        "Elapsed",
-        "Score",
-        "metric_optim_mean",
-        "errorMessage"
+        "setting_id",
+        "Value",
+        "metric_optim_mean"
       )
     )
   } else if (private$strategy == "grid") {
@@ -177,11 +172,12 @@
   )
 
   FUN <- ifelse(isTRUE(higher_better), which.max, which.min) # nolint
-  # requires as data.table cannot handle expressions
+  # requires data.frame as data.table cannot handle expressions
   res <- as.data.frame(results)
   best_row_id <- FUN(res[, opt_metric])
   #%best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
-  best_row <- res[best_row_id, which(colnames(res) %in% param_names)]
+  show_cols <- intersect(param_names, colnames(res))
+  best_row <- data.table::as.data.table(res)[best_row_id, .SD, .SDcols = show_cols]
   stopifnot(nrow(best_row) == 1)
   ret <- as.list(best_row)
   return(ret[!kdry::misc_duplicated_by_names(ret, fromLast = TRUE)])

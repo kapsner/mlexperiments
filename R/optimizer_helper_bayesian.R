@@ -70,34 +70,52 @@
       # FUN = eval(parse(text = paste0(
       #   private$method, "_bsF"
       # ))),
-      FUN = NULL,
+      FUN = self$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
-      init_grid_dt = method_helper$execute_params$parameter_grid,
-      env_args = env_args
+      init_grid_dt = method_helper$execute_params$parameter_grid
+      #env_args = env_args
     ),
     self$optim_args
   )
+
+  # assign objects that are required in the current env
+  # this hack is necessary, since FUN relies on objects
+  # which are not available from the function's arguments
+  for (el in names(env_args)) {
+    if (is.function(env_args[[el]])) {
+      # change function's env to the current env
+      environment(env_args[[el]]) <- environment()
+    }
+    assign(
+      x = el,
+      value = env_args[[el]],
+      envir = environment(args$FUN)
+    )
+  }
+
+  #environment(args$FUN) <- environment()
 
   # avoid error when setting initGrid / or initPoints
   if (!is.null(method_helper$execute_params$parameter_grid)) {
     args <- args[names(args) != "init_points"]
   } else {
     args <- args[names(args) != "init_grid_dt"]
+    args$init_points <- 4L
   }
 
   set.seed(private$seed)
   opt_obj <- do.call(
-    what = self$learner$bayesian_scoring_function,
-    args = args,
+    rBayesianOptimization::BayesianOptimization,
+    args,
   )
   return(opt_obj)
 }
 
 .bayesopt_postprocessing <- function(self, private, object) {
   stopifnot(
-    "`object` is not of class `bayesOpt`" = inherits(
+    "`object` is not of class `list`" = inherits(
       x = object,
-      what = "bayesOpt"
+      what = "list"
     )
   )
   exl_cols <- vapply(
@@ -111,16 +129,18 @@
     exl_cols["case_weights"] <- TRUE
   }
   optim_results <- cbind(
-    data.table::as.data.table(object$scoreSummary),
+    data.table::as.data.table(object$History),
     data.table::as.data.table(
       private$method_helper$execute_params$params_not_optimized[!exl_cols]
     )
   )
 
   colnames(optim_results)[grepl(
-    pattern = "Iteration",
+    pattern = "Round",
     x = colnames(optim_results)
   )] <- "setting_id"
+
+  optim_results$metric_optim_mean <- as.numeric(I(optim_results$Value * -1L))
 
   return(optim_results)
 }

@@ -89,7 +89,6 @@ knn_ce <- function() {
 
 knn_bsF <- function(...) { # nolint
   params <- list(...)
-
   # call to knn_optimization here with ncores = 1, since the Bayesian search
   # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
@@ -105,7 +104,6 @@ knn_bsF <- function(...) { # nolint
     list("Score" = bayes_opt_knn$metric_optim_mean),
     bayes_opt_knn
   )
-
   return(ret)
 }
 

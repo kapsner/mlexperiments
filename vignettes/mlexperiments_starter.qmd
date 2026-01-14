@@ -159,7 +159,7 @@ knn_bsF <- function(...) { # nolint
 }
 ```
 
-More details on the package [`rBayesianOptimization`](https://cran.r-project.org/package=rBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [package vignette](https://cran.r-project.org/package=rBayesianOptimization/vignettes/tuningHyperparameters.html#practical-example).
+More details on the package [`rBayesianOptimization`](https://cran.r-project.org/package=rBayesianOptimization) and on how to define the Bayesian scoring function can be found in its [documentation](https://cran.r-project.org/web/packages/rBayesianOptimization/refman/rBayesianOptimization.html).
 
 For the parallelization of the Bayesian process, all required functions must be exported to the cluster. To facilitate this, a simple wrapper function can be created that returns a character vector of all custom functions that are called from within the Bayesian scoring function. The following function shows the objects that need to be exported for a correct functioning of the `LearnerKnn`:
 
