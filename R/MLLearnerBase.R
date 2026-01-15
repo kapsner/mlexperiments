@@ -114,7 +114,8 @@ MLLearnerBase <- R6::R6Class( # nolint
     cross_validation = function(...) {
       kwargs <- list(...)
       set.seed(self$seed)
-      do.call(private$fun_optim_cv, kwargs)
+      res <- do.call(private$fun_optim_cv, kwargs)
+      return(res)
     },
 
     #' @description

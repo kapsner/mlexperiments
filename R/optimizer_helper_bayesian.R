@@ -50,14 +50,7 @@
   }
   
   get_from_env <- as.list(as.environment(use_env))
-  get_from_env <- sapply(
-    X = self$learner$cluster_export,
-    FUN = function(x) {
-      get_from_env[[x]]
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-  )
+  get_from_env <- get_from_env[self$learner$cluster_export]
 
   env_args <- kdry::list.append(
     main_list = env_args,
@@ -73,7 +66,6 @@
       FUN = self$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
       init_grid_dt = method_helper$execute_params$parameter_grid
-      #env_args = env_args
     ),
     self$optim_args
   )
@@ -92,8 +84,6 @@
       envir = environment(args$FUN)
     )
   }
-
-  #environment(args$FUN) <- environment()
 
   # avoid error when setting initGrid / or initPoints
   if (!is.null(method_helper$execute_params$parameter_grid)) {

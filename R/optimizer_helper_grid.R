@@ -15,6 +15,8 @@
     total = ngrid,
     force = TRUE
   )
+  
+  FUN <- self$learner$cross_validation # nolint
 
   optim_results <- lapply(
     X = seq_len(ngrid),
@@ -45,11 +47,6 @@
         method_helper
       )
 
-      # FUN <- eval(parse(text = paste0(
-      #   private$method, "_cv"
-      # )))
-      FUN <- self$learner$cross_validation # nolint
-
       fun_parameters <- list(
         "x" = x,
         "y" = y,
@@ -58,7 +55,6 @@
         "ncores" = private$ncores,
         "seed" = private$seed
       )
-
       set.seed(private$seed)
       fit_grid <- do.call(FUN, fun_parameters)
 

@@ -123,60 +123,110 @@ options("mlexperiments.optim.lgb.nrounds" = 100L)
 options("mlexperiments.optim.lgb.early_stopping_rounds" = 10L)
 
 
-param_list_lightgbm <- expand.grid(
-  bagging_fraction = seq(0.6, 1, .2),
-  feature_fraction = seq(0.6, 1, .2),
-  min_data_in_leaf = seq(2, 10, 2),
+# param_list_lightgbm <- expand.grid(
+#   bagging_fraction = seq(0.6, 1, .2),
+#   feature_fraction = seq(0.6, 1, .2),
+#   min_data_in_leaf = seq(2, 10, 2),
+#   learning_rate = seq(0.1, 0.2, 0.1),
+#   num_leaves = seq(2, 20, 4),
+#   max_depth = -1L,
+#   verbose = -1L
+# )
+
+# lightgbm_bounds <- list(
+#   bagging_fraction = c(0.2, 1),
+#   feature_fraction = c(0.2, 1),
+#   min_data_in_leaf = c(2L, 12L),
+#   learning_rate = c(0.1, 0.2),
+#   num_leaves =  c(2L, 20L)
+# )
+# optim_args <- list(
+#   n_iter = ncores,
+#   kappa = 3.5,
+#   acq = "ucb"
+# )
+
+# lightgbm_optimizer <- mlexperiments::MLNestedCV$new(
+#   learner = mllrnrs::LearnerLightgbm$new(
+#     metric_optimization_higher_better = FALSE
+#   ),
+#   strategy = "bayesian",
+#   fold_list = fold_list,
+#   k_tuning = 3L,
+#   ncores = ncores,
+#   seed = seed
+# )
+
+# lightgbm_optimizer$parameter_bounds <- lightgbm_bounds
+# lightgbm_optimizer$parameter_grid <- param_list_lightgbm
+# lightgbm_optimizer$split_type <- "stratified"
+# lightgbm_optimizer$optim_args <- optim_args
+
+# lightgbm_optimizer$learner_args <- list(
+#   objective = "binary",
+#   metric = "binary_logloss",
+#   cat_vars = c("pregnant", "pedigree")
+# )
+# lightgbm_optimizer$performance_metric_args <- list(
+#   positive = "1",
+#   negative = "0"
+# )
+# lightgbm_optimizer$performance_metric <- mlexperiments::metric("auc")
+
+# # set data
+# lightgbm_optimizer$set_data(
+#   x = train_x,
+#   y = train_y
+# )
+
+# cv_results <- lightgbm_optimizer$execute()
+
+
+
+param_list_xgboost <- expand.grid(
+  subsample = seq(0.6, 1, .2),
+  colsample_bytree = seq(0.6, 1, .2),
+  min_child_weight = seq(1, 5, 4),
   learning_rate = seq(0.1, 0.2, 0.1),
-  num_leaves = seq(2, 20, 4),
-  max_depth = -1L,
-  verbose = -1L
+  max_depth = seq(1, 5, 4)
 )
 
-lightgbm_bounds <- list(
-  bagging_fraction = c(0.2, 1),
-  feature_fraction = c(0.2, 1),
-  min_data_in_leaf = c(2L, 12L),
-  learning_rate = c(0.1, 0.2),
-  num_leaves =  c(2L, 20L)
-)
-optim_args <- list(
-  n_iter = ncores,
-  kappa = 3.5,
-  acq = "ucb"
-)
+ncores <- 2L
 
-lightgbm_optimizer <- mlexperiments::MLNestedCV$new(
-  learner = mllrnrs::LearnerLightgbm$new(
+options("mlexperiments.bayesian.max_init" = 2L)
+options("mlexperiments.optim.xgb.nrounds" = 20L)
+options("mlexperiments.optim.xgb.early_stopping_rounds" = 5L)
+
+xgboost_optimizer <- mlexperiments::MLNestedCV$new(
+  learner = mllrnrs::LearnerXgboost$new(
     metric_optimization_higher_better = FALSE
   ),
-  strategy = "bayesian",
+  strategy = "grid",
   fold_list = fold_list,
   k_tuning = 3L,
   ncores = ncores,
   seed = seed
 )
+set.seed(seed)
+random_grid <- sample(seq_len(nrow(param_list_xgboost)), 3)
+xgboost_optimizer$parameter_grid <-
+  param_list_xgboost[random_grid, ]
+xgboost_optimizer$split_type <- "stratified"
 
-lightgbm_optimizer$parameter_bounds <- lightgbm_bounds
-lightgbm_optimizer$parameter_grid <- param_list_lightgbm
-lightgbm_optimizer$split_type <- "stratified"
-lightgbm_optimizer$optim_args <- optim_args
-
-lightgbm_optimizer$learner_args <- list(
-  objective = "binary",
-  metric = "binary_logloss",
-  cat_vars = c("pregnant", "pedigree")
+xgboost_optimizer$learner_args <- list(
+  objective = "binary:logistic",
+  eval_metric = "logloss"
 )
-lightgbm_optimizer$performance_metric_args <- list(
+xgboost_optimizer$performance_metric_args <- list(
   positive = "1",
   negative = "0"
 )
-lightgbm_optimizer$performance_metric <- mlexperiments::metric("auc")
+xgboost_optimizer$performance_metric <- mlexperiments::metric("auc")
 
 # set data
-lightgbm_optimizer$set_data(
+xgboost_optimizer$set_data(
   x = train_x,
   y = train_y
 )
 
-cv_results <- lightgbm_optimizer$execute()
+cv_results <- xgboost_optimizer$execute()
