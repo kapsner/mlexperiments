@@ -99,7 +99,7 @@ the \code{parameter_grid} is passed further on to the \code{initGrid} argument o
 the function \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}} in order to
 initialize the Bayesian process. The maximum rows considered for
 initializing the Bayesian process can be specified with the R option
-\code{option("mlexperiments.bayesian.max_init")}, which is set to \code{50L} by
+\code{option("mlexperiments.bayesian.max_init")}, which is set to \code{4L} by
 default.}
 
 \item{\code{optim_args}}{A named list of tuples to define the parameter
@@ -165,7 +165,7 @@ parallelization (default: \code{-1L}).}
 \subsection{Details}{
 For \code{strategy = "bayesian"}, the number of starting iterations can be
 set using the R option \code{"mlexperiments.bayesian.max_init"}, which
-defaults to \code{50L}. This option reduces the provided initialization
+defaults to \code{4L}. This option reduces the provided initialization
 grid to contain at most the specified number of rows. This
 initialization grid is then further passed on to the \code{initGrid}
 argument of \link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization}.

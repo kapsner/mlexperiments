@@ -108,7 +108,7 @@ train_x <- model.matrix(
 )
 train_y <- as.integer(dataset[, get("diabetes")]) - 1L
 
-options("mlexperiments.bayesian.max_init" = 10L)
+options("mlexperiments.bayesian.max_init" = 4L)
 
 fold_list <- splitTools::create_folds(
   y = train_y,
@@ -118,7 +118,7 @@ fold_list <- splitTools::create_folds(
 )
 
 
-options("mlexperiments.bayesian.max_init" = 10L)
+options("mlexperiments.bayesian.max_init" = 4L)
 options("mlexperiments.optim.lgb.nrounds" = 100L)
 options("mlexperiments.optim.lgb.early_stopping_rounds" = 10L)
 

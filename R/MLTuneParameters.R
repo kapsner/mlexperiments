@@ -42,7 +42,7 @@ MLTuneParameters <- R6::R6Class(
     #'   the function [rBayesianOptimization::BayesianOptimization()] in order to
     #'   initialize the Bayesian process. The maximum rows considered for
     #'   initializing the Bayesian process can be specified with the R option
-    #'   `option("mlexperiments.bayesian.max_init")`, which is set to `50L` by
+    #'   `option("mlexperiments.bayesian.max_init")`, which is set to `4L` by
     #'   default.
     parameter_grid = NULL,
 
@@ -78,7 +78,7 @@ MLTuneParameters <- R6::R6Class(
     #' @details
     #' For `strategy = "bayesian"`, the number of starting iterations can be
     #' set using the R option `"mlexperiments.bayesian.max_init"`, which
-    #' defaults to `50L`. This option reduces the provided initialization
+    #' defaults to `4L`. This option reduces the provided initialization
     #' grid to contain at most the specified number of rows. This
     #' initialization grid is then further passed on to the `initGrid`
     #' argument of [rBayesianOptimization::BayesianOptimization].

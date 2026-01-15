@@ -194,7 +194,7 @@ the \code{parameter_grid} is passed further on to the \code{initGrid} argument o
 the function \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}} in order to
 initialize the Bayesian process. The maximum rows considered for
 initializing the Bayesian process can be specified with the R option
-\code{option("mlexperiments.bayesian.max_init")}, which is set to \code{50L} by
+\code{option("mlexperiments.bayesian.max_init")}, which is set to \code{4L} by
 default.}
 
 \item{\code{optim_args}}{A named list of tuples to define the parameter

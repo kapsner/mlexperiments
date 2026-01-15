@@ -8,7 +8,7 @@ NULL
 utils::globalVariables(c("seed", "method_helper", "x", "y"))
 
 mlexperiments_default_options <- list(
-  mlexperiments.bayesian.max_init = 50L
+  mlexperiments.bayesian.max_init = 4L
 )
 
 

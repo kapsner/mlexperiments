@@ -52,7 +52,7 @@ if (isTRUE(as.logical(Sys.getenv("_R_CHECK_LIMIT_CORES_")))) {
     )
   )
 }
-options("mlexperiments.bayesian.max_init" = 10L)
+options("mlexperiments.bayesian.max_init" = 4L)
 ```
 
 ## Generate Training- and Test Data
