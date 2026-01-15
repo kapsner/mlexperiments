@@ -100,7 +100,7 @@
     args <- args[names(args) != "init_points"]
   } else {
     args <- args[names(args) != "init_grid_dt"]
-    args$init_points <- 4L
+    args$init_points <- as.integer(options("mlexperiments.bayesian.max_init"))
   }
 
   set.seed(private$seed)
