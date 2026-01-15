@@ -20,7 +20,7 @@ fold_list <- splitTools::create_folds(
   seed = seed
 )
 
-options("mlexperiments.bayesian.max_init" = 4L)
+options("mlexperiments.bayesian.max_init" = 10L)
 
 ncores <- ifelse(
   test = parallel::detectCores() > 4,
