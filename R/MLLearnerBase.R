@@ -245,21 +245,42 @@ MLLearnerBase <- R6::R6Class( # nolint
         params = kwargs,
         method_helper = method_helper
       )
-      
+
       FUN <- private$fun_bayesian_scoring_function
       environment(FUN) <- environment()
 
       set.seed(self$seed)
       res <- do.call(FUN, args)
 
+      res_out <- list("Score" = res$Score)
+
       # take care of transforming results in case higher-better = FALSE
       # --> BayesianOptimization tries to maximize the metric, so it is required to
       # inverse score
       if (isFALSE(self$metric_optimization_higher_better)) {
-        res$Score <- as.numeric(I(res$Score * -1L))
+        res_out$Score <- as.numeric(I(res_out$Score * -1L))
       }
-      res$Pred <- 0  # Set Pred = 0, as placeholder
-      return(res)
+      # use Pred as vehicle, to pass other parameters from
+      # res (such as nrounds, which are optimized in lgb)
+      # to the return value from rBayesianOptimization
+      additional_vals <- setdiff(names(res), "Score")
+      if (length(additional_vals) > 0) {
+        # res_out$Pred <- sapply(
+        #   X = additional_vals,
+        #   FUN = function(x) {
+        #     res[[x]]
+        #   },        
+        #   simplify = TRUE,
+        #   USE.NAMES = TRUE
+        # )
+        res_out$Pred <- data.table::as.data.table(
+          res[additional_vals]
+        )
+      } else {
+        res_out$Pred <- 0L
+      }
+      #browser()
+      return(res_out)
     }
   ),
   private = list(

@@ -48,7 +48,7 @@
   } else {
     use_env <- -1L
   }
-
+  
   get_from_env <- as.list(as.environment(use_env))
   get_from_env <- sapply(
     X = self$learner$cluster_export,
@@ -84,7 +84,7 @@
   for (el in names(env_args)) {
     if (is.function(env_args[[el]])) {
       # change function's env to the current env
-      environment(env_args[[el]]) <- environment()
+      environment(env_args[[el]]) <- environment(args$FUN)
     }
     assign(
       x = el,

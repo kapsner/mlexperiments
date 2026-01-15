@@ -104,20 +104,17 @@
   outlist <- list()
   if (private$strategy == "bayesian") {
     stopifnot(inherits(results_object, "list"))
-    # delete Pred-col as it's unused
-    results_object$Pred <- NULL
-    outlist$bayesOpt <- results_object
     summary_object <- .bayesopt_postprocessing(
       self = self,
       private = private,
       object = results_object
     )
-
     param_names <- setdiff(
       colnames(summary_object),
       c(
         "setting_id",
         "Value",
+        "Round",
         "metric_optim_mean"
       )
     )
@@ -127,7 +124,6 @@
       l = results_object,
       fill = TRUE
     )
-
     param_names <- setdiff(
       colnames(summary_object),
       "metric_optim_mean"
@@ -144,12 +140,48 @@
   }
   outlist[["summary"]] <- summary_object[, .SD, .SDcols = !exl_cols]
 
-  outlist[["best.setting"]] <- .get_best_setting(
+
+  best_row_id <- .get_best_setting_row_id(
     results = outlist$summary,
     opt_metric = "metric_optim_mean",
-    param_names = param_names,
     higher_better = metric_higher_better
   )
+
+  outlist[["best.setting"]] <- .get_best_setting(
+    results = outlist$summary,
+    best_row_id = best_row_id,
+    param_names = param_names
+  )
+
+  if (private$strategy == "bayesian") {
+    if (nrow(outlist$summary) != nrow(results_object$Pred) && nrow(results_object$Pred) == 1) {
+      # assume, we have collected values there
+      pred_cnames <- colnames(results_object$Pred)
+      # get unique names
+      pred_cn_unique <- gsub(
+        pattern = "\\.\\d+$",
+        replacement = "",
+        x = pred_cnames
+      ) |>
+        unique()
+      other_params <- setdiff(pred_cn_unique, "metric_optim_mean")
+      if (length(other_params) > 0) {
+        for (p in other_params) {
+          c_index <- best_row_id - 1
+          if (c_index > 0) {
+            p_name <- paste0(p, ".", c_index)
+          } else {
+            p_name <- p
+          }
+          outlist[["best.setting"]][[p]] <- results_object$Pred[1, get(p_name)]
+        }
+      }
+    }
+    # delete Pred-col
+    results_object$Pred <- NULL
+    outlist[["bayesOpt"]] <- results_object
+  }
+
   # export also not optimized parameters (in case of bayesian) to best.setting
   outlist[["best.setting"]] <- kdry::list.append(
     outlist[["best.setting"]],
@@ -161,8 +193,24 @@
 
 .get_best_setting <- function(
   results,
+  best_row_id,
+  param_names
+) {
+  stopifnot(
+    data.table::is.data.table(results)
+  )
+  #%best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
+  show_cols <- intersect(param_names, colnames(results))
+  stopifnot(length(show_cols) > 0)
+  best_row <- results[best_row_id, .SD, .SDcols = show_cols]
+  stopifnot(nrow(best_row) == 1)
+  ret <- as.list(best_row)
+  return(ret[!kdry::misc_duplicated_by_names(ret, fromLast = TRUE)])
+}
+
+.get_best_setting_row_id <- function(
+  results,
   opt_metric,
-  param_names,
   higher_better
 ) {
   stopifnot(
@@ -175,10 +223,5 @@
   # requires data.frame as data.table cannot handle expressions
   res <- as.data.frame(results)
   best_row_id <- FUN(res[, opt_metric])
-  #%best_row <- results[FUN(get(opt_metric)), .SD, .SDcols = param_names]
-  show_cols <- intersect(param_names, colnames(res))
-  best_row <- data.table::as.data.table(res)[best_row_id, .SD, .SDcols = show_cols]
-  stopifnot(nrow(best_row) == 1)
-  ret <- as.list(best_row)
-  return(ret[!kdry::misc_duplicated_by_names(ret, fromLast = TRUE)])
+  return(best_row_id)
 }

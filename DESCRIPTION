@@ -32,6 +32,7 @@ Suggests:
     lintr,
     measures,
     mlbench,
+    parallel,
     quarto,
     rBayesianOptimization,
     rpart,
@@ -40,7 +41,7 @@ VignetteBuilder:
     quarto
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Date/Publication: 2026-01-14 11:36:43.411705 UTC
+Date/Publication: 2026-01-15 15:04:17.06767 UTC
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 SystemRequirements: Quarto command line tools

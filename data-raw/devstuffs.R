@@ -90,6 +90,7 @@ usethis::use_package("class", type = "Suggests")
 usethis::use_package("rpart", type = "Suggests")
 usethis::use_package("mlbench", type = "Suggests")
 usethis::use_package("measures", type = "Suggests")
+usethis::use_package("parallel", type = "Suggests")
 
 
 # define remotes
