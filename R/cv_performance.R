@@ -25,91 +25,97 @@
 #'   metric of each fold.
 #'
 #' @examples
-#' dataset <- do.call(
-#'   cbind,
-#'   c(sapply(paste0("col", 1:6), function(x) {
-#'     rnorm(n = 500)
-#'     },
-#'     USE.NAMES = TRUE,
-#'     simplify = FALSE
-#'    ),
-#'    list(target = sample(0:1, 500, TRUE))
-#' ))
+#' if (requireNamespace("measures", quietly = TRUE)) {
+#'   dataset <- do.call(
+#'     cbind,
+#'     c(sapply(paste0("col", 1:6), function(x) {
+#'       rnorm(n = 500)
+#'       },
+#'       USE.NAMES = TRUE,
+#'       simplify = FALSE
+#'      ),
+#'      list(target = sample(0:1, 500, TRUE))
+#'   ))
 #'
-#' fold_list <- splitTools::create_folds(
-#'   y = dataset[, 7],
-#'   k = 3,
-#'   type = "stratified",
-#'   seed = 123
-#' )
+#'   fold_list <- splitTools::create_folds(
+#'     y = dataset[, 7],
+#'     k = 3,
+#'     type = "stratified",
+#'     seed = 123
+#'   )
 #'
-#' glm_optimization <- mlexperiments::MLCrossValidation$new(
-#'   learner = LearnerGlm$new(),
-#'   fold_list = fold_list,
-#'   seed = 123
-#' )
+#'   glm_optimization <- mlexperiments::MLCrossValidation$new(
+#'     learner = LearnerGlm$new(),
+#'     fold_list = fold_list,
+#'     seed = 123
+#'   )
 #'
-#' glm_optimization$learner_args <- list(family = binomial(link = "logit"))
-#' glm_optimization$predict_args <- list(type = "response")
-#' glm_optimization$performance_metric_args <- list(
-#'   positive = "1",
-#'   negative = "0"
-#' )
-#' glm_optimization$performance_metric <- list(
-#'   auc = metric("AUC"), sensitivity = metric("TPR"),
-#'   specificity = metric("TNR")
-#' )
-#' glm_optimization$return_models <- TRUE
+#'   glm_optimization$learner_args <- list(family = binomial(link = "logit"))
+#'   glm_optimization$predict_args <- list(type = "response")
+#'   glm_optimization$performance_metric_args <- list(
+#'     positive = "1",
+#'     negative = "0"
+#'   )
+#'   glm_optimization$performance_metric <- list(
+#'     auc = metric("AUC"), sensitivity = metric("TPR"),
+#'     specificity = metric("TNR")
+#'   )
+#'   glm_optimization$return_models <- TRUE
 #'
-#' # set data
-#' glm_optimization$set_data(
-#'   x = data.matrix(dataset[, -7]),
-#'   y = dataset[, 7]
-#' )
+#'   # set data
+#'   glm_optimization$set_data(
+#'     x = data.matrix(dataset[, -7]),
+#'     y = dataset[, 7]
+#'   )
 #'
-#' cv_results <- glm_optimization$execute()
+#'   cv_results <- glm_optimization$execute()
 #'
-#' # predictions
-#' preds <- mlexperiments::predictions(
-#'   object = glm_optimization,
-#'   newdata = data.matrix(dataset[, -7]),
-#'   na.rm = FALSE,
-#'   ncores = 2L,
-#'   type = "response"
-#' )
+#'   # predictions
+#'   preds <- mlexperiments::predictions(
+#'     object = glm_optimization,
+#'     newdata = data.matrix(dataset[, -7]),
+#'     na.rm = FALSE,
+#'     ncores = 2L,
+#'     type = "response"
+#'   )
 #'
-#' # performance
-#' mlexperiments::performance(
-#'   object = glm_optimization,
-#'   prediction_results = preds,
-#'   y_ground_truth = dataset[, 7],
-#'   positive = "1"
-#' )
+#'   # performance
+#'   mlexperiments::performance(
+#'     object = glm_optimization,
+#'     prediction_results = preds,
+#'     y_ground_truth = dataset[, 7],
+#'     positive = "1"
+#'   )
 #'
-#' # performance - binary
-#' mlexperiments::performance(
-#'   object = glm_optimization,
-#'   prediction_results = preds,
-#'   y_ground_truth = dataset[, 7],
-#'   type = "binary",
-#'   positive = "1"
-#' )
+#'   # performance - binary
+#'   mlexperiments::performance(
+#'     object = glm_optimization,
+#'     prediction_results = preds,
+#'     y_ground_truth = dataset[, 7],
+#'     type = "binary",
+#'     positive = "1"
+#'   )
+#' }
 #'
 #' @export
 #'
 performance <- function(
-    object,
-    prediction_results,
-    y_ground_truth,
-    type = NULL,
-    ...
-  ) {
+  object,
+  prediction_results,
+  y_ground_truth,
+  type = NULL,
+  ...
+) {
   stopifnot(
-    "`object` must be of class `MLCrossValidation`" =
-      inherits(object, what = "MLCrossValidation"),
+    "`object` must be of class `MLCrossValidation`" = inherits(
+      object,
+      what = "MLCrossValidation"
+    ),
     "`object` must be an R6 class" = R6::is.R6(object),
-    "`prediction_results` must be of class `mlexPredictions`" =
-      inherits(prediction_results, "mlexPredictions")
+    "`prediction_results` must be of class `mlexPredictions`" = inherits(
+      prediction_results,
+      "mlexPredictions"
+    )
   )
 
   kwargs <- list(...)
@@ -133,7 +139,8 @@ performance <- function(
     append_metrics <- metrics_table[
       grepl(pattern = type, x = get("task")),
       get("function_name")
-    ] |> as.character()
+    ] |>
+      as.character()
     if (type == "binary") {
       append_metrics <- c(append_metrics, "ACC", "MMCE", "BER")
     } else if (type == "regression") {
@@ -178,9 +185,9 @@ performance <- function(
 }
 
 .compute_performance <- function(
-    function_list,
-    y,
-    perf_args
+  function_list,
+  y,
+  perf_args
 ) {
   res <- sapply(
     X = names(function_list),

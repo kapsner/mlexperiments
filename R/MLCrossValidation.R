@@ -16,57 +16,62 @@
 #' @seealso [splitTools::create_folds()]
 #'
 #' @examples
-#' dataset <- do.call(
-#'   cbind,
-#'   c(sapply(paste0("col", 1:6), function(x) {
-#'     rnorm(n = 500)
-#'     },
-#'     USE.NAMES = TRUE,
-#'     simplify = FALSE
-#'    ),
-#'    list(target = sample(0:1, 500, TRUE))
-#' ))
+#' if (requireNamespace("measures", quietly = TRUE)  &&
+#' requireNamespace("class", quietly = TRUE)) {
 #'
-#' fold_list <- splitTools::create_folds(
-#'   y = dataset[, 7],
-#'   k = 3,
-#'   type = "stratified",
-#'   seed = 123
-#' )
+#'   dataset <- do.call(
+#'     cbind,
+#'     c(sapply(paste0("col", 1:6), function(x) {
+#'       rnorm(n = 500)
+#'       },
+#'       USE.NAMES = TRUE,
+#'       simplify = FALSE
+#'      ),
+#'      list(target = sample(0:1, 500, TRUE))
+#'   ))
 #'
-#' cv <- MLCrossValidation$new(
-#'   learner = LearnerKnn$new(),
-#'   fold_list = fold_list,
-#'   seed = 123,
-#'   ncores = 2
-#' )
+#'   fold_list <- splitTools::create_folds(
+#'     y = dataset[, 7],
+#'     k = 3,
+#'     type = "stratified",
+#'     seed = 123
+#'   )
 #'
-#' # learner parameters
-#' cv$learner_args <- list(
-#'   k = 20,
-#'   l = 0,
-#'   test = parse(text = "fold_test$x")
-#' )
+#'   cv <- MLCrossValidation$new(
+#'     learner = LearnerKnn$new(),
+#'     fold_list = fold_list,
+#'     seed = 123,
+#'     ncores = 2
+#'   )
 #'
-#' # performance parameters
-#' cv$predict_args <- list(type = "response")
-#' cv$performance_metric_args <- list(
-#'   positive = "1",
-#'   negative = "0"
-#' )
-#' cv$performance_metric <- metric("MMCE")
+#'   # learner parameters
+#'   cv$learner_args <- list(
+#'     k = 20,
+#'     l = 0,
+#'     test = parse(text = "fold_test$x")
+#'   )
 #'
-#' # set data
-#' cv$set_data(
-#'   x = data.matrix(dataset[, -7]),
-#'   y = dataset[, 7]
-#' )
+#'   # performance parameters
+#'   cv$predict_args <- list(type = "response")
+#'   cv$performance_metric_args <- list(
+#'     positive = "1",
+#'     negative = "0"
+#'   )
+#'   cv$performance_metric <- metric("MMCE")
 #'
-#' cv$execute()
+#'   # set data
+#'   cv$set_data(
+#'     x = data.matrix(dataset[, -7]),
+#'     y = dataset[, 7]
+#'   )
+#'
+#'   cv$execute()
+#' }
 #'
 #' @export
 #'
-MLCrossValidation <- R6::R6Class( # nolint
+MLCrossValidation <- R6::R6Class(
+  # nolint
   classname = "MLCrossValidation",
   inherit = MLExperimentsBase,
   public = list(
@@ -122,28 +127,31 @@ MLCrossValidation <- R6::R6Class( # nolint
     #' @seealso [splitTools::create_folds()], [mlexperiments::metric()]
     #'
     #' @examples
-    #' dataset <- do.call(
-    #'   cbind,
-    #'   c(sapply(paste0("col", 1:6), function(x) {
-    #'     rnorm(n = 500)
-    #'     },
-    #'     USE.NAMES = TRUE,
-    #'     simplify = FALSE
-    #'    ),
-    #'    list(target = sample(0:1, 500, TRUE))
-    #' ))
-    #' fold_list <- splitTools::create_folds(
-    #'   y = dataset[, 7],
-    #'   k = 3,
-    #'   type = "stratified",
-    #'   seed = 123
-    #' )
-    #' cv <- MLCrossValidation$new(
-    #'   learner = LearnerKnn$new(),
-    #'   fold_list = fold_list,
-    #'   seed = 123,
-    #'   ncores = 2
-    #' )
+    #' if (requireNamespace("measures", quietly = TRUE)  &&
+    #' requireNamespace("class", quietly = TRUE)) {
+    #'   dataset <- do.call(
+    #'     cbind,
+    #'     c(sapply(paste0("col", 1:6), function(x) {
+    #'       rnorm(n = 500)
+    #'       },
+    #'       USE.NAMES = TRUE,
+    #'       simplify = FALSE
+    #'      ),
+    #'      list(target = sample(0:1, 500, TRUE))
+    #'   ))
+    #'   fold_list <- splitTools::create_folds(
+    #'     y = dataset[, 7],
+    #'     k = 3,
+    #'     type = "stratified",
+    #'     seed = 123
+    #'   )
+    #'   cv <- MLCrossValidation$new(
+    #'     learner = LearnerKnn$new(),
+    #'     fold_list = fold_list,
+    #'     seed = 123,
+    #'     ncores = 2
+    #'   )
+    #' }
     #'
     initialize = function(
       learner,
@@ -155,8 +163,9 @@ MLCrossValidation <- R6::R6Class( # nolint
       super$initialize(learner = learner, seed = seed, ncores = ncores)
       stopifnot(
         "`return_models` must be a boolean value" = is.logical(return_models),
-        "`fold_list` must be a list with >= 3 folds" =
-          is.list(fold_list) && length(fold_list) >= 3L)
+        "`fold_list` must be a list with >= 3 folds" = is.list(fold_list) &&
+          length(fold_list) >= 3L
+      )
       self$return_models <- return_models
       self$fold_list <- fold_list
     },
@@ -186,47 +195,51 @@ MLCrossValidation <- R6::R6Class( # nolint
     #'     calculated for each of the cross validation folds.
     #'
     #' @examples
-    #' dataset <- do.call(
-    #'   cbind,
-    #'   c(sapply(paste0("col", 1:6), function(x) {
-    #'     rnorm(n = 500)
-    #'     },
-    #'     USE.NAMES = TRUE,
-    #'     simplify = FALSE
-    #'    ),
-    #'    list(target = sample(0:1, 500, TRUE))
-    #' ))
-    #' fold_list <- splitTools::create_folds(
-    #'   y = dataset[, 7],
-    #'   k = 3,
-    #'   type = "stratified",
-    #'   seed = 123
-    #' )
-    #' cv <- MLCrossValidation$new(
-    #'   learner = LearnerKnn$new(),
-    #'   fold_list = fold_list,
-    #'   seed = 123,
-    #'   ncores = 2
-    #' )
-    #' cv$learner_args <- list(
-    #'   k = 20,
-    #'   l = 0,
-    #'   test = parse(text = "fold_test$x")
-    #' )
-    #' cv$predict_args <- list(type = "response")
-    #' cv$performance_metric_args <- list(
-    #'   positive = "1",
-    #'   negative = "0"
-    #' )
-    #' cv$performance_metric <- metric("MMCE")
+    #' if (requireNamespace("measures", quietly = TRUE)  &&
+    #' requireNamespace("class", quietly = TRUE)) {
+    #'   dataset <- do.call(
+    #'     cbind,
+    #'     c(sapply(paste0("col", 1:6), function(x) {
+    #'       rnorm(n = 500)
+    #'       },
+    #'       USE.NAMES = TRUE,
+    #'       simplify = FALSE
+    #'      ),
+    #'      list(target = sample(0:1, 500, TRUE))
+    #'   ))
+    #'   fold_list <- splitTools::create_folds(
+    #'     y = dataset[, 7],
+    #'     k = 3,
+    #'     type = "stratified",
+    #'     seed = 123
+    #'   )
+    #'   cv <- MLCrossValidation$new(
+    #'     learner = LearnerKnn$new(),
+    #'     fold_list = fold_list,
+    #'     seed = 123,
+    #'     ncores = 2
+    #'   )
+    #'   cv$learner_args <- list(
+    #'     k = 20,
+    #'     l = 0,
+    #'     test = parse(text = "fold_test$x")
+    #'   )
+    #'   cv$predict_args <- list(type = "response")
+    #'   cv$performance_metric_args <- list(
+    #'     positive = "1",
+    #'     negative = "0"
+    #'   )
+    #'   cv$performance_metric <- metric("MMCE")
     #'
-    #' # set data
-    #' cv$set_data(
-    #'   x = data.matrix(dataset[, -7]),
-    #'   y = dataset[, 7]
-    #' )
+    #'   # set data
+    #'   cv$set_data(
+    #'     x = data.matrix(dataset[, -7]),
+    #'     y = dataset[, 7]
+    #'   )
     #'
-    #' cv$execute()
+    #'   cv$execute()
+    #' }
+    #'
     execute = function() {
       private$prepare()
       return(.run_cv(self = self, private = private))
@@ -270,8 +283,10 @@ MLCrossValidation <- R6::R6Class( # nolint
         )
       }
       stopifnot(
-        "All elements from `performance_metric` must be a function" =
-          all(sapply(self$performance_metric, is.function))
+        "All elements from `performance_metric` must be a function" = all(sapply(
+          self$performance_metric,
+          is.function
+        ))
       )
 
       # apply parameter_grid stuff
@@ -281,16 +296,21 @@ MLCrossValidation <- R6::R6Class( # nolint
         "Some parameters have been specified in both, `execute_params` \
         and `params_not_optimized`" = length(intersect(
           names(private$method_helper$params_not_optimized),
-          names(private$execute_params))) == 0L
+          names(private$execute_params)
+        )) ==
+          0L
       )
 
       # handle `case_weights`, if present
       if ("case_weights" %in% names(self$learner_args)) {
         stopifnot(
-          "`learner_args$case_weights` must be of same length as `y`" =
-            length(self$learner_args$case_weights) == length(private$y),
-          "`learner_args$case_weights` must be a 1-dimensional vector" =
-            is.vector(self$learner_args$case_weights) &&
+          "`learner_args$case_weights` must be of same length as `y`" = length(
+            self$learner_args$case_weights
+          ) ==
+            length(private$y),
+          "`learner_args$case_weights` must be a 1-dimensional vector" = is.vector(
+            self$learner_args$case_weights
+          ) &&
             is.atomic(self$learner_args$case_weights)
         )
       }

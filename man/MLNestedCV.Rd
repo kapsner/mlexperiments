@@ -19,152 +19,161 @@ the k-fold cross-validation. Furthermore, a strategy needs to be chosen
 parameter \code{k_tuning} to define the number of inner cross validation folds.
 }
 \examples{
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-cv <- MLNestedCV$new(
-  learner = LearnerKnn$new(),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  seed = 123,
-  ncores = 2
-)
+  cv <- MLNestedCV$new(
+    learner = LearnerKnn$new(),
+    strategy = "grid",
+    fold_list = fold_list,
+    k_tuning = 3L,
+    seed = 123,
+    ncores = 2
+  )
 
-# learner args (not optimized)
-cv$learner_args <- list(
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
+  # learner args (not optimized)
+  cv$learner_args <- list(
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
 
-# parameters for hyperparameter tuning
-cv$parameter_grid <- expand.grid(
-  k = seq(4, 16, 8)
-)
-cv$split_type <- "stratified"
+  # parameters for hyperparameter tuning
+  cv$parameter_grid <- expand.grid(
+    k = seq(4, 16, 8)
+  )
+  cv$split_type <- "stratified"
 
-# performance parameters
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+  # performance parameters
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv$execute()
+  cv$execute()
+}
 
 
 ## ------------------------------------------------
 ## Method `MLNestedCV$new`
 ## ------------------------------------------------
 
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-cv <- MLNestedCV$new(
-  learner = LearnerKnn$new(),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  seed = 123,
-  ncores = 2
-)
+  cv <- MLNestedCV$new(
+    learner = LearnerKnn$new(),
+    strategy = "grid",
+    fold_list = fold_list,
+    k_tuning = 3L,
+    seed = 123,
+    ncores = 2
+  )
+}
 
 
 ## ------------------------------------------------
 ## Method `MLNestedCV$execute`
 ## ------------------------------------------------
 
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-cv <- MLNestedCV$new(
-  learner = LearnerKnn$new(),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  seed = 123,
-  ncores = 2
-)
+  cv <- MLNestedCV$new(
+    learner = LearnerKnn$new(),
+    strategy = "grid",
+    fold_list = fold_list,
+    k_tuning = 3L,
+    seed = 123,
+    ncores = 2
+  )
 
-# learner args (not optimized)
-cv$learner_args <- list(
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
+  # learner args (not optimized)
+  cv$learner_args <- list(
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
 
-# parameters for hyperparameter tuning
-cv$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8)
-)
-cv$split_type <- "stratified"
+  # parameters for hyperparameter tuning
+  cv$parameter_grid <- expand.grid(
+    k = seq(4, 68, 8)
+  )
+  cv$split_type <- "stratified"
 
-# performance parameters
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+  # performance parameters
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv$execute()
+  cv$execute()
+}
 
 }
 \seealso{
@@ -285,32 +294,35 @@ cross validation folds.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-cv <- MLNestedCV$new(
-  learner = LearnerKnn$new(),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  seed = 123,
-  ncores = 2
-)
+  cv <- MLNestedCV$new(
+    learner = LearnerKnn$new(),
+    strategy = "grid",
+    fold_list = fold_list,
+    k_tuning = 3L,
+    seed = 123,
+    ncores = 2
+  )
+}
 
 }
 \if{html}{\out{</div>}}
@@ -357,60 +369,63 @@ of the \code{MLNestedCV} class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-cv <- MLNestedCV$new(
-  learner = LearnerKnn$new(),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  seed = 123,
-  ncores = 2
-)
+  cv <- MLNestedCV$new(
+    learner = LearnerKnn$new(),
+    strategy = "grid",
+    fold_list = fold_list,
+    k_tuning = 3L,
+    seed = 123,
+    ncores = 2
+  )
 
-# learner args (not optimized)
-cv$learner_args <- list(
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
+  # learner args (not optimized)
+  cv$learner_args <- list(
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
 
-# parameters for hyperparameter tuning
-cv$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8)
-)
-cv$split_type <- "stratified"
+  # parameters for hyperparameter tuning
+  cv$parameter_grid <- expand.grid(
+    k = seq(4, 68, 8)
+  )
+  cv$split_type <- "stratified"
 
-# performance parameters
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+  # performance parameters
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv$execute()
+  cv$execute()
+}
 
 }
 \if{html}{\out{</div>}}

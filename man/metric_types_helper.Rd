@@ -28,20 +28,22 @@ Thus, it is necessary to convert the inputs to the metric function
 accordingly, which is done with this helper function.
 }
 \examples{
-set.seed(123)
-ground_truth <- sample(0:1, 100, replace = TRUE)
-predictions <- sample(0:1, 100, replace = TRUE)
-FUN <- metric("ACC")
+if (requireNamespace("measures", quietly = TRUE)) {
+  set.seed(123)
+  ground_truth <- sample(0:1, 100, replace = TRUE)
+  predictions <- sample(0:1, 100, replace = TRUE)
+  FUN <- metric("ACC")
 
-perf_args <- list(
-  ground_truth = ground_truth,
-  predictions = predictions
-)
+  perf_args <- list(
+    ground_truth = ground_truth,
+    predictions = predictions
+  )
 
-metric_types_helper(
-  FUN = FUN,
-  y = ground_truth,
-  perf_args = perf_args
-)
+  metric_types_helper(
+    FUN = FUN,
+    y = ground_truth,
+    perf_args = perf_args
+  )
+}
 
 }

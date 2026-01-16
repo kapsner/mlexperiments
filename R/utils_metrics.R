@@ -26,14 +26,16 @@
 #'   performance metric throughout the experiments.
 #'
 #' @examples
-#' metric("AUC")
+#' if (requireNamespace("measures", quietly = TRUE)) {
+#'   metric("AUC")
+#' }
 #'
 #' @export
 #'
 metric <- function(name) {
   stopifnot(
-    "`name` must be a character of length() == 1" =
-      is.character(name) && length(name) == 1L
+    "`name` must be a character of length() == 1" = is.character(name) &&
+      length(name) == 1L
   )
   if (!requireNamespace("measures", quietly = TRUE)) {
     stop(
@@ -73,17 +75,22 @@ metric <- function(name) {
   fun_body <- paste0(
     "args <- list(\n",
     "    truth = ground_truth,\n",
-    "    ", response_name, " = predictions\n",
+    "    ",
+    response_name,
+    " = predictions\n",
     ") \n",
     "fun_default_args <- c(",
-    paste0("\"", default_args_names, collapse = "\", "), "\")\n",
+    paste0("\"", default_args_names, collapse = "\", "),
+    "\")\n",
     "fun_default_args <- setdiff(fun_default_args, \"...\")\n",
     "if (length(kwargs) > 0L) {\n",
     "    valid_kwargs_names <- intersect(fun_default_args, names(kwargs))\n",
     "    kwargs <- kwargs[which(names(kwargs) %in% valid_kwargs_names)]\n",
     "    if (length(kwargs) > 0L) {\n",
     "        args <- c(args, kwargs)\n}\n}\n",
-    "return(do.call(", fun_name, ", args))"
+    "return(do.call(",
+    fun_name,
+    ", args))"
   )
 
   fun <- paste0(
@@ -116,30 +123,35 @@ metric <- function(name) {
 #' @return Returns the calculated performance measure.
 #'
 #' @examples
-#' set.seed(123)
-#' ground_truth <- sample(0:1, 100, replace = TRUE)
-#' predictions <- sample(0:1, 100, replace = TRUE)
-#' FUN <- metric("ACC")
+#' if (requireNamespace("measures", quietly = TRUE)) {
+#'   set.seed(123)
+#'   ground_truth <- sample(0:1, 100, replace = TRUE)
+#'   predictions <- sample(0:1, 100, replace = TRUE)
+#'   FUN <- metric("ACC")
 #'
-#' perf_args <- list(
-#'   ground_truth = ground_truth,
-#'   predictions = predictions
-#' )
+#'   perf_args <- list(
+#'     ground_truth = ground_truth,
+#'     predictions = predictions
+#'   )
 #'
-#' metric_types_helper(
-#'   FUN = FUN,
-#'   y = ground_truth,
-#'   perf_args = perf_args
-#' )
+#'   metric_types_helper(
+#'     FUN = FUN,
+#'     y = ground_truth,
+#'     perf_args = perf_args
+#'   )
+#' }
 #'
 #' @export
 #'
-metric_types_helper <- function(FUN, y, perf_args) { # nolint
+metric_types_helper <- function(FUN, y, perf_args) {
+  # nolint
   stopifnot(
     "`FUN` must be a function" = is.function(FUN),
     "`perf_args` must be a list" = is.list(perf_args),
-    "`perf_args` must contain named elements `ground_truth` and `predictions`" =
-      all(c("ground_truth", "predictions") %in% names(perf_args)))
+    "`perf_args` must contain named elements `ground_truth` and `predictions`" = all(
+      c("ground_truth", "predictions") %in% names(perf_args)
+    )
+  )
   # note that this is very specific to the measures package
   if (!requireNamespace("measures", quietly = TRUE)) {
     stop(
@@ -183,9 +195,11 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     # fix binary metrics here
     # logic for conversion of probabilities to classes in case of binary
     # classification
-    if (.test_binary_y_and_pred_probs(y, perf_args) &&
+    if (
+      .test_binary_y_and_pred_probs(y, perf_args) &&
         isTRUE(metric_metadata$binary) &&
-        isFALSE(metric_metadata$probabilities)) {
+        isFALSE(metric_metadata$probabilities)
+    ) {
       # now test value bondaries
       if (.test_pred_probs_value_boundaries(perf_args)) {
         if (!is.factor(y)) {
@@ -222,32 +236,35 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
     }
   }
 
-
   tryCatch(
     expr = {
       if (isTRUE(error)) {
         errorCondition("An error happend preparing response for binary metric.")
       }
       return(do.call(FUN, perf_args))
-    }, error = function(e) {
-
-      if (grepl(
-        pattern = "Assertion on 'truth' failed: Must be of type 'factor'",
-        x = e
-      )) {
+    },
+    error = function(e) {
+      if (
+        grepl(
+          pattern = "Assertion on 'truth' failed: Must be of type 'factor'",
+          x = e
+        )
+      ) {
         # convert to factor
         perf_args$ground_truth <- factor(
           x = perf_args$ground_truth,
           levels = lvls
         )
         error <- FALSE
-      } else if (grepl(
-        pattern = paste0(
-          "Assertion on 'response' failed: Must have length ",
-          "\\d+, but has length \\d+\\."
-        ),
-        x = e
-      )) {
+      } else if (
+        grepl(
+          pattern = paste0(
+            "Assertion on 'response' failed: Must have length ",
+            "\\d+, but has length \\d+\\."
+          ),
+          x = e
+        )
+      ) {
         msg <- paste0(
           "An error occurred... Try to use 'predict_args <- list(",
           "reshape = TRUE)'"
@@ -316,8 +333,10 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
 }
 
 .test_binary_y_and_pred_probs <- function(y, perf_args) {
-  if (length(unique(y)) <= 2 &&
-    length(unique(perf_args$predictions)) > 2) {
+  if (
+    length(unique(y)) <= 2 &&
+      length(unique(perf_args$predictions)) > 2
+  ) {
     return(TRUE)
   } else {
     return(FALSE)
@@ -325,8 +344,10 @@ metric_types_helper <- function(FUN, y, perf_args) { # nolint
 }
 
 .test_pred_probs_value_boundaries <- function(perf_args) {
-  if (min(perf_args$predictions) >= 0 &&
-      max(perf_args$predictions) <= 1) {
+  if (
+    min(perf_args$predictions) >= 0 &&
+      max(perf_args$predictions) <= 1
+  ) {
     return(TRUE)
   } else {
     return(FALSE)

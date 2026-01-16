@@ -33,55 +33,57 @@ Apply an R6 object of class \code{"MLCrossValidation"} to new data
 to compute predictions.
 }
 \examples{
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+if (requireNamespace("measures", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-glm_optimization <- mlexperiments::MLCrossValidation$new(
-  learner = LearnerGlm$new(),
-  fold_list = fold_list,
-  seed = 123
-)
+  glm_optimization <- mlexperiments::MLCrossValidation$new(
+    learner = LearnerGlm$new(),
+    fold_list = fold_list,
+    seed = 123
+  )
 
-glm_optimization$learner_args <- list(family = binomial(link = "logit"))
-glm_optimization$predict_args <- list(type = "response")
-glm_optimization$performance_metric_args <- list(
-   positive = 1,
-   negative =0
-)
-glm_optimization$performance_metric <- metric("AUC")
-glm_optimization$return_models <- TRUE
+  glm_optimization$learner_args <- list(family = binomial(link = "logit"))
+  glm_optimization$predict_args <- list(type = "response")
+  glm_optimization$performance_metric_args <- list(
+     positive = 1,
+     negative =0
+  )
+  glm_optimization$performance_metric <- metric("AUC")
+  glm_optimization$return_models <- TRUE
 
-# set data
-glm_optimization$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  glm_optimization$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv_results <- glm_optimization$execute()
+  cv_results <- glm_optimization$execute()
 
-# predictions
-preds <- mlexperiments::predictions(
-  object = glm_optimization,
-  newdata = data.matrix(dataset[, -7]),
-  na.rm = FALSE,
-  ncores = 2L,
-  type = "response"
-)
-head(preds)
+  # predictions
+  preds <- mlexperiments::predictions(
+    object = glm_optimization,
+    newdata = data.matrix(dataset[, -7]),
+    na.rm = FALSE,
+    ncores = 2L,
+    type = "response"
+  )
+  head(preds)
+}
 
 }

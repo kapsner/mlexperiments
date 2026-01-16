@@ -17,128 +17,139 @@ validations, just provide a list with all repeated fold definitions, e.g.,
 when specifying the argument \code{m_rep} of \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
 }
 \examples{
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
 
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
 
-cv <- MLCrossValidation$new(
-  learner = LearnerKnn$new(),
-  fold_list = fold_list,
-  seed = 123,
-  ncores = 2
-)
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
 
-# learner parameters
-cv$learner_args <- list(
-  k = 20,
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
+  cv <- MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = 123,
+    ncores = 2
+  )
 
-# performance parameters
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+  # learner parameters
+  cv$learner_args <- list(
+    k = 20,
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # performance parameters
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-cv$execute()
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
+
+  cv$execute()
+}
 
 
 ## ------------------------------------------------
 ## Method `MLCrossValidation$new`
 ## ------------------------------------------------
 
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
-cv <- MLCrossValidation$new(
-  learner = LearnerKnn$new(),
-  fold_list = fold_list,
-  seed = 123,
-  ncores = 2
-)
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
+  cv <- MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = 123,
+    ncores = 2
+  )
+}
 
 
 ## ------------------------------------------------
 ## Method `MLCrossValidation$execute`
 ## ------------------------------------------------
 
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
-cv <- MLCrossValidation$new(
-  learner = LearnerKnn$new(),
-  fold_list = fold_list,
-  seed = 123,
-  ncores = 2
-)
-cv$learner_args <- list(
-  k = 20,
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
+  cv <- MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = 123,
+    ncores = 2
+  )
+  cv$learner_args <- list(
+    k = 20,
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv$execute()
+  cv$execute()
+}
+
 }
 \seealso{
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
@@ -236,28 +247,31 @@ repeated fold definitions, e.g., when specifing the argument \code{m_rep} of
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
-cv <- MLCrossValidation$new(
-  learner = LearnerKnn$new(),
-  fold_list = fold_list,
-  seed = 123,
-  ncores = 2
-)
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
+  cv <- MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = 123,
+    ncores = 2
+  )
+}
 
 }
 \if{html}{\out{</div>}}
@@ -302,47 +316,51 @@ the \code{MLCrossValidation} class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-fold_list <- splitTools::create_folds(
-  y = dataset[, 7],
-  k = 3,
-  type = "stratified",
-  seed = 123
-)
-cv <- MLCrossValidation$new(
-  learner = LearnerKnn$new(),
-  fold_list = fold_list,
-  seed = 123,
-  ncores = 2
-)
-cv$learner_args <- list(
-  k = 20,
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-cv$predict_args <- list(type = "response")
-cv$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-cv$performance_metric <- metric("MMCE")
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  fold_list <- splitTools::create_folds(
+    y = dataset[, 7],
+    k = 3,
+    type = "stratified",
+    seed = 123
+  )
+  cv <- MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = 123,
+    ncores = 2
+  )
+  cv$learner_args <- list(
+    k = 20,
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
+  cv$predict_args <- list(type = "response")
+  cv$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  cv$performance_metric <- metric("MMCE")
 
-# set data
-cv$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  cv$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-cv$execute()
+  cv$execute()
+}
+
 }
 \if{html}{\out{</div>}}
 

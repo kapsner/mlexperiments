@@ -15,66 +15,75 @@ optimization. In both cases, each hyperparameter setting is evaluated in a
 k-fold cross-validation on the dataset specified.
 }
 \examples{
-knn_tuner <- MLTuneParameters$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  strategy = "grid",
-  ncores = 2
-)
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  knn_tuner <- MLTuneParameters$new(
+    learner = LearnerKnn$new(),
+    seed = 123,
+    strategy = "grid",
+    ncores = 2
+  )
+}
 
 
 ## ------------------------------------------------
 ## Method `MLTuneParameters$new`
 ## ------------------------------------------------
 
-MLTuneParameters$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  strategy = "grid",
-  ncores = 2
-)
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  MLTuneParameters$new(
+    learner = LearnerKnn$new(),
+    seed = 123,
+    strategy = "grid",
+    ncores = 2
+  )
+}
 
 
 ## ------------------------------------------------
 ## Method `MLTuneParameters$execute`
 ## ------------------------------------------------
 
-dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-tuner <- MLTuneParameters$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  strategy = "grid",
-  ncores = 2
-)
-tuner$parameter_bounds <- list(k = c(2L, 80L))
-tuner$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8),
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-tuner$split_type <- "stratified"
-tuner$optim_args <- list(
-  n_iter = 4,
-  kappa = 3.5,
-  acq = "ucb"
-)
+if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  tuner <- MLTuneParameters$new(
+    learner = LearnerKnn$new(),
+    seed = 123,
+    strategy = "grid",
+    ncores = 2
+  )
+  tuner$parameter_bounds <- list(k = c(2L, 80L))
+  tuner$parameter_grid <- expand.grid(
+    k = seq(4, 68, 8),
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
+  tuner$split_type <- "stratified"
+  tuner$optim_args <- list(
+    n_iter = 4,
+    kappa = 3.5,
+    acq = "ucb"
+  )
 
-# set data
-tuner$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  tuner$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-tuner$execute(k = 3)
+  tuner$execute(k = 3)
+}
 
 }
 \seealso{
@@ -176,12 +185,15 @@ A new \code{MLTuneParameters} R6 object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{MLTuneParameters$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  strategy = "grid",
-  ncores = 2
-)
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  MLTuneParameters$new(
+    learner = LearnerKnn$new(),
+    seed = 123,
+    strategy = "grid",
+    ncores = 2
+  )
+}
 
 }
 \if{html}{\out{</div>}}
@@ -229,42 +241,45 @@ accessible from the field \verb{$results} of the \code{MLTuneParameters} class.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{dataset <- do.call(
-  cbind,
-  c(sapply(paste0("col", 1:6), function(x) {
-    rnorm(n = 500)
-    },
-    USE.NAMES = TRUE,
-    simplify = FALSE
-   ),
-   list(target = sample(0:1, 500, TRUE))
-))
-tuner <- MLTuneParameters$new(
-  learner = LearnerKnn$new(),
-  seed = 123,
-  strategy = "grid",
-  ncores = 2
-)
-tuner$parameter_bounds <- list(k = c(2L, 80L))
-tuner$parameter_grid <- expand.grid(
-  k = seq(4, 68, 8),
-  l = 0,
-  test = parse(text = "fold_test$x")
-)
-tuner$split_type <- "stratified"
-tuner$optim_args <- list(
-  n_iter = 4,
-  kappa = 3.5,
-  acq = "ucb"
-)
+\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+requireNamespace("class", quietly = TRUE)) {
+  dataset <- do.call(
+    cbind,
+    c(sapply(paste0("col", 1:6), function(x) {
+      rnorm(n = 500)
+      },
+      USE.NAMES = TRUE,
+      simplify = FALSE
+     ),
+     list(target = sample(0:1, 500, TRUE))
+  ))
+  tuner <- MLTuneParameters$new(
+    learner = LearnerKnn$new(),
+    seed = 123,
+    strategy = "grid",
+    ncores = 2
+  )
+  tuner$parameter_bounds <- list(k = c(2L, 80L))
+  tuner$parameter_grid <- expand.grid(
+    k = seq(4, 68, 8),
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
+  tuner$split_type <- "stratified"
+  tuner$optim_args <- list(
+    n_iter = 4,
+    kappa = 3.5,
+    acq = "ucb"
+  )
 
-# set data
-tuner$set_data(
-  x = data.matrix(dataset[, -7]),
-  y = dataset[, 7]
-)
+  # set data
+  tuner$set_data(
+    x = data.matrix(dataset[, -7]),
+    y = dataset[, 7]
+  )
 
-tuner$execute(k = 3)
+  tuner$execute(k = 3)
+}
 
 }
 \if{html}{\out{</div>}}

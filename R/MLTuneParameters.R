@@ -14,12 +14,15 @@
 #' @seealso [rBayesianOptimization::BayesianOptimization()], [splitTools::create_folds()]
 #'
 #' @examples
-#' knn_tuner <- MLTuneParameters$new(
-#'   learner = LearnerKnn$new(),
-#'   seed = 123,
-#'   strategy = "grid",
-#'   ncores = 2
-#' )
+#' if (requireNamespace("measures", quietly = TRUE)  &&
+#' requireNamespace("class", quietly = TRUE)) {
+#'   knn_tuner <- MLTuneParameters$new(
+#'     learner = LearnerKnn$new(),
+#'     seed = 123,
+#'     strategy = "grid",
+#'     ncores = 2
+#'   )
+#' }
 #'
 #' @export
 #'
@@ -84,12 +87,15 @@ MLTuneParameters <- R6::R6Class(
     #' argument of [rBayesianOptimization::BayesianOptimization].
     #'
     #' @examples
-    #' MLTuneParameters$new(
-    #'   learner = LearnerKnn$new(),
-    #'   seed = 123,
-    #'   strategy = "grid",
-    #'   ncores = 2
-    #' )
+    #' if (requireNamespace("measures", quietly = TRUE)  &&
+    #' requireNamespace("class", quietly = TRUE)) {
+    #'   MLTuneParameters$new(
+    #'     learner = LearnerKnn$new(),
+    #'     seed = 123,
+    #'     strategy = "grid",
+    #'     ncores = 2
+    #'   )
+    #' }
     #'
     initialize = function(
       learner,
@@ -155,42 +161,45 @@ MLTuneParameters <- R6::R6Class(
     #'   accessible from the field `$results` of the `MLTuneParameters` class.
     #'
     #' @examples
-    #' dataset <- do.call(
-    #'   cbind,
-    #'   c(sapply(paste0("col", 1:6), function(x) {
-    #'     rnorm(n = 500)
-    #'     },
-    #'     USE.NAMES = TRUE,
-    #'     simplify = FALSE
-    #'    ),
-    #'    list(target = sample(0:1, 500, TRUE))
-    #' ))
-    #' tuner <- MLTuneParameters$new(
-    #'   learner = LearnerKnn$new(),
-    #'   seed = 123,
-    #'   strategy = "grid",
-    #'   ncores = 2
-    #' )
-    #' tuner$parameter_bounds <- list(k = c(2L, 80L))
-    #' tuner$parameter_grid <- expand.grid(
-    #'   k = seq(4, 68, 8),
-    #'   l = 0,
-    #'   test = parse(text = "fold_test$x")
-    #' )
-    #' tuner$split_type <- "stratified"
-    #' tuner$optim_args <- list(
-    #'   n_iter = 4,
-    #'   kappa = 3.5,
-    #'   acq = "ucb"
-    #' )
+    #' if (requireNamespace("measures", quietly = TRUE)  &&
+    #' requireNamespace("class", quietly = TRUE)) {
+    #'   dataset <- do.call(
+    #'     cbind,
+    #'     c(sapply(paste0("col", 1:6), function(x) {
+    #'       rnorm(n = 500)
+    #'       },
+    #'       USE.NAMES = TRUE,
+    #'       simplify = FALSE
+    #'      ),
+    #'      list(target = sample(0:1, 500, TRUE))
+    #'   ))
+    #'   tuner <- MLTuneParameters$new(
+    #'     learner = LearnerKnn$new(),
+    #'     seed = 123,
+    #'     strategy = "grid",
+    #'     ncores = 2
+    #'   )
+    #'   tuner$parameter_bounds <- list(k = c(2L, 80L))
+    #'   tuner$parameter_grid <- expand.grid(
+    #'     k = seq(4, 68, 8),
+    #'     l = 0,
+    #'     test = parse(text = "fold_test$x")
+    #'   )
+    #'   tuner$split_type <- "stratified"
+    #'   tuner$optim_args <- list(
+    #'     n_iter = 4,
+    #'     kappa = 3.5,
+    #'     acq = "ucb"
+    #'   )
     #'
-    #' # set data
-    #' tuner$set_data(
-    #'   x = data.matrix(dataset[, -7]),
-    #'   y = dataset[, 7]
-    #' )
+    #'   # set data
+    #'   tuner$set_data(
+    #'     x = data.matrix(dataset[, -7]),
+    #'     y = dataset[, 7]
+    #'   )
     #'
-    #' tuner$execute(k = 3)
+    #'   tuner$execute(k = 3)
+    #' }
     #'
     execute = function(k) {
       .tune_init(self, private, k)

@@ -11,6 +11,8 @@
 
 #### Bug fixes
 
+-   skipping examples with suggested pkg
+    ([6f0fdd1](https://github.com/kapsner/mlexperiments/tree/6f0fdd1358fea01e9548f80ce485678964a31b97))
 -   added ncores to globalvars
     ([c8099ad](https://github.com/kapsner/mlexperiments/tree/c8099ad5ef490f290c57b4bdc8b19a216f34e844))
 -   minor fixes, removed comments
@@ -41,7 +43,7 @@
 #### Other changes
 
 -   add skipping of suggests to roxygen examples
-    ([b4d3bce](https://github.com/kapsner/mlexperiments/tree/b4d3bcea996ff191547ecf2957b9ee4ba0b42c1a))
+    ([51992d1](https://github.com/kapsner/mlexperiments/tree/51992d101c124995b14061aab1e71eff10d5cea9))
 -   some formatting fixes
     ([a23fce9](https://github.com/kapsner/mlexperiments/tree/a23fce992ca39d657eb9b647d8ddc1d984d425e5))
 -   fix init_points assignment logic in optimizer helper
@@ -68,7 +70,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...b4d3bce`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...b4d3bce)
+[`v0.0.8...6f0fdd1`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...6f0fdd1)
 
 ## v0.0.8 (2025-10-15)
 

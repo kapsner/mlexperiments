@@ -35,6 +35,8 @@ experiments, simply by providing a function that takes the above mentioned
 arguments and returns one performance metric value.
 }
 \examples{
-metric("AUC")
+if (requireNamespace("measures", quietly = TRUE)) {
+  metric("AUC")
+}
 
 }
