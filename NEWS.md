@@ -6,8 +6,13 @@
 
 #### Other changes
 
+-   updated pre-commit-hooks
+    ([8a9d7bb](https://github.com/kapsner/mlexperiments/tree/8a9d7bb43739fc8940cc1854ca50e8d1475e63d1))
 -   updated dev version
-    ([f3f84e6](https://github.com/kapsner/mlexperiments/tree/f3f84e619e916c4ef3b5ee0e618b3501439fb004))
+    ([f76f188](https://github.com/kapsner/mlexperiments/tree/f76f188d49d825690c653b9e5469e79c2f7da6ae))
+
+Full set of changes:
+[`v1.0.0...8a9d7bb`](https://github.com/kapsner/mlexperiments/compare/v1.0.0...8a9d7bb)
 
 ## v1.0.0 (2026-01-16)
 
