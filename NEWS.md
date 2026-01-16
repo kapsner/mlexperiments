@@ -2,10 +2,26 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2026-01-13)
+## Unreleased (2026-01-16)
+
+#### New features
+
+-   default bayesian.max_init to 4L
+    ([66474e9](https://github.com/kapsner/mlexperiments/tree/66474e94561c06296553c7906f1790899455ba66))
 
 #### Bug fixes
 
+-   added ncores to globalvars
+    ([cec60fb](https://github.com/kapsner/mlexperiments/tree/cec60fb858f554262338de2e07e9098d3a765d39))
+-   minor fixes, removed comments
+    ([fa19669](https://github.com/kapsner/mlexperiments/tree/fa19669bb4d30c8862fa8646d84def59952b3bae))
+-   env-handling from external packages
+    ([50db3ba](https://github.com/kapsner/mlexperiments/tree/50db3ba795e13ba127da75de215c4a1ce884c4bf))
+-   set initpoints to max-init
+    ([46a7e07](https://github.com/kapsner/mlexperiments/tree/46a7e07afc84ebf23fceb78aad9ad982bd542108))
+-   replace bayesian backend \> \> use rBayesianOptimization now.
+    addresses #4 BREAKING CHANGE
+    ([9fee76f](https://github.com/kapsner/mlexperiments/tree/9fee76f0c20df3b6038d899ad2751b70d023d84d))
 -   fixing bayes-opt (wip)
     ([a0ce426](https://github.com/kapsner/mlexperiments/tree/a0ce426d2b63614229f9c3f8b402ba8a5bc2f738))
 -   working on changing to rbayesianopt package (wip)
@@ -15,13 +31,29 @@
 
 #### Tests
 
+-   increase max_init also for rpart classification
+    ([3a85e16](https://github.com/kapsner/mlexperiments/tree/3a85e16c9789de6dcad611f8fa3bb7c61105f638))
+-   increased init_iter for rpart-regression
+    ([e3b56f2](https://github.com/kapsner/mlexperiments/tree/e3b56f20ef6e1f67bea9fbcd02b27cb2a63a9fc0))
 -   introduce conditional testing
     ([042806e](https://github.com/kapsner/mlexperiments/tree/042806e0776b742ff92efc645f748a6fd34dca77))
 
 #### Other changes
 
+-   fix init_points assignment logic in optimizer helper
+    ([9ac39e7](https://github.com/kapsner/mlexperiments/tree/9ac39e7277c0b835d119abdc3aa698ecacd1bb89))
+-   provide ncores to Bayesian scoring fun rpart
+    ([ad992cb](https://github.com/kapsner/mlexperiments/tree/ad992cb4c917198fbf85604c9c20b613716176e9))
+-   provide ncores to Bayesian scoring fun
+    ([e5b3608](https://github.com/kapsner/mlexperiments/tree/e5b36085fed3f2f1d2b6ac2255ed4c43f620517c))
+-   provide ncores to Bayesian scoring fun
+    ([d562492](https://github.com/kapsner/mlexperiments/tree/d562492a9380c41b467a08881a53f7dbbe74520f))
+-   fixed cran-url to be in canonical form
+    ([493e93b](https://github.com/kapsner/mlexperiments/tree/493e93b1c1037ec4dc4f058ce32dc505a5c17ce4))
+-   bump to v1.0.0
+    ([5771d5b](https://github.com/kapsner/mlexperiments/tree/5771d5b6b76f4d1cf2b4e49da58d7d346b8d6190))
 -   another comment
-    ([00a3921](https://github.com/kapsner/mlexperiments/tree/00a39210a3a4352953d3af2582274b20d48f4b3d))
+    ([b234dba](https://github.com/kapsner/mlexperiments/tree/b234dbae1023943574b79c83dcc6823cd7c1061c))
 -   force=true for progress-bar
     ([f648f8b](https://github.com/kapsner/mlexperiments/tree/f648f8bdbbd01a6a2b286d22f2a7dd15b3b30e92))
 -   added pre-commit hooks
@@ -32,7 +64,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...00a3921`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...00a3921)
+[`v0.0.8...cec60fb`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...cec60fb)
 
 ## v0.0.8 (2025-10-15)
 
@@ -183,21 +215,12 @@ Full set of changes:
 
 ## v0.0.3 (2024-03-07)
 
-#### Bug fixes
-
--   fixed issues for cran submission
-    ([273c1de](https://github.com/kapsner/mlexperiments/tree/273c1de3b25777b9cf08bc2001b5ccd5099748b8))
-
 #### Docs
 
 -   updated documentation of r-option for initialization iterations
     ([4557410](https://github.com/kapsner/mlexperiments/tree/455741038ec0922b1a76d4ccfdce10660d06f0e0))
 -   updated and restrucutred readme!
     ([908fa03](https://github.com/kapsner/mlexperiments/tree/908fa03fa3008491bccc1e9c983f06903e3e6167))
--   mllearnerbase examples again into dontrun
-    ([1cb02da](https://github.com/kapsner/mlexperiments/tree/1cb02daa0616ba399f53bda0733e4f216aa94a30))
--   removed dontrun from roxygen examples of mllearnerbase
-    ([a9d0a77](https://github.com/kapsner/mlexperiments/tree/a9d0a776083dbc6168fcad23c37bc27ea8e2102d))
 
 #### Other changes
 
@@ -207,16 +230,16 @@ Full set of changes:
     ([6898ca9](https://github.com/kapsner/mlexperiments/tree/6898ca9218f9e646c51e881d7cbf7ab47f369018))
 -   update README.md
     ([c06f675](https://github.com/kapsner/mlexperiments/tree/c06f67595d14ac7aa7fc585b6e2efead7dda95ad))
--   fixed spelling and examples
-    ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 
 Full set of changes:
 [`v0.0.2...v0.0.3`](https://github.com/kapsner/mlexperiments/compare/v0.0.2...v0.0.3)
 
-## v0.0.2 (2023-06-05)
+## v0.0.2 (2023-06-09)
 
 #### Bug fixes
 
+-   fixed issues for cran submission
+    ([273c1de](https://github.com/kapsner/mlexperiments/tree/273c1de3b25777b9cf08bc2001b5ccd5099748b8))
 -   removed splittools from remotes
     ([5b501cc](https://github.com/kapsner/mlexperiments/tree/5b501cc7b9eb1a8940a4c1ed3026cea43cf28b97))
 -   removed splittools from remotes
@@ -240,6 +263,10 @@ Full set of changes:
 
 #### Docs
 
+-   mllearnerbase examples again into dontrun
+    ([1cb02da](https://github.com/kapsner/mlexperiments/tree/1cb02daa0616ba399f53bda0733e4f216aa94a30))
+-   removed dontrun from roxygen examples of mllearnerbase
+    ([a9d0a77](https://github.com/kapsner/mlexperiments/tree/a9d0a776083dbc6168fcad23c37bc27ea8e2102d))
 -   updated vignettes
     ([b7df96e](https://github.com/kapsner/mlexperiments/tree/b7df96ecd6c824182e75f916c367e7cad2e69891))
 -   added png plots for vignettes
@@ -251,6 +278,8 @@ Full set of changes:
 
 #### Other changes
 
+-   fixed spelling and examples
+    ([dd99be3](https://github.com/kapsner/mlexperiments/tree/dd99be3257992041885df17c3295449932d87500))
 -   preparing v0.0.2
     ([0f7cc35](https://github.com/kapsner/mlexperiments/tree/0f7cc35f061b96681a8fcec403ca5bac96c4f328))
 -   updating version

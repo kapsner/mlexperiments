@@ -111,11 +111,12 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
     cvfit <- do.call(knn_fit, args)
     # optimize mean misclassification error
     FUN <- metric("MMAC") # nolint
-    err <- FUN(predictions = knn_predict(
-      model = cvfit,
-      newdata = kdry::mlh_subset(x, -train_idx),
-      ncores = ncores,
-      type = "response"
+    err <- FUN(
+      predictions = knn_predict(
+        model = cvfit,
+        newdata = kdry::mlh_subset(x, -train_idx),
+        ncores = ncores,
+        type = "response"
       ),
       ground_truth = kdry::mlh_subset(y, -train_idx)
     )
@@ -138,17 +139,16 @@ This function can be thought of as a "gatekeeper" that takes a new suggested hyp
 2. The value returned from the Bayesian scoring function must be a named list that contains the optimization metric as the item `Score`. As described above, the returned value from `cross_validation` is already a named list that contains the optimization metric with the item `metric_optim_mean`. As this item is required later on internally for the `mlexperiments` package , the value value of this item is just copied and saved under the new name "Score" to address the requirements of `rBayesianOptimization`. Note: please notice that `mlexperiments` already takes care of the direction of the optimization metric, which is handled depending on the learner's initialization argument `metric_optimization_higher_better`, so no changes should be made here to ensure a correct functioning.
 
 ```{r eval=FALSE}
-knn_bsF <- function(...) { # nolint
+knn_bsF <- function(...) {
+  # nolint
   params <- list(...)
-  # call to knn_optimization here with ncores = 1, since the Bayesian search
-  # is parallelized already / "FUN is fitted n times in m threads"
-  set.seed(seed)#, kind = "L'Ecuyer-CMRG")
+  set.seed(seed) #, kind = "L'Ecuyer-CMRG")
   bayes_opt_knn <- knn_optimization(
     x = x,
     y = y,
     params = params,
     fold_list = method_helper$fold_list,
-    ncores = 1L, # currently, this cannot be parallelized
+    ncores = ncores,
     seed = seed
   )
   ret <- kdry::list.append(
@@ -190,7 +190,8 @@ The placeholders are:
 These assignments should be done in the `initialize()` function. The following code example shows the assignment of the previously created functions to the respective functions and fields of the newly created R6 class `LearnerKnn`:
 
 ```{r eval=FALSE}
-LearnerKnn <- R6::R6Class( # nolint
+LearnerKnn <- R6::R6Class(
+  # nolint
   classname = "LearnerKnn",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
