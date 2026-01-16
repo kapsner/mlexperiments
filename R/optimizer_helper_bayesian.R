@@ -8,9 +8,7 @@
   stopifnot(
     "`parameter_bounds` must not be empty for Bayesian optimization" = !is.null(
       self$parameter_bounds
-    ),
-    "`ncores` must be >1L when using Bayesian optimization" = private$ncores >
-      1L
+    )
   )
   if (self$optim_args$parallel) {
     self$optim_args$parallel <- NULL # (specific for rBayesianOptimization)
@@ -29,8 +27,9 @@
     "x" = x,
     "y" = y,
     "seed" = seed,
-    "method_helper" = method_helper, # , "ncores" #, "cluster_load"
-    "cluster_options" = cluster_options
+    "method_helper" = method_helper, #, "cluster_load"
+    "cluster_options" = cluster_options,
+    "ncores" = private$ncores
   )
 
   # export from global env
@@ -59,10 +58,6 @@
 
   args <- kdry::list.append(
     list(
-      # for each method, a bayesian scoring function is required
-      # FUN = eval(parse(text = paste0(
-      #   private$method, "_bsF"
-      # ))),
       FUN = self$learner$bayesian_scoring_function,
       bounds = self$parameter_bounds,
       init_grid_dt = method_helper$execute_params$parameter_grid
