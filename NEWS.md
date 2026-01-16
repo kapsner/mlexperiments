@@ -12,7 +12,7 @@
 #### Bug fixes
 
 -   added ncores to globalvars
-    ([cec60fb](https://github.com/kapsner/mlexperiments/tree/cec60fb858f554262338de2e07e9098d3a765d39))
+    ([c8099ad](https://github.com/kapsner/mlexperiments/tree/c8099ad5ef490f290c57b4bdc8b19a216f34e844))
 -   minor fixes, removed comments
     ([fa19669](https://github.com/kapsner/mlexperiments/tree/fa19669bb4d30c8862fa8646d84def59952b3bae))
 -   env-handling from external packages
@@ -40,6 +40,8 @@
 
 #### Other changes
 
+-   some formatting fixes
+    ([175477a](https://github.com/kapsner/mlexperiments/tree/175477aaa3dc7f9ec2901955d37c636858d7380e))
 -   fix init_points assignment logic in optimizer helper
     ([9ac39e7](https://github.com/kapsner/mlexperiments/tree/9ac39e7277c0b835d119abdc3aa698ecacd1bb89))
 -   provide ncores to Bayesian scoring fun rpart
@@ -64,7 +66,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...cec60fb`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...cec60fb)
+[`v0.0.8...175477a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...175477a)
 
 ## v0.0.8 (2025-10-15)
 

@@ -47,7 +47,7 @@
   } else {
     use_env <- -1L
   }
-  
+
   get_from_env <- as.list(as.environment(use_env))
   get_from_env <- get_from_env[self$learner$cluster_export]
 
@@ -85,7 +85,11 @@
     args <- args[names(args) != "init_points"]
   } else {
     args <- args[names(args) != "init_grid_dt"]
-    if (args$init_points == 0 || args$init_points > as.integer(options("mlexperiments.bayesian.max_init"))) {
+    if (
+      args$init_points == 0 ||
+        args$init_points >
+          as.integer(options("mlexperiments.bayesian.max_init"))
+    ) {
       args$init_points <- as.integer(options("mlexperiments.bayesian.max_init"))
     }
   }

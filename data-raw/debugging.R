@@ -20,7 +20,6 @@
 #   seed = seed
 # )
 
-
 # ncores <- ifelse(
 #   test = parallel::detectCores() > 4,
 #   yes = 4L,
@@ -34,7 +33,6 @@
 #   # on cran
 #   ncores <- 2L
 # }
-
 
 # knn_bounds <- list(k = c(2L, 80L))
 # optim_args <- list(
@@ -67,8 +65,6 @@
 # knn_optimization$set_data(x = train_x, y = train_y)
 
 # cv_results1 <- knn_optimization$execute(k = 3)
-
-
 
 devtools::load_all()
 
@@ -118,10 +114,53 @@ fold_list <- splitTools::create_folds(
 )
 
 
+glmnet_bounds <- list(
+  alpha = c(0., 1.)
+)
+optim_args <- list(
+  n_iter = ncores,
+  kappa = 3.5,
+  acq = "ucb"
+)
+
+glmnet_optimizer <- mlexperiments::MLNestedCV$new(
+  learner = mllrnrs::LearnerGlmnet$new(
+    metric_optimization_higher_better = FALSE
+  ),
+  strategy = "bayesian",
+  fold_list = fold_list,
+  k_tuning = 3L,
+  ncores = ncores,
+  seed = seed
+)
+
+glmnet_optimizer$parameter_bounds <- glmnet_bounds
+glmnet_optimizer$parameter_grid <- data.table::data.table(
+  param_list_glmnet
+)[1:5, ]
+glmnet_optimizer$split_type <- "stratified"
+glmnet_optimizer$optim_args <- optim_args
+
+glmnet_optimizer$learner_args <- list(
+  family = "gaussian",
+  type.measure = "mse",
+  standardize = TRUE
+)
+glmnet_optimizer$predict_args <- list(type = "response")
+glmnet_optimizer$performance_metric <- mlexperiments::metric("rmsle")
+
+# set data
+glmnet_optimizer$set_data(
+  x = train_x,
+  y = train_y
+)
+
+cv_results <- glmnet_optimizer$execute()
+
+
 options("mlexperiments.bayesian.max_init" = 4L)
 options("mlexperiments.optim.lgb.nrounds" = 100L)
 options("mlexperiments.optim.lgb.early_stopping_rounds" = 10L)
-
 
 # param_list_lightgbm <- expand.grid(
 #   bagging_fraction = seq(0.6, 1, .2),
@@ -181,52 +220,50 @@ options("mlexperiments.optim.lgb.early_stopping_rounds" = 10L)
 
 # cv_results <- lightgbm_optimizer$execute()
 
+# param_list_xgboost <- expand.grid(
+#   subsample = seq(0.6, 1, .2),
+#   colsample_bytree = seq(0.6, 1, .2),
+#   min_child_weight = seq(1, 5, 4),
+#   learning_rate = seq(0.1, 0.2, 0.1),
+#   max_depth = seq(1, 5, 4)
+# )
 
+# ncores <- 2L
 
-param_list_xgboost <- expand.grid(
-  subsample = seq(0.6, 1, .2),
-  colsample_bytree = seq(0.6, 1, .2),
-  min_child_weight = seq(1, 5, 4),
-  learning_rate = seq(0.1, 0.2, 0.1),
-  max_depth = seq(1, 5, 4)
-)
+# options("mlexperiments.bayesian.max_init" = 2L)
+# options("mlexperiments.optim.xgb.nrounds" = 20L)
+# options("mlexperiments.optim.xgb.early_stopping_rounds" = 5L)
 
-ncores <- 2L
+# xgboost_optimizer <- mlexperiments::MLNestedCV$new(
+#   learner = mllrnrs::LearnerXgboost$new(
+#     metric_optimization_higher_better = FALSE
+#   ),
+#   strategy = "grid",
+#   fold_list = fold_list,
+#   k_tuning = 3L,
+#   ncores = ncores,
+#   seed = seed
+# )
+# set.seed(seed)
+# random_grid <- sample(seq_len(nrow(param_list_xgboost)), 3)
+# xgboost_optimizer$parameter_grid <-
+#   param_list_xgboost[random_grid, ]
+# xgboost_optimizer$split_type <- "stratified"
 
-options("mlexperiments.bayesian.max_init" = 2L)
-options("mlexperiments.optim.xgb.nrounds" = 20L)
-options("mlexperiments.optim.xgb.early_stopping_rounds" = 5L)
+# xgboost_optimizer$learner_args <- list(
+#   objective = "binary:logistic",
+#   eval_metric = "logloss"
+# )
+# xgboost_optimizer$performance_metric_args <- list(
+#   positive = "1",
+#   negative = "0"
+# )
+# xgboost_optimizer$performance_metric <- mlexperiments::metric("auc")
 
-xgboost_optimizer <- mlexperiments::MLNestedCV$new(
-  learner = mllrnrs::LearnerXgboost$new(
-    metric_optimization_higher_better = FALSE
-  ),
-  strategy = "grid",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  ncores = ncores,
-  seed = seed
-)
-set.seed(seed)
-random_grid <- sample(seq_len(nrow(param_list_xgboost)), 3)
-xgboost_optimizer$parameter_grid <-
-  param_list_xgboost[random_grid, ]
-xgboost_optimizer$split_type <- "stratified"
+# # set data
+# xgboost_optimizer$set_data(
+#   x = train_x,
+#   y = train_y
+# )
 
-xgboost_optimizer$learner_args <- list(
-  objective = "binary:logistic",
-  eval_metric = "logloss"
-)
-xgboost_optimizer$performance_metric_args <- list(
-  positive = "1",
-  negative = "0"
-)
-xgboost_optimizer$performance_metric <- mlexperiments::metric("auc")
-
-# set data
-xgboost_optimizer$set_data(
-  x = train_x,
-  y = train_y
-)
-
-cv_results <- xgboost_optimizer$execute()
+# cv_results <- xgboost_optimizer$execute()

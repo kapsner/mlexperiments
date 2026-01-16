@@ -33,7 +33,8 @@
 #'
 #' @export
 #'
-MLLearnerBase <- R6::R6Class( # nolint
+MLLearnerBase <- R6::R6Class(
+  # nolint
   classname = "MLLearnerBase",
   public = list(
     #' @field cluster_export A character vector defining the (internal)
@@ -70,7 +71,7 @@ MLLearnerBase <- R6::R6Class( # nolint
     #'
     initialize = function(
       metric_optimization_higher_better # nolint
-      ) {
+    ) {
       stopifnot(
         "`metric_optimization_higher_better` must be a boolean value or \
         `NULL`" = is.logical(metric_optimization_higher_better) ||
@@ -270,7 +271,7 @@ MLLearnerBase <- R6::R6Class( # nolint
         #   X = additional_vals,
         #   FUN = function(x) {
         #     res[[x]]
-        #   },        
+        #   },
         #   simplify = TRUE,
         #   USE.NAMES = TRUE
         # )
