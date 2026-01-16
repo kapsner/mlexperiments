@@ -28,11 +28,14 @@
 #' @seealso [class::knn()], [measures::MMCE()]
 #'
 #' @examples
-#' LearnerKnn$new()
+#' if (requireNamespace("class", quietly = TRUE)) {
+#'   LearnerKnn$new()
+#' }
 #'
 #' @export
 #'
-LearnerKnn <- R6::R6Class( # nolint
+LearnerKnn <- R6::R6Class(
+  # nolint
   classname = "LearnerKnn",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
@@ -55,7 +58,9 @@ LearnerKnn <- R6::R6Class( # nolint
     #' @seealso [class::knn()], [measures::MMCE()]
     #'
     #' @examples
-    #' LearnerKnn$new()
+    #' if (requireNamespace("class", quietly = TRUE)) {
+    #'   LearnerKnn$new()
+    #' }
     #'
     #' @export
     #'
@@ -87,10 +92,11 @@ knn_ce <- function() {
   c("knn_optimization", "knn_fit", "knn_predict", "metric")
 }
 
-knn_bsF <- function(...) { # nolint
+knn_bsF <- function(...) {
+  # nolint
   params <- list(...)
-  
-  set.seed(seed)#, kind = "L'Ecuyer-CMRG")
+
+  set.seed(seed) #, kind = "L'Ecuyer-CMRG")
   bayes_opt_knn <- knn_optimization(
     x = x,
     y = y,
@@ -123,7 +129,6 @@ knn_optimization <- function(x, y, params, fold_list, ncores, seed) {
 
   # loop over the folds
   for (fold in names(fold_list)) {
-
     # get row-ids of the current fold
     train_idx <- fold_list[[fold]]
 
@@ -214,7 +219,6 @@ knn_predict <- function(model, newdata, ncores, ...) {
 }
 
 .expand_predictions <- function(preds, classes) {
-
   names(preds) <- classes
 
   c_names <- unique(names(preds))

@@ -38,68 +38,62 @@ fold_list <- splitTools::create_folds(
 # %% CV
 # ###########################################################################
 
-test_that(
-  desc = "test validate_fold_equality",
-  code = {
+test_that(desc = "test validate_fold_equality", code = {
+  testthat::skip_if_not_installed("class")
+  testthat::skip_if_not_installed("measures")
 
-    testthat::skip_if_not_installed("measures")
+  glm_optimization <- mlexperiments::MLCrossValidation$new(
+    learner = LearnerGlm$new(),
+    fold_list = fold_list,
+    seed = seed
+  )
 
-    glm_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = LearnerGlm$new(),
-      fold_list = fold_list,
-      seed = seed
+  glm_optimization$learner_args <- list(family = binomial(link = "logit"))
+  glm_optimization$predict_args <- list(type = "response")
+  glm_optimization$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  glm_optimization$performance_metric <- metric("AUC")
+
+  # set data
+  glm_optimization$set_data(
+    x = train_x,
+    y = train_y
+  )
+
+  glm_optimization$return_models <- TRUE
+
+  cv_results_glm <- glm_optimization$execute()
+
+  knn_optimization <- mlexperiments::MLCrossValidation$new(
+    learner = LearnerKnn$new(),
+    fold_list = fold_list,
+    seed = seed
+  )
+  knn_optimization$learner_args <- list(
+    k = 3,
+    l = 0,
+    test = parse(text = "fold_test$x")
+  )
+  knn_optimization$predict_args <- list(type = "prob")
+  knn_optimization$performance_metric_args <- list(
+    positive = "1",
+    negative = "0"
+  )
+  knn_optimization$performance_metric <- metric("AUC")
+
+  # set data
+  knn_optimization$set_data(
+    x = train_x,
+    y = train_y
+  )
+
+  cv_results_knn <- knn_optimization$execute()
+
+  expect_message(
+    object = mlexperiments::validate_fold_equality(
+      list(glm_optimization, knn_optimization)
     )
-
-    glm_optimization$learner_args <- list(family = binomial(link = "logit"))
-    glm_optimization$predict_args <- list(type = "response")
-    glm_optimization$performance_metric_args <- list(
-      positive = "1",
-      negative = "0"
-    )
-    glm_optimization$performance_metric <- metric("AUC")
-
-    # set data
-    glm_optimization$set_data(
-      x = train_x,
-      y = train_y
-    )
-
-    glm_optimization$return_models <- TRUE
-
-    cv_results_glm <- glm_optimization$execute()
-
-
-
-    knn_optimization <- mlexperiments::MLCrossValidation$new(
-      learner = LearnerKnn$new(),
-      fold_list = fold_list,
-      seed = seed
-    )
-    knn_optimization$learner_args <- list(
-      k = 3,
-      l = 0,
-      test = parse(text = "fold_test$x")
-    )
-    knn_optimization$predict_args <- list(type = "prob")
-    knn_optimization$performance_metric_args <- list(
-      positive = "1",
-      negative = "0"
-    )
-    knn_optimization$performance_metric <- metric("AUC")
-
-    # set data
-    knn_optimization$set_data(
-      x = train_x,
-      y = train_y
-    )
-
-    cv_results_knn <- knn_optimization$execute()
-
-
-    expect_message(
-      object = mlexperiments::validate_fold_equality(
-        list(glm_optimization, knn_optimization)
-      )
-    )
-  }
-)
+  )
+})

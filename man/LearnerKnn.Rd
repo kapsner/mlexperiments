@@ -32,14 +32,18 @@ set to \code{FALSE} by default as the mean misclassification error
 (\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimization metric.
 }
 \examples{
-LearnerKnn$new()
+if (requireNamespace("class", quietly = TRUE)) {
+  LearnerKnn$new()
+}
 
 
 ## ------------------------------------------------
 ## Method `LearnerKnn$new`
 ## ------------------------------------------------
 
-LearnerKnn$new()
+if (requireNamespace("class", quietly = TRUE)) {
+  LearnerKnn$new()
+}
 
 }
 \seealso{
@@ -93,7 +97,9 @@ error (\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimizatio
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{LearnerKnn$new()
+\preformatted{if (requireNamespace("class", quietly = TRUE)) {
+  LearnerKnn$new()
+}
 
 }
 \if{html}{\out{</div>}}

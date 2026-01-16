@@ -40,8 +40,10 @@
 
 #### Other changes
 
+-   add skipping of suggests to roxygen examples
+    ([b4d3bce](https://github.com/kapsner/mlexperiments/tree/b4d3bcea996ff191547ecf2957b9ee4ba0b42c1a))
 -   some formatting fixes
-    ([175477a](https://github.com/kapsner/mlexperiments/tree/175477aaa3dc7f9ec2901955d37c636858d7380e))
+    ([a23fce9](https://github.com/kapsner/mlexperiments/tree/a23fce992ca39d657eb9b647d8ddc1d984d425e5))
 -   fix init_points assignment logic in optimizer helper
     ([9ac39e7](https://github.com/kapsner/mlexperiments/tree/9ac39e7277c0b835d119abdc3aa698ecacd1bb89))
 -   provide ncores to Bayesian scoring fun rpart
@@ -66,7 +68,7 @@
     ([d9d3111](https://github.com/kapsner/mlexperiments/tree/d9d311123b5b0be1b96defdb9efe763750b152f2))
 
 Full set of changes:
-[`v0.0.8...175477a`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...175477a)
+[`v0.0.8...b4d3bce`](https://github.com/kapsner/mlexperiments/compare/v0.0.8...b4d3bce)
 
 ## v0.0.8 (2025-10-15)
 

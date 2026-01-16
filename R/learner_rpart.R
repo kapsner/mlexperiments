@@ -37,11 +37,14 @@
 #'   [rpart::rpart.control()]
 #'
 #' @examples
-#' LearnerRpart$new()
+#' if (requireNamespace("rpart", quietly = TRUE)) {
+#'   LearnerRpart$new()
+#' }
 #'
 #' @export
 #'
-LearnerRpart <- R6::R6Class( # nolint
+LearnerRpart <- R6::R6Class(
+  # nolint
   classname = "LearnerRpart",
   inherit = mlexperiments::MLLearnerBase,
   public = list(
@@ -67,7 +70,9 @@ LearnerRpart <- R6::R6Class( # nolint
     #' @seealso [rpart::rpart()], [measures::MMCE()], [measures::MSE()]
     #'
     #' @examples
-    #' LearnerRpart$new()
+    #' if (requireNamespace("rpart", quietly = TRUE)) {
+    #'   LearnerRpart$new()
+    #' }
     #'
     #' @export
     #'
@@ -90,12 +95,15 @@ LearnerRpart <- R6::R6Class( # nolint
       private$fun_fit <- function(x, y, ncores, seed, ...) {
         kwargs <- list(...)
         stopifnot(
-          "`method` must be one of c('class', 'anova')" =
-            kwargs$method %in% c("class", "anova")
+          "`method` must be one of c('class', 'anova')" = kwargs$method %in%
+            c("class", "anova")
         )
         args <- kdry::list.append(
           list(
-            x = x, y = y, ncores = ncores, seed = seed
+            x = x,
+            y = y,
+            ncores = ncores,
+            seed = seed
           ),
           kwargs
         )
@@ -109,11 +117,19 @@ LearnerRpart <- R6::R6Class( # nolint
 
 
 rpart_ce <- function() {
-  c("rpart_optimization", "rpart_cv", "rpart_fit", "rpart_fit_fun",
-    "rpart_predict_base", "rpart_predict", "metric")
+  c(
+    "rpart_optimization",
+    "rpart_cv",
+    "rpart_fit",
+    "rpart_fit_fun",
+    "rpart_predict_base",
+    "rpart_predict",
+    "metric"
+  )
 }
 
-rpart_bsF <- function(...) { # nolint
+rpart_bsF <- function(...) {
+  # nolint
   params <- list(...)
 
   params <- kdry::list.append(
@@ -121,7 +137,7 @@ rpart_bsF <- function(...) { # nolint
     append_list = method_helper$execute_params["cat_vars"]
   )
 
-  set.seed(seed)#, kind = "L'Ecuyer-CMRG")
+  set.seed(seed) #, kind = "L'Ecuyer-CMRG")
   bayes_opt_rpart <- rpart_optimization(
     x = x,
     y = y,
@@ -140,19 +156,17 @@ rpart_bsF <- function(...) { # nolint
 }
 
 rpart_cv <- function(
-    x,
-    y,
-    params,
-    fold_list,
-    ncores,
-    seed
-  ) {
-
+  x,
+  y,
+  params,
+  fold_list,
+  ncores,
+  seed
+) {
   outlist <- list()
 
   # loop over the folds
   for (fold in names(fold_list)) {
-
     # get row-ids of the current fold
     train_idx <- fold_list[[fold]]
 
@@ -176,8 +190,7 @@ rpart_cv <- function(
     }
     set.seed(seed)
     cvfit <- do.call(rpart_fit, args)
-    outlist[[fold]] <- list(cvfit = cvfit,
-                            train_idx = train_idx)
+    outlist[[fold]] <- list(cvfit = cvfit, train_idx = train_idx)
   }
   return(outlist)
 }
@@ -186,8 +199,8 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
   stopifnot(
     "`params` must be a list" = is.list(params),
     "One item of `params` must be `method`" = "method" %in% names(params),
-    "`method` must be one of c('class', 'anova')" =
-      params$method %in% c("class", "anova")
+    "`method` must be one of c('class', 'anova')" = params$method %in%
+      c("class", "anova")
   )
 
   # check, if this is a classification context and select metric accordingly
@@ -219,7 +232,6 @@ rpart_optimization <- function(x, y, params, fold_list, ncores, seed) {
   )
 
   for (fold in names(cv_fit_list)) {
-
     cvfit <- cv_fit_list[[fold]][["cvfit"]]
     train_idx <- cv_fit_list[[fold]][["train_idx"]]
 
@@ -280,7 +292,8 @@ rpart_fit_fun <- function(x, y, ncores, seed, ...) {
     if (update_arg %in% names(rpart_control_default)) {
       control_list <- c(
         control_list,
-        rpart_params[update_arg])
+        rpart_params[update_arg]
+      )
       # delete item from rpart_params
       rpart_params[[update_arg]] <- NULL
     }
@@ -321,8 +334,10 @@ rpart_fit <- function(x, y, ncores, seed, ...) {
   # "weights"
   if ("case_weights" %in% names(fit_args)) {
     stopifnot(
-      "late fail: `case_weights` must be of same length as `y`" =
-        length(fit_args$case_weights) == length(y)
+      "late fail: `case_weights` must be of same length as `y`" = length(
+        fit_args$case_weights
+      ) ==
+        length(y)
     )
     names(fit_args)[which(names(fit_args) == "case_weights")] <-
       "weights"
@@ -359,7 +374,8 @@ rpart_predict <- function(model, newdata, ncores, ...) {
 
   if ("type" %in% names(kwargs)) {
     if (kwargs$type == "prob") {
-      if (ncol(preds) == 2) { # in case of binary classif
+      if (ncol(preds) == 2) {
+        # in case of binary classif
         preds <- as.vector(preds[, 2])
       }
     }

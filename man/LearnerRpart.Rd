@@ -43,14 +43,18 @@ classification tasks and the mean squared error (\code{\link[measures:MSE]{measu
 used for regression tasks.
 }
 \examples{
-LearnerRpart$new()
+if (requireNamespace("rpart", quietly = TRUE)) {
+  LearnerRpart$new()
+}
 
 
 ## ------------------------------------------------
 ## Method `LearnerRpart$new`
 ## ------------------------------------------------
 
-LearnerRpart$new()
+if (requireNamespace("rpart", quietly = TRUE)) {
+  LearnerRpart$new()
+}
 
 }
 \seealso{
@@ -111,7 +115,9 @@ is used for regression tasks.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{LearnerRpart$new()
+\preformatted{if (requireNamespace("rpart", quietly = TRUE)) {
+  LearnerRpart$new()
+}
 
 }
 \if{html}{\out{</div>}}
