@@ -121,15 +121,13 @@ rpart_bsF <- function(...) { # nolint
     append_list = method_helper$execute_params["cat_vars"]
   )
 
-  # call to rpart_optimization here with ncores = 1, since the Bayesian search
-  # is parallelized already / "FUN is fitted n times in m threads"
   set.seed(seed)#, kind = "L'Ecuyer-CMRG")
   bayes_opt_rpart <- rpart_optimization(
     x = x,
     y = y,
     params = params,
     fold_list = method_helper$fold_list,
-    ncores = 1L, # important, as bayesian search is already parallelized
+    ncores = ncores,
     seed = seed
   )
 
