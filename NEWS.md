@@ -2,12 +2,14 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2026-01-27)
+## Unreleased (2026-01-28)
 
 #### Other changes
 
+- updated pre-commit hook ver
+  ([de001b3](https://github.com/kapsner/mlexperiments/tree/de001b3ab525f911b0be48575a380224ae331413))
 - updated pre-commit config
-  ([81900bf](https://github.com/kapsner/mlexperiments/tree/81900bfdc3f184e99a0af0420a53402c98cc72b9))
+  ([1e04059](https://github.com/kapsner/mlexperiments/tree/1e0405911e34bb9b286b11f7a126ca58137c5cea))
 - updated commit-hook-config
   ([856d981](https://github.com/kapsner/mlexperiments/tree/856d98122691e35218c825ab49ada591afd6cf8c))
 - updated pre-commit-hooks
@@ -16,7 +18,7 @@
   ([f76f188](https://github.com/kapsner/mlexperiments/tree/f76f188d49d825690c653b9e5469e79c2f7da6ae))
 
 Full set of changes:
-[`v1.0.0...81900bf`](https://github.com/kapsner/mlexperiments/compare/v1.0.0...81900bf)
+[`v1.0.0...de001b3`](https://github.com/kapsner/mlexperiments/compare/v1.0.0...de001b3)
 
 ## v1.0.0 (2026-01-16)
 

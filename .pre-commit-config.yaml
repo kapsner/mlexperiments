@@ -24,6 +24,6 @@ repos:
     - id: check-commit-msg
 
   - repo: https://github.com/kapsner/autonewsmd
-    rev: v0.1.0.9003
+    rev: v0.1.0.9004
     hooks:
     - id: recreate-changelog
