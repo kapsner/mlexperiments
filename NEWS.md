@@ -2,10 +2,19 @@
 
 # mlexperiments NEWS
 
-## Unreleased (2026-01-28)
+## Unreleased (2026-08-01)
 
 #### Other changes
 
+- updated pre-commit hooks
+  ([67156a8](https://github.com/kapsner/mlexperiments/tree/67156a865c45229c9572b4e13f2b79e421efb576))
+
+## v1.0.1 (2026-08-01)
+
+#### Other changes
+
+- replaced deprecated pima-dataset
+  ([72b2dfa](https://github.com/kapsner/mlexperiments/tree/72b2dfac4dfb4221f28f4787454fa8ac80677582))
 - updated pre-commit hook ver
   ([4c20581](https://github.com/kapsner/mlexperiments/tree/4c20581a8012b825bb8fd6bf4fdee8f1db4f157d))
 - updated pre-commit config
@@ -18,7 +27,7 @@
   ([f76f188](https://github.com/kapsner/mlexperiments/tree/f76f188d49d825690c653b9e5469e79c2f7da6ae))
 
 Full set of changes:
-[`v1.0.0...4c20581`](https://github.com/kapsner/mlexperiments/compare/v1.0.0...4c20581)
+[`v1.0.0...v1.0.1`](https://github.com/kapsner/mlexperiments/compare/v1.0.0...v1.0.1)
 
 ## v1.0.0 (2026-01-16)
 
