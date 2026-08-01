@@ -20,7 +20,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("1.0.1")
+my_desc$set_version("1.0.1.9001")
 # The title of your package
 my_desc$set(Title = "Machine Learning Experiments")
 # The description of your package
@@ -170,9 +170,9 @@ usethis::use_tidy_description()
 
 quarto::quarto_render(input = "./README.qmd")
 
-an <- autonewsmd::autonewsmd$new(repo_name = packagename)
-an$generate()
-an$write(force = TRUE)
+#an <- autonewsmd::autonewsmd$new(repo_name = packagename)
+#an$generate()
+#an$write(force = TRUE)
 
 # rcmdcheck::rcmdcheck(
 #   args = c("--as-cran", "--no-vignettes"),
