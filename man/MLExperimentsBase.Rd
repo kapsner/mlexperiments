@@ -5,100 +5,100 @@
 \title{R6 Class on which the experiment classes are built on}
 \description{
 R6 Class on which the experiment classes are built on
-
-R6 Class on which the experiment classes are built on
 }
 \section{Super class}{
-\code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{MLExperimentsBase}
+\code{\link[mlexperiments:MLBase]{MLBase}} -> \code{MLExperimentsBase}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{learner_args}}{A list containing the parameter settings of the
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{learner_args}}{A list containing the parameter settings of the
 learner algorithm.}
 
-\item{\code{learner}}{An initialized learner object that inherits from class
+    \item{\code{learner}}{An initialized learner object that inherits from class
 \code{"MLLearnerBase"}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MLExperimentsBase-new}{\code{MLExperimentsBase$new()}}
-\item \href{#method-MLExperimentsBase-set_data}{\code{MLExperimentsBase$set_data()}}
-\item \href{#method-MLExperimentsBase-clone}{\code{MLExperimentsBase$clone()}}
-}
+  \itemize{
+    \item \href{#method-MLExperimentsBase-initialize}{\code{MLExperimentsBase$new()}}
+    \item \href{#method-MLExperimentsBase-set_data}{\code{MLExperimentsBase$set_data()}}
+    \item \href{#method-MLExperimentsBase-clone}{\code{MLExperimentsBase$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MLExperimentsBase-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MLExperimentsBase-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MLExperimentsBase} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLExperimentsBase$new(learner, seed, ncores = -1L)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learner}}{An initialized learner object that inherits from class
+\if{html}{\out{<a id="method-MLExperimentsBase-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MLExperimentsBase-initialize}{}}}
+\subsection{\code{MLExperimentsBase$new()}}{
+  Create a new \code{MLExperimentsBase} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLExperimentsBase$new(learner, seed, ncores = -1L)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learner}}{An initialized learner object that inherits from class
 \code{"MLLearnerBase"}.}
-
-\item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
-
-\item{\code{ncores}}{An integer to specify the number of cores used for
+      \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
+      \item{\code{ncores}}{An integer to specify the number of cores used for
 parallelization (default: \code{-1L}).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MLExperimentsBase} R6 object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{MLExperimentsBase} R6 object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLExperimentsBase-set_data"></a>}}
 \if{latex}{\out{\hypertarget{method-MLExperimentsBase-set_data}{}}}
-\subsection{Method \code{set_data()}}{
-Set the data for the experiment.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLExperimentsBase$set_data(x, y, cat_vars = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{A matrix with the training data.}
-
-\item{\code{y}}{A vector with the target.}
-
-\item{\code{cat_vars}}{A character vector with the column names of variables
+\subsection{\code{MLExperimentsBase$set_data()}}{
+  Set the data for the experiment.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLExperimentsBase$set_data(x, y, cat_vars = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{A matrix with the training data.}
+      \item{\code{y}}{A vector with the target.}
+      \item{\code{cat_vars}}{A character vector with the column names of variables
 that should be treated as categorical features (if applicable /
 supported by the respective algorithm).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The function has no return value. It internally performs quality
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The function has no return value. It internally performs quality
 checks on the provided data and, if passed, defines private fields of
 the R6 class.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLExperimentsBase-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MLExperimentsBase-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLExperimentsBase$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MLExperimentsBase$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLExperimentsBase$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -25,13 +25,22 @@ See [https://github.com/kapsner/mlexperiments/blob/main/R/learner_rpart.R](https
 
 ```{r}
 library(mlbench)
-data("PimaIndiansDiabetes2")
-dataset <- PimaIndiansDiabetes2 |>
+data("BreastCancer")
+dataset <- BreastCancer |>
   data.table::as.data.table() |>
   na.omit()
 
-feature_cols <- colnames(dataset)[1:8]
-target_col <- "diabetes"
+seed <- 123
+feature_cols <- colnames(dataset)[2:10]
+target_col <- "Class"
+to_num <- c(
+  "Cl.thickness",
+  "Cell.size",
+  "Cell.shape",
+  "Marg.adhesion",
+  "Epith.c.size"
+)
+dataset[, (to_num) := lapply(.SD, as.numeric), .SDcols = to_num]
 ```
 
 ## General Configurations
@@ -104,16 +113,16 @@ learner_args <- list(method = "class")
 predict_args <- list(type = "prob")
 performance_metric <- metric("AUC")
 performance_metric_args <- list(
-  positive = "pos",
-  negative = "neg"
+  positive = "malignant",
+  negative = "benign"
 )
 return_models <- FALSE
 
 # required for grid search and initialization of bayesian optimization
 parameter_grid <- expand.grid(
-  minsplit = seq(2L, 82L, 10L),
+  minsplit = seq(2L, 10L, 1L),
   cp = seq(0.01, 0.1, 0.01),
-  maxdepth = seq(2L, 30L, 5L)
+  maxdepth = seq(2L, 10L, 2L)
 )
 # reduce to a maximum of 10 rows
 if (nrow(parameter_grid) > 10) {
@@ -124,9 +133,9 @@ if (nrow(parameter_grid) > 10) {
 
 # required for bayesian optimization
 parameter_bounds <- list(
-  minsplit = c(2L, 100L),
+  minsplit = c(2L, 10L),
   cp = c(0.01, 0.1),
-  maxdepth = c(2L, 30L)
+  maxdepth = c(2L, 10L)
 )
 optim_args <- list(
   n_iter = ncores,
@@ -158,37 +167,44 @@ tuner$set_data(
 )
 
 tuner_results_grid <- tuner$execute(k = 3)
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#> Parameter settings [=======================================================================================>----------] 9/10 ( 90%)
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#> Parameter settings [=================================================================================================] 10/10 (100%)                                                                                                                                    
-#>  Classification: using 'classification error rate' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [============================>-------------------------------------------------------------------] 3/10 ( 30%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [=====================================>----------------------------------------------------------] 4/10 ( 40%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [===============================================>------------------------------------------------] 5/10 ( 50%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [=========================================================>--------------------------------------] 6/10 ( 60%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [==================================================================>-----------------------------] 7/10 ( 70%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [============================================================================>-------------------] 8/10 ( 80%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [=====================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [===============================================================================================] 10/10 (100%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
 
 head(tuner_results_grid)
-#>    setting_id metric_optim_mean minsplit   cp maxdepth method
-#> 1:          1         0.1860709        2 0.07       22  class
-#> 2:          2         0.1860709       32 0.02       27  class
-#> 3:          3         0.1860709       72 0.10        7  class
-#> 4:          4         0.1860709       32 0.09       27  class
-#> 5:          5         0.1860709       52 0.02       12  class
-#> 6:          6         0.1860709        2 0.04        7  class
+#>    setting_id metric_optim_mean minsplit    cp maxdepth method
+#>         <int>             <num>    <int> <num>    <int> <char>
+#> 1:          1        0.04823229        2  0.07       10  class
+#> 2:          2        0.04823229        9  0.10        4  class
+#> 3:          3        0.06698229        6  0.02        2  class
+#> 4:          4        0.04823229        7  0.02        6  class
+#> 5:          5        0.04823229        4  0.08       10  class
+#> 6:          6        0.04823229       10  0.04        8  class
 ```
 
 
@@ -216,17 +232,46 @@ tuner$set_data(
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
-#> 
-#> Registering parallel backend using 4 cores.
+#>
+#> Number of rows of initialization grid > than 'options("mlexperiments.bayesian.max_init")'...
+#> ... reducing initialization grid to 4 rows.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.121  Round = 1   minsplit = 6.0000   cp = 0.0200 maxdepth = 2.0000   Value = -0.06698229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.13   Round = 2   minsplit = 2.0000   cp = 0.0800 maxdepth = 6.0000   Value = -0.04823229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.131  Round = 3   minsplit = 9.0000   cp = 0.1000 maxdepth = 4.0000   Value = -0.04823229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.036  Round = 4   minsplit = 3.0000   cp = 0.0400 maxdepth = 8.0000   Value = -0.04823229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.136  Round = 5   minsplit = 10.0000  cp = 0.1000 maxdepth = 10.0000  Value = -0.04823229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.122  Round = 6   minsplit = 7.0000   cp = 0.0810495  maxdepth = 8.0000   Value = -0.04823229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.155  Round = 7   minsplit = 4.0000   cp = 0.05388637 maxdepth = 2.0000   Value = -0.06698229
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#> elapsed = 0.10   Round = 8   minsplit = 8.0000   cp = 0.03326189 maxdepth = 9.0000   Value = -0.04823229
+#>
+#>  Best Parameters Found:
+#> Round = 2    minsplit = 2.0000   cp = 0.0800 maxdepth = 6.0000   Value = -0.04823229
 
 head(tuner_results_bayesian)
-#>    Epoch setting_id minsplit   cp maxdepth gpUtility acqOptimum inBounds Elapsed      Score metric_optim_mean errorMessage method
-#> 1:     0          1        2 0.07       22        NA      FALSE     TRUE   0.044 -0.1860709         0.1860709           NA  class
-#> 2:     0          2       32 0.02       27        NA      FALSE     TRUE   0.044 -0.1860709         0.1860709           NA  class
-#> 3:     0          3       72 0.10        7        NA      FALSE     TRUE   0.044 -0.1860709         0.1860709           NA  class
-#> 4:     0          4       32 0.09       27        NA      FALSE     TRUE   0.044 -0.1860709         0.1860709           NA  class
-#> 5:     0          5       52 0.02       12        NA      FALSE     TRUE   0.020 -0.1860709         0.1860709           NA  class
-#> 6:     0          6        2 0.04        7        NA      FALSE     TRUE   0.021 -0.1860709         0.1860709           NA  class
+#>    setting_id minsplit        cp maxdepth       Value method metric_optim_mean
+#>         <int>    <num>     <num>    <num>       <num> <char>             <num>
+#> 1:          1        6 0.0200000        2 -0.06698229  class        0.06698229
+#> 2:          2        2 0.0800000        6 -0.04823229  class        0.04823229
+#> 3:          3        9 0.1000000        4 -0.04823229  class        0.04823229
+#> 4:          4        3 0.0400000        8 -0.04823229  class        0.04823229
+#> 5:          5       10 0.1000000       10 -0.04823229  class        0.04823229
+#> 6:          6        7 0.0810495        8 -0.04823229  class        0.04823229
 ```
 
 ## k-Fold Cross Validation
@@ -252,18 +297,19 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> CV fold: Fold2
-#> 
+#>
 #> CV fold: Fold3
 
 head(validator_results)
-#>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.8323638        2 0.07       22  class
-#> 2: Fold2   0.7342676        2 0.07       22  class
-#> 3: Fold3   0.7959299        2 0.07       22  class
+#>      fold performance    cp maxdepth method
+#>    <char>       <num> <num>    <num> <char>
+#> 1:  Fold1   0.9613416  0.08        6  class
+#> 2:  Fold2   0.9230236  0.08        6  class
+#> 3:  Fold3   0.9751030  0.08        6  class
 ```
 
 
@@ -288,114 +334,6 @@ validator$split_type <- "stratified"
 validator$predict_args <- predict_args
 validator$performance_metric <- performance_metric
 validator$performance_metric_args <- performance_metric_args
-validator$return_models <- return_models
-
-validator$set_data(
-  x = train_x,
-  y = train_y
-)
-
-validator_results <- validator$execute()
-#> 
-#> CV fold: Fold1
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#> CV fold: Fold2
-#> CV progress [======================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#> CV fold: Fold3
-#> CV progress [==========================================================================================================] 3/3 (100%)
-#>                                                                                                                                     
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-#> 
-#>  Classification: using 'classification error rate' as optimization metric.
-
-head(validator_results)
-#>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.7496034       42 0.02        2  class
-#> 2: Fold2   0.6845584       42 0.02        2  class
-#> 3: Fold3   0.7959299        2 0.07       22  class
-```
-
-
-### Inner Bayesian Optimization
-
-```{r}
-validator <- mlexperiments::MLNestedCV$new(
-  learner = LearnerRpart$new(),
-  strategy = "bayesian",
-  fold_list = fold_list,
-  k_tuning = 3L,
-  ncores = ncores,
-  seed = seed
-)
-
-validator$parameter_grid <- parameter_grid
-validator$learner_args <- learner_args
-validator$split_type <- "stratified"
-
-
-validator$parameter_bounds <- parameter_bounds
-validator$optim_args <- optim_args
-
-validator$predict_args <- predict_args
-validator$performance_metric <- performance_metric
-validator$performance_metric_args <- performance_metric_args
 validator$return_models <- TRUE
 
 validator$set_data(
@@ -404,26 +342,85 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
-#> Registering parallel backend using 4 cores.
-#> 
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [====================================================================================================] 10/10 (100%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
 #> CV fold: Fold2
-#> CV progress [======================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
-#> Registering parallel backend using 4 cores.
-#> 
+#> CV progress [========================================================================>------------------------------------] 2/3 ( 67%)
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [==========================================================================================>----------] 9/10 ( 90%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [====================================================================================================] 10/10 (100%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
 #> CV fold: Fold3
-#> CV progress [==========================================================================================================] 3/3 (100%)
-#>                                                                                                                                     
-#> Registering parallel backend using 4 cores.
+#> CV progress [=============================================================================================================] 3/3 (100%)
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#>  Classification: using 'mean misclassification error' as optimization metric.
+#>
+#> Parameter settings [====================================================================================================] 10/10 (100%)
+#>  Classification: using 'mean misclassification error' as optimization metric.
 
 head(validator_results)
-#>     fold performance minsplit   cp maxdepth method
-#> 1: Fold1   0.7496034       42 0.02        2  class
-#> 2: Fold2   0.6845584       42 0.02        2  class
-#> 3: Fold3   0.7959299        2 0.07       22  class
+#>      fold performance minsplit    cp maxdepth method
+#>    <char>       <num>    <int> <num>    <int> <char>
+#> 1:  Fold1   0.9613416        6  0.02        2  class
+#> 2:  Fold2   0.9230236        2  0.07       10  class
+#> 3:  Fold3   0.9751030        2  0.07       10  class
 ```
 
 
@@ -451,21 +448,31 @@ validator_glm$set_data(
 )
 
 validator_glm_results <- validator_glm$execute()
-#> 
+#>
 #> CV fold: Fold1
 #> Parameter 'ncores' is ignored for learner 'LearnerGlm'.
-#> 
+#> Warning: glm.fit: algorithm did not converge
+#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#> Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == : prediction from rank-deficient fit; attr(*, "non-estim")
+#> has doubtful cases
+#>
 #> CV fold: Fold2
 #> Parameter 'ncores' is ignored for learner 'LearnerGlm'.
-#> 
+#> Warning: glm.fit: algorithm did not converge
+#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#>
 #> CV fold: Fold3
-#> Parameter 'ncores' is ignored for learner 'LearnerGlm'.
+#> CV progress [=============================================================================================================] 3/3 (100%)
+#>                                                                                                                                        Parameter 'ncores' is ignored for learner 'LearnerGlm'.
+#> Warning: glm.fit: algorithm did not converge
+#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 
 head(validator_glm_results)
-#>     fold performance
-#> 1: Fold1   0.8746695
-#> 2: Fold2   0.8751983
-#> 3: Fold3   0.8801583
+#>      fold performance
+#>    <char>       <num>
+#> 1:  Fold1   0.9239188
+#> 2:  Fold2   0.8978849
+#> 3:  Fold3   0.9184409
 ```
 
 ### Test Fold Equality
@@ -524,7 +531,7 @@ final_results <- rbind(
 # p <- ggpubr::ggdotchart(
 #   data = final_results,
 #   x = "algorithm",
-#   y = "auc",
+#   y = "AUC",
 #   color = "model",
 #   rotate = TRUE
 # )

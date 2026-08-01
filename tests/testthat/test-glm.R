@@ -1,17 +1,25 @@
 library(mlbench)
-data("PimaIndiansDiabetes2")
-dataset <- PimaIndiansDiabetes2 |>
+data("BreastCancer")
+dataset <- BreastCancer |>
   data.table::as.data.table() |>
   na.omit()
 
 seed <- 123
-feature_cols <- colnames(dataset)[1:8]
+feature_cols <- colnames(dataset)[2:10]
+to_num <- c(
+  "Cl.thickness",
+  "Cell.size",
+  "Cell.shape",
+  "Marg.adhesion",
+  "Epith.c.size"
+)
+dataset[, (to_num) := lapply(.SD, as.numeric), .SDcols = to_num]
 
 train_x <- model.matrix(
   ~ -1 + .,
   dataset[, .SD, .SDcols = feature_cols]
 )
-train_y <- dataset[, get("diabetes")]
+train_y <- dataset[, get("Class")]
 
 fold_list <- splitTools::create_folds(
   y = train_y,
@@ -40,8 +48,8 @@ test_that(
     glm_optimization$learner_args <- list(family = binomial(link = "logit"))
     glm_optimization$predict_args <- list(type = "response")
     glm_optimization$performance_metric_args <- list(
-      positive = "pos",
-      negative = "neg"
+      positive = "malignant",
+      negative = "benign"
     )
     glm_optimization$performance_metric <- metric("AUC")
 
@@ -76,8 +84,8 @@ test_that(
     glm_optimization$learner_args <- list(family = binomial(link = "logit"))
     glm_optimization$predict_args <- list(type = "response")
     glm_optimization$performance_metric_args <- list(
-      positive = "pos",
-      negative = "neg"
+      positive = "malignant",
+      negative = "benign"
     )
     glm_optimization$performance_metric <- metric("AUC")
     glm_optimization$return_models <- TRUE

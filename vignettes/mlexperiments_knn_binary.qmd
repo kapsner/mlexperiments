@@ -25,13 +25,22 @@ See [https://github.com/kapsner/mlexperiments/blob/main/R/learner_knn.R](https:/
 
 ```{r}
 library(mlbench)
-data("PimaIndiansDiabetes2")
-dataset <- PimaIndiansDiabetes2 |>
+data("BreastCancer")
+dataset <- BreastCancer |>
   data.table::as.data.table() |>
   na.omit()
 
-feature_cols <- colnames(dataset)[1:8]
-target_col <- "diabetes"
+seed <- 123
+feature_cols <- colnames(dataset)[2:10]
+target_col <- "Class"
+to_num <- c(
+  "Cl.thickness",
+  "Cell.size",
+  "Cell.shape",
+  "Marg.adhesion",
+  "Epith.c.size"
+)
+dataset[, (to_num) := lapply(.SD, as.numeric), .SDcols = to_num]
 ```
 
 ## General Configurations
@@ -155,13 +164,14 @@ tuner$set_data(
 tuner_results_grid <- tuner$execute(k = 3)
 
 head(tuner_results_grid)
-#>    setting_id metric_optim_mean  k l use.all
-#> 1:          1         0.2224638 16 2   FALSE
-#> 2:          2         0.2628019 64 2   FALSE
-#> 3:          3         0.2297907 10 2   FALSE
-#> 4:          4         0.2371981 34 2   FALSE
-#> 5:          5         0.2627214 58 2   FALSE
-#> 6:          6         0.2444444 28 2   FALSE
+#>    setting_id metric_optim_mean     k     l use.all
+#>         <int>             <num> <num> <num>  <lgcl>
+#> 1:          1        0.03979364    16     2   FALSE
+#> 2:          2        0.06281546    64     2   FALSE
+#> 3:          3        0.03771031    10     2   FALSE
+#> 4:          4        0.04393394    34     2   FALSE
+#> 5:          5        0.05862242    58     2   FALSE
+#> 6:          6        0.04393394    28     2   FALSE
 ```
 
 
@@ -189,16 +199,30 @@ tuner$set_data(
 )
 
 tuner_results_bayesian <- tuner$execute(k = 3)
-#> Registering parallel backend using 4 cores.
+#>
+#> Number of rows of initialization grid > than 'options("mlexperiments.bayesian.max_init")'...
+#> ... reducing initialization grid to 4 rows.
+#> elapsed = 0.016  Round = 1   k = 10.0000 Value = -0.03771031
+#> elapsed = 0.02   Round = 2   k = 4.0000  Value = -0.04607001
+#> elapsed = 0.014  Round = 3   k = 64.0000 Value = -0.06281546
+#> elapsed = 0.013  Round = 4   k = 52.0000 Value = -0.06070576
+#> elapsed = 0.012  Round = 5   k = 25.0000 Value = -0.0418506
+#> elapsed = 0.015  Round = 6   k = 80.0000 Value = -0.05860932
+#> elapsed = 0.011  Round = 7   k = 17.0000 Value = -0.03976727
+#> elapsed = 0.013  Round = 8   k = 37.0000 Value = -0.04811371
+#>
+#>  Best Parameters Found:
+#> Round = 1    k = 10.0000 Value = -0.03771031
 
 head(tuner_results_bayesian)
-#>    Epoch setting_id  k gpUtility acqOptimum inBounds Elapsed      Score metric_optim_mean errorMessage l use.all
-#> 1:     0          1 16        NA      FALSE     TRUE   0.024 -0.2262480         0.2262480           NA 2   FALSE
-#> 2:     0          2 64        NA      FALSE     TRUE   0.026 -0.2700483         0.2700483           NA 2   FALSE
-#> 3:     0          3 10        NA      FALSE     TRUE   0.023 -0.2370370         0.2370370           NA 2   FALSE
-#> 4:     0          4 34        NA      FALSE     TRUE   0.025 -0.2262480         0.2262480           NA 2   FALSE
-#> 5:     0          5 58        NA      FALSE     TRUE   0.008 -0.2735910         0.2735910           NA 2   FALSE
-#> 6:     0          6 28        NA      FALSE     TRUE   0.006 -0.2589372         0.2589372           NA 2   FALSE
+#>    setting_id     k       Value     l use.all metric_optim_mean
+#>         <int> <num>       <num> <num>  <lgcl>             <num>
+#> 1:          1    10 -0.03771031     2   FALSE        0.03771031
+#> 2:          2     4 -0.04607001     2   FALSE        0.04607001
+#> 3:          3    64 -0.06281546     2   FALSE        0.06281546
+#> 4:          4    52 -0.06070576     2   FALSE        0.06070576
+#> 5:          5    25 -0.04185060     2   FALSE        0.04185060
+#> 6:          6    80 -0.05860932     2   FALSE        0.05860932
 ```
 
 ## k-Fold Cross Validation
@@ -211,7 +235,7 @@ validator <- mlexperiments::MLCrossValidation$new(
   seed = seed
 )
 
-validator$learner_args <- tuner$results$best.setting[-1]
+validator$learner_args <- tuner$results$best.setting
 
 validator$predict_args <- predict_args
 validator$performance_metric <- performance_metric
@@ -224,18 +248,19 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> CV fold: Fold2
-#> 
+#>
 #> CV fold: Fold3
 
 head(validator_results)
-#>     fold performance  k l use.all
-#> 1: Fold1   0.7934783 16 2   FALSE
-#> 2: Fold2   0.7391304 16 2   FALSE
-#> 3: Fold3   0.8000000 16 2   FALSE
+#>      fold performance     k     l use.all
+#>    <char>       <num> <num> <num>  <lgcl>
+#> 1:  Fold1   0.9746835    10     2   FALSE
+#> 2:  Fold2   0.9496855    10     2   FALSE
+#> 3:  Fold3   0.9625000    10     2   FALSE
 ```
 
 
@@ -268,19 +293,21 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
+#>
 #> CV fold: Fold2
-#> 
+#>
 #> CV fold: Fold3
-#> CV progress [==========================================================================================================] 3/3 (100%)
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>
 
 head(validator_results)
-#>     fold performance  k l use.all
-#> 1: Fold1   0.7391304 22 2   FALSE
-#> 2: Fold2   0.7391304 28 2   FALSE
-#> 3: Fold3   0.7666667 34 2   FALSE
+#>      fold performance     k     l use.all
+#>    <char>       <num> <num> <num>  <lgcl>
+#> 1:  Fold1   0.9746835    10     2   FALSE
+#> 2:  Fold2   0.9496855    10     2   FALSE
+#> 3:  Fold3   0.9625000    10     2   FALSE
 ```
 
 
@@ -315,26 +342,63 @@ validator$set_data(
 )
 
 validator_results <- validator$execute()
-#> 
+#>
 #> CV fold: Fold1
-#> 
-#> Registering parallel backend using 4 cores.
-#> 
+#>
+#> Number of rows of initialization grid > than 'options("mlexperiments.bayesian.max_init")'...
+#> ... reducing initialization grid to 4 rows.
+#> elapsed = 0.009  Round = 1   k = 10.0000 Value = -0.04699348
+#> elapsed = 0.008  Round = 2   k = 4.0000  Value = -0.05639805
+#> elapsed = 0.01   Round = 3   k = 64.0000 Value = -0.07523658
+#> elapsed = 0.01   Round = 4   k = 52.0000 Value = -0.07209193
+#> elapsed = 0.009  Round = 5   k = 25.0000 Value = -0.05331217
+#> elapsed = 0.011  Round = 6   k = 80.0000 Value = -0.08152589
+#> elapsed = 0.009  Round = 7   k = 17.0000 Value = -0.05016752
+#> elapsed = 0.011  Round = 8   k = 37.0000 Value = -0.06271675
+#>
+#>  Best Parameters Found:
+#> Round = 1    k = 10.0000 Value = -0.04699348
+#>
 #> CV fold: Fold2
-#> CV progress [======================================================================>-----------------------------------] 2/3 ( 67%)
-#> 
-#> Registering parallel backend using 4 cores.
-#> 
+#> CV progress [====================================================================>-----------------------------------] 2/3 ( 67%)
+#>
+#> Number of rows of initialization grid > than 'options("mlexperiments.bayesian.max_init")'...
+#> ... reducing initialization grid to 4 rows.
+#> elapsed = 0.009  Round = 1   k = 10.0000 Value = -0.02830189
+#> elapsed = 0.009  Round = 2   k = 4.0000  Value = -0.0408805
+#> elapsed = 0.01   Round = 3   k = 64.0000 Value = -0.07232704
+#> elapsed = 0.01   Round = 4   k = 52.0000 Value = -0.05974843
+#> elapsed = 0.01   Round = 5   k = 25.0000 Value = -0.03773585
+#> elapsed = 0.01   Round = 6   k = 80.0000 Value = -0.08490566
+#> elapsed = 0.01   Round = 7   k = 17.0000 Value = -0.02830189
+#> elapsed = 0.01   Round = 8   k = 39.0000 Value = -0.05031447
+#>
+#>  Best Parameters Found:
+#> Round = 1    k = 10.0000 Value = -0.02830189
+#>
 #> CV fold: Fold3
-#> CV progress [==========================================================================================================] 3/3 (100%)
-#>                                                                                                                                     
-#> Registering parallel backend using 4 cores.
+#> CV progress [========================================================================================================] 3/3 (100%)
+#>
+#> Number of rows of initialization grid > than 'options("mlexperiments.bayesian.max_init")'...
+#> ... reducing initialization grid to 4 rows.
+#> elapsed = 0.01   Round = 1   k = 10.0000 Value = -0.04117999
+#> elapsed = 0.008  Round = 2   k = 4.0000  Value = -0.0442947
+#> elapsed = 0.01   Round = 3   k = 64.0000 Value = -0.06004792
+#> elapsed = 0.01   Round = 4   k = 52.0000 Value = -0.05687332
+#> elapsed = 0.009  Round = 5   k = 27.0000 Value = -0.04432465
+#> elapsed = 0.009  Round = 6   k = 17.0000 Value = -0.04432465
+#> elapsed = 0.011  Round = 7   k = 80.0000 Value = -0.06951183
+#> elapsed = 0.01   Round = 8   k = 38.0000 Value = -0.05372866
+#>
+#>  Best Parameters Found:
+#> Round = 1    k = 10.0000 Value = -0.04117999
 
 head(validator_results)
-#>     fold performance  k l use.all
-#> 1: Fold1   0.7391304 22 2   FALSE
-#> 2: Fold2   0.7934783 10 2   FALSE
-#> 3: Fold3   0.7888889 10 2   FALSE
+#>      fold performance     k     l use.all
+#>    <char>       <num> <num> <num>  <lgcl>
+#> 1:  Fold1   0.9746835    10     2   FALSE
+#> 2:  Fold2   0.9496855    10     2   FALSE
+#> 3:  Fold3   0.9625000    10     2   FALSE
 ```
 
 ```{r include=FALSE}

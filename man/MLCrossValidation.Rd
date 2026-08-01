@@ -71,7 +71,7 @@ requireNamespace("class", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `MLCrossValidation$new`
+## Method `MLCrossValidation$new()`
 ## ------------------------------------------------
 
 if (requireNamespace("measures", quietly = TRUE)  &&
@@ -102,7 +102,7 @@ requireNamespace("class", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `MLCrossValidation$execute`
+## Method `MLCrossValidation$execute()`
 ## ------------------------------------------------
 
 if (requireNamespace("measures", quietly = TRUE)  &&
@@ -157,19 +157,19 @@ requireNamespace("class", quietly = TRUE)) {
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}, \code{\link[=metric]{metric()}}
 }
 \section{Super classes}{
-\code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLCrossValidation}
+\code{\link[mlexperiments:MLBase]{MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{MLExperimentsBase}} -> \code{MLCrossValidation}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{fold_list}}{A named list of predefined row indices for the cross
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{fold_list}}{A named list of predefined row indices for the cross
 validation folds, e.g., created with the function
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.}
 
-\item{\code{return_models}}{A logical. If the fitted models should be returned
+    \item{\code{return_models}}{A logical. If the fitted models should be returned
 with the results (default: \code{FALSE}).}
 
-\item{\code{performance_metric}}{Either a named list with metric functions, a
+    \item{\code{performance_metric}}{Either a named list with metric functions, a
 single metric function, or a character vector with metric names from
 the \code{measures} package. The provided functions must take two named
 arguments: \code{ground_truth} and \code{predictions}. For metrics from the
@@ -177,77 +177,71 @@ arguments: \code{ground_truth} and \code{predictions}. For metrics from the
 exists in order to prepare them for use with the \code{mlexperiments}
 package.}
 
-\item{\code{performance_metric_args}}{A list. Further arguments required to
+    \item{\code{performance_metric_args}}{A list. Further arguments required to
 compute the performance metric.}
 
-\item{\code{predict_args}}{A list. Further arguments required to compute the
+    \item{\code{predict_args}}{A list. Further arguments required to compute the
 predictions.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MLCrossValidation-new}{\code{MLCrossValidation$new()}}
-\item \href{#method-MLCrossValidation-execute}{\code{MLCrossValidation$execute()}}
-\item \href{#method-MLCrossValidation-clone}{\code{MLCrossValidation$clone()}}
+  \itemize{
+    \item \href{#method-MLCrossValidation-initialize}{\code{MLCrossValidation$new()}}
+    \item \href{#method-MLCrossValidation-execute}{\code{MLCrossValidation$execute()}}
+    \item \href{#method-MLCrossValidation-clone}{\code{MLCrossValidation$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLExperimentsBase" data-id="set_data"><a href='../../mlexperiments/html/MLExperimentsBase.html#method-MLExperimentsBase-set_data'><code>mlexperiments::MLExperimentsBase$set_data()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLExperimentsBase" data-id="set_data"><a href='../../mlexperiments/html/MLExperimentsBase.html#method-MLExperimentsBase-set_data'><code>MLExperimentsBase$set_data()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MLCrossValidation-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MLCrossValidation-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MLCrossValidation} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLCrossValidation$new(
+\if{html}{\out{<a id="method-MLCrossValidation-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MLCrossValidation-initialize}{}}}
+\subsection{\code{MLCrossValidation$new()}}{
+  Create a new \code{MLCrossValidation} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLCrossValidation$new(
   learner,
   fold_list,
   seed,
   ncores = -1L,
   return_models = FALSE
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learner}}{An initialized learner object that inherits from class
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learner}}{An initialized learner object that inherits from class
 \code{"MLLearnerBase"}.}
-
-\item{\code{fold_list}}{A named list of predefined row indices for the cross
+      \item{\code{fold_list}}{A named list of predefined row indices for the cross
 validation folds, e.g., created with the function
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.}
-
-\item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
-
-\item{\code{ncores}}{An integer to specify the number of cores used for
+      \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
+      \item{\code{ncores}}{An integer to specify the number of cores used for
 parallelization (default: \code{-1L}).}
-
-\item{\code{return_models}}{A logical. If the fitted models should be returned
+      \item{\code{return_models}}{A logical. If the fitted models should be returned
 with the results (default: \code{FALSE}).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-The \code{MLCrossValidation} class requires to provide a named list of
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The \code{MLCrossValidation} class requires to provide a named list of
 predefined row indices for the cross validation folds, e.g., created
 with the function \code{\link[splitTools:create_folds]{splitTools::create_folds()}}. This list also defines
 the \code{k} of the k-fold cross-validation. When wanting to perform a
 repeated k-fold cross validations, just provide a list with all
 repeated fold definitions, e.g., when specifing the argument \code{m_rep} of
 \code{\link[splitTools:create_folds]{splitTools::create_folds()}}.
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
 requireNamespace("class", quietly = TRUE)) {
   dataset <- do.call(
     cbind,
@@ -272,24 +266,23 @@ requireNamespace("class", quietly = TRUE)) {
     ncores = 2
   )
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLCrossValidation-execute"></a>}}
 \if{latex}{\out{\hypertarget{method-MLCrossValidation-execute}{}}}
-\subsection{Method \code{execute()}}{
-Execute the cross validation.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLCrossValidation$execute()}\if{html}{\out{</div>}}
-}
-
-\subsection{Details}{
-All results of the cross validation are saved in the field
+\subsection{\code{MLCrossValidation$execute()}}{
+  Execute the cross validation.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLCrossValidation$execute()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    All results of the cross validation are saved in the field
 \verb{$results} of the \code{MLCrossValidation} class. After successful execution
 of the cross validation, \verb{$results} contains a list with the items:
 \itemize{
@@ -307,16 +300,15 @@ the returned value of the \code{execute} method).
 \item "performance" A list with the value of the performance metric
 calculated for each of the cross validation folds.
 }
-}
-
-\subsection{Returns}{
-The function returns a data.table with the results of the cross
+  }
+  \subsection{Returns}{
+    The function returns a data.table with the results of the cross
 validation. More results are accessible from the field \verb{$results} of
 the \code{MLCrossValidation} class.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
 requireNamespace("class", quietly = TRUE)) {
   dataset <- do.call(
     cbind,
@@ -360,28 +352,28 @@ requireNamespace("class", quietly = TRUE)) {
 
   cv$execute()
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLCrossValidation-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MLCrossValidation-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLCrossValidation$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MLCrossValidation$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLCrossValidation$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

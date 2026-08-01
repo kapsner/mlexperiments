@@ -5,62 +5,63 @@
 \title{Basic R6 Class for the mlexperiments package}
 \description{
 Basic R6 Class for the mlexperiments package
-
-Basic R6 Class for the mlexperiments package
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{results}}{A list. This field is used to store the final results of
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{results}}{A list. This field is used to store the final results of
 the respective methods.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MLBase-new}{\code{MLBase$new()}}
-\item \href{#method-MLBase-clone}{\code{MLBase$clone()}}
-}
+  \itemize{
+    \item \href{#method-MLBase-initialize}{\code{MLBase$new()}}
+    \item \href{#method-MLBase-clone}{\code{MLBase$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MLBase-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MLBase-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MLBase} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLBase$new(seed, ncores = -1L)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
-
-\item{\code{ncores}}{An integer to specify the number of cores used for
+\if{html}{\out{<a id="method-MLBase-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MLBase-initialize}{}}}
+\subsection{\code{MLBase$new()}}{
+  Create a new \code{MLBase} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLBase$new(seed, ncores = -1L)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
+      \item{\code{ncores}}{An integer to specify the number of cores used for
 parallelization (default: \code{-1L}).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MLBase} R6 object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{MLBase} R6 object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLBase-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MLBase-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLBase$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MLBase$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLBase$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

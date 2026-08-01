@@ -38,7 +38,7 @@ if (requireNamespace("class", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `LearnerKnn$new`
+## Method `LearnerKnn$new()`
 ## ------------------------------------------------
 
 if (requireNamespace("class", quietly = TRUE)) {
@@ -48,40 +48,37 @@ if (requireNamespace("class", quietly = TRUE)) {
 }
 \seealso{
 \code{\link[class:knn]{class::knn()}}, \code{\link[measures:MMCE]{measures::MMCE()}}
-
-\code{\link[class:knn]{class::knn()}}, \code{\link[measures:MMCE]{measures::MMCE()}}
 }
 \section{Super class}{
-\code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerKnn}
+\code{\link[mlexperiments:MLLearnerBase]{MLLearnerBase}} -> \code{LearnerKnn}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-LearnerKnn-new}{\code{LearnerKnn$new()}}
-\item \href{#method-LearnerKnn-clone}{\code{LearnerKnn$clone()}}
+  \itemize{
+    \item \href{#method-LearnerKnn-initialize}{\code{LearnerKnn$new()}}
+    \item \href{#method-LearnerKnn-clone}{\code{LearnerKnn$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>mlexperiments::MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>mlexperiments::MLLearnerBase$cross_validation()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>mlexperiments::MLLearnerBase$fit()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>mlexperiments::MLLearnerBase$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>MLLearnerBase$cross_validation()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>MLLearnerBase$fit()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>MLLearnerBase$predict()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerKnn-new"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerKnn-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{LearnerKnn} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerKnn$new()}\if{html}{\out{</div>}}
-}
-
-\subsection{Details}{
-This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
+\if{html}{\out{<a id="method-LearnerKnn-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerKnn-initialize}{}}}
+\subsection{\code{LearnerKnn$new()}}{
+  Create a new \code{LearnerKnn} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerKnn$new()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This learner is a wrapper around \code{\link[class:knn]{class::knn()}} in order to perform a
 k-nearest neighbor classification. The following experiments are
 implemented:
 \itemize{
@@ -93,35 +90,34 @@ For the two hyperparameter optimization strategies ("grid" and
 learner is set to \code{FALSE} by default as the mean misclassification
 error (\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimization metric.
 }
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("class", quietly = TRUE)) {
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("class", quietly = TRUE)) {
   LearnerKnn$new()
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerKnn-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerKnn-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerKnn$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{LearnerKnn$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerKnn$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

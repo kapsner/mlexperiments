@@ -38,14 +38,14 @@ MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 
 
 ## ------------------------------------------------
-## Method `MLLearnerBase$new`
+## Method `MLLearnerBase$new()`
 ## ------------------------------------------------
 
 MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 
 
 ## ------------------------------------------------
-## Method `MLLearnerBase$cross_validation`
+## Method `MLLearnerBase$cross_validation()`
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
@@ -58,7 +58,7 @@ learner$cross_validation()
 
 
 ## ------------------------------------------------
-## Method `MLLearnerBase$fit`
+## Method `MLLearnerBase$fit()`
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
@@ -71,7 +71,7 @@ learner$fit()
 
 
 ## ------------------------------------------------
-## Method `MLLearnerBase$predict`
+## Method `MLLearnerBase$predict()`
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
@@ -85,7 +85,7 @@ learner$predict()
 
 
 ## ------------------------------------------------
-## Method `MLLearnerBase$bayesian_scoring_function`
+## Method `MLLearnerBase$bayesian_scoring_function()`
 ## ------------------------------------------------
 
 learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
@@ -102,99 +102,91 @@ learner$bayesian_scoring_function()
 \link{MLCrossValidation}, and
 \link{MLNestedCV}
 
-\link{MLTuneParameters},
-\link{MLCrossValidation}, and
-\link{MLNestedCV}
-
-\link{MLTuneParameters},
-\link{MLCrossValidation}, and
-\link{MLNestedCV}
-
 \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}},
 \link{MLTuneParameters}, and \link{MLNestedCV}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{cluster_export}}{A character vector defining the (internal)
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{cluster_export}}{A character vector defining the (internal)
 functions that need to be exported to the parallelization cluster.
 This is only required when performing a Bayesian hyperparameter
-optimization. See also \code{\link[parallel:clusterApply]{parallel::clusterExport()}}.}
+optimization. See also \code{\link[parallel:clusterExport]{parallel::clusterExport()}}.}
 
-\item{\code{metric_optimization_higher_better}}{A logical. Defines the direction
+    \item{\code{metric_optimization_higher_better}}{A logical. Defines the direction
 of the optimization metric used throughout the hyperparameter
 optimization. This field is set automatically during the initialization
 of the \code{MLLearnerBase} object. Its purpose is to make it accessible by
 the evaluation functions from \link{MLTuneParameters}.}
 
-\item{\code{environment}}{The environment in which to search for the functions
+    \item{\code{environment}}{The environment in which to search for the functions
 of the learner (default: \code{-1L}).}
 
-\item{\code{seed}}{Seed for reproducible results.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{seed}}{Seed for reproducible results.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MLLearnerBase-new}{\code{MLLearnerBase$new()}}
-\item \href{#method-MLLearnerBase-cross_validation}{\code{MLLearnerBase$cross_validation()}}
-\item \href{#method-MLLearnerBase-fit}{\code{MLLearnerBase$fit()}}
-\item \href{#method-MLLearnerBase-predict}{\code{MLLearnerBase$predict()}}
-\item \href{#method-MLLearnerBase-bayesian_scoring_function}{\code{MLLearnerBase$bayesian_scoring_function()}}
-\item \href{#method-MLLearnerBase-clone}{\code{MLLearnerBase$clone()}}
-}
+  \itemize{
+    \item \href{#method-MLLearnerBase-initialize}{\code{MLLearnerBase$new()}}
+    \item \href{#method-MLLearnerBase-cross_validation}{\code{MLLearnerBase$cross_validation()}}
+    \item \href{#method-MLLearnerBase-fit}{\code{MLLearnerBase$fit()}}
+    \item \href{#method-MLLearnerBase-predict}{\code{MLLearnerBase$predict()}}
+    \item \href{#method-MLLearnerBase-bayesian_scoring_function}{\code{MLLearnerBase$bayesian_scoring_function()}}
+    \item \href{#method-MLLearnerBase-clone}{\code{MLLearnerBase$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MLLearnerBase-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MLLearnerBase-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MLLearnerBase} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$new(metric_optimization_higher_better)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{metric_optimization_higher_better}}{A logical. Defines the direction
+\if{html}{\out{<a id="method-MLLearnerBase-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MLLearnerBase-initialize}{}}}
+\subsection{\code{MLLearnerBase$new()}}{
+  Create a new \code{MLLearnerBase} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$new(metric_optimization_higher_better)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{metric_optimization_higher_better}}{A logical. Defines the direction
 of the optimization metric used throughout the hyperparameter
 optimization.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MLLearnerBase} R6 object.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 }
-\if{html}{\out{</div>}}
+    \if{html}{\out{</div>}}
+  }
 }
-\subsection{Returns}{
-A new \code{MLLearnerBase} R6 object.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 
-}
-\if{html}{\out{</div>}}
-
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLLearnerBase-cross_validation"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-cross_validation}{}}}
-\subsection{Method \code{cross_validation()}}{
-Perform a cross-validation with an \code{MLLearnerBase}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$cross_validation(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Arguments to be passed to the learner's cross-validation
+\subsection{\code{MLLearnerBase$cross_validation()}}{
+  Perform a cross-validation with an \code{MLLearnerBase}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$cross_validation(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{Arguments to be passed to the learner's cross-validation
 function.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-A wrapper around the private function \code{fun_optim_cv}, which needs to be
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    A wrapper around the private function \code{fun_optim_cv}, which needs to be
 defined when hyperparameters should be optimized with a grid search
 (required for use with \link{MLTuneParameters}, and
 \link{MLNestedCV}.
@@ -202,45 +194,41 @@ However, the function should be never executed directly but by the
 respective experiment wrappers \link{MLTuneParameters}, and
 \link{MLNestedCV}.
 For further details please refer to the package's vignette.
-}
-
-\subsection{Returns}{
-The fitted model.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-\dontrun{
+  }
+  \subsection{Returns}{
+    The fitted model.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 # This example cannot be run without further adaptions.
 # The method `$cross_validation()` needs to be overwritten when
 # inheriting from this class.
 learner$cross_validation()
 }
-
-}
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLLearnerBase-fit"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-fit}{}}}
-\subsection{Method \code{fit()}}{
-Fit a \code{MLLearnerBase} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$fit(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Arguments to be passed to the learner's fitting function.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-A wrapper around the private function \code{fun_fit}, which needs to be
+\subsection{\code{MLLearnerBase$fit()}}{
+  Fit a \code{MLLearnerBase} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$fit(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{Arguments to be passed to the learner's fitting function.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    A wrapper around the private function \code{fun_fit}, which needs to be
 defined for every learner. The return value of this function is the
 fitted model.
 However, the function should be never executed directly but by the
@@ -248,55 +236,48 @@ respective experiment wrappers \link{MLTuneParameters},
 \link{MLCrossValidation}, and
 \link{MLNestedCV}.
 For further details please refer to the package's vignette.
-}
-
-\subsection{Returns}{
-The fitted model.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-\dontrun{
+  }
+  \subsection{Returns}{
+    The fitted model.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 # This example cannot be run without further adaptions.
 # The method `$fit()` needs to be overwritten when
 # inheriting from this class.
 learner$fit()
 }
-
-}
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLLearnerBase-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-predict}{}}}
-\subsection{Method \code{predict()}}{
-Make predictions from a fitted \code{MLLearnerBase} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$predict(model, newdata, ncores = -1L, ...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model}}{A fitted model of the learner (as returned by
+\subsection{\code{MLLearnerBase$predict()}}{
+  Make predictions from a fitted \code{MLLearnerBase} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$predict(model, newdata, ncores = -1L, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{model}}{A fitted model of the learner (as returned by
 \code{MLLearnerBase$fit()}).}
-
-\item{\code{newdata}}{The new data for which predictions should be made using
+      \item{\code{newdata}}{The new data for which predictions should be made using
 the \code{model}.}
-
-\item{\code{ncores}}{An integer to specify the number of cores used for
+      \item{\code{ncores}}{An integer to specify the number of cores used for
 parallelization (default: \code{-1L}).}
-
-\item{\code{...}}{Further arguments to be passed to the learner's predict
+      \item{\code{...}}{Further arguments to be passed to the learner's predict
 function.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-A wrapper around the private function \code{fun_predict}, which needs to be
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    A wrapper around the private function \code{fun_predict}, which needs to be
 defined for every learner. The function must accept the three arguments
 \code{model}, \code{newdata}, and \code{ncores} and is a wrapper around the respective
 learner's predict-function. In order to allow the passing of further
@@ -307,47 +288,43 @@ respective experiment wrappers \link{MLTuneParameters},
 \link{MLCrossValidation}, and
 \link{MLNestedCV}.
 For further details please refer to the package's vignette.
-}
-
-\subsection{Returns}{
-The predictions for \code{newdata}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-\dontrun{
+  }
+  \subsection{Returns}{
+    The predictions for \code{newdata}.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 # This example cannot be run without further adaptions.
 # The method `$predict()` needs to be overwritten when
 # inheriting from this class.
 learner$fit()
 learner$predict()
 }
-
-}
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLLearnerBase-bayesian_scoring_function"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-bayesian_scoring_function}{}}}
-\subsection{Method \code{bayesian_scoring_function()}}{
-Perform a Bayesian hyperparameter optimization with an \code{MLLearnerBase}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$bayesian_scoring_function(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Arguments to be passed to the learner's Bayesian scoring
+\subsection{\code{MLLearnerBase$bayesian_scoring_function()}}{
+  Perform a Bayesian hyperparameter optimization with an \code{MLLearnerBase}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$bayesian_scoring_function(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{Arguments to be passed to the learner's Bayesian scoring
 function.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-A wrapper around the private function \code{fun_bayesian_scoring_function},
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    A wrapper around the private function \code{fun_bayesian_scoring_function},
 which needs to be defined when hyperparameters should be optimized with
 a Bayesian process (required for use with
 \link{MLTuneParameters}, and \link{MLNestedCV}.
@@ -355,42 +332,39 @@ However, the function should be never executed directly but by the
 respective experiment wrappers \link{MLTuneParameters}, and
 \link{MLNestedCV}.
 For further details please refer to the package's vignette.
-}
-
-\subsection{Returns}{
-The results of the Bayesian scoring.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
-\dontrun{
+  }
+  \subsection{Returns}{
+    The results of the Bayesian scoring.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{learner <- MLLearnerBase$new(metric_optimization_higher_better = FALSE)
 # This example cannot be run without further adaptions.
 # The method `$fun_bayesian_scoring_function()` needs to be overwritten when
 # inheriting from this class.
 learner$bayesian_scoring_function()
 }
-
-}
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLLearnerBase-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MLLearnerBase-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLLearnerBase$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MLLearnerBase$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLLearnerBase$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

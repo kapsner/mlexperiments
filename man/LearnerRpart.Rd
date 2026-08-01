@@ -49,7 +49,7 @@ if (requireNamespace("rpart", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `LearnerRpart$new`
+## Method `LearnerRpart$new()`
 ## ------------------------------------------------
 
 if (requireNamespace("rpart", quietly = TRUE)) {
@@ -67,36 +67,35 @@ if (requireNamespace("rpart", quietly = TRUE)) {
 \code{\link[rpart:rpart]{rpart::rpart()}}, \code{\link[measures:MMCE]{measures::MMCE()}}, \code{\link[measures:MSE]{measures::MSE()}}
 }
 \section{Super class}{
-\code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerRpart}
+\code{\link[mlexperiments:MLLearnerBase]{MLLearnerBase}} -> \code{LearnerRpart}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-LearnerRpart-new}{\code{LearnerRpart$new()}}
-\item \href{#method-LearnerRpart-clone}{\code{LearnerRpart$clone()}}
+  \itemize{
+    \item \href{#method-LearnerRpart-initialize}{\code{LearnerRpart$new()}}
+    \item \href{#method-LearnerRpart-clone}{\code{LearnerRpart$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>mlexperiments::MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>mlexperiments::MLLearnerBase$cross_validation()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>mlexperiments::MLLearnerBase$fit()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>mlexperiments::MLLearnerBase$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>MLLearnerBase$cross_validation()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>MLLearnerBase$fit()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>MLLearnerBase$predict()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerRpart-new"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerRpart-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{LearnerRpart} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerRpart$new()}\if{html}{\out{</div>}}
-}
-
-\subsection{Details}{
-This learner is a wrapper around \code{\link[rpart:rpart]{rpart::rpart()}} in order to fit
+\if{html}{\out{<a id="method-LearnerRpart-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRpart-initialize}{}}}
+\subsection{\code{LearnerRpart$new()}}{
+  Create a new \code{LearnerRpart} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerRpart$new()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This learner is a wrapper around \code{\link[rpart:rpart]{rpart::rpart()}} in order to fit
 recursive partitioning and regression trees. The following experiments
 are implemented:
 \itemize{
@@ -111,35 +110,34 @@ learner is set to \code{FALSE} by default as the mean misclassification
 error (\code{\link[measures:MMCE]{measures::MMCE()}}) is used as the optimization metric for
 classification tasks and the mean squared error (\code{\link[measures:MSE]{measures::MSE()}})
 is used for regression tasks.
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("rpart", quietly = TRUE)) {
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("rpart", quietly = TRUE)) {
   LearnerRpart$new()
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerRpart-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerRpart-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerRpart$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{LearnerRpart$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerRpart$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -25,7 +25,7 @@ LearnerLm$new()
 
 
 ## ------------------------------------------------
-## Method `LearnerLm$new`
+## Method `LearnerLm$new()`
 ## ------------------------------------------------
 
 LearnerLm$new()
@@ -33,73 +33,69 @@ LearnerLm$new()
 }
 \seealso{
 \code{\link[stats:lm]{stats::lm()}}
-
-\code{\link[stats:lm]{stats::lm()}}
 }
 \section{Super class}{
-\code{\link[mlexperiments:MLLearnerBase]{mlexperiments::MLLearnerBase}} -> \code{LearnerLm}
+\code{\link[mlexperiments:MLLearnerBase]{MLLearnerBase}} -> \code{LearnerLm}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-LearnerLm-new}{\code{LearnerLm$new()}}
-\item \href{#method-LearnerLm-clone}{\code{LearnerLm$clone()}}
+  \itemize{
+    \item \href{#method-LearnerLm-initialize}{\code{LearnerLm$new()}}
+    \item \href{#method-LearnerLm-clone}{\code{LearnerLm$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>mlexperiments::MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>mlexperiments::MLLearnerBase$cross_validation()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>mlexperiments::MLLearnerBase$fit()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>mlexperiments::MLLearnerBase$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="bayesian_scoring_function"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-bayesian_scoring_function'><code>MLLearnerBase$bayesian_scoring_function()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="cross_validation"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-cross_validation'><code>MLLearnerBase$cross_validation()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="fit"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-fit'><code>MLLearnerBase$fit()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLLearnerBase" data-id="predict"><a href='../../mlexperiments/html/MLLearnerBase.html#method-MLLearnerBase-predict'><code>MLLearnerBase$predict()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerLm-new"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerLm-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{LearnerLm} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerLm$new()}\if{html}{\out{</div>}}
-}
-
-\subsection{Details}{
-This learner is a wrapper around \code{\link[stats:lm]{stats::lm()}} in order to perform a
+\if{html}{\out{<a id="method-LearnerLm-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerLm-initialize}{}}}
+\subsection{\code{LearnerLm$new()}}{
+  Create a new \code{LearnerLm} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerLm$new()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This learner is a wrapper around \code{\link[stats:lm]{stats::lm()}} in order to perform a
 linear regression. There is no implementation for tuning
 parameters, thus the only experiment to use \code{LearnerLm} for is
 \link{MLCrossValidation}
+  }
+  \subsection{Returns}{
+    A new \code{LearnerLm} R6 object.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{LearnerLm$new()
+}
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Returns}{
-A new \code{LearnerLm} R6 object.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{LearnerLm$new()
-
-}
-\if{html}{\out{</div>}}
-
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerLm-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerLm-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerLm$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{LearnerLm$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerLm$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

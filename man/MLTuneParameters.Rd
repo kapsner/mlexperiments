@@ -27,7 +27,7 @@ requireNamespace("class", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `MLTuneParameters$new`
+## Method `MLTuneParameters$new()`
 ## ------------------------------------------------
 
 if (requireNamespace("measures", quietly = TRUE)  &&
@@ -42,7 +42,7 @@ requireNamespace("class", quietly = TRUE)) {
 
 
 ## ------------------------------------------------
-## Method `MLTuneParameters$execute`
+## Method `MLTuneParameters$execute()`
 ## ------------------------------------------------
 
 if (requireNamespace("measures", quietly = TRUE)  &&
@@ -90,16 +90,16 @@ requireNamespace("class", quietly = TRUE)) {
 \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}}, \code{\link[splitTools:create_folds]{splitTools::create_folds()}}
 }
 \section{Super classes}{
-\code{\link[mlexperiments:MLBase]{mlexperiments::MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{mlexperiments::MLExperimentsBase}} -> \code{MLTuneParameters}
+\code{\link[mlexperiments:MLBase]{MLBase}} -> \code{\link[mlexperiments:MLExperimentsBase]{MLExperimentsBase}} -> \code{MLTuneParameters}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{parameter_bounds}}{A named list of tuples to define the parameter
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{parameter_bounds}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
 please see the documentation of the \code{rBayesianOptimization} package.}
 
-\item{\code{parameter_grid}}{A matrix with named columns in which each column
+    \item{\code{parameter_grid}}{A matrix with named columns in which each column
 represents a parameter that should be optimized and each row represents
 a specific hyperparameter setting that should be tested throughout the
 procedure. For \code{strategy = "grid"}, each row of the \code{parameter_grid} is
@@ -111,81 +111,76 @@ initializing the Bayesian process can be specified with the R option
 \code{option("mlexperiments.bayesian.max_init")}, which is set to \code{4L} by
 default.}
 
-\item{\code{optim_args}}{A named list of tuples to define the parameter
+    \item{\code{optim_args}}{A named list of tuples to define the parameter
 bounds of the Bayesian hyperparameter optimization. For further details
 please see the documentation of the \code{rBayesianOptimization} package.}
 
-\item{\code{split_type}}{A character. The splitting strategy to construct the
+    \item{\code{split_type}}{A character. The splitting strategy to construct the
 k cross-validation folds. This parameter is passed further on to the
 function \code{\link[splitTools:create_folds]{splitTools::create_folds()}} and defaults to \code{"stratified"}.}
 
-\item{\code{split_vector}}{A vector If another criteria than the provided \code{y}
+    \item{\code{split_vector}}{A vector If another criteria than the provided \code{y}
 should be considered for generating the cross-validation folds, it can
 be defined here. It is important, that a vector of the same length as
 \code{x} is provided here.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MLTuneParameters-new}{\code{MLTuneParameters$new()}}
-\item \href{#method-MLTuneParameters-execute}{\code{MLTuneParameters$execute()}}
-\item \href{#method-MLTuneParameters-clone}{\code{MLTuneParameters$clone()}}
+  \itemize{
+    \item \href{#method-MLTuneParameters-initialize}{\code{MLTuneParameters$new()}}
+    \item \href{#method-MLTuneParameters-execute}{\code{MLTuneParameters$execute()}}
+    \item \href{#method-MLTuneParameters-clone}{\code{MLTuneParameters$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLExperimentsBase" data-id="set_data"><a href='../../mlexperiments/html/MLExperimentsBase.html#method-MLExperimentsBase-set_data'><code>mlexperiments::MLExperimentsBase$set_data()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlexperiments" data-topic="MLExperimentsBase" data-id="set_data"><a href='../../mlexperiments/html/MLExperimentsBase.html#method-MLExperimentsBase-set_data'><code>MLExperimentsBase$set_data()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MLTuneParameters-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MLTuneParameters-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MLTuneParameters} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLTuneParameters$new(
+\if{html}{\out{<a id="method-MLTuneParameters-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MLTuneParameters-initialize}{}}}
+\subsection{\code{MLTuneParameters$new()}}{
+  Create a new \code{MLTuneParameters} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLTuneParameters$new(
   learner,
   seed,
   strategy = c("grid", "bayesian"),
   ncores = -1L
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{learner}}{An initialized learner object that inherits from class
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{learner}}{An initialized learner object that inherits from class
 \code{"MLLearnerBase"}.}
-
-\item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
-
-\item{\code{strategy}}{A character. The strategy to optimize the hyperparameters
+      \item{\code{seed}}{An integer. Needs to be set for reproducibility purposes.}
+      \item{\code{strategy}}{A character. The strategy to optimize the hyperparameters
 (either \code{"grid"} or \code{"bayesian"}).}
-
-\item{\code{ncores}}{An integer to specify the number of cores used for
+      \item{\code{ncores}}{An integer to specify the number of cores used for
 parallelization (default: \code{-1L}).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-For \code{strategy = "bayesian"}, the number of starting iterations can be
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    For \code{strategy = "bayesian"}, the number of starting iterations can be
 set using the R option \code{"mlexperiments.bayesian.max_init"}, which
 defaults to \code{4L}. This option reduces the provided initialization
 grid to contain at most the specified number of rows. This
 initialization grid is then further passed on to the \code{initGrid}
 argument of \link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization}.
-}
-
-\subsection{Returns}{
-A new \code{MLTuneParameters} R6 object.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+  }
+  \subsection{Returns}{
+    A new \code{MLTuneParameters} R6 object.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
 requireNamespace("class", quietly = TRUE)) {
   MLTuneParameters$new(
     learner = LearnerKnn$new(),
@@ -194,32 +189,31 @@ requireNamespace("class", quietly = TRUE)) {
     ncores = 2
   )
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLTuneParameters-execute"></a>}}
 \if{latex}{\out{\hypertarget{method-MLTuneParameters-execute}{}}}
-\subsection{Method \code{execute()}}{
-Execute the hyperparameter tuning.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLTuneParameters$execute(k)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{k}}{An integer to define the number of cross-validation folds used
+\subsection{\code{MLTuneParameters$execute()}}{
+  Execute the hyperparameter tuning.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLTuneParameters$execute(k)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{k}}{An integer to define the number of cross-validation folds used
 to tune the hyperparameters.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Details}{
-All results of the hyperparameter tuning are saved in the field
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    All results of the hyperparameter tuning are saved in the field
 \verb{$results} of the \code{MLTuneParameters} class. After successful execution
 of the parameter tuning, \verb{$results} contains a list with the items
 \describe{
@@ -231,17 +225,16 @@ hyperparameter tuning.}
 \item{"bayesOpt"}{The returned value of
 \code{\link[rBayesianOptimization:BayesianOptimization]{rBayesianOptimization::BayesianOptimization()}} (only for \code{strategy = "bayesian"}).}
 }
-}
-
-\subsection{Returns}{
-A \code{data.table} with the results of the hyperparameter
+  }
+  \subsection{Returns}{
+    A \code{data.table} with the results of the hyperparameter
 optimization. The optimized metric, i.e. the cross-validated evaluation
 metric is given in the column \code{metric_optim_mean}. More results are
 accessible from the field \verb{$results} of the \code{MLTuneParameters} class.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{if (requireNamespace("measures", quietly = TRUE)  &&
 requireNamespace("class", quietly = TRUE)) {
   dataset <- do.call(
     cbind,
@@ -280,28 +273,28 @@ requireNamespace("class", quietly = TRUE)) {
 
   tuner$execute(k = 3)
 }
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MLTuneParameters-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MLTuneParameters-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MLTuneParameters$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MLTuneParameters$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MLTuneParameters$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
